@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<ruleset name="Custom Site's Rules">
+	<rule ref="./node_modules/@atomicsmash/coding-standards/phpcs/phpcs.xml"/>
+	<file>./public/wp-content/themes/snap</file>
+	<config name="minimum_supported_wp_version" value="6.1"/>
+	<config name="testVersion" value="7.4-"/><!-- PHP compatibility versions -->
+	<rule ref="WordPress.WP.I18n">
+		<properties>
+			<property name="text_domain" type="array">
+				<element value="textdomain"/>
+			</property>
+		</properties>
+	</rule>
+	<rule ref="WordPress.NamingConventions.PrefixAllGlobals">
+		<properties>
+			<property name="prefixes" type="array">
+				<element value="myprefix_"/>
+			</property>
+		</properties>
+	</rule>
+</ruleset>
