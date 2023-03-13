@@ -14,13 +14,6 @@
 	"devDependencies": {
 		"@cspell/cspell-types": "^6.18.1"
 	},
-	"bundledDependencies": [
-		"@commitlint/cli",
-		"@commitlint/config-conventional",
-		"prettier",
-		"@atomicsmash/eslint-config",
-		"@atomicsmash/browserslist-config"
-	],
 	"keywords": [
 		"atomic",
 		"smash",
