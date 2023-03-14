@@ -1,5 +1,11 @@
 # @atomicsmash/coding-standards
 
+## 3.2.0
+
+### Minor Changes
+
+- [#14](https://github.com/AtomicSmash/packages/pull/14) [`a8f1fb8`](https://github.com/AtomicSmash/packages/commit/a8f1fb819d399553a48ac5a829363391c608cc69) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Update eslint config
+
 ## 3.1.0
 
 ### Minor Changes
