@@ -48,7 +48,10 @@ module.exports = {
 			rules: {
 				"@typescript-eslint/naming-convention": [
 					"error",
-					{ selector: "variableLike", format: ["camelCase"] },
+					{
+						selector: "variableLike",
+						format: ["camelCase", "PascalCase", "UPPER_CASE"],
+					},
 					{ selector: "function", format: ["camelCase", "PascalCase"] },
 					{ selector: "typeLike", format: ["PascalCase"] },
 					{
