@@ -1,5 +1,11 @@
 # @atomicsmash/eslint-config
 
+## 1.2.0
+
+### Minor Changes
+
+- [#12](https://github.com/AtomicSmash/packages/pull/12) [`16e0d59`](https://github.com/AtomicSmash/packages/commit/16e0d59bcc4dc6fc0941723b5760de236397a10d) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Allow more cases for variables
+
 ## 1.1.0
 
 ### Minor Changes
