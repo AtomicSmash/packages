@@ -1,5 +1,11 @@
 # @atomicsmash/cli
 
+## 3.1.0
+
+### Minor Changes
+
+- [#17](https://github.com/AtomicSmash/packages/pull/17) [`b90a23a`](https://github.com/AtomicSmash/packages/commit/b90a23a1390911fdb64c605b6a79ea22b0dd330d) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Add blocks compilation CLI command
+
 ## 3.0.0
 
 ### Major Changes
