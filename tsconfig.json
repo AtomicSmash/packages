@@ -10,6 +10,7 @@
 	"include": [],
 	"references": [
 		{ "path": "./packages/cli" },
-		{ "path": "./packages/date-php" }
+		{ "path": "./packages/date-php" },
+		{ "path": "./packages/blocks-helpers" }
 	]
 }

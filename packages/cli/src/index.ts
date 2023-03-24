@@ -22,6 +22,7 @@ switch (commandArg) {
 		console.log(packageJson.version);
 		break;
 	case "svg":
+	case "blocks":
 		try {
 			await import(`./commands/${commandArg}.js`).then(
 				(module: { default(args: string[]): void }) =>

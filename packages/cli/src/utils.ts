@@ -41,3 +41,13 @@ export async function execute(command: string) {
 		});
 	});
 }
+
+export function toCamelCase(text: string) {
+	return text.replace(
+		/^([A-Z])|[\s-_](\w)/g,
+		function (match, p1: string, p2: string) {
+			if (p2) return p2.toUpperCase();
+			return p1.toLowerCase();
+		},
+	);
+}

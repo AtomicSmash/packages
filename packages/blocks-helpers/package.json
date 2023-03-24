@@ -1,7 +1,7 @@
 {
-	"name": "@atomicsmash/cli",
-	"version": "3.0.0",
-	"description": "A collection of CLI tools by Atomic Smash.",
+	"name": "@atomicsmash/blocks-helpers",
+	"version": "0.1.0",
+	"description": "",
 	"keywords": [],
 	"homepage": "https://www.atomicsmash.co.uk/",
 	"license": "GPL-3.0-or-later",
@@ -13,17 +13,13 @@
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/AtomicSmash/packages",
-		"directory": "packages/cli"
+		"directory": "packages/blocks-helpers"
 	},
 	"files": [
 		"./dist/**/*"
 	],
 	"main": "./dist/index.js",
-	"bin": {
-		"smash-cli": "./dist/index.js",
-		"@atomicsmash/cli": "./dist/index.js"
-	},
-	"type": "module",
+	"types": "./dist/index.d.ts",
 	"publishConfig": {
 		"access": "public"
 	},
@@ -37,29 +33,12 @@
 		"test:coverage": "TZ=\"Europe/Istanbul\" vitest run --coverage",
 		"lint": "run-p lint:*",
 		"lint:eslint": "eslint --cache --cache-location ./node_modules/.cache/eslint . --ext .js,.ts,.jsx,.tsx",
-		"lint:types": "tsc -b"
+		"lint:types": "tsc"
 	},
 	"dependencies": {
-		"@wordpress/dependency-extraction-webpack-plugin": "^4.12.0",
-		"@wordpress/scripts": "^26.0.0",
-		"autoprefixer": "^10.4.14",
-		"cssnano": "^5.1.15",
-		"glob": "^8.0.3",
-		"glob-promise": "^6.0.2",
-		"path": "^0.12.7",
-		"postcss": "^8.4.21",
-		"svg-sprite": "^2.0.2",
-		"tsconfig-paths": "^4.1.2",
-		"tsconfig-paths-webpack-plugin": "^4.0.1",
-		"vinyl": "^3.0.0",
-		"webpack": "^5.76.3"
+		"@wordpress/blocks": "^12.6.0"
 	},
 	"devDependencies": {
-		"@types/glob": "^8.0.0",
-		"@types/node": "^18.15.5",
-		"@types/svg-sprite": "^0.0.34",
-		"@types/vinyl": "^2.0.6",
-		"@types/webpack": "^5.28.0",
-		"type-fest": "^3.0.0"
+		"@types/wordpress__blocks": "^12.5.0"
 	}
 }
