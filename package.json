@@ -30,7 +30,7 @@
 		"lint:eslint": "eslint --cache --cache-location ./node_modules/.cache/eslint . --ext .js,.ts,.jsx,.tsx",
 		"lint:types": "tsc",
 		"release": "npm-run-all build lint publish",
-		"publish": "changesets publish"
+		"publish": "changeset publish"
 	},
 	"devDependencies": {
 		"@commitlint/cli": "^17.0.3",
