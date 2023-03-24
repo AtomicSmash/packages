@@ -17,7 +17,8 @@
 		"packages/date-php",
 		"packages/coding-standards",
 		"packages/browserslist-config",
-		"packages/eslint-config"
+		"packages/eslint-config",
+		"packages/blocks-helpers"
 	],
 	"scripts": {
 		"dev": "tsc -b --watch",
