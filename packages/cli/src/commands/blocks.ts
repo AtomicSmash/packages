@@ -198,10 +198,6 @@ export default function blocks(args: string[]) {
 
 async function getAllBlocksJSEntryPoints(srcFolder: string) {
 	const entryPoints: Configuration["entry"] = {
-		helpers: {
-			import: `${__dirname}/helpers.tsx`,
-			filename: `helpers${isProduction ? `.[contenthash]` : ""}.js`,
-		},
 		svgs: {
 			import: `${srcFolder}/svgs.tsx`,
 			filename: `svgs${isProduction ? `.[contenthash]` : ""}.js`,
