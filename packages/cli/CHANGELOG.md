@@ -1,5 +1,11 @@
 # @atomicsmash/cli
 
+## 3.1.2
+
+### Patch Changes
+
+- [#22](https://github.com/AtomicSmash/packages/pull/22) [`4e19d67`](https://github.com/AtomicSmash/packages/commit/4e19d6777404995ab67fdf72500ebf37d9ba7867) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Remove reference to helpers.tsx
+
 ## 3.1.1
 
 ### Patch Changes
