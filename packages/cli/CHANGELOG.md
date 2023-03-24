@@ -1,5 +1,11 @@
 # @atomicsmash/cli
 
+## 3.1.1
+
+### Patch Changes
+
+- [#19](https://github.com/AtomicSmash/packages/pull/19) [`f3f92a8`](https://github.com/AtomicSmash/packages/commit/f3f92a898341cc7e7a10401eeb9f0cef1277e5f6) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Add blocks command to CLI help message
+
 ## 3.1.0
 
 ### Minor Changes
