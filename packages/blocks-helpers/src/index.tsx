@@ -53,7 +53,7 @@ type ReadonlyRecursive<T> = {
 		: T[k];
 };
 export type InterpretAttributes<
-	Attributes extends Record<string, ReadonlyRecursive<AttributesObject>>
+	Attributes extends Record<string, ReadonlyRecursive<AttributesObject>>,
 > = {
 	[Property in keyof Attributes]: Attributes[Property] extends {
 		type: "string";
@@ -111,10 +111,18 @@ export type BlockSupports = Record<string, any> & {
 		lineHeight?: boolean;
 	};
 };
-type BlockExample = {
+type BlockInstance = ReturnType<typeof createBlock>;
+export type InnerBlocks = {
+	name: BlockInstance["name"];
+	attributes: BlockInstance["attributes"];
+	innerBlocks?: InnerBlocks[];
+};
+export type BlockExample<
+	InterpretedAttributes extends Record<string, unknown>,
+> = {
 	viewportWidth?: number;
-	attributes?: BlockAttributes;
-	innerBlocks?: BlockInstance[];
+	attributes?: InterpretedAttributes;
+	innerBlocks?: InnerBlocks[];
 };
 
 /**
@@ -133,7 +141,13 @@ export type WPDefinedPath = `file:${string}`;
  */
 export type WPDefinedAsset = WPDefinedPath | string;
 
-export type BlockMetaData<Attributes extends BlockAttributes> = {
+export type BlockMetaData<
+	Attributes extends BlockAttributes,
+	InterpretedAttributes extends Record<
+		string,
+		any
+	> = InterpretAttributes<Attributes>,
+> = {
 	/**
 	 * The version of the Block API used by the block. The most recent version is 2 and it was introduced in WordPress 5.6.
 	 *
@@ -253,7 +267,7 @@ export type BlockMetaData<Attributes extends BlockAttributes> = {
 	 * It provides structured example data for the block. This data is used to construct a preview for the block to be shown in the Inspector Help Panel when the user mouses over the block.
 	 * See the example documentation at https://developer.wordpress.org/block-editor/reference-guides/block-api/block-registration/#example-optional for more details.
 	 */
-	example?: BlockExample;
+	example?: BlockExample<InterpretedAttributes>;
 
 	/**
 	 * Block type editor script definition. It will only be enqueued in the context of the editor.
@@ -291,8 +305,8 @@ export type BlockMetaData<Attributes extends BlockAttributes> = {
 		icon?: string;
 		isDefault?: boolean;
 		attributes?: Attributes;
-		innerBlocks?: BlockInstance[];
-		example?: BlockExample;
+		innerBlocks?: InnerBlocks[];
+		example?: BlockExample<InterpretedAttributes>;
 		scope?: ("inserter" | "block" | "transform")[];
 		keywords?: string[];
 		isActive?: string[];
@@ -305,26 +319,23 @@ export type BlockMetaData<Attributes extends BlockAttributes> = {
 };
 export type BlockMigrateDeprecationFunction<
 	InterpretedAttributes extends Record<string, any>,
-	NewInterpretedAttributes extends Record<string, any>
+	NewInterpretedAttributes extends Record<string, any>,
 > = (
 	attributes: InterpretedAttributes,
-	innerBlocks: BlockInstance[]
-) => NewInterpretedAttributes | [NewInterpretedAttributes, BlockInstance[]];
+	innerBlocks: InnerBlocks[],
+) => NewInterpretedAttributes | [NewInterpretedAttributes, InnerBlocks[]];
 
 export type BlockIsDeprecationEligibleFunction<
-	InterpretedAttributes extends Record<string, any>
-> = (
-	attributes: InterpretedAttributes,
-	innerBlocks: BlockInstance[]
-) => boolean;
+	InterpretedAttributes extends Record<string, any>,
+> = (attributes: InterpretedAttributes, innerBlocks: InnerBlocks[]) => boolean;
 
 export interface BlockSaveProps<T extends Record<string, any>> {
 	readonly attributes: Readonly<T>;
-	readonly innerBlocks: Readonly<BlockInstance[]>;
+	readonly innerBlocks: Readonly<InnerBlocks[]>;
 }
 export interface BlockEditProps<
 	Attributes extends Record<string, any>,
-	Context extends Record<string, any> = Record<string, never>
+	Context extends Record<string, any> = Record<string, never>,
 > {
 	readonly clientId: string;
 	readonly attributes: Readonly<Attributes>;
@@ -338,7 +349,7 @@ export interface BlockEditProps<
 		blocks: BlockInstance | BlockInstance[],
 		indexToSelect: number,
 		initialPosition: 0 | -1 | null,
-		meta: Record<string, unknown>
+		meta: Record<string, unknown>,
 	) => BlockInstance[] | undefined;
 	readonly setAttributes: (attributes: Partial<Attributes>) => void;
 	readonly toggleSelection: (isSelectionEnabled: boolean) => void;
@@ -365,18 +376,16 @@ export type DeprecatedBlock<InterpretedAttributes extends Record<string, any>> =
 		save: ({ attributes }: BlockSaveProps<InterpretedAttributes>) => WPElement;
 	};
 
-type BlockInstance = ReturnType<typeof createBlock>;
-
 export type BlockTypeTransform = {
 	type: "block";
 	blocks: string[];
 	transform: (
 		attributes: BlockAttributes,
-		innerBlocks: BlockInstance[]
+		innerBlocks: InnerBlocks[],
 	) => BlockInstance | BlockInstance[];
 	isMatch?: (
 		attributes: BlockAttributes,
-		block: ReturnType<typeof createBlock>
+		block: ReturnType<typeof createBlock>,
 	) => boolean;
 	isMultiBlock?: boolean;
 	priority?: number;
@@ -457,7 +466,7 @@ export type PhrasingContentSchema = {
 			"muted",
 			"controls",
 			"width",
-			"height"
+			"height",
 		];
 	};
 };
@@ -509,7 +518,7 @@ export type ShortCodeTypeTransform = {
 	tag: string | string[];
 	transform?: (
 		shortcodeAttributes: WPShortCodeAttributes,
-		shortcodeMatch: WPShortCodeMatch
+		shortcodeMatch: WPShortCodeMatch,
 	) => BlockInstance | BlockInstance[];
 	attributes?: BlockAttributes;
 	isMatch?: (shortcodeAttributes: WPShortCodeAttributes) => boolean;
@@ -530,7 +539,7 @@ export type BlockSettings<
 		string,
 		any
 	> = InterpretedAttributes,
-	Context extends Record<string, any> = Record<string, never>
+	Context extends Record<string, any> = Record<string, never>,
 > = {
 	edit: ({
 		attributes,
@@ -565,7 +574,7 @@ export function registerBlockType<
 		string,
 		any
 	> = InterpretedAttributes,
-	Context extends Record<string, any> = Record<string, never>
+	Context extends Record<string, any> = Record<string, never>,
 >(
 	name: string,
 	settings: Partial<BlockMetaData<Attributes>> &
@@ -573,7 +582,7 @@ export function registerBlockType<
 			InterpretedAttributes,
 			AllPossibleInterpretedAttributes,
 			Context
-		>
+		>,
 ) {
 	/* @ts-expect-error Provided types are inaccurate and will provide an error with some valid inputs */
 	return wordpressRegisterBlockType<Attributes>(name, settings);
