@@ -37,6 +37,7 @@ export async function setup() {
 			__dirname,
 			"../",
 		)} && ls && npm pack --pack-destination ${__dirname}/tests/artifacts`,
+		{ debug: true },
 	);
 	console.log(`Install test package...`);
 	writeFile(`${__dirname}/tests/package.json`, "{}", (err) => {
@@ -47,6 +48,7 @@ export async function setup() {
 	});
 	await execute(
 		`cd ${__dirname}/tests && npm pkg set dependencies.@atomicsmash/cli=file:${__dirname}/tests/artifacts/${packName} && npm install`,
+		{ debug: true },
 	);
 }
 
@@ -58,5 +60,6 @@ export async function teardown() {
 	console.log("Deleting node modules...");
 	await execute(
 		`cd ${__dirname}/tests && rm -rf node_modules package.json package-lock.json`,
+		{ debug: true },
 	);
 }

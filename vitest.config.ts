@@ -9,6 +9,7 @@ export default defineConfig({
 		include: ["packages/*/src/**/*.test.{js,mjs,cjs,ts,jsx,tsx}"],
 		watchExclude: ["**/node_modules/**", "**/dist/**"],
 		globalSetup: ["./packages/cli/src/test-setup.ts"],
+		teardownTimeout: 10000,
 		reporters: [
 			"default",
 			{
