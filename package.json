@@ -18,7 +18,8 @@
 		"packages/coding-standards",
 		"packages/browserslist-config",
 		"packages/eslint-config",
-		"packages/blocks-helpers"
+		"packages/blocks-helpers",
+		"packages/react"
 	],
 	"scripts": {
 		"dev": "tsc -b --watch",

@@ -11,6 +11,7 @@
 	"references": [
 		{ "path": "./packages/cli" },
 		{ "path": "./packages/date-php" },
-		{ "path": "./packages/blocks-helpers" }
+		{ "path": "./packages/blocks-helpers" },
+		{ "path": "./packages/react" }
 	]
 }
