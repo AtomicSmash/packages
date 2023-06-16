@@ -1,7 +1,7 @@
 import type { ErrorStateValues } from "../shared/forms";
 import type { Reducer } from "react";
 import type { SomeZodObject, ZodTypeAny, z } from "zod";
-import { useReducer, useEffect } from "react";
+import { useReducer, useEffect, useCallback, useMemo } from "react";
 import { useHydrated } from "remix-utils";
 import { actionDataSchema } from "../shared/forms";
 
@@ -107,47 +107,59 @@ export function useFormValidation<SchemaType extends SomeZodObject>(
 		>
 	>(reducer, actionDataParsed, initialiseFormErrorState);
 	return {
-		setValidationState: ({
-			fieldName,
-			fieldValue,
-			customSchema = undefined,
-		}: {
-			fieldName: string;
-			fieldValue: string;
-			customSchema?: ZodTypeAny;
-		}) => {
-			setFormErrorState({
-				type: "update_field",
+		setValidationState: useCallback(
+			({
 				fieldName,
 				fieldValue,
-				customSchema,
-			});
-		},
-		updateTextField: (
-			event:
-				| React.FocusEvent<HTMLInputElement, Element>
-				| React.FocusEvent<HTMLSelectElement, Element>
-				| React.FocusEvent<HTMLTextAreaElement, Element>,
-		) => {
-			setFormErrorState({
-				type: "update_field",
-				fieldName: event.target.name,
-				fieldValue: event.target.value,
-			});
-		},
-		updateCheckboxField: (event: React.ChangeEvent<HTMLInputElement>) => {
-			setFormErrorState({
-				type: "update_field",
-				fieldName: event.target.name,
-				fieldValue: event.target.checked ? event.target.value : "",
-			});
-		},
+				customSchema = undefined,
+			}: {
+				fieldName: string;
+				fieldValue: string;
+				customSchema?: ZodTypeAny;
+			}) => {
+				setFormErrorState({
+					type: "update_field",
+					fieldName,
+					fieldValue,
+					customSchema,
+				});
+			},
+			[],
+		),
+		updateTextField: useCallback(
+			(
+				event:
+					| React.FocusEvent<HTMLInputElement, Element>
+					| React.FocusEvent<HTMLSelectElement, Element>
+					| React.FocusEvent<HTMLTextAreaElement, Element>,
+			) => {
+				setFormErrorState({
+					type: "update_field",
+					fieldName: event.target.name,
+					fieldValue: event.target.value,
+				});
+			},
+			[],
+		),
+		updateCheckboxField: useCallback(
+			(event: React.ChangeEvent<HTMLInputElement>) => {
+				setFormErrorState({
+					type: "update_field",
+					fieldName: event.target.name,
+					fieldValue: event.target.checked ? event.target.value : "",
+				});
+			},
+			[],
+		),
 		validationErrors: formErrorState,
-		wasSubmitted: actionData !== undefined,
-		hasErrors:
-			Object.values(formErrorState).findIndex(
-				(value) => value.validity === "invalid",
-			) !== -1,
+		wasSubmitted: useMemo(() => actionData !== undefined, [actionData]),
+		hasErrors: useMemo(
+			() =>
+				Object.values(formErrorState).findIndex(
+					(value) => value.validity === "invalid",
+				) !== -1,
+			[formErrorState],
+		),
 		isHydrated: useHydrated(),
 	};
 }
