@@ -133,7 +133,7 @@ export const Field = forwardRef<HTMLDivElement, FieldProps>(function Field(
 	{
 		uniqueId,
 		name,
-		isRequired = false,
+		isRequired,
 		validationState = { validity: null },
 		children,
 		...divProps
@@ -144,11 +144,14 @@ export const Field = forwardRef<HTMLDivElement, FieldProps>(function Field(
 	const id = uniqueId !== undefined ? uniqueId : generatedId;
 	const [hasErrorMessage, setHasErrorMessage] = useState(false);
 	const [hasHelpTextMessage, setHasHelpTextMessage] = useState(false);
+	const isRequiredFromContext = useContext(RequiredContext);
 
 	return (
 		<IdContext.Provider value={id}>
 			<NameContext.Provider value={name}>
-				<RequiredContext.Provider value={isRequired}>
+				<RequiredContext.Provider
+					value={isRequired === undefined ? isRequiredFromContext : isRequired}
+				>
 					<HasErrorMessageContext.Provider value={hasErrorMessage}>
 						<HasHelpTextMessageContext.Provider value={hasHelpTextMessage}>
 							<HasErrorMessageDispatchContext.Provider
