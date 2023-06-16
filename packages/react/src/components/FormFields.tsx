@@ -16,6 +16,11 @@ import { displayErrorMessage } from "../shared/forms";
 const IdContext = createContext("");
 const NameContext = createContext("");
 const RequiredContext = createContext(false);
+const HasHelpTextMessageContext = createContext(false);
+const HasHelpTextMessageDispatchContext = createContext<
+	React.Dispatch<React.SetStateAction<boolean>>
+	// eslint-disable-next-line @typescript-eslint/no-empty-function
+>(() => {});
 const HasErrorMessageContext = createContext(false);
 const HasErrorMessageDispatchContext = createContext<
 	React.Dispatch<React.SetStateAction<boolean>>
@@ -48,25 +53,34 @@ export const Fieldset = forwardRef<HTMLFieldSetElement, FieldsetProps>(
 		const generatedId = useId();
 		const id = uniqueId !== undefined ? uniqueId : generatedId;
 		const [hasErrorMessage, setHasErrorMessage] = useState(false);
+		const [hasHelpTextMessage, setHasHelpTextMessage] = useState(false);
 		return (
 			<IdContext.Provider value={id}>
 				<RequiredContext.Provider value={isRequired}>
 					<HasErrorMessageContext.Provider value={hasErrorMessage}>
-						<HasErrorMessageDispatchContext.Provider value={setHasErrorMessage}>
-							<ValidationStateContext.Provider value={validationState}>
-								<fieldset
-									className={twMerge(
-										`group/fieldset p-0 m-0 border-0`,
-										className,
-									)}
-									id={id}
-									{...fieldsetProps}
-									ref={forwardedRef}
+						<HasHelpTextMessageContext.Provider value={hasHelpTextMessage}>
+							<HasErrorMessageDispatchContext.Provider
+								value={setHasErrorMessage}
+							>
+								<HasHelpTextMessageDispatchContext.Provider
+									value={setHasHelpTextMessage}
 								>
-									{children}
-								</fieldset>
-							</ValidationStateContext.Provider>
-						</HasErrorMessageDispatchContext.Provider>
+									<ValidationStateContext.Provider value={validationState}>
+										<fieldset
+											className={twMerge(
+												`group/fieldset p-0 m-0 border-0`,
+												className,
+											)}
+											id={id}
+											{...fieldsetProps}
+											ref={forwardedRef}
+										>
+											{children}
+										</fieldset>
+									</ValidationStateContext.Provider>
+								</HasHelpTextMessageDispatchContext.Provider>
+							</HasErrorMessageDispatchContext.Provider>
+						</HasHelpTextMessageContext.Provider>
 					</HasErrorMessageContext.Provider>
 				</RequiredContext.Provider>
 			</IdContext.Provider>
@@ -129,23 +143,35 @@ export const Field = forwardRef<HTMLDivElement, FieldProps>(function Field(
 	const generatedId = useId();
 	const id = uniqueId !== undefined ? uniqueId : generatedId;
 	const [hasErrorMessage, setHasErrorMessage] = useState(false);
+	const [hasHelpTextMessage, setHasHelpTextMessage] = useState(false);
 
 	return (
 		<IdContext.Provider value={id}>
 			<NameContext.Provider value={name}>
 				<RequiredContext.Provider value={isRequired}>
 					<HasErrorMessageContext.Provider value={hasErrorMessage}>
-						<HasErrorMessageDispatchContext.Provider value={setHasErrorMessage}>
-							<ValidationStateContext.Provider value={validationState}>
-								<div
-									{...divProps}
-									className={twMerge("group/form_field", divProps.className)}
-									ref={forwardedRef}
+						<HasHelpTextMessageContext.Provider value={hasHelpTextMessage}>
+							<HasErrorMessageDispatchContext.Provider
+								value={setHasErrorMessage}
+							>
+								<HasHelpTextMessageDispatchContext.Provider
+									value={setHasHelpTextMessage}
 								>
-									{children}
-								</div>
-							</ValidationStateContext.Provider>
-						</HasErrorMessageDispatchContext.Provider>
+									<ValidationStateContext.Provider value={validationState}>
+										<div
+											{...divProps}
+											className={twMerge(
+												"group/form_field",
+												divProps.className,
+											)}
+											ref={forwardedRef}
+										>
+											{children}
+										</div>
+									</ValidationStateContext.Provider>
+								</HasHelpTextMessageDispatchContext.Provider>
+							</HasErrorMessageDispatchContext.Provider>
+						</HasHelpTextMessageContext.Provider>
 					</HasErrorMessageContext.Provider>
 				</RequiredContext.Provider>
 			</NameContext.Provider>
@@ -165,6 +191,7 @@ export const Label = forwardRef<HTMLLabelElement, LabelProps>(function Label(
 	return (
 		<Comp
 			htmlFor={Id}
+			id={`${Id}-label`}
 			className={twMerge("inline-block", className)}
 			{...labelProps}
 			ref={forwardedRef}
@@ -214,6 +241,10 @@ export const HelpText = forwardRef<HTMLDivElement, HelpTextProps>(
 	function HelpText({ asChild, children, ...divProps }, forwardedRef) {
 		const Id = useContext(IdContext);
 		const Comp = asChild ? Slot : "div";
+		const setHasHelpTextMessage = useContext(HasHelpTextMessageDispatchContext);
+		useEffect(() => {
+			setHasHelpTextMessage(true);
+		}, []);
 		return (
 			<Comp
 				id={`${Id}-help-text`}
@@ -378,17 +409,20 @@ export const Control = forwardRef<HTMLInputElement, ControlProps>(
 		const name = useContext(NameContext);
 		const isRequired = useContext(RequiredContext);
 		const hasErrorMessage = useContext(HasErrorMessageContext);
+		const hasHelpTextMessage = useContext(HasHelpTextMessageContext);
 		const validationState = useContext(ValidationStateContext);
 		const controlClassName = useContext(ControlClassNameContext);
 		const Comp = asChild ? Slot : "input";
+		const describedBy = `${hasErrorMessage ? `${id}-error ` : ""}${
+			hasHelpTextMessage ? `${id}-help-text` : ""
+		}`;
 		return (
 			<Comp
 				id={id}
 				required={isRequired}
 				aria-invalid={stateIsInvalid(validationState)}
-				aria-describedby={`${
-					hasErrorMessage ? `${id}-error ` : ""
-				}${id}-help-text`}
+				aria-describedby={describedBy !== "" ? describedBy : undefined}
+				aria-labelledby={`${id}-label`}
 				name={name}
 				{...inputProps}
 				className={twMerge(controlClassName, inputProps.className)}
