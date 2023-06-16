@@ -9,9 +9,9 @@
 	"files": [],
 	"include": [],
 	"references": [
-		{ "path": "./packages/cli" },
-		{ "path": "./packages/date-php" },
-		{ "path": "./packages/blocks-helpers" },
-		{ "path": "./packages/react" }
+		{ "path": "./packages/cli/tsconfig.build.json" },
+		{ "path": "./packages/date-php/tsconfig.build.json" },
+		{ "path": "./packages/blocks-helpers/tsconfig.build.json" },
+		{ "path": "./packages/react/tsconfig.build.json" }
 	]
 }
