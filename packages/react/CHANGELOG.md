@@ -1,5 +1,11 @@
 # @atomicsmash/react
 
+## 0.1.3
+
+### Patch Changes
+
+- [#35](https://github.com/AtomicSmash/packages/pull/35) [`3718f6f`](https://github.com/AtomicSmash/packages/commit/3718f6fba708df59440a332abff643502f25118d) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Optimise callback functions using useCallback to prevent infinite re-renders
+
 ## 0.1.2
 
 ### Patch Changes
