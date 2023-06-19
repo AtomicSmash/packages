@@ -1,5 +1,15 @@
 # @atomicsmash/coding-standards
 
+## 3.3.0
+
+### Minor Changes
+
+- [#37](https://github.com/AtomicSmash/packages/pull/37) [`3fc67b1`](https://github.com/AtomicSmash/packages/commit/3fc67b11ec791b9910094f2cd86d5d6290f5a4d8) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Add configs that aren't combined with base so we can use them with TS5 extends arrays
+
+### Patch Changes
+
+- [#37](https://github.com/AtomicSmash/packages/pull/37) [`9bede52`](https://github.com/AtomicSmash/packages/commit/9bede520745b95777590ebd60c5aa487b7ccea8a) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Update typescript configs with schema property
+
 ## 3.2.0
 
 ### Minor Changes
