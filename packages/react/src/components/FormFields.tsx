@@ -13,25 +13,35 @@ import { twMerge } from "tailwind-merge";
 import { useOptionalExternalState } from "../hooks/useOptionalExternalState";
 import { displayErrorMessage } from "../shared/forms";
 
-const IdContext = createContext("");
-const NameContext = createContext("");
-const RequiredContext = createContext(false);
-const HasHelpTextMessageContext = createContext(false);
-const HasHelpTextMessageDispatchContext = createContext<
+export const IdContext = createContext("");
+export const NameContext = createContext("");
+export const RequiredContext = createContext(false);
+export const HasHelpTextMessageContext = createContext(false);
+export const HasHelpTextMessageDispatchContext = createContext<
 	React.Dispatch<React.SetStateAction<boolean>>
 	// eslint-disable-next-line @typescript-eslint/no-empty-function
 >(() => {});
-const HasErrorMessageContext = createContext(false);
-const HasErrorMessageDispatchContext = createContext<
+export const HasErrorMessageContext = createContext(false);
+export const HasErrorMessageDispatchContext = createContext<
 	React.Dispatch<React.SetStateAction<boolean>>
 	// eslint-disable-next-line @typescript-eslint/no-empty-function
 >(() => {});
-const ValidationStateContext = createContext<
+export const ValidationStateContext = createContext<
 	ErrorStateValues | ErrorStateValues[]
 >({
 	validity: null,
 });
-const ControlClassNameContext = createContext("");
+export const ControlClassNameContext = createContext("");
+export const LeadingIconsCountContext = createContext<number>(0);
+export const TrailingIconsCountContext = createContext<number>(0);
+export const LeadingIconsCountDispatchContext = createContext<
+	React.Dispatch<React.SetStateAction<number>>
+	// eslint-disable-next-line @typescript-eslint/no-empty-function
+>(() => {});
+export const TrailingIconsCountDispatchContext = createContext<
+	React.Dispatch<React.SetStateAction<number>>
+	// eslint-disable-next-line @typescript-eslint/no-empty-function
+>(() => {});
 
 export type FieldsetProps = {
 	uniqueId?: string | undefined;
@@ -145,6 +155,8 @@ export const Field = forwardRef<HTMLDivElement, FieldProps>(function Field(
 	const [hasErrorMessage, setHasErrorMessage] = useState(false);
 	const [hasHelpTextMessage, setHasHelpTextMessage] = useState(false);
 	const isRequiredFromContext = useContext(RequiredContext);
+	const [leadingIconsCount, setLeadingIconsCount] = useState<number>(0);
+	const [trailingIconsCount, setTrailingIconsCount] = useState<number>(0);
 
 	return (
 		<IdContext.Provider value={id}>
@@ -161,16 +173,32 @@ export const Field = forwardRef<HTMLDivElement, FieldProps>(function Field(
 									value={setHasHelpTextMessage}
 								>
 									<ValidationStateContext.Provider value={validationState}>
-										<div
-											{...divProps}
-											className={twMerge(
-												"group/form_field",
-												divProps.className,
-											)}
-											ref={forwardedRef}
+										<LeadingIconsCountDispatchContext.Provider
+											value={setLeadingIconsCount}
 										>
-											{children}
-										</div>
+											<TrailingIconsCountDispatchContext.Provider
+												value={setTrailingIconsCount}
+											>
+												<LeadingIconsCountContext.Provider
+													value={leadingIconsCount}
+												>
+													<TrailingIconsCountContext.Provider
+														value={trailingIconsCount}
+													>
+														<div
+															{...divProps}
+															className={twMerge(
+																"group/form_field",
+																divProps.className,
+															)}
+															ref={forwardedRef}
+														>
+															{children}
+														</div>
+													</TrailingIconsCountContext.Provider>
+												</LeadingIconsCountContext.Provider>
+											</TrailingIconsCountDispatchContext.Provider>
+										</LeadingIconsCountDispatchContext.Provider>
 									</ValidationStateContext.Provider>
 								</HasHelpTextMessageDispatchContext.Provider>
 							</HasErrorMessageDispatchContext.Provider>
@@ -326,31 +354,16 @@ export const Error = forwardRef<HTMLDivElement, ErrorProps>(function Error(
 });
 
 export type InputWrapperProps = {
-	leadingIcons?: JSX.Element[] | undefined;
-	trailingIcons?: JSX.Element[] | undefined;
-	validIcon: JSX.Element;
-	invalidIcon: JSX.Element;
+	leadingIcons?: JSX.Element | undefined;
+	trailingIcons?: JSX.Element | undefined;
 } & ComponentPropsWithRef<"div">;
 export const InputWrapper = forwardRef<HTMLDivElement, InputWrapperProps>(
 	function InputWrapper(
-		{
-			leadingIcons = [],
-			trailingIcons = [],
-			children,
-			className,
-			validIcon,
-			invalidIcon,
-			...divProps
-		},
+		{ leadingIcons, trailingIcons, children, className, ...divProps },
 		forwardedRef,
 	) {
-		const validationState = useContext(ValidationStateContext);
-
-		if (stateIsInvalid(validationState)) {
-			trailingIcons = [...trailingIcons, invalidIcon];
-		} else if (stateIsValid(validationState)) {
-			trailingIcons = [...trailingIcons, validIcon];
-		}
+		const leadingIconsCount = useContext(LeadingIconsCountContext);
+		const trailingIconsCount = useContext(TrailingIconsCountContext);
 		return (
 			<div
 				{...divProps}
@@ -359,9 +372,10 @@ export const InputWrapper = forwardRef<HTMLDivElement, InputWrapperProps>(
 					{
 						...{
 							"--inputPadding": "0.875rem",
+							"--borderWidth": "2px",
 							"--iconGap": "0.5rem",
-							"--leadingIconsCount": leadingIcons.length,
-							"--trailingIconsCount": trailingIcons.length,
+							"--leadingIconsCount": leadingIconsCount,
+							"--trailingIconsCount": trailingIconsCount,
 							"--leadingIconsStartOffset": "0px", // calc functions must have units for zeros
 							"--trailingIconsStartOffset": "0px", // calc functions must have units for zeros
 							"--leadingIconsEndOffset": "0px", // calc functions must have units for zeros
@@ -371,20 +385,14 @@ export const InputWrapper = forwardRef<HTMLDivElement, InputWrapperProps>(
 					} as React.CSSProperties
 				}
 				className={`field__input-wrapper relative${
-					leadingIcons.length > 0
-						? " field__input-wrapper--has-leading-icon"
-						: ""
+					leadingIconsCount > 0 ? " field__input-wrapper--has-leading-icon" : ""
 				}${
-					trailingIcons.length > 0
+					trailingIconsCount > 0
 						? " field__input-wrapper--has-trailing-icon"
 						: ""
 				}`}
 			>
-				{leadingIcons.length > 0 ? (
-					<div className="field__icon absolute top-1/2 -translate-y-1/2 h-6 flex items-center gap-[--iconGap] field__icon--leading left-[calc(var(--inputPadding)+var(--leadingIconsStartOffset))]">
-						{leadingIcons}
-					</div>
-				) : null}
+				{leadingIcons ?? null}
 				<ControlClassNameContext.Provider
 					value={twMerge(
 						"p-[--inputPadding] pl-[calc(var(--inputPadding)_+_var(--leadingIconsStartOffset)_+_var(--leadingIconsEndOffset)_+_((var(--iconSize)_+_var(--iconGap))_*_var(--leadingIconsCount)))] pr-[calc(var(--inputPadding)_+_var(--trailingIconsStartOffset)+_var(--trailingIconsEndOffset)_+_((var(--iconSize)_+_var(--iconGap))_*_var(--trailingIconsCount)))]",
@@ -393,13 +401,54 @@ export const InputWrapper = forwardRef<HTMLDivElement, InputWrapperProps>(
 				>
 					{children}
 				</ControlClassNameContext.Provider>
-				{trailingIcons.length > 0 ? (
-					<div className="field__icon absolute top-1/2 -translate-y-1/2 h-6 flex items-center gap-[--iconGap] field__icon--trailing right-[calc(var(--inputPadding)+var(--trailingIconsEndOffset))] peer-[.select-wrapper]:right-[calc(var(--inputPadding)_+_1.5rem)]">
-						{trailingIcons}
-					</div>
-				) : null}
+				{trailingIcons ?? null}
 			</div>
 		);
+	},
+);
+
+export type InputIconGroupProps = {
+	icons?: JSX.Element[] | undefined;
+	iconPosition: "leading" | "trailing";
+} & Omit<ComponentPropsWithRef<"div">, "children">;
+export const InputIconGroup = forwardRef<HTMLDivElement, InputIconGroupProps>(
+	function InputIconGroup(
+		{ icons = [], iconPosition, className, ...divProps },
+		forwardedRef,
+	) {
+		const setLeadingIconsCount = useContext(LeadingIconsCountDispatchContext);
+		const setTrailingIconsCount = useContext(TrailingIconsCountDispatchContext);
+
+		if (iconPosition === "leading") {
+			setLeadingIconsCount(icons.length);
+		} else {
+			setTrailingIconsCount(icons.length);
+		}
+
+		useEffect(() => {
+			if (iconPosition === "leading") {
+				setLeadingIconsCount(icons.length);
+			} else {
+				setTrailingIconsCount(icons.length);
+			}
+		}, [icons, iconPosition]);
+
+		return icons.length > 0 ? (
+			<div
+				{...divProps}
+				ref={forwardedRef}
+				className={twMerge(
+					`field__icon absolute h-[--iconSize] top-[calc(var(--inputPadding)+var(--borderWidth))] flex items-center gap-[--iconGap] field__icon--${iconPosition} ${
+						iconPosition === "leading"
+							? "left-[calc(var(--inputPadding)+var(--leadingIconsStartOffset))]"
+							: "right-[calc(var(--inputPadding)+var(--trailingIconsEndOffset))]"
+					}`,
+					className,
+				)}
+			>
+				{icons}
+			</div>
+		) : null;
 	},
 );
 
@@ -515,7 +564,7 @@ export const ConditionalContent = forwardRef<
 	);
 });
 
-function stateIsInvalid(
+export function stateIsInvalid(
 	validationState: ErrorStateValues | ErrorStateValues[],
 ) {
 	if (Array.isArray(validationState)) {
@@ -524,7 +573,9 @@ function stateIsInvalid(
 	return validationState.validity === "invalid";
 }
 
-function stateIsValid(validationState: ErrorStateValues | ErrorStateValues[]) {
+export function stateIsValid(
+	validationState: ErrorStateValues | ErrorStateValues[],
+) {
 	if (Array.isArray(validationState)) {
 		return validationState.every((state) => state.validity === "valid");
 	}
