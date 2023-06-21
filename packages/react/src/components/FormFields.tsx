@@ -419,12 +419,6 @@ export const InputIconGroup = forwardRef<HTMLDivElement, InputIconGroupProps>(
 		const setLeadingIconsCount = useContext(LeadingIconsCountDispatchContext);
 		const setTrailingIconsCount = useContext(TrailingIconsCountDispatchContext);
 
-		if (iconPosition === "leading") {
-			setLeadingIconsCount(icons.length);
-		} else {
-			setTrailingIconsCount(icons.length);
-		}
-
 		useEffect(() => {
 			if (iconPosition === "leading") {
 				setLeadingIconsCount(icons.length);
