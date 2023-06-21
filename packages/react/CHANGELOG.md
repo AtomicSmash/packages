@@ -1,5 +1,11 @@
 # @atomicsmash/react
 
+## 0.2.0
+
+### Minor Changes
+
+- [#39](https://github.com/AtomicSmash/packages/pull/39) [`1bb8a1f`](https://github.com/AtomicSmash/packages/commit/1bb8a1f9a19d8318a69e00076f2719849616c0fb) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Extract icon groups into separate components
+
 ## 0.1.3
 
 ### Patch Changes
