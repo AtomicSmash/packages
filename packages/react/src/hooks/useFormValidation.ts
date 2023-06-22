@@ -129,14 +129,14 @@ export function useFormValidation<SchemaType extends SomeZodObject>(
 		updateTextField: useCallback(
 			(
 				event:
-					| React.FocusEvent<HTMLInputElement, Element>
-					| React.FocusEvent<HTMLSelectElement, Element>
-					| React.FocusEvent<HTMLTextAreaElement, Element>,
+					| React.SyntheticEvent<HTMLInputElement>
+					| React.SyntheticEvent<HTMLSelectElement>
+					| React.SyntheticEvent<HTMLTextAreaElement>,
 			) => {
 				setFormErrorState({
 					type: "update_field",
-					fieldName: event.target.name,
-					fieldValue: event.target.value,
+					fieldName: event.currentTarget.name,
+					fieldValue: event.currentTarget.value,
 				});
 			},
 			[],
