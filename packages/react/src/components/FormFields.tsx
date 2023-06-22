@@ -101,10 +101,17 @@ export type LegendProps = {
 	asChild?: boolean;
 } & ComponentPropsWithRef<"legend">;
 export const Legend = forwardRef<HTMLLegendElement, LegendProps>(
-	function Legend({ asChild, className, children }, forwardedRef) {
+	function Legend(
+		{ asChild, className, children, ...legendProps },
+		forwardedRef,
+	) {
 		const Comp = asChild ? Slot : "legend";
 		return (
-			<Comp className={twMerge(`p-0 mb-5`, className)} ref={forwardedRef}>
+			<Comp
+				{...legendProps}
+				className={twMerge(`p-0 mb-5`, className)}
+				ref={forwardedRef}
+			>
 				{children}
 			</Comp>
 		);
@@ -238,7 +245,7 @@ export type LabelSuffixProps = {
 } & Omit<ComponentPropsWithRef<"div">, "children">;
 export const LabelSuffix = forwardRef<HTMLSpanElement, LabelSuffixProps>(
 	function LabelSuffix(
-		{ asChild, className, requiredClassName, optionalClassName },
+		{ asChild, className, requiredClassName, optionalClassName, ...divProps },
 		forwardedRef,
 	) {
 		const isRequired = useContext(RequiredContext);
@@ -246,6 +253,7 @@ export const LabelSuffix = forwardRef<HTMLSpanElement, LabelSuffixProps>(
 		if (isRequired) {
 			return (
 				<Comp
+					{...divProps}
 					className={twMerge(className, requiredClassName)}
 					ref={forwardedRef}
 				>
@@ -255,6 +263,7 @@ export const LabelSuffix = forwardRef<HTMLSpanElement, LabelSuffixProps>(
 		}
 		return (
 			<Comp
+				{...divProps}
 				className={twMerge(className, optionalClassName)}
 				ref={forwardedRef}
 			>
