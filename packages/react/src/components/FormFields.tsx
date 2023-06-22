@@ -10,7 +10,6 @@ import {
 	useState,
 } from "react";
 import { twMerge } from "tailwind-merge";
-import { useOptionalExternalState } from "../hooks/useOptionalExternalState";
 import { displayErrorMessage } from "../shared/forms";
 
 export const IdContext = createContext("");
@@ -479,84 +478,6 @@ export const Control = forwardRef<HTMLInputElement, ControlProps>(
 		);
 	},
 );
-
-const ConditionalIsShowingContext = createContext(false);
-const ConditionalSetIsShowingContext = createContext<
-	React.Dispatch<React.SetStateAction<boolean>>
-	// eslint-disable-next-line @typescript-eslint/no-empty-function
->(() => {});
-
-export type ConditionalProps = {
-	defaultShowState?: boolean;
-	externalState?:
-		| [boolean, React.Dispatch<React.SetStateAction<boolean>>]
-		| null;
-	children: React.ReactNode;
-};
-export const Conditional = forwardRef<HTMLElement, ConditionalProps>(
-	function Conditional(
-		{ defaultShowState = false, externalState = null, children },
-		forwardedRef,
-	) {
-		const [isShowingField, setIsShowingField] = useOptionalExternalState(
-			externalState === null ? defaultShowState : externalState,
-		);
-		return (
-			<ConditionalIsShowingContext.Provider value={isShowingField}>
-				<ConditionalSetIsShowingContext.Provider value={setIsShowingField}>
-					{children}
-				</ConditionalSetIsShowingContext.Provider>
-			</ConditionalIsShowingContext.Provider>
-		);
-	},
-);
-
-export type ConditionalTriggerProps = {
-	asChild?: boolean;
-	children?:
-		| (({ isShowingField }: { isShowingField: boolean }) => React.ReactNode)
-		| React.ReactNode;
-} & Omit<ComponentPropsWithRef<"button">, "children">;
-export const ConditionalTrigger = forwardRef<
-	HTMLButtonElement,
-	ConditionalTriggerProps
->(function ConditionalTrigger({ asChild, className, children }, forwardedRef) {
-	const Comp = asChild ? Slot : "button";
-	const isShowingField = useContext(ConditionalIsShowingContext);
-	const setIsShowingField = useContext(ConditionalSetIsShowingContext);
-	return (
-		<Comp
-			ref={forwardedRef}
-			type="button"
-			className={twMerge("group/conditional_input", className)}
-			onClick={() => setIsShowingField(!isShowingField)}
-		>
-			{typeof children === "function" ? children({ isShowingField }) : children}
-		</Comp>
-	);
-});
-
-export type ConditionalContentProps = {
-	asChild?: boolean;
-	children?:
-		| (({ isShowingField }: { isShowingField: boolean }) => React.ReactNode)
-		| React.ReactNode;
-} & Omit<ComponentPropsWithRef<"div">, "children">;
-export const ConditionalContent = forwardRef<
-	HTMLDivElement,
-	ConditionalContentProps
->(function ConditionalContent({ asChild, className, children }, forwardedRef) {
-	const Comp = asChild ? Slot : "div";
-	const isShowingField = useContext(ConditionalIsShowingContext);
-	return (
-		<Comp
-			ref={forwardedRef}
-			className={twMerge(isShowingField ? "show" : "hidden", className)}
-		>
-			{typeof children === "function" ? children({ isShowingField }) : children}
-		</Comp>
-	);
-});
 
 export function stateIsInvalid(
 	validationState: ErrorStateValues | ErrorStateValues[],
