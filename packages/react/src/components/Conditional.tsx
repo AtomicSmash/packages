@@ -8,7 +8,10 @@ import {
 } from "react";
 import { twMerge } from "tailwind-merge";
 import { useOptionalExternalState } from "../hooks/useOptionalExternalState";
+import { Pretty } from "../shared/types";
 
+const TypeContext = createContext<"render" | "display">("display");
+const HideClassContext = createContext("hidden");
 const IsShowingContext = createContext(false);
 const SetIsShowingContext = createContext<
 	React.Dispatch<React.SetStateAction<boolean>>
@@ -17,6 +20,8 @@ const SetIsShowingContext = createContext<
 
 export type RootProps = Pretty<
 	{
+		type?: "render" | "display";
+		hideClass?: string;
 		children: React.ReactNode;
 	} & (
 		| {
@@ -24,7 +29,7 @@ export type RootProps = Pretty<
 				externalState?:
 					| [boolean, React.Dispatch<React.SetStateAction<boolean>>]
 					| null;
-				condition: never;
+				condition?: never;
 		  }
 		| {
 				defaultShowState?: never;
@@ -38,6 +43,8 @@ export function Root({
 	externalState = null,
 	condition,
 	children,
+	type = "display",
+	hideClass = "hidden",
 }: RootProps) {
 	const [isShowingField, setIsShowingField] = useOptionalExternalState(
 		externalState === null ? defaultShowState : externalState,
@@ -48,11 +55,15 @@ export function Root({
 		}
 	}, [condition]);
 	return (
-		<IsShowingContext.Provider value={isShowingField}>
-			<SetIsShowingContext.Provider value={setIsShowingField}>
-				{children}
-			</SetIsShowingContext.Provider>
-		</IsShowingContext.Provider>
+		<TypeContext.Provider value={type}>
+			<HideClassContext.Provider value={hideClass}>
+				<IsShowingContext.Provider value={isShowingField}>
+					<SetIsShowingContext.Provider value={setIsShowingField}>
+						{children}
+					</SetIsShowingContext.Provider>
+				</IsShowingContext.Provider>
+			</HideClassContext.Provider>
+		</TypeContext.Provider>
 	);
 }
 
@@ -90,11 +101,20 @@ export const TrueContent = forwardRef<HTMLDivElement, ContentProps>(
 	function TrueContent({ asChild, children, ...divProps }, forwardedRef) {
 		const Comp = asChild ? Slot : "div";
 		const isShowingField = useContext(IsShowingContext);
-		if (!isShowingField) {
+		const conditionalType = useContext(TypeContext);
+		const hideClass = useContext(HideClassContext);
+		if (!isShowingField && conditionalType === "render") {
 			return null;
 		}
 		return (
-			<Comp {...divProps} ref={forwardedRef}>
+			<Comp
+				{...divProps}
+				className={twMerge(
+					!isShowingField && conditionalType === "display" ? hideClass : "",
+					divProps.className,
+				)}
+				ref={forwardedRef}
+			>
 				{children}
 			</Comp>
 		);
@@ -104,11 +124,20 @@ export const FalseContent = forwardRef<HTMLDivElement, ContentProps>(
 	function FalseContent({ asChild, children, ...divProps }, forwardedRef) {
 		const Comp = asChild ? Slot : "div";
 		const isShowingField = useContext(IsShowingContext);
-		if (isShowingField) {
+		const conditionalType = useContext(TypeContext);
+		const hideClass = useContext(HideClassContext);
+		if (isShowingField && conditionalType === "render") {
 			return null;
 		}
 		return (
-			<Comp {...divProps} ref={forwardedRef}>
+			<Comp
+				{...divProps}
+				className={twMerge(
+					isShowingField && conditionalType === "display" ? hideClass : "",
+					divProps.className,
+				)}
+				ref={forwardedRef}
+			>
 				{children}
 			</Comp>
 		);
