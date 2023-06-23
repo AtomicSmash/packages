@@ -1,5 +1,19 @@
 # @atomicsmash/react
 
+## 0.3.0
+
+### Minor Changes
+
+- [#41](https://github.com/AtomicSmash/packages/pull/41) [`c63b593`](https://github.com/AtomicSmash/packages/commit/c63b5937e12493c9ad7ba957febc75a3504da87a) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Refactor conditional component
+
+### Patch Changes
+
+- [#41](https://github.com/AtomicSmash/packages/pull/41) [`9be84f7`](https://github.com/AtomicSmash/packages/commit/9be84f7bee434848665a33be18fb7e1c3f297c8a) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Allow more event types for updateTextField
+
+- [#41](https://github.com/AtomicSmash/packages/pull/41) [`2601eac`](https://github.com/AtomicSmash/packages/commit/2601eac481200f22192e5ab06ec2df4156b61d8d) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Fix passing of element props
+
+- [#41](https://github.com/AtomicSmash/packages/pull/41) [`7a7b8d6`](https://github.com/AtomicSmash/packages/commit/7a7b8d6221f24f3e965f9c479e5232b47bfa2f91) Thanks [@mikeybinns](https://github.com/mikeybinns)! - fix render error with InputIconGroup component
+
 ## 0.2.0
 
 ### Minor Changes
