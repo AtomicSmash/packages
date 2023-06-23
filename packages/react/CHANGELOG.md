@@ -1,5 +1,11 @@
 # @atomicsmash/react
 
+## 0.4.0
+
+### Minor Changes
+
+- [#43](https://github.com/AtomicSmash/packages/pull/43) [`d70da92`](https://github.com/AtomicSmash/packages/commit/d70da92c4c8b94b8cd3e303f96877d0af22d5498) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Add display removal type to conditional
+
 ## 0.3.0
 
 ### Minor Changes
