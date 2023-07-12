@@ -6,7 +6,7 @@ module.exports = {
 		browser: true,
 		commonjs: true,
 		node: true,
-		es2017: true,
+		es2022: true,
 	},
 	rules: {
 		"no-case-declarations": ["off"],

@@ -13,7 +13,7 @@ import {
 	unslash,
 	replaceAllUnescaped,
 	searchFirstUnescaped,
-} from "../utils";
+} from "../utils.js";
 // spell-checker:disable
 test("escapeAllCharacters()", () => {
 	expect(escapeAllCharacters("abcdef")).toBe("\\a\\b\\c\\d\\e\\f");
