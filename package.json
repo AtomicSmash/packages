@@ -22,16 +22,15 @@
 		"packages/react"
 	],
 	"scripts": {
-		"clean": "del-cli ./packages/**/*.tsbuildinfo ./packages/**/dist/",
 		"dev": "tsc -b --watch",
-		"build": "tsc -b",
+		"build": "npm run build --workspaces --if-present",
 		"test": "TZ=\"Europe/Istanbul\" vitest run",
 		"test:ui": "TZ=\"Europe/Istanbul\" vitest --ui",
 		"test:coverage": "TZ=\"Europe/Istanbul\" vitest run --coverage",
 		"lint": "run-p lint:*",
 		"lint:eslint": "eslint --cache --cache-location ./node_modules/.cache/eslint . --ext .js,.ts,.jsx,.tsx",
 		"lint:types": "tsc",
-		"release": "npm-run-all clean build lint publish",
+		"release": "npm-run-all build lint publish",
 		"publish": "changeset publish"
 	},
 	"devDependencies": {
