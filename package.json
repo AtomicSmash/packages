@@ -37,15 +37,15 @@
 	"devDependencies": {
 		"@commitlint/cli": "^17.0.3",
 		"@commitlint/config-conventional": "^17.0.3",
-		"@vitest/coverage-c8": "^0.26.3",
-		"@vitest/ui": "^0.23.4",
+		"@vitest/coverage-c8": "^0.32.2",
+		"@vitest/ui": "^0.32.2",
 		"del-cli": "^5.0.0",
 		"husky": "^8.0.1",
 		"npm-run-all": "^4.1.5",
 		"prettier": "^2.7.1",
 		"typescript": "^4.9.5",
-		"vite": "^3.0.4",
-		"vitest": "^0.23.4"
+		"vite": "^4.3.9",
+		"vitest": "^0.32.2"
 	},
 	"engines": {
 		"node": ">=18"

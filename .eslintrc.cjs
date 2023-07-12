@@ -4,5 +4,5 @@ module.exports = {
 		tsconfigRootDir: __dirname,
 		project: ["./tsconfig.json"],
 	},
-	ignorePatterns: ["./packages/__TEMPLATE__/**/*"],
+	ignorePatterns: ["./packages/__TEMPLATE__/**/*", "vitest.workspace.ts"],
 };
