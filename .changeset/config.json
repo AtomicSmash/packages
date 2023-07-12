@@ -6,7 +6,13 @@
 	],
 	"commit": false,
 	"fixed": [],
-	"linked": [],
+	"linked": [
+		[
+			"@atomicsmash/coding-standards",
+			"@atomicsmash/eslint-config",
+			"@atomicsmash/browserslist-config"
+		]
+	],
 	"access": "restricted",
 	"baseBranch": "main",
 	"updateInternalDependencies": "patch",
