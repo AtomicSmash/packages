@@ -3,7 +3,7 @@ import {
 	unslash,
 	replaceAllUnescaped,
 	searchFirstUnescaped,
-} from "./utils";
+} from "./utils.js";
 export class DatePHP extends Date {
 	/**
 	 * Return a string representation of a provided date object.

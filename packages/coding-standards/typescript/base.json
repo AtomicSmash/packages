@@ -3,10 +3,10 @@
 	"compilerOptions": {
 		"isolatedModules": true,
 		"esModuleInterop": true,
-		"moduleResolution": "node",
+		"moduleResolution": "Node16",
 		"resolveJsonModule": true,
-		"target": "es2020",
-		"module": "es2020",
+		"target": "es2022",
+		"module": "Node16",
 		"strict": true,
 		"allowJs": true,
 		"checkJs": true,

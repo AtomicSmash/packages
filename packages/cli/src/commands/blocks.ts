@@ -2,8 +2,7 @@ import type { Compiler, Configuration } from "webpack";
 import crypto from "node:crypto";
 import { readFileSync, writeFileSync, renameSync } from "node:fs";
 import { readdir } from "node:fs/promises";
-import { resolve as resolvePath, dirname as pathDirname } from "node:path";
-import { fileURLToPath } from "node:url";
+import { resolve as resolvePath } from "node:path";
 import DependencyExtractionWebpackPlugin from "@wordpress/dependency-extraction-webpack-plugin";
 import defaultConfig from "@wordpress/scripts/config/webpack.config.js";
 import autoprefixer from "autoprefixer";
@@ -13,11 +12,6 @@ import postcss, { AcceptedPlugin } from "postcss";
 import TsconfigPathsPlugin from "tsconfig-paths-webpack-plugin";
 import webpack from "webpack";
 import { hasHelpFlag, toCamelCase } from "../utils.js";
-
-// eslint-disable-next-line @typescript-eslint/naming-convention
-const __filename = fileURLToPath(import.meta.url);
-// eslint-disable-next-line @typescript-eslint/naming-convention
-const __dirname = pathDirname(__filename);
 
 const isProduction = process.env.NODE_ENV === "production";
 

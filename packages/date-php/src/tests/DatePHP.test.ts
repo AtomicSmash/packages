@@ -8,13 +8,13 @@
  * https://youtu.be/5rHRd6Cl-tQ?t=32
  */
 import { expect, it, describe } from "vitest";
-import { DatePHP } from "../index";
+import { DatePHP } from "../index.js";
 import {
 	escapeAllCharacters,
 	unslash,
 	replaceAllUnescaped,
 	searchFirstUnescaped,
-} from "../utils";
+} from "../utils.js";
 // spell-checker:disable
 describe("Test Env Checks", () => {
 	it("should always be GMT+1 (same as BST)", () => {
