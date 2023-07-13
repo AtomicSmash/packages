@@ -1,13 +1,5 @@
 # @atomicsmash/coding-standards
 
-## 4.0.0
-
-### Patch Changes
-
-- Updated dependencies [[`bf750e9`](https://github.com/AtomicSmash/packages/commit/bf750e9f6a6eb7a0078d56232a0ddadbbb61319c), [`bf750e9`](https://github.com/AtomicSmash/packages/commit/bf750e9f6a6eb7a0078d56232a0ddadbbb61319c)]:
-  - @atomicsmash/eslint-config@4.0.0
-  - @atomicsmash/browserslist-config@4.0.0
-
 ## 3.3.0
 
 ### Minor Changes
