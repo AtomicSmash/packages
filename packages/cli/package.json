@@ -40,26 +40,26 @@
 		"lint:types": "tsc -b"
 	},
 	"dependencies": {
-		"@wordpress/dependency-extraction-webpack-plugin": "^4.12.0",
-		"@wordpress/scripts": "^26.0.0",
+		"@wordpress/dependency-extraction-webpack-plugin": "^4.20.0",
+		"@wordpress/scripts": "^26.8.0",
 		"autoprefixer": "^10.4.14",
 		"cssnano": "^5.1.15",
-		"glob": "^8.0.3",
-		"glob-promise": "^6.0.2",
+		"glob": "^8.1.0",
+		"glob-promise": "^6.0.3",
 		"path": "^0.12.7",
-		"postcss": "^8.4.21",
+		"postcss": "^8.4.25",
 		"svg-sprite": "^2.0.2",
-		"tsconfig-paths": "^4.1.2",
-		"tsconfig-paths-webpack-plugin": "^4.0.1",
+		"tsconfig-paths": "^4.2.0",
+		"tsconfig-paths-webpack-plugin": "^4.1.0",
 		"vinyl": "^3.0.0",
-		"webpack": "^5.76.3"
+		"webpack": "^5.88.1"
 	},
 	"devDependencies": {
-		"@types/glob": "^8.0.0",
+		"@types/glob": "^8.1.0",
 		"@types/node": "^18.15.5",
 		"@types/svg-sprite": "^0.0.34",
-		"@types/vinyl": "^2.0.6",
-		"@types/webpack": "^5.28.0",
-		"type-fest": "^3.0.0"
+		"@types/vinyl": "^2.0.7",
+		"@types/webpack": "^5.28.1",
+		"type-fest": "^3.13.0"
 	}
 }
