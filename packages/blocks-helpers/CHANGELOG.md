@@ -1,5 +1,15 @@
 # @atomicsmash/blocks-helpers
 
+## 2.0.0
+
+### Major Changes
+
+- [#49](https://github.com/AtomicSmash/packages/pull/49) [`1bd9462`](https://github.com/AtomicSmash/packages/commit/1bd9462487d58bbf5cb455bae267b84851d87f96) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Major bump any packages with compilation due to new testing and build processes
+
+### Patch Changes
+
+- [#49](https://github.com/AtomicSmash/packages/pull/49) [`e866f40`](https://github.com/AtomicSmash/packages/commit/e866f40f61282f49def24ba7f78842ae22878eda) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Dependency updates
+
 ## 1.1.0
 
 ### Minor Changes
