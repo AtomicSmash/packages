@@ -1,5 +1,19 @@
 # @atomicsmash/coding-standards
 
+## 4.0.0
+
+### Major Changes
+
+- [#49](https://github.com/AtomicSmash/packages/pull/49) [`1bd9462`](https://github.com/AtomicSmash/packages/commit/1bd9462487d58bbf5cb455bae267b84851d87f96) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Update eslint and typescript to modern lib
+
+### Patch Changes
+
+- [#49](https://github.com/AtomicSmash/packages/pull/49) [`e866f40`](https://github.com/AtomicSmash/packages/commit/e866f40f61282f49def24ba7f78842ae22878eda) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Dependency updates
+
+- Updated dependencies [[`1bd9462`](https://github.com/AtomicSmash/packages/commit/1bd9462487d58bbf5cb455bae267b84851d87f96), [`e866f40`](https://github.com/AtomicSmash/packages/commit/e866f40f61282f49def24ba7f78842ae22878eda)]:
+  - @atomicsmash/eslint-config@4.0.0
+  - @atomicsmash/browserslist-config@4.0.0
+
 ## 3.3.0
 
 ### Minor Changes
