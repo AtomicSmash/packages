@@ -1,6 +1,6 @@
 {
 	"name": "@atomicsmash/cli",
-	"version": "4.0.0",
+	"version": "3.1.2",
 	"description": "A collection of CLI tools by Atomic Smash.",
 	"keywords": [],
 	"homepage": "https://www.atomicsmash.co.uk/",

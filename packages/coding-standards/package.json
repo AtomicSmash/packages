@@ -1,12 +1,12 @@
 {
 	"name": "@atomicsmash/coding-standards",
-	"version": "4.0.0",
+	"version": "3.3.0",
 	"description": "A collection of coding standards configurations.",
 	"main": "index.js",
 	"types": "index.d.ts",
 	"dependencies": {
 		"@atomicsmash/browserslist-config": "^1.0.0",
-		"@atomicsmash/eslint-config": "^4.0.0",
+		"@atomicsmash/eslint-config": "^1.2.0",
 		"@commitlint/cli": "^17.0.3",
 		"@commitlint/config-conventional": "^17.0.3",
 		"prettier": "^2.7.1"
