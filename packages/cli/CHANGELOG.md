@@ -1,17 +1,5 @@
 # @atomicsmash/cli
 
-## 4.0.0
-
-### Major Changes
-
-- [#49](https://github.com/AtomicSmash/packages/pull/49) [`1bd9462`](https://github.com/AtomicSmash/packages/commit/1bd9462487d58bbf5cb455bae267b84851d87f96) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Major bump any packages with compilation due to new testing and build processes
-
-### Patch Changes
-
-- [#49](https://github.com/AtomicSmash/packages/pull/49) [`e866f40`](https://github.com/AtomicSmash/packages/commit/e866f40f61282f49def24ba7f78842ae22878eda) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Dependency updates
-
-- [#49](https://github.com/AtomicSmash/packages/pull/49) [`cd839e3`](https://github.com/AtomicSmash/packages/commit/cd839e3449db8cfc2d1c1a8b8510cbc41b49a5c1) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Fix tsconfig-paths-webpack-plugin bug
-
 ## 3.1.2
 
 ### Patch Changes
