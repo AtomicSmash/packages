@@ -5,8 +5,8 @@
 		{ "repo": "AtomicSmash/packages" }
 	],
 	"commit": false,
-	"fixed": [],
-	"linked": [
+	"linked": [],
+	"fixed": [
 		[
 			"@atomicsmash/coding-standards",
 			"@atomicsmash/eslint-config",
