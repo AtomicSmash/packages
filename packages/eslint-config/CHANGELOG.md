@@ -1,5 +1,7 @@
 # @atomicsmash/eslint-config
 
+## 5.0.0
+
 ## 4.0.0
 
 ### Major Changes
