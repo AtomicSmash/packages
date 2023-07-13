@@ -2,16 +2,16 @@ import { existsSync, unlink, readFileSync } from "node:fs";
 import { resolve as resolvePath, dirname as pathDirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import { expect, test, describe, afterAll } from "vitest";
-import { svgHelpMessage } from "../commands/svg";
-import { testCommand, execute } from "../utils";
+import { testCommand, execute } from "../utils.js";
+import { svgHelpMessage } from "./svg.js";
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
 const __filename = fileURLToPath(import.meta.url);
 // eslint-disable-next-line @typescript-eslint/naming-convention
 const __dirname = pathDirname(__filename);
 
-const testSVGsIn = resolvePath(__dirname, "./svg/in");
-const testSVGsOut = resolvePath(__dirname, "./svg/out");
+const testSVGsIn = resolvePath(__dirname, "../tests/svg/in");
+const testSVGsOut = resolvePath(__dirname, "../tests/svg/out");
 
 describe("SVG command works as intended", () => {
 	test("svg command correctly displays help message", async () => {
