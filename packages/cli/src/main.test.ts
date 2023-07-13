@@ -1,7 +1,6 @@
 import { expect, test, describe } from "vitest";
-import { execute } from "../utils";
-import { helpMessage, noCommandFound } from "./../messages.js";
-import { testCommand, packageVersion } from "./../utils.js";
+import { helpMessage, noCommandFound } from "./messages.js";
+import { execute, testCommand, packageVersion } from "./utils.js";
 
 describe.concurrent("Base CLI helpers work as intended", () => {
 	test("main cli shows help message if nothing is added after main command", async () => {

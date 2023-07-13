@@ -1,7 +1,6 @@
 {
 	"extends": "../../tsconfig.json",
-	"include": ["src/**/*", "modules.d.ts", "test-setup.ts"],
-	"exclude": ["dist", "node_modules"],
+	"include": ["test-setup.ts"],
 	"compilerOptions": {
 		"target": "es2021",
 		"module": "ES2022"

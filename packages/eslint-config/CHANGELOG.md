@@ -1,11 +1,5 @@
 # @atomicsmash/eslint-config
 
-## 4.0.0
-
-### Major Changes
-
-- [#47](https://github.com/AtomicSmash/packages/pull/47) [`31c16d5`](https://github.com/AtomicSmash/packages/commit/31c16d5105c3236cc926caac0e9096cfc4a97f3c) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Update eslint and typescript to modern lib
-
 ## 1.2.0
 
 ### Minor Changes

@@ -9,7 +9,7 @@ import autoprefixer from "autoprefixer";
 import cssnano from "cssnano";
 import glob from "glob-promise";
 import postcss, { AcceptedPlugin } from "postcss";
-import TsconfigPathsPlugin from "tsconfig-paths-webpack-plugin";
+import { TsconfigPathsPlugin } from "tsconfig-paths-webpack-plugin";
 import webpack from "webpack";
 import { hasHelpFlag, toCamelCase } from "../utils.js";
 
@@ -51,7 +51,7 @@ export default function blocks(args: string[]) {
 		plugins: [
 			...((defaultConfig as Configuration).plugins?.filter(
 				(plugin) =>
-					plugin.constructor.name !== "DependencyExtractionWebpackPlugin",
+					plugin?.constructor.name !== "DependencyExtractionWebpackPlugin",
 			) ?? []),
 			new DependencyExtractionWebpackPlugin({
 				combineAssets: true,
