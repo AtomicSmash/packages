@@ -5,6 +5,12 @@ import { useReducer, useEffect, useCallback, useMemo } from "react";
 import { useHydrated } from "remix-utils";
 import { actionDataSchema } from "../shared/forms";
 
+/**
+ * A hook to simplify form validation
+ * @param schema The schema to validate form fields against.
+ * @param actionData The data returned from the action to detect server errors.
+ * @returns An object containing multiple methods and variables to be used to build a form UI.
+ */
 export function useFormValidation<SchemaType extends SomeZodObject>(
 	schema: SchemaType,
 	actionData: unknown,
@@ -107,6 +113,12 @@ export function useFormValidation<SchemaType extends SomeZodObject>(
 		>
 	>(reducer, actionDataParsed, initialiseFormErrorState);
 	return {
+		/**
+		 * Manually update the error state by submitting a new value to a field.
+		 * @param fieldName The name of the field as defined in the schema.
+		 * @param fieldValue The value of the field.
+		 * @param customSchema An optional custom schema to validate the field against instead of the one defined in the main schema.
+		 */
 		setValidationState: useCallback(
 			({
 				fieldName,
@@ -126,6 +138,11 @@ export function useFormValidation<SchemaType extends SomeZodObject>(
 			},
 			[],
 		),
+		/**
+		 * A helper function to make updating a text field on events easier
+		 *
+		 * @example <input type="text" onBlur={updateTextField} />
+		 */
 		updateTextField: useCallback(
 			(
 				event:
@@ -141,6 +158,11 @@ export function useFormValidation<SchemaType extends SomeZodObject>(
 			},
 			[],
 		),
+		/**
+		 * A helper function to make updating a checkbox field on events easier
+		 *
+		 * @example <input type="checkbox" onChange={updateCheckboxField} />
+		 */
 		updateCheckboxField: useCallback(
 			(event: React.ChangeEvent<HTMLInputElement>) => {
 				setFormErrorState({
@@ -151,8 +173,17 @@ export function useFormValidation<SchemaType extends SomeZodObject>(
 			},
 			[],
 		),
+		/**
+		 * The error state object. It's a object that matches the main schema keys, with the error state as the value.
+		 */
 		validationErrors: formErrorState,
+		/**
+		 * A variable that determines whether a form has been submitted by the user or not. Useful for showing success messages on forms that don't trigger a navigation.
+		 */
 		wasSubmitted: useMemo(() => actionData !== undefined, [actionData]),
+		/**
+		 * A variable that determines whether a form contains any errors. These error can come from error state or from the server.
+		 */
 		hasErrors: useMemo(
 			() =>
 				Object.values(formErrorState).findIndex(
@@ -160,6 +191,10 @@ export function useFormValidation<SchemaType extends SomeZodObject>(
 				) !== -1,
 			[formErrorState],
 		),
+		/**
+		 * A variable to determine when a form has been hydrated. This allows you to disable browser validation only once the JS validation is in place.
+		 * @example <form noValidate={isHydrated}></form>
+		 */
 		isHydrated: useHydrated(),
 	};
 }
