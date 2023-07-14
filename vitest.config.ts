@@ -8,6 +8,7 @@ export default defineConfig({
 	test: {
 		watchExclude: ["**/node_modules/**", "**/dist/**"],
 		globalSetup: ["./packages/cli/test-setup.ts"],
+		setupFiles: ["./packages/react/test-setup.ts"],
 		reporters: [
 			"default",
 			{

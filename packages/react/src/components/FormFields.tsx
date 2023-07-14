@@ -285,7 +285,7 @@ export const HelpText = forwardRef<HTMLDivElement, HelpTextProps>(
 			} else {
 				setHasHelpTextInFieldsetMessage(true);
 			}
-		}, []);
+		}, [isInAField, setHasHelpTextInFieldsetMessage, setHasHelpTextMessage]);
 		return (
 			<Comp id={helpTextId} {...divProps} ref={forwardedRef}>
 				{children}
@@ -308,27 +308,26 @@ export const ValidationError = forwardRef<HTMLDivElement, ValidationErrorProps>(
 		const setHasErrorMessageInFieldset = useContext(
 			HasErrorMessageInFieldsetDispatchContext,
 		);
-		const hasErrorMessage = useContext(HasErrorMessageContext);
+		const hasErrorMessage = Array.isArray(validationState)
+			? validationState.some((state) => state.messages !== undefined)
+			: validationState.messages !== undefined;
 		const Comp = asChild ? Slot : "div";
 		const validationErrorId = isInAField
 			? `${Id}-error`
 			: `${fieldsetId}-error`;
 
 		useEffect(() => {
-			let hasFoundError = false;
-			if (Array.isArray(validationState)) {
-				hasFoundError = validationState.some(
-					(state) => state.messages !== undefined,
-				);
-			} else {
-				hasFoundError = validationState.messages !== undefined;
-			}
 			if (isInAField) {
-				setHasErrorMessage(hasFoundError);
+				setHasErrorMessage(hasErrorMessage);
 			} else {
-				setHasErrorMessageInFieldset(hasFoundError);
+				setHasErrorMessageInFieldset(hasErrorMessage);
 			}
-		}, [setHasErrorMessage, setHasErrorMessageInFieldset, validationState]);
+		}, [
+			hasErrorMessage,
+			isInAField,
+			setHasErrorMessage,
+			setHasErrorMessageInFieldset,
+		]);
 
 		if (hasErrorMessage) {
 			let children;
@@ -415,7 +414,7 @@ export const InputIconGroup = forwardRef<HTMLDivElement, InputIconGroupProps>(
 			} else {
 				setTrailingIconsCount(icons.length);
 			}
-		}, [icons, iconPosition]);
+		}, [icons, iconPosition, setLeadingIconsCount, setTrailingIconsCount]);
 
 		return icons.length > 0 ? (
 			<div {...divProps} ref={forwardedRef}>
@@ -432,7 +431,7 @@ export type ControlProps = {
 export const Control = forwardRef<HTMLInputElement, ControlProps>(
 	function Control({ asChild, children, ...inputProps }, forwardedRef) {
 		const id = useContext(IdContext);
-		const fieldsetId = useContext(IdContext);
+		const fieldsetId = useContext(FieldsetIdContext);
 		const name = useContext(NameContext);
 		const isRequired = useContext(RequiredContext);
 		const hasErrorMessage = useContext(HasErrorMessageContext);
