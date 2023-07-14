@@ -19,7 +19,8 @@
 		"packages/browserslist-config",
 		"packages/eslint-config",
 		"packages/blocks-helpers",
-		"packages/react"
+		"packages/react",
+		"packages/dev-tools-helpers"
 	],
 	"scripts": {
 		"dev": "tsc -b --watch",
