@@ -1,5 +1,11 @@
 # @atomicsmash/http-response-codes
 
+## 1.2.0
+
+### Minor Changes
+
+- [#68](https://github.com/AtomicSmash/packages/pull/68) [`32dddf3`](https://github.com/AtomicSmash/packages/commit/32dddf36d372ac00305a6dd42d413e24971493f8) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Remove @total-typescript/ts-reset
+
 ## 1.1.0
 
 ### Minor Changes
