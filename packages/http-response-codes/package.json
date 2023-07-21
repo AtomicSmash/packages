@@ -1,0 +1,45 @@
+{
+	"name": "@atomicsmash/http-response-codes",
+	"version": "0.1.0",
+	"description": "A few helpers for handling http response codes.",
+	"keywords": [
+		"http codes",
+		"http response codes",
+		"response codes"
+	],
+	"homepage": "https://www.atomicsmash.co.uk/",
+	"license": "GPL-3.0-or-later",
+	"author": {
+		"name": "Atomic Smash",
+		"email": "npm@atomicsmash.co.uk",
+		"url": "https://www.atomicsmash.co.uk/"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/AtomicSmash/packages",
+		"directory": "packages/http-response-codes"
+	},
+	"files": [
+		"./dist/**/*"
+	],
+	"main": "./dist/index.js",
+	"types": "./dist/index.d.ts",
+	"publishConfig": {
+		"access": "public"
+	},
+	"scripts": {
+		"dev": "tsc --build --watch tsconfig.build.json",
+		"build": "npm-run-all clean compile",
+		"clean": "del-cli ./dist/ *.tsbuildinfo",
+		"compile": "tsc --build tsconfig.build.json",
+		"test": "TZ=\"Europe/Istanbul\" vitest run",
+		"test:ui": "TZ=\"Europe/Istanbul\" vitest --ui",
+		"test:coverage": "TZ=\"Europe/Istanbul\" vitest run --coverage",
+		"lint": "run-p lint:*",
+		"lint:eslint": "eslint --cache --cache-location ./node_modules/.cache/eslint . --ext .js,.ts,.jsx,.tsx",
+		"lint:types": "tsc"
+	},
+	"devDependencies": {
+		"@total-typescript/ts-reset": "^0.4.2"
+	}
+}
