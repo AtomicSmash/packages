@@ -1,5 +1,11 @@
 # @atomicsmash/http-response-codes
 
+## 1.1.0
+
+### Minor Changes
+
+- [#66](https://github.com/AtomicSmash/packages/pull/66) [`88981c7`](https://github.com/AtomicSmash/packages/commit/88981c76aebc3fb943f58b4ae0a5bdcf4d3687fb) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Add isValidResponseCode function
+
 ## 1.0.0
 
 ### Major Changes
