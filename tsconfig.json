@@ -13,6 +13,7 @@
 		{ "path": "./packages/date-php/tsconfig.build.json" },
 		{ "path": "./packages/blocks-helpers/tsconfig.build.json" },
 		{ "path": "./packages/react/tsconfig.build.json" },
-		{ "path": "./packages/dev-tools-helpers/tsconfig.build.json" }
+		{ "path": "./packages/dev-tools-helpers/tsconfig.build.json" },
+		{ "path": "./packages/http-response-codes/tsconfig.build.json" }
 	]
 }

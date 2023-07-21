@@ -20,7 +20,8 @@
 		"packages/eslint-config",
 		"packages/blocks-helpers",
 		"packages/react",
-		"packages/dev-tools-helpers"
+		"packages/dev-tools-helpers",
+		"packages/http-response-codes"
 	],
 	"scripts": {
 		"dev": "tsc -b --watch",
