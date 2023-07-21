@@ -1,5 +1,3 @@
-import "@total-typescript/ts-reset";
-
 type StatusCodeObject = {
 	statusCode: number;
 	statusMessage: string;
@@ -40,7 +38,7 @@ export function isInformationResponseCode(
 		| ClientErrorResponseCodes
 		| ServerErrorResponseCodes,
 ): code is InformationResponseCodes {
-	if (informationResponseCodes.includes(code)) {
+	if (informationResponseCodes.includes(code as InformationResponseCodes)) {
 		return true;
 	}
 	return false;
@@ -110,7 +108,7 @@ export function isSuccessfulResponseCode(
 		| ClientErrorResponseCodes
 		| ServerErrorResponseCodes,
 ): code is SuccessfulResponseCodes {
-	if (successfulResponseCodes.includes(code)) {
+	if (successfulResponseCodes.includes(code as SuccessfulResponseCodes)) {
 		return true;
 	}
 	return false;
@@ -176,7 +174,7 @@ export function isRedirectionResponseCode(
 		| ClientErrorResponseCodes
 		| ServerErrorResponseCodes,
 ): code is RedirectionResponseCodes {
-	if (redirectionResponseCodes.includes(code)) {
+	if (redirectionResponseCodes.includes(code as RedirectionResponseCodes)) {
 		return true;
 	}
 	return false;
@@ -342,7 +340,7 @@ export function isClientErrorResponseCode(
 		| ClientErrorResponseCodes
 		| ServerErrorResponseCodes,
 ): code is ClientErrorResponseCodes {
-	if (clientErrorResponseCodes.includes(code)) {
+	if (clientErrorResponseCodes.includes(code as ClientErrorResponseCodes)) {
 		return true;
 	}
 	return false;
@@ -418,7 +416,7 @@ export function isServerErrorResponseCode(
 		| ClientErrorResponseCodes
 		| ServerErrorResponseCodes,
 ): code is ServerErrorResponseCodes {
-	if (serverErrorResponseCodes.includes(code)) {
+	if (serverErrorResponseCodes.includes(code as ServerErrorResponseCodes)) {
 		return true;
 	}
 	return false;
@@ -435,10 +433,10 @@ export function isValidResponseCode(
 	code: number,
 ): code is AnyValidResponseCode {
 	return (
-		informationResponseCodes.includes(code) ||
-		successfulResponseCodes.includes(code) ||
-		redirectionResponseCodes.includes(code) ||
-		clientErrorResponseCodes.includes(code) ||
-		serverErrorResponseCodes.includes(code)
+		informationResponseCodes.includes(code as InformationResponseCodes) ||
+		successfulResponseCodes.includes(code as SuccessfulResponseCodes) ||
+		redirectionResponseCodes.includes(code as RedirectionResponseCodes) ||
+		clientErrorResponseCodes.includes(code as ClientErrorResponseCodes) ||
+		serverErrorResponseCodes.includes(code as ServerErrorResponseCodes)
 	);
 }

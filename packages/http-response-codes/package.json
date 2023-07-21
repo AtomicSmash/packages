@@ -38,8 +38,5 @@
 		"lint": "run-p lint:*",
 		"lint:eslint": "eslint --cache --cache-location ./node_modules/.cache/eslint . --ext .js,.ts,.jsx,.tsx",
 		"lint:types": "tsc"
-	},
-	"devDependencies": {
-		"@total-typescript/ts-reset": "^0.4.2"
 	}
 }
