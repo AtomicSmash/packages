@@ -430,3 +430,15 @@ export type AnyValidResponseCode =
 	| RedirectionResponseCodes
 	| ClientErrorResponseCodes
 	| ServerErrorResponseCodes;
+
+export function isValidResponseCode(
+	code: number,
+): code is AnyValidResponseCode {
+	return (
+		informationResponseCodes.includes(code) ||
+		successfulResponseCodes.includes(code) ||
+		redirectionResponseCodes.includes(code) ||
+		clientErrorResponseCodes.includes(code) ||
+		serverErrorResponseCodes.includes(code)
+	);
+}
