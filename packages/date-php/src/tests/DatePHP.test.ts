@@ -17,7 +17,7 @@ import {
 } from "../utils.js";
 // spell-checker:disable
 describe("Test Env Checks", () => {
-	it("should always be GMT+1 (same as BST)", () => {
+	it("should always be UTC+3", () => {
 		expect(new Date().getTimezoneOffset()).toBe(-180);
 	});
 });
