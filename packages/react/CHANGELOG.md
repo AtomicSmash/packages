@@ -1,5 +1,11 @@
 # @atomicsmash/react
 
+## 0.5.0
+
+### Minor Changes
+
+- [#70](https://github.com/AtomicSmash/packages/pull/70) [`8f87162`](https://github.com/AtomicSmash/packages/commit/8f87162c06f6c62e26795cf13f4c6cb09b9539e6) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Allow unknown types for setValidationState in useFormValidation.
+
 ## 0.4.0
 
 ### Minor Changes
