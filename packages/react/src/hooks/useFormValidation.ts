@@ -14,7 +14,7 @@ export function useFormValidation<SchemaType extends SomeZodObject>(
 		| {
 				type: "update_field";
 				fieldName: string;
-				fieldValue: string;
+				fieldValue: unknown;
 				customSchema?: ZodTypeAny;
 		  }
 		| {
@@ -114,7 +114,7 @@ export function useFormValidation<SchemaType extends SomeZodObject>(
 				customSchema = undefined,
 			}: {
 				fieldName: string;
-				fieldValue: string;
+				fieldValue: unknown;
 				customSchema?: ZodTypeAny;
 			}) => {
 				setFormErrorState({
