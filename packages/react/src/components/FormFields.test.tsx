@@ -1,5 +1,5 @@
 import { render, screen } from "@testing-library/react";
-import React, { ComponentPropsWithRef } from "react";
+import { ComponentPropsWithRef } from "react";
 import { expect, it, describe } from "vitest";
 import * as FormFields from "./FormFields";
 

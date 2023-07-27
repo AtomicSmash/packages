@@ -59,7 +59,7 @@ export function RequiredState({
 	children: ({ isRequired }: { isRequired: boolean }) => React.ReactNode;
 }) {
 	const isRequired = useContext(RequiredContext);
-	return children({ isRequired });
+	return <>{children({ isRequired })}</>;
 }
 
 export function ValidationState({
@@ -74,14 +74,18 @@ export function ValidationState({
 	}) => React.ReactNode;
 }) {
 	const validationState = useContext(ValidationStateContext);
-	return children({
-		validationState,
-		validationSummary: stateIsInvalid(validationState)
-			? "invalid"
-			: stateIsValid(validationState)
-			? "valid"
-			: null,
-	});
+	return (
+		<>
+			{children({
+				validationState,
+				validationSummary: stateIsInvalid(validationState)
+					? "invalid"
+					: stateIsValid(validationState)
+					? "valid"
+					: null,
+			})}
+		</>
+	);
 }
 
 export type FieldsetProps = {
