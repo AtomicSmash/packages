@@ -17,6 +17,7 @@ const SetIsShowingContext = createContext<
 	React.Dispatch<React.SetStateAction<boolean>>
 	// eslint-disable-next-line @typescript-eslint/no-empty-function
 >(() => {});
+const IsUsingCondition = createContext(false);
 
 export type RootProps = Pretty<
 	{
@@ -53,13 +54,18 @@ export function Root({
 		if (condition !== undefined) {
 			setIsShowingField(condition);
 		}
-	}, [condition]);
+	}, [condition, setIsShowingField]);
+	if (condition !== undefined && externalState !== null) {
+		throw new Error("You must not use the condition prop with externalState.");
+	}
 	return (
 		<TypeContext.Provider value={type}>
 			<HideClassContext.Provider value={hideClass}>
 				<IsShowingContext.Provider value={isShowingField}>
 					<SetIsShowingContext.Provider value={setIsShowingField}>
-						{children}
+						<IsUsingCondition.Provider value={condition !== undefined}>
+							{children}
+						</IsUsingCondition.Provider>
 					</SetIsShowingContext.Provider>
 				</IsShowingContext.Provider>
 			</HideClassContext.Provider>
@@ -78,6 +84,12 @@ export const Trigger = forwardRef<HTMLButtonElement, TriggerProps>(
 		const Comp = asChild ? Slot : "button";
 		const isShowingField = useContext(IsShowingContext);
 		const setIsShowingField = useContext(SetIsShowingContext);
+		const isUsingCondition = useContext(IsUsingCondition);
+		if (isUsingCondition) {
+			throw new Error(
+				"Rendering a trigger when using a condition will mean that the trigger does nothing. Either change the root to remove the condition or remove this trigger.",
+			);
+		}
 		return (
 			<Comp
 				ref={forwardedRef}
