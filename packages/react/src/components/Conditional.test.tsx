@@ -6,7 +6,19 @@ import * as Conditional from "./Conditional";
 
 const defaultCSS = `.hidden { display: none };`;
 
+const consoleError = console.error;
 describe("Tests for the Conditional components", () => {
+	beforeAll(() => {
+		console.error = (message: string) => {
+			if (message.includes("Consider adding an error boundary")) {
+				return;
+			}
+			return message;
+		};
+	});
+	afterAll(() => {
+		console.error = consoleError;
+	});
 	it("works with defaults", async () => {
 		const user = userEvent.setup();
 		render(

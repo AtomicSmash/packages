@@ -47,8 +47,19 @@ function TestSVG() {
 		</svg>
 	);
 }
-
+const consoleError = console.error;
 describe("Tests for the Form Fields components", () => {
+	beforeAll(() => {
+		console.error = (message: string) => {
+			if (message.includes("Consider adding an error boundary")) {
+				return;
+			}
+			return message;
+		};
+	});
+	afterAll(() => {
+		console.error = consoleError;
+	});
 	it("allows custom data attributes on all components", () => {
 		render(
 			<FormFields.Fieldset data-testid="fieldset">
