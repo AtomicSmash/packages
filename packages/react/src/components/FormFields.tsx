@@ -274,6 +274,7 @@ export const HelpText = forwardRef<HTMLDivElement, HelpTextProps>(
 	function HelpText({ asChild, children, ...divProps }, forwardedRef) {
 		const id = useContext(IdContext);
 		const fieldsetId = useContext(FieldsetIdContext);
+		const isInAFieldset = useContext(IsInAFieldsetContext);
 		const isInAField = useContext(IsInAFieldContext);
 		const Comp = asChild ? Slot : "div";
 		const helpTextId = isInAField
@@ -290,6 +291,12 @@ export const HelpText = forwardRef<HTMLDivElement, HelpTextProps>(
 				setHasHelpTextInFieldsetMessage(true);
 			}
 		}, [isInAField, setHasHelpTextInFieldsetMessage, setHasHelpTextMessage]);
+
+		if (!isInAFieldset && !isInAField) {
+			throw new Error(
+				"HelpText must be used within a Field component or a Fieldset component.",
+			);
+		}
 		return (
 			<Comp id={helpTextId} {...divProps} ref={forwardedRef}>
 				{children}
@@ -306,6 +313,7 @@ export const ValidationError = forwardRef<HTMLDivElement, ValidationErrorProps>(
 	function ValidationError({ asChild, ...divProps }, forwardedRef) {
 		const Id = useContext(IdContext);
 		const fieldsetId = useContext(FieldsetIdContext);
+		const isInAFieldset = useContext(IsInAFieldsetContext);
 		const isInAField = useContext(IsInAFieldContext);
 		const validationState = useContext(ValidationStateContext);
 		const setHasErrorMessage = useContext(HasErrorMessageDispatchContext);
@@ -332,6 +340,11 @@ export const ValidationError = forwardRef<HTMLDivElement, ValidationErrorProps>(
 			setHasErrorMessage,
 			setHasErrorMessageInFieldset,
 		]);
+		if (!isInAFieldset && !isInAField) {
+			throw new Error(
+				"ValidationError must be used within a Field component or a Fieldset component.",
+			);
+		}
 
 		if (hasErrorMessage) {
 			let children;

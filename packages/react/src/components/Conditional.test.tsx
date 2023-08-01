@@ -13,9 +13,7 @@ describe("Tests for the Conditional components", () => {
 			<>
 				<style>{defaultCSS}</style>
 				<Conditional.Root>
-					<Conditional.Trigger>
-						<button>Press me.</button>
-					</Conditional.Trigger>
+					<Conditional.Trigger>Press me.</Conditional.Trigger>
 					<Conditional.TrueContent>
 						<div>This content will show if the conditional is true.</div>
 					</Conditional.TrueContent>
@@ -53,9 +51,7 @@ describe("Tests for the Conditional components", () => {
 			<>
 				<style>{defaultCSS}</style>
 				<Conditional.Root type="display">
-					<Conditional.Trigger>
-						<button>Press me.</button>
-					</Conditional.Trigger>
+					<Conditional.Trigger>Press me.</Conditional.Trigger>
 					<Conditional.TrueContent>
 						<div>This content will show if the conditional is true.</div>
 					</Conditional.TrueContent>
@@ -93,9 +89,7 @@ describe("Tests for the Conditional components", () => {
 			<>
 				<style>{defaultCSS}</style>
 				<Conditional.Root type="render">
-					<Conditional.Trigger>
-						<button>Press me.</button>
-					</Conditional.Trigger>
+					<Conditional.Trigger>Press me.</Conditional.Trigger>
 					<Conditional.TrueContent>
 						<div>This content will show if the conditional is true.</div>
 					</Conditional.TrueContent>
@@ -138,9 +132,7 @@ describe("Tests for the Conditional components", () => {
 			<>
 				<style>{defaultCSS}</style>
 				<Conditional.Root defaultShowState={true}>
-					<Conditional.Trigger>
-						<button>Press me.</button>
-					</Conditional.Trigger>
+					<Conditional.Trigger>Press me.</Conditional.Trigger>
 					<Conditional.TrueContent>
 						<div>This content will show if the conditional is true.</div>
 					</Conditional.TrueContent>
@@ -178,9 +170,7 @@ describe("Tests for the Conditional components", () => {
 			<>
 				<style>{`.hide-this-please { display: none };`}</style>
 				<Conditional.Root hideClass="hide-this-please">
-					<Conditional.Trigger>
-						<button>Press me.</button>
-					</Conditional.Trigger>
+					<Conditional.Trigger>Press me.</Conditional.Trigger>
 					<Conditional.TrueContent>
 						<div>This content will show if the conditional is true.</div>
 					</Conditional.TrueContent>

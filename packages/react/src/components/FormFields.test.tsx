@@ -1,6 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import { ComponentPropsWithRef } from "react";
 import { expect, it, describe } from "vitest";
+import { ErrorStateValues } from "../exports/forms";
 import * as FormFields from "./FormFields";
 
 function LabelSuffix(spanProps: ComponentPropsWithRef<"span">) {
@@ -27,6 +28,23 @@ function LabelSuffix(spanProps: ComponentPropsWithRef<"span">) {
 				);
 			}}
 		</FormFields.RequiredState>
+	);
+}
+
+function TestSVG() {
+	return (
+		<svg
+			width="25"
+			height="24"
+			viewBox="0 0 25 24"
+			fill="none"
+			xmlns="http://www.w3.org/2000/svg"
+		>
+			<path
+				d="M24.7071 12.7071C25.0976 12.3166 25.0976 11.6834 24.7071 11.2929L18.3431 4.92893C17.9526 4.53841 17.3195 4.53841 16.9289 4.92893C16.5384 5.31946 16.5384 5.95262 16.9289 6.34315L22.5858 12L16.9289 17.6569C16.5384 18.0474 16.5384 18.6805 16.9289 19.0711C17.3195 19.4616 17.9526 19.4616 18.3431 19.0711L24.7071 12.7071ZM0 13H24V11H0V13Z"
+				fill="currentColor"
+			/>
+		</svg>
 	);
 }
 
@@ -198,7 +216,6 @@ describe("Tests for the Form Fields components", () => {
 			`${fieldId}-help-text ${fieldsetId}-help-text`,
 		);
 		expect(input).toHaveAttribute("aria-labelledby", `${fieldId}-label`);
-		expect(input).toHaveAttribute("aria-invalid", "false");
 		expect(input).toHaveAttribute("name", "testName");
 		expect(input).not.toHaveAttribute("class");
 
@@ -227,5 +244,323 @@ describe("Tests for the Form Fields components", () => {
 			"aria-describedby",
 			`${field2Id}-error ${field2Id}-help-text ${fieldset2Id}-error ${fieldset2Id}-help-text`,
 		);
+	});
+	it("allows users to set a custom id", () => {
+		render(
+			<FormFields.Fieldset data-testid="fieldset" uniqueId="test-id">
+				<FormFields.Field
+					name="test-name"
+					data-testid="field"
+					uniqueId="test-id-2"
+				></FormFields.Field>
+			</FormFields.Fieldset>,
+		);
+		expect(screen.getByTestId("fieldset").id).toBe("test-id");
+		expect(screen.getByTestId("field")).toHaveAttribute(
+			"data-field-id",
+			"test-id-2",
+		);
+	});
+	it("correctly sets required prop on input if set", () => {
+		render(
+			<>
+				<FormFields.Fieldset isRequired={true}>
+					<FormFields.Field name="test-name">
+						<FormFields.RequiredState>
+							{({ isRequired }) => {
+								return (
+									<div data-testid="RequiredState">
+										{isRequired ? "yes" : "no"}
+									</div>
+								);
+							}}
+						</FormFields.RequiredState>
+						<FormFields.Control data-testid="input" />
+					</FormFields.Field>
+				</FormFields.Fieldset>
+				<FormFields.Field name="test-name" isRequired={true}>
+					<FormFields.RequiredState>
+						{({ isRequired }) => {
+							return (
+								<div data-testid="RequiredState2">
+									{isRequired ? "yes" : "no"}
+								</div>
+							);
+						}}
+					</FormFields.RequiredState>
+					<FormFields.Control data-testid="input2" />
+				</FormFields.Field>
+				<FormFields.Fieldset isRequired={false}>
+					<FormFields.Field name="test-name">
+						<FormFields.RequiredState>
+							{({ isRequired }) => {
+								return (
+									<div data-testid="RequiredState3">
+										{isRequired ? "yes" : "no"}
+									</div>
+								);
+							}}
+						</FormFields.RequiredState>
+						<FormFields.Control data-testid="input3" />
+					</FormFields.Field>
+				</FormFields.Fieldset>
+				<FormFields.Field name="test-name" isRequired={false}>
+					<FormFields.RequiredState>
+						{({ isRequired }) => {
+							return (
+								<div data-testid="RequiredState4">
+									{isRequired ? "yes" : "no"}
+								</div>
+							);
+						}}
+					</FormFields.RequiredState>
+					<FormFields.Control data-testid="input4" />
+				</FormFields.Field>
+			</>,
+		);
+		expect(screen.getByTestId("input")).toBeRequired();
+		expect(screen.getByTestId("input2")).toBeRequired();
+		expect(screen.getByTestId("input3")).not.toBeRequired();
+		expect(screen.getByTestId("input4")).not.toBeRequired();
+		expect(screen.getByTestId("RequiredState")).toHaveTextContent("yes");
+		expect(screen.getByTestId("RequiredState2")).toHaveTextContent("yes");
+		expect(screen.getByTestId("RequiredState3")).toHaveTextContent("no");
+		expect(screen.getByTestId("RequiredState4")).toHaveTextContent("no");
+	});
+	it("correctly shows errors when the validationState prop is set", () => {
+		render(
+			<>
+				<FormFields.Fieldset
+					validationState={{
+						validity: "invalid",
+						messages: [{ message: "An error.", errorCode: "test_error" }],
+					}}
+				>
+					<FormFields.ValidationState>
+						{({ validationState, validationSummary }) => (
+							<div
+								data-testid="errorMessageManual"
+								data-summary={validationSummary}
+							>
+								{(validationState as ErrorStateValues).messages
+									?.map((messageGroup) => messageGroup.message)
+									.join(", ")}
+							</div>
+						)}
+					</FormFields.ValidationState>
+					<FormFields.ValidationError data-testid="errorMessage" />
+				</FormFields.Fieldset>
+				<FormFields.Field
+					name="testName"
+					validationState={{
+						validity: "invalid",
+						messages: [{ message: "An error.", errorCode: "test_error" }],
+					}}
+				>
+					<FormFields.ValidationState>
+						{({ validationState, validationSummary }) => (
+							<div
+								data-testid="errorMessageManual2"
+								data-summary={validationSummary}
+							>
+								{(validationState as ErrorStateValues).messages
+									?.map((messageGroup) => messageGroup.message)
+									.join(", ")}
+							</div>
+						)}
+					</FormFields.ValidationState>
+					<FormFields.ValidationError data-testid="errorMessage2" />
+				</FormFields.Field>
+				<FormFields.Fieldset
+					validationState={[
+						{
+							validity: "invalid",
+							messages: [{ message: "An error.", errorCode: "test_error" }],
+						},
+						{
+							validity: "invalid",
+							messages: [
+								{ message: "Another error.", errorCode: "test_error" },
+							],
+						},
+						{
+							validity: "valid",
+						},
+					]}
+				>
+					<FormFields.ValidationState>
+						{({ validationState, validationSummary }) => (
+							<div
+								data-testid="errorMessageManual3"
+								data-summary={validationSummary}
+							>
+								{(validationState as ErrorStateValues[])
+									.map((singleValidationState) =>
+										singleValidationState.messages
+											?.map((messageGroup) => messageGroup.message)
+											.join(", "),
+									)
+									.filter(Boolean)
+									.join(", ")}
+							</div>
+						)}
+					</FormFields.ValidationState>
+					<FormFields.ValidationError data-testid="errorMessage3" />
+				</FormFields.Fieldset>
+				<FormFields.Field
+					name="testName"
+					validationState={[
+						{
+							validity: "invalid",
+							messages: [{ message: "An error.", errorCode: "test_error" }],
+						},
+						{
+							validity: "invalid",
+							messages: [
+								{ message: "Another error.", errorCode: "test_error" },
+							],
+						},
+						{
+							validity: "valid",
+						},
+					]}
+				>
+					<FormFields.ValidationState>
+						{({ validationState, validationSummary }) => (
+							<div
+								data-testid="errorMessageManual4"
+								data-summary={validationSummary}
+							>
+								{(validationState as ErrorStateValues[])
+									.map((singleValidationState) =>
+										singleValidationState.messages
+											?.map((messageGroup) => messageGroup.message)
+											.join(", "),
+									)
+									.filter(Boolean)
+									.join(", ")}
+							</div>
+						)}
+					</FormFields.ValidationState>
+					<FormFields.ValidationError data-testid="errorMessage4" />
+				</FormFields.Field>
+			</>,
+		);
+		expect(screen.getByTestId("errorMessage")).toHaveTextContent("An error.");
+		expect(screen.getByTestId("errorMessageManual")).toHaveTextContent(
+			"An error.",
+		);
+		expect(screen.getByTestId("errorMessage2")).toHaveTextContent("An error.");
+		expect(screen.getByTestId("errorMessageManual2")).toHaveTextContent(
+			"An error.",
+		);
+		expect(screen.getByTestId("errorMessage3")).toHaveTextContent(
+			"An error., Another error.",
+		);
+		expect(screen.getByTestId("errorMessageManual3")).toHaveTextContent(
+			"An error., Another error.",
+		);
+		expect(screen.getByTestId("errorMessage4")).toHaveTextContent(
+			"An error., Another error.",
+		);
+		expect(screen.getByTestId("errorMessageManual4")).toHaveTextContent(
+			"An error., Another error.",
+		);
+	});
+	it("throws an error if rendering a legend outside of a fieldset component", () => {
+		expect(() =>
+			render(<FormFields.Legend>Test legend</FormFields.Legend>),
+		).toThrow("Legend must be used within a Fieldset component.");
+	});
+	it("throws an error if rendering a label outside of a field component", () => {
+		expect(() =>
+			render(<FormFields.Label>Test label</FormFields.Label>),
+		).toThrow("Label must be used within a Field component.");
+	});
+	it("throws an error if rendering a HelpText outside of a field or fieldset component", () => {
+		expect(() =>
+			render(<FormFields.HelpText>Test help text</FormFields.HelpText>),
+		).toThrow(
+			"HelpText must be used within a Field component or a Fieldset component.",
+		);
+	});
+	it("throws an error if rendering a ValidationError outside of a field or fieldset component", () => {
+		expect(() => render(<FormFields.ValidationError />)).toThrow(
+			"ValidationError must be used within a Field component or a Fieldset component.",
+		);
+	});
+	it("throws an error if rendering a InputWrapper outside of a field component", () => {
+		expect(() => render(<FormFields.InputWrapper />)).toThrow(
+			"InputWrapper must be used within a Field component.",
+		);
+	});
+	it("throws an error if rendering a InputIconGroup outside of a field component", () => {
+		expect(() =>
+			render(<FormFields.InputIconGroup iconPosition="leading" />),
+		).toThrow("InputIconGroup must be used within a Field component.");
+	});
+	it("correctly counts and renders icons if set on input wrapper", () => {
+		render(
+			<FormFields.Field name="test-name">
+				<FormFields.InputWrapper
+					data-testid="inputWrapper"
+					leadingIcons={
+						<FormFields.InputIconGroup
+							iconPosition="leading"
+							data-testid="leadingIcons"
+							icons={[<TestSVG key={"test-svg"} />]}
+						/>
+					}
+					trailingIcons={
+						<FormFields.InputIconGroup
+							iconPosition="trailing"
+							data-testid="trailingIcons"
+							icons={[
+								<TestSVG key={"test-svg"} />,
+								<TestSVG key={"test-svg-2"} />,
+							]}
+						/>
+					}
+				></FormFields.InputWrapper>
+			</FormFields.Field>,
+		);
+		const inputWrapper = screen.getByTestId("inputWrapper");
+		expect(inputWrapper).toBeInTheDocument();
+		// TODO: enable this test when this issue is resolved:
+		// https://github.com/testing-library/jest-dom/issues/280
+		//
+		// expect(inputWrapper).toHaveStyle({
+		// 	"--leadingIconsCount": "1",
+		// 	"--trailingIconsCount": "2",
+		// });
+		expect(screen.getByTestId("leadingIcons")).toBeInTheDocument();
+		expect(screen.getByTestId("trailingIcons")).toBeInTheDocument();
+	});
+	it("throws an error if rendering a Control outside of a field component", () => {
+		expect(() => render(<FormFields.Control />)).toThrow(
+			"Control must be used within a Field component.",
+		);
+	});
+	it("correctly renders a control element", () => {
+		render(
+			<>
+				<FormFields.Field name="test-name">
+					<FormFields.Control data-testid="input" type="email" />
+				</FormFields.Field>
+				<FormFields.Field name="test-name-2">
+					<FormFields.Control asChild>
+						<textarea data-testid="textarea"></textarea>
+					</FormFields.Control>
+				</FormFields.Field>
+			</>,
+		);
+		const emailInput = screen.getByTestId("input");
+		expect(emailInput).toBeInTheDocument();
+		expect(emailInput).toHaveAttribute("type", "email");
+		const textarea = screen.getByTestId("textarea");
+		expect(textarea).toBeInTheDocument();
+		expect(textarea.tagName.toLowerCase()).toBe("textarea");
+		expect(textarea).toHaveAttribute("aria-invalid", "false");
+		expect(textarea).toHaveAttribute("name", "test-name-2");
 	});
 });
