@@ -1,5 +1,11 @@
 # @atomicsmash/react
 
+## 1.0.0
+
+### Major Changes
+
+- [#72](https://github.com/AtomicSmash/packages/pull/72) [`a33805a`](https://github.com/AtomicSmash/packages/commit/a33805add2bb8bce96942bb4644e9476102893d2) Thanks [@mikeybinns](https://github.com/mikeybinns)! - v1 release of package
+
 ## 0.5.0
 
 ### Minor Changes
