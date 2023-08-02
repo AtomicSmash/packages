@@ -15,6 +15,7 @@ coverage
 # CLI package ignores
 packages/cli/src/tests/svg/out/*
 packages/cli/src/tests/artifacts/*
+!packages/cli/src/tests/artifacts/README.md
 packages/cli/src/tests/package.json
 packages/cli/src/tests/package-lock.json
 
