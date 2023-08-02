@@ -21,23 +21,31 @@ const IsUsingCondition = createContext(false);
 
 export type RootProps = Pretty<
 	{
-		type?: "render" | "display";
-		hideClass?: string;
 		children: React.ReactNode;
 	} & (
-		| {
-				defaultShowState?: boolean;
-				externalState?:
-					| [boolean, React.Dispatch<React.SetStateAction<boolean>>]
-					| null;
-				condition?: never;
-		  }
-		| {
-				defaultShowState?: never;
-				externalState?: never;
-				condition?: boolean;
-		  }
-	)
+		| { type?: "display"; hideClass?: string }
+		| { type: "render"; hideClass?: undefined }
+	) &
+		(
+			| {
+					externalState: [
+						boolean,
+						React.Dispatch<React.SetStateAction<boolean>>,
+					];
+					defaultShowState?: never;
+					condition?: never;
+			  }
+			| {
+					externalState?: null;
+					defaultShowState?: boolean;
+					condition?: never;
+			  }
+			| {
+					defaultShowState?: never;
+					externalState?: never;
+					condition?: boolean;
+			  }
+		)
 >;
 export function Root({
 	defaultShowState = false,
