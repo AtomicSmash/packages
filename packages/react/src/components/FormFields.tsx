@@ -9,90 +9,140 @@ import {
 	useId,
 	useState,
 } from "react";
-import { twMerge } from "tailwind-merge";
 import { displayErrorMessage } from "../shared/forms";
 
-export const IdContext = createContext("");
-export const NameContext = createContext("");
-export const RequiredContext = createContext(false);
-export const HasHelpTextMessageContext = createContext(false);
-export const HasHelpTextMessageDispatchContext = createContext<
+const FieldsetIdContext = createContext("");
+const IdContext = createContext("");
+const NameContext = createContext("");
+const IsInAFieldsetContext = createContext(false);
+const IsInAFieldContext = createContext(false);
+const RequiredContext = createContext(false);
+const HasHelpTextMessageContext = createContext(false);
+const HasHelpTextMessageDispatchContext = createContext<
 	React.Dispatch<React.SetStateAction<boolean>>
 	// eslint-disable-next-line @typescript-eslint/no-empty-function
 >(() => {});
-export const HasErrorMessageContext = createContext(false);
-export const HasErrorMessageDispatchContext = createContext<
+const HasErrorMessageContext = createContext(false);
+const HasErrorMessageDispatchContext = createContext<
 	React.Dispatch<React.SetStateAction<boolean>>
 	// eslint-disable-next-line @typescript-eslint/no-empty-function
 >(() => {});
-export const ValidationStateContext = createContext<
+const HasHelpTextMessageInFieldsetContext = createContext(false);
+const HasHelpTextMessageInFieldsetDispatchContext = createContext<
+	React.Dispatch<React.SetStateAction<boolean>>
+	// eslint-disable-next-line @typescript-eslint/no-empty-function
+>(() => {});
+const HasErrorMessageInFieldsetContext = createContext(false);
+const HasErrorMessageInFieldsetDispatchContext = createContext<
+	React.Dispatch<React.SetStateAction<boolean>>
+	// eslint-disable-next-line @typescript-eslint/no-empty-function
+>(() => {});
+const ValidationStateContext = createContext<
 	ErrorStateValues | ErrorStateValues[]
 >({
 	validity: null,
 });
-export const ControlClassNameContext = createContext("");
-export const LeadingIconsCountContext = createContext<number>(0);
-export const TrailingIconsCountContext = createContext<number>(0);
-export const LeadingIconsCountDispatchContext = createContext<
+const LeadingIconsCountContext = createContext<number>(0);
+const TrailingIconsCountContext = createContext<number>(0);
+const LeadingIconsCountDispatchContext = createContext<
 	React.Dispatch<React.SetStateAction<number>>
 	// eslint-disable-next-line @typescript-eslint/no-empty-function
 >(() => {});
-export const TrailingIconsCountDispatchContext = createContext<
+const TrailingIconsCountDispatchContext = createContext<
 	React.Dispatch<React.SetStateAction<number>>
 	// eslint-disable-next-line @typescript-eslint/no-empty-function
 >(() => {});
+
+export function RequiredState({
+	children,
+}: {
+	children: ({ isRequired }: { isRequired: boolean }) => React.ReactNode;
+}) {
+	const isRequired = useContext(RequiredContext);
+	return <>{children({ isRequired })}</>;
+}
+
+export function ValidationState({
+	children,
+}: {
+	children: ({
+		validationState,
+		validationSummary,
+	}: {
+		validationState: ErrorStateValues | ErrorStateValues[];
+		validationSummary: "invalid" | "valid" | null;
+	}) => React.ReactNode;
+}) {
+	const validationState = useContext(ValidationStateContext);
+	return (
+		<>
+			{children({
+				validationState,
+				validationSummary: stateIsInvalid(validationState)
+					? "invalid"
+					: stateIsValid(validationState)
+					? "valid"
+					: null,
+			})}
+		</>
+	);
+}
 
 export type FieldsetProps = {
 	uniqueId?: string | undefined;
 	isRequired?: boolean;
 	validationState?: ErrorStateValues | ErrorStateValues[];
 } & ComponentPropsWithRef<"fieldset">;
+
 export const Fieldset = forwardRef<HTMLFieldSetElement, FieldsetProps>(
 	function Fieldset(
 		{
 			uniqueId,
 			isRequired = false,
 			validationState = { validity: null },
-			className,
 			children,
 			...fieldsetProps
 		},
 		forwardedRef,
 	) {
 		const generatedId = useId();
-		const id = uniqueId !== undefined ? uniqueId : generatedId;
-		const [hasErrorMessage, setHasErrorMessage] = useState(false);
-		const [hasHelpTextMessage, setHasHelpTextMessage] = useState(false);
+		const fieldsetId = uniqueId !== undefined ? uniqueId : generatedId;
+		const [hasErrorMessageInFieldset, setHasErrorMessageInFieldset] =
+			useState(false);
+		const [hasHelpTextMessageInFieldset, setHasHelpTextMessageInFieldset] =
+			useState(false);
 		return (
-			<IdContext.Provider value={id}>
-				<RequiredContext.Provider value={isRequired}>
-					<HasErrorMessageContext.Provider value={hasErrorMessage}>
-						<HasHelpTextMessageContext.Provider value={hasHelpTextMessage}>
-							<HasErrorMessageDispatchContext.Provider
-								value={setHasErrorMessage}
+			<IsInAFieldsetContext.Provider value={true}>
+				<FieldsetIdContext.Provider value={fieldsetId}>
+					<RequiredContext.Provider value={isRequired}>
+						<HasErrorMessageInFieldsetContext.Provider
+							value={hasErrorMessageInFieldset}
+						>
+							<HasHelpTextMessageInFieldsetContext.Provider
+								value={hasHelpTextMessageInFieldset}
 							>
-								<HasHelpTextMessageDispatchContext.Provider
-									value={setHasHelpTextMessage}
+								<HasErrorMessageInFieldsetDispatchContext.Provider
+									value={setHasErrorMessageInFieldset}
 								>
-									<ValidationStateContext.Provider value={validationState}>
-										<fieldset
-											className={twMerge(
-												`group/fieldset p-0 m-0 border-0`,
-												className,
-											)}
-											id={id}
-											{...fieldsetProps}
-											ref={forwardedRef}
-										>
-											{children}
-										</fieldset>
-									</ValidationStateContext.Provider>
-								</HasHelpTextMessageDispatchContext.Provider>
-							</HasErrorMessageDispatchContext.Provider>
-						</HasHelpTextMessageContext.Provider>
-					</HasErrorMessageContext.Provider>
-				</RequiredContext.Provider>
-			</IdContext.Provider>
+									<HasHelpTextMessageInFieldsetDispatchContext.Provider
+										value={setHasHelpTextMessageInFieldset}
+									>
+										<ValidationStateContext.Provider value={validationState}>
+											<fieldset
+												id={fieldsetId}
+												{...fieldsetProps}
+												ref={forwardedRef}
+											>
+												{children}
+											</fieldset>
+										</ValidationStateContext.Provider>
+									</HasHelpTextMessageInFieldsetDispatchContext.Provider>
+								</HasErrorMessageInFieldsetDispatchContext.Provider>
+							</HasHelpTextMessageInFieldsetContext.Provider>
+						</HasErrorMessageInFieldsetContext.Provider>
+					</RequiredContext.Provider>
+				</FieldsetIdContext.Provider>
+			</IsInAFieldsetContext.Provider>
 		);
 	},
 );
@@ -100,39 +150,16 @@ export const Fieldset = forwardRef<HTMLFieldSetElement, FieldsetProps>(
 export type LegendProps = {
 	asChild?: boolean;
 } & ComponentPropsWithRef<"legend">;
-export const Legend = forwardRef<HTMLLegendElement, LegendProps>(
-	function Legend(
-		{ asChild, className, children, ...legendProps },
-		forwardedRef,
-	) {
-		const Comp = asChild ? Slot : "legend";
-		return (
-			<Comp
-				{...legendProps}
-				className={twMerge(`p-0 mb-5`, className)}
-				ref={forwardedRef}
-			>
-				{children}
-			</Comp>
-		);
-	},
-);
 
-export type FieldsetContentProps = {
-	asChild?: boolean;
-} & ComponentPropsWithRef<"div">;
-export const FieldsetContent = forwardRef<HTMLDivElement, FieldsetContentProps>(
-	function FieldsetContent(
-		{ asChild, className, children, ...divProps },
-		forwardedRef,
-	) {
-		const Comp = asChild ? Slot : "div";
+export const Legend = forwardRef<HTMLLegendElement, LegendProps>(
+	function Legend({ asChild, children, ...legendProps }, forwardedRef) {
+		const Comp = asChild ? Slot : "legend";
+		const isInAFieldset = useContext(IsInAFieldsetContext);
+		if (!isInAFieldset) {
+			throw new Error("Legend must be used within a Fieldset component.");
+		}
 		return (
-			<Comp
-				className={twMerge(`group/fieldset_content`, className)}
-				{...divProps}
-				ref={forwardedRef}
-			>
+			<Comp {...legendProps} ref={forwardedRef}>
 				{children}
 			</Comp>
 		);
@@ -140,11 +167,12 @@ export const FieldsetContent = forwardRef<HTMLDivElement, FieldsetContentProps>(
 );
 
 export type FieldProps = {
-	uniqueId?: string | undefined;
 	name: string;
+	uniqueId?: string | undefined;
 	isRequired?: boolean;
 	validationState?: ErrorStateValues | ErrorStateValues[];
 } & ComponentPropsWithRef<"div">;
+
 export const Field = forwardRef<HTMLDivElement, FieldProps>(function Field(
 	{
 		uniqueId,
@@ -165,213 +193,199 @@ export const Field = forwardRef<HTMLDivElement, FieldProps>(function Field(
 	const [trailingIconsCount, setTrailingIconsCount] = useState<number>(0);
 
 	return (
-		<IdContext.Provider value={id}>
-			<NameContext.Provider value={name}>
-				<RequiredContext.Provider
-					value={isRequired === undefined ? isRequiredFromContext : isRequired}
-				>
-					<HasErrorMessageContext.Provider value={hasErrorMessage}>
-						<HasHelpTextMessageContext.Provider value={hasHelpTextMessage}>
-							<HasErrorMessageDispatchContext.Provider
-								value={setHasErrorMessage}
-							>
-								<HasHelpTextMessageDispatchContext.Provider
-									value={setHasHelpTextMessage}
+		<IsInAFieldContext.Provider value={true}>
+			<IdContext.Provider value={id}>
+				<NameContext.Provider value={name}>
+					<RequiredContext.Provider
+						value={
+							isRequired === undefined ? isRequiredFromContext : isRequired
+						}
+					>
+						<HasErrorMessageContext.Provider value={hasErrorMessage}>
+							<HasHelpTextMessageContext.Provider value={hasHelpTextMessage}>
+								<HasErrorMessageDispatchContext.Provider
+									value={setHasErrorMessage}
 								>
-									<ValidationStateContext.Provider value={validationState}>
-										<LeadingIconsCountDispatchContext.Provider
-											value={setLeadingIconsCount}
-										>
-											<TrailingIconsCountDispatchContext.Provider
-												value={setTrailingIconsCount}
+									<HasHelpTextMessageDispatchContext.Provider
+										value={setHasHelpTextMessage}
+									>
+										<ValidationStateContext.Provider value={validationState}>
+											<LeadingIconsCountDispatchContext.Provider
+												value={setLeadingIconsCount}
 											>
-												<LeadingIconsCountContext.Provider
-													value={leadingIconsCount}
+												<TrailingIconsCountDispatchContext.Provider
+													value={setTrailingIconsCount}
 												>
-													<TrailingIconsCountContext.Provider
-														value={trailingIconsCount}
+													<LeadingIconsCountContext.Provider
+														value={leadingIconsCount}
 													>
-														<div
-															{...divProps}
-															className={twMerge(
-																"group/form_field",
-																divProps.className,
-															)}
-															ref={forwardedRef}
+														<TrailingIconsCountContext.Provider
+															value={trailingIconsCount}
 														>
-															{children}
-														</div>
-													</TrailingIconsCountContext.Provider>
-												</LeadingIconsCountContext.Provider>
-											</TrailingIconsCountDispatchContext.Provider>
-										</LeadingIconsCountDispatchContext.Provider>
-									</ValidationStateContext.Provider>
-								</HasHelpTextMessageDispatchContext.Provider>
-							</HasErrorMessageDispatchContext.Provider>
-						</HasHelpTextMessageContext.Provider>
-					</HasErrorMessageContext.Provider>
-				</RequiredContext.Provider>
-			</NameContext.Provider>
-		</IdContext.Provider>
+															<div
+																{...divProps}
+																data-field-id={id}
+																ref={forwardedRef}
+															>
+																{children}
+															</div>
+														</TrailingIconsCountContext.Provider>
+													</LeadingIconsCountContext.Provider>
+												</TrailingIconsCountDispatchContext.Provider>
+											</LeadingIconsCountDispatchContext.Provider>
+										</ValidationStateContext.Provider>
+									</HasHelpTextMessageDispatchContext.Provider>
+								</HasErrorMessageDispatchContext.Provider>
+							</HasHelpTextMessageContext.Provider>
+						</HasErrorMessageContext.Provider>
+					</RequiredContext.Provider>
+				</NameContext.Provider>
+			</IdContext.Provider>
+		</IsInAFieldContext.Provider>
 	);
 });
 
 export type LabelProps = {
 	asChild?: boolean;
 } & ComponentPropsWithRef<"label">;
+
 export const Label = forwardRef<HTMLLabelElement, LabelProps>(function Label(
-	{ asChild, className, children, ...labelProps },
+	{ asChild, children, ...labelProps },
 	forwardedRef,
 ) {
 	const Id = useContext(IdContext);
+	const isInAField = useContext(IsInAFieldContext);
+	if (!isInAField) {
+		throw new Error("Label must be used within a Field component.");
+	}
 	const Comp = asChild ? Slot : "label";
 	return (
-		<Comp
-			htmlFor={Id}
-			id={`${Id}-label`}
-			className={twMerge("inline-block", className)}
-			{...labelProps}
-			ref={forwardedRef}
-		>
+		<Comp htmlFor={Id} id={`${Id}-label`} {...labelProps} ref={forwardedRef}>
 			{children}
 		</Comp>
 	);
 });
 
-export type LabelSuffixProps = {
-	asChild?: boolean;
-	requiredClassName?: string;
-	optionalClassName?: string;
-} & Omit<ComponentPropsWithRef<"div">, "children">;
-export const LabelSuffix = forwardRef<HTMLSpanElement, LabelSuffixProps>(
-	function LabelSuffix(
-		{ asChild, className, requiredClassName, optionalClassName, ...divProps },
-		forwardedRef,
-	) {
-		const isRequired = useContext(RequiredContext);
-		const Comp = asChild ? Slot : "span";
-		if (isRequired) {
-			return (
-				<Comp
-					{...divProps}
-					className={twMerge(className, requiredClassName)}
-					ref={forwardedRef}
-				>
-					(required)
-				</Comp>
-			);
-		}
-		return (
-			<Comp
-				{...divProps}
-				className={twMerge(className, optionalClassName)}
-				ref={forwardedRef}
-			>
-				(optional)
-			</Comp>
-		);
-	},
-);
-
 export type HelpTextProps = {
 	asChild?: boolean;
 } & ComponentPropsWithRef<"div">;
+
 export const HelpText = forwardRef<HTMLDivElement, HelpTextProps>(
 	function HelpText({ asChild, children, ...divProps }, forwardedRef) {
-		const Id = useContext(IdContext);
+		const id = useContext(IdContext);
+		const fieldsetId = useContext(FieldsetIdContext);
+		const isInAFieldset = useContext(IsInAFieldsetContext);
+		const isInAField = useContext(IsInAFieldContext);
 		const Comp = asChild ? Slot : "div";
+		const helpTextId = isInAField
+			? `${id}-help-text`
+			: `${fieldsetId}-help-text`;
 		const setHasHelpTextMessage = useContext(HasHelpTextMessageDispatchContext);
+		const setHasHelpTextInFieldsetMessage = useContext(
+			HasHelpTextMessageInFieldsetDispatchContext,
+		);
 		useEffect(() => {
-			setHasHelpTextMessage(true);
-		}, []);
+			if (isInAField) {
+				setHasHelpTextMessage(true);
+			} else {
+				setHasHelpTextInFieldsetMessage(true);
+			}
+		}, [isInAField, setHasHelpTextInFieldsetMessage, setHasHelpTextMessage]);
+
+		if (!isInAFieldset && !isInAField) {
+			throw new Error(
+				"HelpText must be used within a Field component or a Fieldset component.",
+			);
+		}
 		return (
-			<Comp
-				id={`${Id}-help-text`}
-				{...divProps}
-				className={twMerge("field__help-text", divProps.className)}
-				ref={forwardedRef}
-			>
+			<Comp id={helpTextId} {...divProps} ref={forwardedRef}>
 				{children}
 			</Comp>
 		);
 	},
 );
 
-export type ErrorProps = {
-	render?: (divProps: ComponentPropsWithRef<"div">) => JSX.Element;
+export type ValidationErrorProps = {
+	asChild?: boolean;
 } & Omit<ComponentPropsWithRef<"div">, "children">;
-export const Error = forwardRef<HTMLDivElement, ErrorProps>(function Error(
-	{ render, ...divProps },
-	forwardedRef,
-) {
-	const Id = useContext(IdContext);
-	const validationState = useContext(ValidationStateContext);
-	const setHasErrorMessage = useContext(HasErrorMessageDispatchContext);
-	const hasErrorMessage = useContext(HasErrorMessageContext);
-	const className = twMerge("field__error", divProps.className);
 
-	useEffect(() => {
-		if (Array.isArray(validationState)) {
-			let hasFoundError = false;
-			for (const state of validationState) {
-				if (state.messages !== undefined) {
-					hasFoundError = true;
-					break;
-				}
-			}
-			setHasErrorMessage(hasFoundError);
-		} else {
-			setHasErrorMessage(validationState.messages !== undefined);
-		}
-	}, [setHasErrorMessage, validationState]);
-
-	if (hasErrorMessage) {
-		let children;
-		if (Array.isArray(validationState)) {
-			const arrayMessages: (string | undefined)[] = [];
-			for (const state of validationState) {
-				arrayMessages.push(displayErrorMessage(state));
-			}
-			const allMessages = arrayMessages.filter(
-				(message): message is string => message !== undefined,
-			);
-			children = allMessages.join(", ");
-		} else {
-			children = displayErrorMessage(validationState);
-		}
-		if (render) {
-			return render({
-				children,
-				id: `${Id}-error`,
-				className,
-				...divProps,
-			});
-		}
-		return (
-			<div
-				id={`${Id}-error`}
-				{...divProps}
-				className={className}
-				ref={forwardedRef}
-			>
-				{children}
-			</div>
+export const ValidationError = forwardRef<HTMLDivElement, ValidationErrorProps>(
+	function ValidationError({ asChild, ...divProps }, forwardedRef) {
+		const Id = useContext(IdContext);
+		const fieldsetId = useContext(FieldsetIdContext);
+		const isInAFieldset = useContext(IsInAFieldsetContext);
+		const isInAField = useContext(IsInAFieldContext);
+		const validationState = useContext(ValidationStateContext);
+		const setHasErrorMessage = useContext(HasErrorMessageDispatchContext);
+		const setHasErrorMessageInFieldset = useContext(
+			HasErrorMessageInFieldsetDispatchContext,
 		);
-	}
-	return null;
-});
+		const hasErrorMessage = Array.isArray(validationState)
+			? validationState.some((state) => state.messages !== undefined)
+			: validationState.messages !== undefined;
+		const Comp = asChild ? Slot : "div";
+		const validationErrorId = isInAField
+			? `${Id}-error`
+			: `${fieldsetId}-error`;
+
+		useEffect(() => {
+			if (isInAField) {
+				setHasErrorMessage(hasErrorMessage);
+			} else {
+				setHasErrorMessageInFieldset(hasErrorMessage);
+			}
+		}, [
+			hasErrorMessage,
+			isInAField,
+			setHasErrorMessage,
+			setHasErrorMessageInFieldset,
+		]);
+		if (!isInAFieldset && !isInAField) {
+			throw new Error(
+				"ValidationError must be used within a Field component or a Fieldset component.",
+			);
+		}
+
+		if (hasErrorMessage) {
+			let children;
+			if (Array.isArray(validationState)) {
+				const arrayMessages: (string | undefined)[] = [];
+				for (const state of validationState) {
+					arrayMessages.push(displayErrorMessage(state));
+				}
+				const allMessages = arrayMessages.filter(
+					(message): message is string => message !== undefined,
+				);
+				children = allMessages.join(", ");
+			} else {
+				children = displayErrorMessage(validationState);
+			}
+			return (
+				<Comp id={validationErrorId} {...divProps} ref={forwardedRef}>
+					{children}
+				</Comp>
+			);
+		}
+		return null;
+	},
+);
 
 export type InputWrapperProps = {
 	leadingIcons?: JSX.Element | undefined;
 	trailingIcons?: JSX.Element | undefined;
 } & ComponentPropsWithRef<"div">;
+
 export const InputWrapper = forwardRef<HTMLDivElement, InputWrapperProps>(
 	function InputWrapper(
-		{ leadingIcons, trailingIcons, children, className, ...divProps },
+		{ leadingIcons, trailingIcons, children, ...divProps },
 		forwardedRef,
 	) {
 		const leadingIconsCount = useContext(LeadingIconsCountContext);
 		const trailingIconsCount = useContext(TrailingIconsCountContext);
+		const isInAField = useContext(IsInAFieldContext);
+		if (!isInAField) {
+			throw new Error("InputWrapper must be used within a Field component.");
+		}
 		return (
 			<div
 				{...divProps}
@@ -379,36 +393,15 @@ export const InputWrapper = forwardRef<HTMLDivElement, InputWrapperProps>(
 				style={
 					{
 						...{
-							"--inputPadding": "0.875rem",
-							"--borderWidth": "2px",
-							"--iconGap": "0.5rem",
 							"--leadingIconsCount": leadingIconsCount,
 							"--trailingIconsCount": trailingIconsCount,
-							"--leadingIconsStartOffset": "0px", // calc functions must have units for zeros
-							"--trailingIconsStartOffset": "0px", // calc functions must have units for zeros
-							"--leadingIconsEndOffset": "0px", // calc functions must have units for zeros
-							"--trailingIconsEndOffset": "0px", // calc functions must have units for zeros
 						},
 						...divProps.style,
 					} as React.CSSProperties
 				}
-				className={`field__input-wrapper relative${
-					leadingIconsCount > 0 ? " field__input-wrapper--has-leading-icon" : ""
-				}${
-					trailingIconsCount > 0
-						? " field__input-wrapper--has-trailing-icon"
-						: ""
-				}`}
 			>
 				{leadingIcons ?? null}
-				<ControlClassNameContext.Provider
-					value={twMerge(
-						"p-[--inputPadding] pl-[calc(var(--inputPadding)_+_var(--leadingIconsStartOffset)_+_var(--leadingIconsEndOffset)_+_((var(--iconSize)_+_var(--iconGap))_*_var(--leadingIconsCount)))] pr-[calc(var(--inputPadding)_+_var(--trailingIconsStartOffset)+_var(--trailingIconsEndOffset)_+_((var(--iconSize)_+_var(--iconGap))_*_var(--trailingIconsCount)))]",
-						className,
-					)}
-				>
-					{children}
-				</ControlClassNameContext.Provider>
+				{children}
 				{trailingIcons ?? null}
 			</div>
 		);
@@ -419,13 +412,18 @@ export type InputIconGroupProps = {
 	icons?: JSX.Element[] | undefined;
 	iconPosition: "leading" | "trailing";
 } & Omit<ComponentPropsWithRef<"div">, "children">;
+
 export const InputIconGroup = forwardRef<HTMLDivElement, InputIconGroupProps>(
 	function InputIconGroup(
-		{ icons = [], iconPosition, className, ...divProps },
+		{ icons = [], iconPosition, ...divProps },
 		forwardedRef,
 	) {
 		const setLeadingIconsCount = useContext(LeadingIconsCountDispatchContext);
 		const setTrailingIconsCount = useContext(TrailingIconsCountDispatchContext);
+		const isInAField = useContext(IsInAFieldContext);
+		if (!isInAField) {
+			throw new Error("InputIconGroup must be used within a Field component.");
+		}
 
 		useEffect(() => {
 			if (iconPosition === "leading") {
@@ -433,21 +431,10 @@ export const InputIconGroup = forwardRef<HTMLDivElement, InputIconGroupProps>(
 			} else {
 				setTrailingIconsCount(icons.length);
 			}
-		}, [icons, iconPosition]);
+		}, [icons, iconPosition, setLeadingIconsCount, setTrailingIconsCount]);
 
 		return icons.length > 0 ? (
-			<div
-				{...divProps}
-				ref={forwardedRef}
-				className={twMerge(
-					`field__icon absolute h-[--iconSize] top-[calc(var(--inputPadding)+var(--borderWidth))] flex items-center gap-[--iconGap] field__icon--${iconPosition} ${
-						iconPosition === "leading"
-							? "left-[calc(var(--inputPadding)+var(--leadingIconsStartOffset))]"
-							: "right-[calc(var(--inputPadding)+var(--trailingIconsEndOffset))]"
-					}`,
-					className,
-				)}
-			>
+			<div {...divProps} ref={forwardedRef}>
 				{icons}
 			</div>
 		) : null;
@@ -457,29 +444,42 @@ export const InputIconGroup = forwardRef<HTMLDivElement, InputIconGroupProps>(
 export type ControlProps = {
 	asChild?: boolean;
 } & ComponentPropsWithRef<"input">;
+
 export const Control = forwardRef<HTMLInputElement, ControlProps>(
 	function Control({ asChild, children, ...inputProps }, forwardedRef) {
 		const id = useContext(IdContext);
+		const fieldsetId = useContext(FieldsetIdContext);
 		const name = useContext(NameContext);
 		const isRequired = useContext(RequiredContext);
 		const hasErrorMessage = useContext(HasErrorMessageContext);
 		const hasHelpTextMessage = useContext(HasHelpTextMessageContext);
+		const hasHelpTextMessageInFieldset = useContext(
+			HasHelpTextMessageInFieldsetContext,
+		);
+		const hasErrorMessageInFieldset = useContext(
+			HasErrorMessageInFieldsetContext,
+		);
 		const validationState = useContext(ValidationStateContext);
-		const controlClassName = useContext(ControlClassNameContext);
+		const isInAField = useContext(IsInAFieldContext);
+		if (!isInAField) {
+			throw new Error("Control must be used within a Field component.");
+		}
 		const Comp = asChild ? Slot : "input";
 		const describedBy = `${hasErrorMessage ? `${id}-error ` : ""}${
-			hasHelpTextMessage ? `${id}-help-text` : ""
-		}`;
+			hasHelpTextMessage ? `${id}-help-text ` : ""
+		}${hasErrorMessageInFieldset ? `${fieldsetId}-error ` : ""}${
+			hasHelpTextMessageInFieldset ? `${fieldsetId}-help-text` : ""
+		}`.trim();
 		return (
 			<Comp
 				id={id}
 				required={isRequired}
+				type="text"
 				aria-invalid={stateIsInvalid(validationState)}
 				aria-describedby={describedBy !== "" ? describedBy : undefined}
 				aria-labelledby={`${id}-label`}
 				name={name}
 				{...inputProps}
-				className={twMerge(controlClassName, inputProps.className)}
 				ref={forwardedRef}
 			>
 				{children}
@@ -488,7 +488,7 @@ export const Control = forwardRef<HTMLInputElement, ControlProps>(
 	},
 );
 
-export function stateIsInvalid(
+function stateIsInvalid(
 	validationState: ErrorStateValues | ErrorStateValues[],
 ) {
 	if (Array.isArray(validationState)) {
@@ -497,9 +497,7 @@ export function stateIsInvalid(
 	return validationState.validity === "invalid";
 }
 
-export function stateIsValid(
-	validationState: ErrorStateValues | ErrorStateValues[],
-) {
+function stateIsValid(validationState: ErrorStateValues | ErrorStateValues[]) {
 	if (Array.isArray(validationState)) {
 		return validationState.every((state) => state.validity === "valid");
 	}

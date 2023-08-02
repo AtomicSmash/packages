@@ -1,13 +1,34 @@
+import { readFileSync } from "node:fs";
+import os from "node:os";
 import { defineConfig } from "vitest/config";
 import {
 	setup as cliSetup,
 	teardown as cliTeardown,
 } from "./packages/cli/test-setup";
+import "dotenv/config";
+
+const userHomeDir = os.homedir();
 
 export default defineConfig({
+	server: {
+		https:
+			process.env.VITE_USE_HTTPS === "true"
+				? {
+						cert: readFileSync(
+							process.env.LOCALHOST_TLS_CERT_FILE ??
+								`${userHomeDir}/.certs/cert.pem`,
+						),
+						key: readFileSync(
+							process.env.LOCALHOST_TLS_KEY_FILE ??
+								`${userHomeDir}/.certs/key.pem`,
+						),
+				  }
+				: undefined,
+	},
 	test: {
 		watchExclude: ["**/node_modules/**", "**/dist/**"],
 		globalSetup: ["./packages/cli/test-setup.ts"],
+		setupFiles: ["./packages/react/test-setup.ts"],
 		reporters: [
 			"default",
 			{
