@@ -1,5 +1,11 @@
 # @atomicsmash/react
 
+## 1.1.0
+
+### Minor Changes
+
+- [#76](https://github.com/AtomicSmash/packages/pull/76) [`3291d1d`](https://github.com/AtomicSmash/packages/commit/3291d1d9eb0e74a50be0a41425720f591ea29d1b) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Fix build files
+
 ## 1.0.0
 
 ### Major Changes
