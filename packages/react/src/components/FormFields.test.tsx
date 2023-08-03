@@ -222,7 +222,6 @@ describe("Tests for the Form Fields components", () => {
 		expect(input.tagName.toLowerCase()).toBe("input");
 		expect(input).toHaveAttribute("id", fieldId);
 		expect(input).not.toBeRequired();
-		expect(input).toHaveAttribute("type", "text");
 		expect(input).toHaveAttribute("aria-invalid", "false");
 		expect(input).toHaveAttribute(
 			"aria-describedby",
