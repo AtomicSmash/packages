@@ -14,8 +14,36 @@ export type ErrorStateValues =
 			messages?: never;
 	  };
 
-export function displayErrorMessage(errorState: ErrorStateValues | undefined) {
-	return errorState?.messages?.map((error) => error.message).join(", ");
+export function combineErrorMessages(
+	validationState: ErrorStateValues | ErrorStateValues[],
+): string {
+	const collectedErrorMessages = new Set<string>();
+	if (Array.isArray(validationState)) {
+		for (const state of validationState) {
+			if (state.messages) {
+				for (const message of state.messages) {
+					collectedErrorMessages.add(message.message);
+				}
+			}
+		}
+	} else {
+		if (validationState.messages) {
+			for (const message of validationState.messages) {
+				collectedErrorMessages.add(message.message);
+			}
+		}
+	}
+	return [...collectedErrorMessages]
+		.map((message, index, array) => {
+			if (index === array.length - 1) {
+				return message;
+			}
+			if (message.endsWith(".")) {
+				return message.slice(0, -1);
+			}
+			return message;
+		})
+		.join(", ");
 }
 export const actionDataSchema = z.object({
 	errors: z.object({

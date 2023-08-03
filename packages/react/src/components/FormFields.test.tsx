@@ -4,7 +4,7 @@ import { ComponentPropsWithRef } from "react";
 import { expect, it, describe } from "vitest";
 
 const FormFields = Forms.Components;
-type ErrorStateValues = Forms.ErrorStateValues;
+const combineErrorMessages = Forms.combineErrorMessages;
 
 function LabelSuffix(spanProps: ComponentPropsWithRef<"span">) {
 	return (
@@ -355,9 +355,7 @@ describe("Tests for the Form Fields components", () => {
 								data-testid="errorMessageManual"
 								data-summary={validationSummary}
 							>
-								{(validationState as ErrorStateValues).messages
-									?.map((messageGroup) => messageGroup.message)
-									.join(", ")}
+								{combineErrorMessages(validationState)}
 							</div>
 						)}
 					</FormFields.ValidationState>
@@ -376,9 +374,7 @@ describe("Tests for the Form Fields components", () => {
 								data-testid="errorMessageManual2"
 								data-summary={validationSummary}
 							>
-								{(validationState as ErrorStateValues).messages
-									?.map((messageGroup) => messageGroup.message)
-									.join(", ")}
+								{combineErrorMessages(validationState)}
 							</div>
 						)}
 					</FormFields.ValidationState>
@@ -407,14 +403,7 @@ describe("Tests for the Form Fields components", () => {
 								data-testid="errorMessageManual3"
 								data-summary={validationSummary}
 							>
-								{(validationState as ErrorStateValues[])
-									.map((singleValidationState) =>
-										singleValidationState.messages
-											?.map((messageGroup) => messageGroup.message)
-											.join(", "),
-									)
-									.filter(Boolean)
-									.join(", ")}
+								{combineErrorMessages(validationState)}
 							</div>
 						)}
 					</FormFields.ValidationState>
@@ -444,14 +433,7 @@ describe("Tests for the Form Fields components", () => {
 								data-testid="errorMessageManual4"
 								data-summary={validationSummary}
 							>
-								{(validationState as ErrorStateValues[])
-									.map((singleValidationState) =>
-										singleValidationState.messages
-											?.map((messageGroup) => messageGroup.message)
-											.join(", "),
-									)
-									.filter(Boolean)
-									.join(", ")}
+								{combineErrorMessages(validationState)}
 							</div>
 						)}
 					</FormFields.ValidationState>
@@ -468,16 +450,16 @@ describe("Tests for the Form Fields components", () => {
 			"An error.",
 		);
 		expect(screen.getByTestId("errorMessage3")).toHaveTextContent(
-			"An error., Another error.",
+			"An error, Another error.",
 		);
 		expect(screen.getByTestId("errorMessageManual3")).toHaveTextContent(
-			"An error., Another error.",
+			"An error, Another error.",
 		);
 		expect(screen.getByTestId("errorMessage4")).toHaveTextContent(
-			"An error., Another error.",
+			"An error, Another error.",
 		);
 		expect(screen.getByTestId("errorMessageManual4")).toHaveTextContent(
-			"An error., Another error.",
+			"An error, Another error.",
 		);
 	});
 	it("throws an error if rendering a legend outside of a fieldset component", () => {
@@ -500,6 +482,60 @@ describe("Tests for the Form Fields components", () => {
 	it("throws an error if rendering a ValidationError outside of a field or fieldset component", () => {
 		expect(() => render(<FormFields.ValidationError />)).toThrow(
 			"ValidationError must be used within a Field component or a Fieldset component.",
+		);
+		expect(() =>
+			render(
+				<FormFields.Fieldset>
+					<FormFields.ValidationError />
+				</FormFields.Fieldset>,
+			),
+		).not.toThrow();
+		expect(() =>
+			render(
+				<FormFields.Field name="test">
+					<FormFields.ValidationError />
+				</FormFields.Field>,
+			),
+		).not.toThrow();
+	});
+	it("correctly ignores duplicate error messages", () => {
+		render(
+			<FormFields.Field
+				name="test"
+				validationState={{
+					validity: "invalid",
+					messages: [
+						{ message: "An error", errorCode: "code1" },
+						{ message: "An error", errorCode: "code2" },
+						{ message: "An error", errorCode: "code3" },
+					],
+				}}
+			>
+				<FormFields.ValidationError data-testid="errorMessage" />
+			</FormFields.Field>,
+		);
+		const errorMessage = screen.getByTestId("errorMessage");
+		expect(errorMessage).toHaveTextContent(/^An error$/);
+	});
+	it("correctly strips full stops when combining multiple error messages", () => {
+		render(
+			<FormFields.Field
+				name="test"
+				validationState={{
+					validity: "invalid",
+					messages: [
+						{ message: "An error.", errorCode: "code1" },
+						{ message: "Another error.", errorCode: "code2" },
+						{ message: "A third error.", errorCode: "code3" },
+					],
+				}}
+			>
+				<FormFields.ValidationError data-testid="errorMessage" />
+			</FormFields.Field>,
+		);
+		const errorMessage = screen.getByTestId("errorMessage");
+		expect(errorMessage).toHaveTextContent(
+			"An error, Another error, A third error.",
 		);
 	});
 	it("throws an error if rendering a InputWrapper outside of a field component", () => {
@@ -575,5 +611,61 @@ describe("Tests for the Form Fields components", () => {
 		expect(textarea.tagName.toLowerCase()).toBe("textarea");
 		expect(textarea).toHaveAttribute("aria-invalid", "false");
 		expect(textarea).toHaveAttribute("name", "test-name-2");
+	});
+	it("correctly renders elements asChild", () => {
+		render(
+			<FormFields.Fieldset
+				data-testid="fieldset"
+				validationState={{
+					validity: "invalid",
+					messages: [{ message: "An error.", errorCode: "test_error" }],
+				}}
+			>
+				<FormFields.Legend data-testid="legend" asChild>
+					<div>
+						Test legend <LabelSuffix data-testid="labelSuffixInFieldset" />
+					</div>
+				</FormFields.Legend>
+				<FormFields.HelpText data-testid="helpTextMessageInFieldset">
+					Some help text for a field.
+				</FormFields.HelpText>
+				<FormFields.ValidationError data-testid="errorMessageInFieldset" />
+				<FormFields.Field
+					data-testid="field"
+					name="testName"
+					validationState={{
+						validity: "invalid",
+						messages: [{ message: "An error.", errorCode: "test_error" }],
+					}}
+				>
+					<FormFields.Label data-testid="label" asChild>
+						<div>
+							Test label <LabelSuffix data-testid="labelSuffix" />
+						</div>
+					</FormFields.Label>
+					<FormFields.HelpText data-testid="helpTextMessage" asChild>
+						<section>Some help text for a field.</section>
+					</FormFields.HelpText>
+					<FormFields.ValidationError data-testid="errorMessage" asChild>
+						{(errorString) => <section>{errorString}</section>}
+					</FormFields.ValidationError>
+					<FormFields.InputWrapper data-testid="inputWrapper">
+						<FormFields.Control data-testid="textarea" asChild>
+							<textarea></textarea>
+						</FormFields.Control>
+					</FormFields.InputWrapper>
+				</FormFields.Field>
+			</FormFields.Fieldset>,
+		);
+		const legend = screen.getByTestId("legend");
+		expect(legend.tagName.toLowerCase()).toBe("div");
+		const label = screen.getByTestId("label");
+		expect(label.tagName.toLowerCase()).toBe("div");
+		const helpTextMessage = screen.getByTestId("helpTextMessage");
+		expect(helpTextMessage.tagName.toLowerCase()).toBe("section");
+		const errorMessage = screen.getByTestId("errorMessage");
+		expect(errorMessage.tagName.toLowerCase()).toBe("section");
+		const textarea = screen.getByTestId("textarea");
+		expect(textarea.tagName.toLowerCase()).toBe("textarea");
 	});
 });

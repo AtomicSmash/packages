@@ -9,7 +9,7 @@ import {
 	useId,
 	useState,
 } from "react";
-import { displayErrorMessage } from "../shared/forms";
+import { combineErrorMessages } from "../shared/forms";
 
 const FieldsetIdContext = createContext("");
 const IdContext = createContext("");
@@ -305,12 +305,20 @@ export const HelpText = forwardRef<HTMLDivElement, HelpTextProps>(
 	},
 );
 
-export type ValidationErrorProps = {
-	asChild?: boolean;
-} & ComponentPropsWithRef<"div">;
+export type ValidationErrorProps = (
+	| {
+			asChild: true;
+			children: (errorString: string) => React.ReactNode;
+	  }
+	| {
+			asChild?: false;
+			children?: never;
+	  }
+) &
+	Omit<ComponentPropsWithRef<"div">, "children">;
 
 export const ValidationError = forwardRef<HTMLDivElement, ValidationErrorProps>(
-	function ValidationError({ asChild, ...divProps }, forwardedRef) {
+	function ValidationError({ asChild, children, ...divProps }, forwardedRef) {
 		const Id = useContext(IdContext);
 		const fieldsetId = useContext(FieldsetIdContext);
 		const isInAFieldset = useContext(IsInAFieldsetContext);
@@ -323,7 +331,6 @@ export const ValidationError = forwardRef<HTMLDivElement, ValidationErrorProps>(
 		const hasErrorMessage = Array.isArray(validationState)
 			? validationState.some((state) => state.messages !== undefined)
 			: validationState.messages !== undefined;
-		const Comp = asChild ? Slot : "div";
 		const validationErrorId = isInAField
 			? `${Id}-error`
 			: `${fieldsetId}-error`;
@@ -347,23 +354,18 @@ export const ValidationError = forwardRef<HTMLDivElement, ValidationErrorProps>(
 		}
 
 		if (hasErrorMessage) {
-			let children;
-			if (Array.isArray(validationState)) {
-				const arrayMessages: (string | undefined)[] = [];
-				for (const state of validationState) {
-					arrayMessages.push(displayErrorMessage(state));
-				}
-				const allMessages = arrayMessages.filter(
-					(message): message is string => message !== undefined,
+			const errorString = combineErrorMessages(validationState);
+			if (asChild) {
+				return (
+					<Slot id={validationErrorId} {...divProps} ref={forwardedRef}>
+						{children(errorString)}
+					</Slot>
 				);
-				children = allMessages.join(", ");
-			} else {
-				children = displayErrorMessage(validationState);
 			}
 			return (
-				<Comp id={validationErrorId} {...divProps} ref={forwardedRef}>
-					{children}
-				</Comp>
+				<div id={validationErrorId} {...divProps} ref={forwardedRef}>
+					{errorString}
+				</div>
 			);
 		}
 		return null;
