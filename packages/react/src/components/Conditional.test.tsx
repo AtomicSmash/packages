@@ -1,8 +1,8 @@
+import { Conditional } from "@atomicsmash/react";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { useState } from "react";
 import { expect, describe, it } from "vitest";
-import * as Conditional from "./Conditional";
 
 const defaultCSS = `.hidden { display: none };`;
 

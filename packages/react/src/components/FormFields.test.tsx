@@ -1,8 +1,10 @@
+import { Forms } from "@atomicsmash/react";
 import { render, screen } from "@testing-library/react";
 import { ComponentPropsWithRef } from "react";
 import { expect, it, describe } from "vitest";
-import { ErrorStateValues } from "../exports/forms";
-import * as FormFields from "./FormFields";
+
+const FormFields = Forms.Components;
+type ErrorStateValues = Forms.ErrorStateValues;
 
 function LabelSuffix(spanProps: ComponentPropsWithRef<"span">) {
 	return (

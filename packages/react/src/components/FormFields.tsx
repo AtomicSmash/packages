@@ -307,7 +307,7 @@ export const HelpText = forwardRef<HTMLDivElement, HelpTextProps>(
 
 export type ValidationErrorProps = {
 	asChild?: boolean;
-} & Omit<ComponentPropsWithRef<"div">, "children">;
+} & ComponentPropsWithRef<"div">;
 
 export const ValidationError = forwardRef<HTMLDivElement, ValidationErrorProps>(
 	function ValidationError({ asChild, ...divProps }, forwardedRef) {
