@@ -476,7 +476,6 @@ export const Control = forwardRef<HTMLInputElement, ControlProps>(
 			<Comp
 				id={id}
 				required={isRequired}
-				type="text"
 				aria-invalid={stateIsInvalid(validationState)}
 				aria-describedby={describedBy !== "" ? describedBy : undefined}
 				aria-labelledby={`${id}-label`}
