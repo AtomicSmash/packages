@@ -1,5 +1,11 @@
 # @atomicsmash/react
 
+## 1.3.1
+
+### Patch Changes
+
+- [#82](https://github.com/AtomicSmash/packages/pull/82) [`b11268f`](https://github.com/AtomicSmash/packages/commit/b11268f2ac72b269aeaa865aacf03577149ba2ab) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Remove type text from control. Inputs default to text anyway and it applies to other elements if asChild is used.
+
 ## 1.3.0
 
 ### Minor Changes
