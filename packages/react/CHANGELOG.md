@@ -1,5 +1,11 @@
 # @atomicsmash/react
 
+## 1.2.0
+
+### Minor Changes
+
+- [#78](https://github.com/AtomicSmash/packages/pull/78) [`f2d05ec`](https://github.com/AtomicSmash/packages/commit/f2d05ec8042c8a83fdf20b2fbabc558960aed5ca) Thanks [@mikeybinns](https://github.com/mikeybinns)! - allow children for validation error so asChild works
+
 ## 1.1.0
 
 ### Minor Changes
