@@ -1,5 +1,11 @@
 # @atomicsmash/react
 
+## 1.3.0
+
+### Minor Changes
+
+- [#80](https://github.com/AtomicSmash/packages/pull/80) [`11ce579`](https://github.com/AtomicSmash/packages/commit/11ce5796bd80d2160ca8766c5801c08b0186ef70) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Update ValidationError to fix asChild and improve combination of error messages
+
 ## 1.2.0
 
 ### Minor Changes
