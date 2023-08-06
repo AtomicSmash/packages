@@ -213,8 +213,8 @@ describe("Tests for the Form Fields components", () => {
 		// https://github.com/testing-library/jest-dom/issues/280
 		//
 		// expect(inputWrapper).toHaveStyle({
-		// 	"--leadingIconsCount": "0",
-		// 	"--trailingIconsCount": "0",
+		// 	"--leading-icons-count": "0",
+		// 	"--trailing-icons-count": "0",
 		// });
 		expect(inputWrapper).not.toHaveAttribute("class");
 
@@ -578,8 +578,8 @@ describe("Tests for the Form Fields components", () => {
 		// https://github.com/testing-library/jest-dom/issues/280
 		//
 		// expect(inputWrapper).toHaveStyle({
-		// 	"--leadingIconsCount": "1",
-		// 	"--trailingIconsCount": "2",
+		// 	"--leading-icons-count": "1",
+		// 	"--trailing-icons-count": "2",
 		// });
 		expect(screen.getByTestId("leadingIcons")).toBeInTheDocument();
 		expect(screen.getByTestId("trailingIcons")).toBeInTheDocument();
