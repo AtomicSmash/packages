@@ -395,6 +395,8 @@ export const InputWrapper = forwardRef<HTMLDivElement, InputWrapperProps>(
 				style={
 					{
 						...{
+							"--leadingIconsCount": leadingIconsCount,
+							"--trailingIconsCount": trailingIconsCount,
 							"--leading-icons-count": leadingIconsCount,
 							"--trailing-icons-count": trailingIconsCount,
 						},
