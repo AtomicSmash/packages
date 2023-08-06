@@ -1,5 +1,13 @@
 # @atomicsmash/react
 
+## 1.4.0
+
+### Minor Changes
+
+- [#84](https://github.com/AtomicSmash/packages/pull/84) [`b1966bd`](https://github.com/AtomicSmash/packages/commit/b1966bd166fb5b8c08c2ebe07140313131153733) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Add kebab case versions of CSS variables which allows the user to select which ones they want to use in their project.
+
+- [#84](https://github.com/AtomicSmash/packages/pull/84) [`0c80269`](https://github.com/AtomicSmash/packages/commit/0c8026922c55aa6c6b064cb4d913c8e1e64d65e2) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Add public readme
+
 ## 1.3.1
 
 ### Patch Changes
