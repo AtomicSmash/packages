@@ -21,7 +21,8 @@
 		"packages/blocks-helpers",
 		"packages/react",
 		"packages/dev-tools-helpers",
-		"packages/http-response-codes"
+		"packages/http-response-codes",
+		"packages/test-utils"
 	],
 	"scripts": {
 		"dev": "tsc -b --watch",
