@@ -1,5 +1,11 @@
 # @atomicsmash/test-utils
 
+## 1.1.0
+
+### Minor Changes
+
+- [#92](https://github.com/AtomicSmash/packages/pull/92) [`05fefaf`](https://github.com/AtomicSmash/packages/commit/05fefaf05210009837fae09310d2851ef6f93f79) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Add option to hide lighthouse audit logs
+
 ## 1.0.1
 
 ### Patch Changes
