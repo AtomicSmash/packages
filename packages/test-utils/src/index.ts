@@ -96,7 +96,8 @@ type LighthouseTestFunction = Parameters<
 export const doLighthouseTest: (
 	pageToTest: PageList[number],
 	type: "desktop" | "mobile",
-) => LighthouseTestFunction = (pageToTest, type) =>
+	disableAuditLogs?: boolean,
+) => LighthouseTestFunction = (pageToTest, type, disableAuditLogs = false) =>
 	async function ({ port, authenticatedPage }) {
 		await authenticatedPage.goto(pageToTest.url);
 		await playAudit({
@@ -119,6 +120,7 @@ export const doLighthouseTest: (
 				? lighthouseDesktopConfig
 				: lighthouseMobileConfig) as Config,
 			ignoreError: true,
+			disableLogs: disableAuditLogs,
 		});
 		await authenticatedPage.goto(
 			`file://${process.cwd()}/lighthouse/latest-lighthouse-report/${
