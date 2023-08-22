@@ -6,7 +6,6 @@ import {
 	useContext,
 	useEffect,
 } from "react";
-import { twMerge } from "tailwind-merge";
 import { useOptionalExternalState } from "../hooks/useOptionalExternalState";
 import { Pretty } from "../shared/types";
 
@@ -88,7 +87,7 @@ export type TriggerProps = {
 		| React.ReactNode;
 } & Omit<ComponentPropsWithRef<"button">, "children">;
 export const Trigger = forwardRef<HTMLButtonElement, TriggerProps>(
-	function Trigger({ asChild, className, children }, forwardedRef) {
+	function Trigger({ asChild, children, ...props }, forwardedRef) {
 		const Comp = asChild ? Slot : "button";
 		const isShowingField = useContext(IsShowingContext);
 		const setIsShowingField = useContext(SetIsShowingContext);
@@ -100,9 +99,9 @@ export const Trigger = forwardRef<HTMLButtonElement, TriggerProps>(
 		}
 		return (
 			<Comp
+				{...props}
 				ref={forwardedRef}
 				type="button"
-				className={twMerge("group/conditional_input", className)}
 				onClick={() => setIsShowingField(!isShowingField)}
 			>
 				{typeof children === "function"
@@ -129,10 +128,9 @@ export const TrueContent = forwardRef<HTMLDivElement, ContentProps>(
 		return (
 			<Comp
 				{...divProps}
-				className={twMerge(
-					!isShowingField && conditionalType === "display" ? hideClass : "",
-					divProps.className,
-				)}
+				className={`${
+					!isShowingField && conditionalType === "display" ? hideClass : ""
+				}${divProps.className ? ` ${divProps.className}` : ""}`}
 				ref={forwardedRef}
 			>
 				{children}
@@ -152,10 +150,9 @@ export const FalseContent = forwardRef<HTMLDivElement, ContentProps>(
 		return (
 			<Comp
 				{...divProps}
-				className={twMerge(
-					isShowingField && conditionalType === "display" ? hideClass : "",
-					divProps.className,
-				)}
+				className={`${
+					isShowingField && conditionalType === "display" ? hideClass : ""
+				}${divProps.className ? ` ${divProps.className}` : ""}`}
 				ref={forwardedRef}
 			>
 				{children}
