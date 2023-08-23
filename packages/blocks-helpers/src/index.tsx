@@ -34,17 +34,11 @@ export type AttributesObject =
 	  } & (
 			| {
 					type: AttributeTypes | AttributeTypes[];
-					enum?:
-						| ReadonlyArray<boolean>
-						| ReadonlyArray<number>
-						| ReadonlyArray<string>;
+					enum?: readonly boolean[] | readonly number[] | readonly string[];
 			  }
 			| {
 					type?: AttributeTypes | AttributeTypes[];
-					enum:
-						| ReadonlyArray<boolean>
-						| ReadonlyArray<number>
-						| ReadonlyArray<string>;
+					enum: readonly boolean[] | readonly number[] | readonly string[];
 			  }
 	  );
 type ReadonlyRecursive<T> = {
@@ -139,6 +133,7 @@ export type WPDefinedPath = `file:${string}`;
  *
  * @see {@link https://developer.wordpress.org/block-editor/reference-guides/block-api/block-metadata/#wpdefinedasset}
  */
+// eslint-disable-next-line @typescript-eslint/no-redundant-type-constituents -- WPDefinedPath is defined by WordPress and may be extended in the future.
 export type WPDefinedAsset = WPDefinedPath | string;
 
 export type BlockMetaData<
@@ -329,14 +324,14 @@ export type BlockIsDeprecationEligibleFunction<
 	InterpretedAttributes extends Record<string, any>,
 > = (attributes: InterpretedAttributes, innerBlocks: InnerBlocks[]) => boolean;
 
-export interface BlockSaveProps<T extends Record<string, any>> {
+export type BlockSaveProps<T extends Record<string, any>> = {
 	readonly attributes: Readonly<T>;
 	readonly innerBlocks: Readonly<InnerBlocks[]>;
-}
-export interface BlockEditProps<
+};
+export type BlockEditProps<
 	Attributes extends Record<string, any>,
 	Context extends Record<string, any> = Record<string, never>,
-> {
+> = {
 	readonly clientId: string;
 	readonly attributes: Readonly<Attributes>;
 	readonly context: Context;
@@ -353,7 +348,7 @@ export interface BlockEditProps<
 	) => BlockInstance[] | undefined;
 	readonly setAttributes: (attributes: Partial<Attributes>) => void;
 	readonly toggleSelection: (isSelectionEnabled: boolean) => void;
-}
+};
 
 export type DeprecatedBlock<InterpretedAttributes extends Record<string, any>> =
 	{
@@ -474,8 +469,8 @@ export type PhrasingContentSchema = {
 export type TransformRawSchema = {
 	[k in keyof HTMLElementTagNameMap | "#text"]?: {
 		attributes?: string[] | undefined;
-		require?: Array<keyof HTMLElementTagNameMap> | undefined;
-		classes?: Array<string | RegExp> | undefined;
+		require?: (keyof HTMLElementTagNameMap)[] | undefined;
+		classes?: (string | RegExp)[] | undefined;
 		children?: TransformRawSchema | undefined;
 	};
 };
@@ -497,21 +492,21 @@ export type RawTypeTransform = {
 	priority?: number;
 };
 
-export interface WPShortCodeAttributes {
+export type WPShortCodeAttributes = {
 	named: Record<string, string | undefined>;
 	numeric: string[];
-}
+};
 
 export type WPShortCode = {
 	attrs: WPShortCodeAttributes;
 	tag: string;
 } & ({ type: "closed"; content: string } | { type: "self-closing" | "single" });
 
-export interface WPShortCodeMatch {
+export type WPShortCodeMatch = {
 	index: number;
 	content: string;
 	shortcode: WPShortCode;
-}
+};
 
 export type ShortCodeTypeTransform = {
 	type: "shortcode";

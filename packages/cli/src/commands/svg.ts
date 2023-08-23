@@ -81,6 +81,8 @@ export default function svg(args: string[]) {
 								for (const type of Object.values(result.symbol)) {
 									if (type.contents) {
 										mkdirSync(dirname(type.path), { recursive: true });
+										// TODO: find out how to remove this error.
+										// eslint-disable-next-line @typescript-eslint/no-base-to-string
 										writeFileSync(type.path, type.contents.toString());
 									}
 								}

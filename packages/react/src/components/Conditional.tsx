@@ -56,7 +56,7 @@ export function Root({
 	hideClass = "hidden",
 }: RootProps) {
 	const [isShowingField, setIsShowingField] = useOptionalExternalState(
-		externalState === null ? defaultShowState : externalState,
+		externalState ?? defaultShowState,
 	);
 	useEffect(() => {
 		if (condition !== undefined) {

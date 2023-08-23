@@ -1,4 +1,9 @@
-module.exports = {
+/** @type {import('eslint').Linter.Config} */
+const OFF = 0;
+const WARN = 1;
+const ERROR = 2;
+
+const config = {
 	ignorePatterns: [".eslintrc.cjs", "dist/**/*", "**/*.config.*"],
 	plugins: ["import"],
 	extends: ["eslint:recommended", "prettier"],
@@ -9,9 +14,9 @@ module.exports = {
 		es2022: true,
 	},
 	rules: {
-		"no-case-declarations": ["off"],
+		"no-case-declarations": [OFF],
 		"import/order": [
-			"error",
+			ERROR,
 			{
 				alphabetize: {
 					order: "asc",
@@ -29,9 +34,9 @@ module.exports = {
 				pathGroupsExcludedImportTypes: [],
 			},
 		],
-		"prefer-const": ["error"],
-		"no-var": ["error"],
-		"import/no-duplicates": "warn",
+		"prefer-const": [ERROR],
+		"no-var": [ERROR],
+		"import/no-duplicates": WARN,
 	},
 	overrides: [
 		{
@@ -40,14 +45,14 @@ module.exports = {
 			plugins: ["@typescript-eslint", "import"],
 			extends: [
 				"eslint:recommended",
-				"plugin:@typescript-eslint/recommended",
-				"plugin:@typescript-eslint/recommended-requiring-type-checking",
+				"plugin:@typescript-eslint/recommended-type-checked",
+				"plugin:@typescript-eslint/stylistic-type-checked",
 				"plugin:import/typescript",
 				"prettier",
 			],
 			rules: {
 				"@typescript-eslint/naming-convention": [
-					"error",
+					ERROR,
 					{
 						selector: "variableLike",
 						format: ["camelCase", "PascalCase", "UPPER_CASE"],
@@ -61,7 +66,10 @@ module.exports = {
 						prefix: ["is", "should", "has", "can", "did", "will"],
 					},
 				],
+				"@typescript-eslint/consistent-type-definitions": [ERROR, "type"],
+				"@typescript-eslint/non-nullable-type-assertion-style": OFF,
 			},
 		},
 	],
 };
+module.exports = config;
