@@ -1,5 +1,11 @@
 # @atomicsmash/cli
 
+## 4.0.1
+
+### Patch Changes
+
+- [#95](https://github.com/AtomicSmash/packages/pull/95) [`1b446f2`](https://github.com/AtomicSmash/packages/commit/1b446f2073511a71f5e9c6eedcf803804db35942) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Update packages to new ESLint standard
+
 ## 4.0.0
 
 ### Major Changes
