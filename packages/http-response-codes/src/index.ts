@@ -24,7 +24,7 @@ export const informationResponses = [
 		statusMessage: "Early Hints",
 		docs: "https://developer.mozilla.org/docs/Web/HTTP/Status/103",
 	},
-] as const satisfies ReadonlyArray<StatusCodeObject>;
+] as const satisfies readonly StatusCodeObject[];
 export const informationResponseCodes = informationResponses.map(
 	(code) => code.statusCode,
 );
@@ -95,7 +95,7 @@ export const successfulResponses = [
 		statusMessage: "IM Used",
 		docs: "https://developer.mozilla.org/docs/Web/HTTP/Status/226",
 	},
-] as const satisfies ReadonlyArray<StatusCodeObject>;
+] as const satisfies readonly StatusCodeObject[];
 export const successfulResponseCodes = successfulResponses.map(
 	(code) => code.statusCode,
 );
@@ -160,7 +160,7 @@ export const redirectionResponses = [
 		statusMessage: "Permanent Redirect",
 		docs: "https://developer.mozilla.org/docs/Web/HTTP/Status/308",
 	},
-] as const satisfies ReadonlyArray<StatusCodeObject>;
+] as const satisfies readonly StatusCodeObject[];
 export const redirectionResponseCodes = redirectionResponses.map(
 	(code) => code.statusCode,
 );
@@ -326,7 +326,7 @@ export const clientErrorResponses = [
 		statusMessage: "Unavailable For Legal Reasons",
 		docs: "https://developer.mozilla.org/docs/Web/HTTP/Status/451",
 	},
-] as const satisfies ReadonlyArray<StatusCodeObject>;
+] as const satisfies readonly StatusCodeObject[];
 export const clientErrorResponseCodes = clientErrorResponses.map(
 	(code) => code.statusCode,
 );
@@ -402,7 +402,7 @@ export const serverErrorResponses = [
 		statusMessage: "Network Authentication Required",
 		docs: "https://developer.mozilla.org/docs/Web/HTTP/Status/511",
 	},
-] as const satisfies ReadonlyArray<StatusCodeObject>;
+] as const satisfies readonly StatusCodeObject[];
 export const serverErrorResponseCodes = serverErrorResponses.map(
 	(code) => code.statusCode,
 );

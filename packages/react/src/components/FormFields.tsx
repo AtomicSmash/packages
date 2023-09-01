@@ -106,7 +106,7 @@ export const Fieldset = forwardRef<HTMLFieldSetElement, FieldsetProps>(
 		forwardedRef,
 	) {
 		const generatedId = useId();
-		const fieldsetId = uniqueId !== undefined ? uniqueId : generatedId;
+		const fieldsetId = uniqueId ?? generatedId;
 		const [hasErrorMessageInFieldset, setHasErrorMessageInFieldset] =
 			useState(false);
 		const [hasHelpTextMessageInFieldset, setHasHelpTextMessageInFieldset] =
@@ -185,7 +185,7 @@ export const Field = forwardRef<HTMLDivElement, FieldProps>(function Field(
 	forwardedRef,
 ) {
 	const generatedId = useId();
-	const id = uniqueId !== undefined ? uniqueId : generatedId;
+	const id = uniqueId ?? generatedId;
 	const [hasErrorMessage, setHasErrorMessage] = useState(false);
 	const [hasHelpTextMessage, setHasHelpTextMessage] = useState(false);
 	const isRequiredFromContext = useContext(RequiredContext);
@@ -196,11 +196,7 @@ export const Field = forwardRef<HTMLDivElement, FieldProps>(function Field(
 		<IsInAFieldContext.Provider value={true}>
 			<IdContext.Provider value={id}>
 				<NameContext.Provider value={name}>
-					<RequiredContext.Provider
-						value={
-							isRequired === undefined ? isRequiredFromContext : isRequired
-						}
-					>
+					<RequiredContext.Provider value={isRequired ?? isRequiredFromContext}>
 						<HasErrorMessageContext.Provider value={hasErrorMessage}>
 							<HasHelpTextMessageContext.Provider value={hasHelpTextMessage}>
 								<HasErrorMessageDispatchContext.Provider
