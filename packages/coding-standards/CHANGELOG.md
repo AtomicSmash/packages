@@ -1,5 +1,13 @@
 # @atomicsmash/coding-standards
 
+## 6.0.0
+
+### Patch Changes
+
+- Updated dependencies [[`1b446f2`](https://github.com/AtomicSmash/packages/commit/1b446f2073511a71f5e9c6eedcf803804db35942)]:
+  - @atomicsmash/eslint-config@6.0.0
+  - @atomicsmash/browserslist-config@6.0.0
+
 ## 5.0.0
 
 ### Major Changes
