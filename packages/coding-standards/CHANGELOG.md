@@ -1,5 +1,15 @@
 # @atomicsmash/coding-standards
 
+## 6.0.1
+
+### Patch Changes
+
+- [#97](https://github.com/AtomicSmash/packages/pull/97) [`70b1dc8`](https://github.com/AtomicSmash/packages/commit/70b1dc8aa1028b92796778aac137d7b8b4484431) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Update spelling definitions
+
+- Updated dependencies []:
+  - @atomicsmash/eslint-config@6.0.1
+  - @atomicsmash/browserslist-config@6.0.1
+
 ## 6.0.0
 
 ### Patch Changes
