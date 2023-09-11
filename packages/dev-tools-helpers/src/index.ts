@@ -1,25 +1,39 @@
+import { Faker } from "@faker-js/faker";
+
+type DataTypeToUse = "valid" | "invalid" | boolean;
 export function handleTextInput({
 	field,
-	valid,
-	invalid,
 	optional,
 	which,
 	visibleOnly,
+	...dataTypes
 }: {
 	field: string;
 	valid: string[];
 	invalid: string[];
+	faker?: (faker: Faker) => string;
 	optional?: boolean;
 	which?: "all" | "first";
 	visibleOnly?: boolean;
 }) {
-	return async function ({
+	return async function fillTextInput({
 		page,
-		useValidData,
+		dataTypeToUse,
 	}: {
 		page: string;
-		useValidData: boolean;
+		dataTypeToUse?: DataTypeToUse | "faker";
 	}) {
+		if (typeof dataTypeToUse === "boolean" || dataTypeToUse === undefined) {
+			console.error(
+				"Using a boolean value for data type is deprecated and will be removed in a future version.",
+			);
+			console.error(
+				`To migrate your function, replace ${
+					dataTypeToUse === undefined ? "undefined" : dataTypeToUse.toString()
+				} with (${dataTypeToUse ? `"valid"` : `"invalid"`})`,
+			);
+			dataTypeToUse = dataTypeToUse ? "valid" : "invalid";
+		}
 		const inputFieldElements = await new Promise<HTMLInputElement[]>(
 			(resolve) => {
 				resolve(Array.from(document.querySelectorAll<HTMLInputElement>(field)));
@@ -48,9 +62,26 @@ export function handleTextInput({
 					`Can't find the input with the selector ${field} for ${page}. Make sure the dev tools data object matches the page html.`,
 				);
 			}
-			const valueOptions = useValidData ? valid : invalid;
-			inputFieldElement.value =
-				valueOptions[Math.floor(Math.random() * valueOptions.length)];
+			if (dataTypeToUse === "faker") {
+				if (dataTypes.faker === undefined) {
+					throw new Error(
+						"You need to add a faker property to the input handler, or we don't know what value to generate.",
+					);
+				}
+				inputFieldElement.value = "Getting random value...";
+				// Faker is a large package, so we only want to get it dynamically as needed.
+				const { faker } = await import(
+					// @ts-expect-error - Can't get type info from CDN URL
+					"https://cdn.skypack.dev/@faker-js/faker@v8.0.2"
+					// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access -- Can't get type info from CDN URL
+				).then((module) => ({ faker: module.fakerEN_GB as Faker }));
+				inputFieldElement.value = dataTypes.faker(faker);
+			} else {
+				inputFieldElement.value =
+					dataTypes[dataTypeToUse][
+						Math.floor(Math.random() * dataTypes[dataTypeToUse].length)
+					];
+			}
 			// trigger error validation by focusing and blurring the input
 			inputFieldElement.focus();
 			inputFieldElement.blur();
@@ -61,11 +92,10 @@ export function handleTextInput({
 }
 export function handleSwitchInput({
 	field,
-	valid,
-	invalid,
 	optional,
 	which,
 	visibleOnly,
+	...dataTypes
 }: {
 	field: string;
 	valid: boolean;
@@ -74,13 +104,24 @@ export function handleSwitchInput({
 	which?: "all" | "first";
 	visibleOnly?: boolean;
 }) {
-	return async function ({
+	return async function fillSwitchInput({
 		page,
-		useValidData,
+		dataTypeToUse,
 	}: {
 		page: string;
-		useValidData: boolean;
+		dataTypeToUse?: DataTypeToUse;
 	}) {
+		if (typeof dataTypeToUse === "boolean" || dataTypeToUse === undefined) {
+			console.error(
+				"Using a boolean value for data type is deprecated and will be removed in a future version.",
+			);
+			console.error(
+				`To migrate your function, replace ${
+					dataTypeToUse === undefined ? "undefined" : dataTypeToUse.toString()
+				} with (${dataTypeToUse ? `"valid"` : `"invalid"`})`,
+			);
+			dataTypeToUse = dataTypeToUse ? "valid" : "invalid";
+		}
 		const switchElements = await new Promise<HTMLButtonElement[]>((resolve) => {
 			resolve(Array.from(document.querySelectorAll<HTMLButtonElement>(field)));
 		})
@@ -109,15 +150,17 @@ export function handleSwitchInput({
 			}
 
 			if (
-				(useValidData &&
-					valid &&
+				(dataTypeToUse === "valid" &&
+					dataTypes[dataTypeToUse] &&
 					switchElement.dataset.state === "unchecked") ||
-				(useValidData && !valid && switchElement.dataset.state === "checked") ||
-				(!useValidData &&
-					invalid === false &&
+				(dataTypeToUse === "valid" &&
+					!dataTypes[dataTypeToUse] &&
 					switchElement.dataset.state === "checked") ||
-				(!useValidData &&
-					invalid === true &&
+				(dataTypeToUse === "invalid" &&
+					dataTypes[dataTypeToUse] === false &&
+					switchElement.dataset.state === "checked") ||
+				(dataTypeToUse === "invalid" &&
+					dataTypes[dataTypeToUse] === true &&
 					switchElement.dataset.state === "unchecked")
 			) {
 				switchElement.click();
@@ -137,11 +180,10 @@ export function handleSwitchInput({
 export function handleSelectInput({
 	field,
 	isMultiple,
-	valid,
-	invalid,
 	optional,
 	which,
 	visibleOnly,
+	...dataTypes
 }: {
 	field: string;
 	isMultiple: boolean;
@@ -151,13 +193,24 @@ export function handleSelectInput({
 	which?: "all" | "first";
 	visibleOnly?: boolean;
 }) {
-	return async function ({
+	return async function fillSelectInput({
 		page,
-		useValidData,
+		dataTypeToUse,
 	}: {
 		page: string;
-		useValidData: boolean;
+		dataTypeToUse?: DataTypeToUse;
 	}) {
+		if (typeof dataTypeToUse === "boolean" || dataTypeToUse === undefined) {
+			console.error(
+				"Using a boolean value for data type is deprecated and will be removed in a future version.",
+			);
+			console.error(
+				`To migrate your function, replace ${
+					dataTypeToUse === undefined ? "undefined" : dataTypeToUse.toString()
+				} with (${dataTypeToUse ? `"valid"` : `"invalid"`})`,
+			);
+			dataTypeToUse = dataTypeToUse ? "valid" : "invalid";
+		}
 		const selectFieldElements = await new Promise<HTMLSelectElement[]>(
 			(resolve) => {
 				resolve(
@@ -188,11 +241,10 @@ export function handleSelectInput({
 					`Can't find the select input with the selector ${field} for ${page}. Make sure the dev tools data object matches the page html.`,
 				);
 			}
-			const valueOptions = useValidData ? valid : invalid;
 			const options = selectFieldElement.getElementsByTagName("option");
 			if (isMultiple) {
 				for (const option of options) {
-					if (valueOptions.includes(option.value)) {
+					if (dataTypes[dataTypeToUse].includes(option.value)) {
 						option.selected = true;
 					} else {
 						option.selected = false;
@@ -200,7 +252,9 @@ export function handleSelectInput({
 				}
 			} else {
 				const value =
-					valueOptions[Math.floor(Math.random() * valueOptions.length)];
+					dataTypes[dataTypeToUse][
+						Math.floor(Math.random() * dataTypes[dataTypeToUse].length)
+					];
 				selectFieldElement.value = value;
 				for (const option of options) {
 					if (option.value.toString() === value) {
@@ -218,6 +272,7 @@ export function handleSelectInput({
 		}
 	};
 }
+
 export function constructFillPageForm(
 	pageFormData: Record<
 		string,
@@ -232,40 +287,59 @@ export function constructFillPageForm(
 		}
 	>,
 ) {
-	return async function fillPageForm(
+	async function fillPageForm(
 		page: string | undefined,
-		useValidData = true,
-	) {
-		try {
-			if (page === undefined || pageFormData[page] === undefined) {
-				throw new Error(
-					"Unable to find a match for the current page. Either there is no form elements to fill, or the page hasn't been added to the dev tools data array.",
-				);
-			}
-			const beforeAll = pageFormData[page].beforeAll;
-			if (beforeAll) {
-				beforeAll();
-			}
-			for (const input of pageFormData[page].inputs) {
-				await input({ page, useValidData });
-			}
-			const afterAll = pageFormData[page].afterAll;
-			if (afterAll) {
-				afterAll();
-			}
-		} catch (error) {
-			const devToolsErrorElement = document.getElementById("devToolsError");
-			if (!devToolsErrorElement) {
-				console.error(
-					"Can't find the devToolsErrorElement to output an error to.",
-				);
-				return;
-			}
-			if (error instanceof Error) {
-				devToolsErrorElement.innerHTML = error.message;
-			} else if (typeof error === "string") {
-				devToolsErrorElement.innerHTML = error;
+		dataTypeToUse: "valid" | true,
+		useFakerWherePossible?: true,
+	): Promise<void>;
+	async function fillPageForm(
+		page: string | undefined,
+		dataTypeToUse?: "invalid" | false,
+		useFakerWherePossible?: never,
+	): Promise<void>;
+	async function fillPageForm(
+		page: string | undefined,
+		dataTypeToUse?: DataTypeToUse,
+		useFakerWherePossible?: true,
+	): Promise<void> {
+		if (typeof dataTypeToUse === "boolean" || dataTypeToUse === undefined) {
+			console.error(
+				"Using a boolean value for data type is deprecated and will be removed in a future version.",
+			);
+			console.error(
+				`To migrate your function, replace ${
+					dataTypeToUse === undefined ? "undefined" : dataTypeToUse.toString()
+				} with (${dataTypeToUse ? `"valid"` : `"invalid"`})`,
+			);
+			dataTypeToUse = dataTypeToUse ? "valid" : "invalid";
+		}
+		if (page === undefined || pageFormData[page] === undefined) {
+			throw new Error(
+				"Unable to find a match for the current page. Either there is no form elements to fill, or the page hasn't been added to the dev tools data array.",
+			);
+		}
+		const beforeAll = pageFormData[page].beforeAll;
+		if (beforeAll) {
+			beforeAll();
+		}
+		for (const input of pageFormData[page].inputs) {
+			if (input.name === "fillTextInput") {
+				await (input as ReturnType<typeof handleTextInput>)({
+					page,
+					dataTypeToUse:
+						useFakerWherePossible === true ? "faker" : dataTypeToUse,
+				});
+			} else {
+				await input({
+					page,
+					dataTypeToUse,
+				});
 			}
 		}
-	};
+		const afterAll = pageFormData[page].afterAll;
+		if (afterAll) {
+			afterAll();
+		}
+	}
+	return fillPageForm;
 }

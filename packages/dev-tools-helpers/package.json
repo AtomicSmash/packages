@@ -37,5 +37,8 @@
 		"lint": "run-p lint:*",
 		"lint:eslint": "eslint --cache --cache-location ./node_modules/.cache/eslint . --ext .js,.ts,.jsx,.tsx",
 		"lint:types": "tsc"
+	},
+	"devDependencies": {
+		"@faker-js/faker": "^8.0.2"
 	}
 }
