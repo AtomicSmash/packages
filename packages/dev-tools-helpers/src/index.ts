@@ -30,9 +30,9 @@ export function handleTextInput({
 			console.error(
 				`To migrate your function, replace ${
 					dataTypeToUse === undefined ? "undefined" : dataTypeToUse.toString()
-				} with (${dataTypeToUse ? `"valid"` : `"invalid"`})`,
+				} with (${dataTypeToUse === false ? `"invalid"` : `"valid"`})`,
 			);
-			dataTypeToUse = dataTypeToUse ? "valid" : "invalid";
+			dataTypeToUse = dataTypeToUse === false ? "invalid" : "valid";
 		}
 		const inputFieldElements = await new Promise<HTMLInputElement[]>(
 			(resolve) => {
@@ -118,9 +118,9 @@ export function handleSwitchInput({
 			console.error(
 				`To migrate your function, replace ${
 					dataTypeToUse === undefined ? "undefined" : dataTypeToUse.toString()
-				} with (${dataTypeToUse ? `"valid"` : `"invalid"`})`,
+				} with (${dataTypeToUse === false ? `"invalid"` : `"valid"`})`,
 			);
-			dataTypeToUse = dataTypeToUse ? "valid" : "invalid";
+			dataTypeToUse = dataTypeToUse === false ? "invalid" : "valid";
 		}
 		const switchElements = await new Promise<HTMLButtonElement[]>((resolve) => {
 			resolve(Array.from(document.querySelectorAll<HTMLButtonElement>(field)));
@@ -207,9 +207,9 @@ export function handleSelectInput({
 			console.error(
 				`To migrate your function, replace ${
 					dataTypeToUse === undefined ? "undefined" : dataTypeToUse.toString()
-				} with (${dataTypeToUse ? `"valid"` : `"invalid"`})`,
+				} with (${dataTypeToUse === false ? `"invalid"` : `"valid"`})`,
 			);
-			dataTypeToUse = dataTypeToUse ? "valid" : "invalid";
+			dataTypeToUse = dataTypeToUse === false ? "invalid" : "valid";
 		}
 		const selectFieldElements = await new Promise<HTMLSelectElement[]>(
 			(resolve) => {
@@ -309,9 +309,9 @@ export function constructFillPageForm(
 			console.error(
 				`To migrate your function, replace ${
 					dataTypeToUse === undefined ? "undefined" : dataTypeToUse.toString()
-				} with (${dataTypeToUse ? `"valid"` : `"invalid"`})`,
+				} with (${dataTypeToUse === false ? `"invalid"` : `"valid"`})`,
 			);
-			dataTypeToUse = dataTypeToUse ? "valid" : "invalid";
+			dataTypeToUse = dataTypeToUse === false ? "invalid" : "valid";
 		}
 		if (page === undefined || pageFormData[page] === undefined) {
 			throw new Error(
