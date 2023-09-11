@@ -1,5 +1,11 @@
 # @atomicsmash/dev-tools-helpers
 
+## 1.1.0
+
+### Minor Changes
+
+- [#99](https://github.com/AtomicSmash/packages/pull/99) [`ceb4eed`](https://github.com/AtomicSmash/packages/commit/ceb4eeda6fe2589c061556dc4022499a1a7f42d0) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Update form fill to add faker for randomised data
+
 ## 1.0.0
 
 ### Major Changes
