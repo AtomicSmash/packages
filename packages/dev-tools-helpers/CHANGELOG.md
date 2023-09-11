@@ -1,5 +1,11 @@
 # @atomicsmash/dev-tools-helpers
 
+## 1.1.1
+
+### Patch Changes
+
+- [#101](https://github.com/AtomicSmash/packages/pull/101) [`29dde8f`](https://github.com/AtomicSmash/packages/commit/29dde8f9f0e84da069e3f577973a1136f9c74047) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Undefined should be valid, not invalid data.
+
 ## 1.1.0
 
 ### Minor Changes
