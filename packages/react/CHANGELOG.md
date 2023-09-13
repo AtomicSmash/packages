@@ -1,5 +1,11 @@
 # @atomicsmash/react
 
+## 1.5.0
+
+### Minor Changes
+
+- [#103](https://github.com/AtomicSmash/packages/pull/103) [`1f60ce7`](https://github.com/AtomicSmash/packages/commit/1f60ce77d109dbb48dc1fd52019102ede2850348) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Add reset method to set error state to neutral
+
 ## 1.4.1
 
 ### Patch Changes
