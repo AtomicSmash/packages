@@ -20,6 +20,9 @@
 		"directory": "packages/eslint-config"
 	},
 	"main": "index.js",
+	"files": [
+		"index.js"
+	],
 	"publishConfig": {
 		"access": "public"
 	},
