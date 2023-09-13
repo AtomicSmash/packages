@@ -23,7 +23,7 @@
 	"publishConfig": {
 		"access": "public"
 	},
-	"dependencies": {
+	"peerDependencies": {
 		"@typescript-eslint/eslint-plugin": "^6.4.1",
 		"@typescript-eslint/parser": "^6.4.1",
 		"eslint": "^8.44.0",
