@@ -6,7 +6,6 @@ import {
 	useContext,
 	useEffect,
 } from "react";
-import { twMerge } from "tailwind-merge";
 import { useOptionalExternalState } from "../hooks/useOptionalExternalState";
 import { Pretty } from "../shared/types";
 
@@ -102,7 +101,7 @@ export const Trigger = forwardRef<HTMLButtonElement, TriggerProps>(
 			<Comp
 				ref={forwardedRef}
 				type="button"
-				className={twMerge("group/conditional_input", className)}
+				className={`group/conditional_input${className ? ` ${className}` : ""}`}
 				onClick={() => setIsShowingField(!isShowingField)}
 			>
 				{typeof children === "function"
@@ -129,10 +128,9 @@ export const TrueContent = forwardRef<HTMLDivElement, ContentProps>(
 		return (
 			<Comp
 				{...divProps}
-				className={twMerge(
-					!isShowingField && conditionalType === "display" ? hideClass : "",
-					divProps.className,
-				)}
+				className={`${
+					!isShowingField && conditionalType === "display" ? hideClass : ""
+				}${divProps.className ? ` ${divProps.className}` : ""}`}
 				ref={forwardedRef}
 			>
 				{children}
@@ -152,10 +150,9 @@ export const FalseContent = forwardRef<HTMLDivElement, ContentProps>(
 		return (
 			<Comp
 				{...divProps}
-				className={twMerge(
-					isShowingField && conditionalType === "display" ? hideClass : "",
-					divProps.className,
-				)}
+				className={`${
+					isShowingField && conditionalType === "display" ? hideClass : ""
+				}${divProps.className ? ` ${divProps.className}` : ""}`}
 				ref={forwardedRef}
 			>
 				{children}
