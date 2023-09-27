@@ -1,5 +1,5 @@
 {
-	"name": "@atomicsmash/date_php",
+	"name": "@atomicsmash/date-php",
 	"version": "2.0.0",
 	"description": "A JS date library built to emulate PHP date formats.",
 	"keywords": [

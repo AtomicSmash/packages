@@ -1,6 +1,6 @@
 {
 	"name": "@atomicsmash/eslint-config",
-	"version": "5.0.0",
+	"version": "7.0.0",
 	"description": "An ESLint config made by Atomic Smash.",
 	"keywords": [
 		"atomic",
@@ -20,14 +20,17 @@
 		"directory": "packages/eslint-config"
 	},
 	"main": "index.js",
+	"files": [
+		"index.js"
+	],
 	"publishConfig": {
 		"access": "public"
 	},
-	"dependencies": {
-		"@typescript-eslint/eslint-plugin": "^5.62.0",
-		"@typescript-eslint/parser": "^5.62.0",
+	"peerDependencies": {
+		"@typescript-eslint/eslint-plugin": "^6.4.1",
+		"@typescript-eslint/parser": "^6.4.1",
 		"eslint": "^8.44.0",
-		"eslint-config-prettier": "^8.8.0",
+		"eslint-config-prettier": "^9.0.0",
 		"eslint-import-resolver-typescript": "^3.5.5",
 		"eslint-plugin-import": "^2.27.5"
 	}

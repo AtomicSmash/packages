@@ -196,5 +196,14 @@ export function useFormValidation<SchemaType extends SomeZodObject>(
 		 * @example <form noValidate={isHydrated}></form>
 		 */
 		isHydrated: useHydrated(),
+		/**
+		 * A function to reset the error state to neutral
+		 */
+		resetErrorState: useCallback(() => {
+			setFormErrorState({
+				type: "reset",
+				parsedActionData: actionDataSchema.safeParse(null),
+			});
+		}, []),
 	};
 }

@@ -43,11 +43,17 @@ function determinePackageNamesAndMethods(cwd = process.cwd()) {
 const config = {
 	language: "en-GB",
 	words: [
-		...determinePackageNamesAndMethods().packageNames,
-		"atomicsmash",
-		"commitlint",
-		"tsbuildinfo",
-		"sass",
+		...[
+			...determinePackageNamesAndMethods().packageNames,
+			"commitlint",
+			"sass",
+			"Userback",
+		], // package and language names
+		...["tsbuildinfo"], // filenames
+		...["combobox", "spinbutton"], // accessible roles
+		...["popover", "dialog"], // custom element names
+		...["atomicsmash"], // company all lowercase
+		...["unstringified", "formattable", "keyof", "nonnullable"], // coding actions
 	],
 	languageSettings: [
 		{

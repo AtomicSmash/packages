@@ -55,7 +55,7 @@ export function Root({
 	hideClass = "hidden",
 }: RootProps) {
 	const [isShowingField, setIsShowingField] = useOptionalExternalState(
-		externalState === null ? defaultShowState : externalState,
+		externalState ?? defaultShowState,
 	);
 	useEffect(() => {
 		if (condition !== undefined) {
@@ -87,7 +87,7 @@ export type TriggerProps = {
 		| React.ReactNode;
 } & Omit<ComponentPropsWithRef<"button">, "children">;
 export const Trigger = forwardRef<HTMLButtonElement, TriggerProps>(
-	function Trigger({ asChild, children, ...props }, forwardedRef) {
+	function Trigger({ asChild, className, children, ...props }, forwardedRef) {
 		const Comp = asChild ? Slot : "button";
 		const isShowingField = useContext(IsShowingContext);
 		const setIsShowingField = useContext(SetIsShowingContext);
@@ -102,6 +102,7 @@ export const Trigger = forwardRef<HTMLButtonElement, TriggerProps>(
 				{...props}
 				ref={forwardedRef}
 				type="button"
+				className={`group/conditional_input${className ? ` ${className}` : ""}`}
 				onClick={() => setIsShowingField(!isShowingField)}
 			>
 				{typeof children === "function"

@@ -1,5 +1,31 @@
 # @atomicsmash/coding-standards
 
+## 7.0.0
+
+### Patch Changes
+
+- Updated dependencies [[`58ec501`](https://github.com/AtomicSmash/packages/commit/58ec5015665def18ec96ee6c7f3fff2c396ff01d), [`ea116ea`](https://github.com/AtomicSmash/packages/commit/ea116eafe1ef929db0d4bd2f4981c8976e64d36f)]:
+  - @atomicsmash/eslint-config@7.0.0
+  - @atomicsmash/browserslist-config@7.0.0
+
+## 6.0.1
+
+### Patch Changes
+
+- [#97](https://github.com/AtomicSmash/packages/pull/97) [`70b1dc8`](https://github.com/AtomicSmash/packages/commit/70b1dc8aa1028b92796778aac137d7b8b4484431) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Update spelling definitions
+
+- Updated dependencies []:
+  - @atomicsmash/eslint-config@6.0.1
+  - @atomicsmash/browserslist-config@6.0.1
+
+## 6.0.0
+
+### Patch Changes
+
+- Updated dependencies [[`1b446f2`](https://github.com/AtomicSmash/packages/commit/1b446f2073511a71f5e9c6eedcf803804db35942)]:
+  - @atomicsmash/eslint-config@6.0.0
+  - @atomicsmash/browserslist-config@6.0.0
+
 ## 5.0.0
 
 ### Major Changes
