@@ -47,7 +47,7 @@
 		"glob": "^8.1.0",
 		"glob-promise": "^6.0.3",
 		"path": "^0.12.7",
-		"postcss": "^8.4.25",
+		"postcss": "^8.4.31",
 		"svg-sprite": "^2.0.2",
 		"tsconfig-paths": "^4.2.0",
 		"tsconfig-paths-webpack-plugin": "^4.1.0",
