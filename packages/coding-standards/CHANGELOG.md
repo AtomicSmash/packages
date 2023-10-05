@@ -1,5 +1,17 @@
 # @atomicsmash/coding-standards
 
+## 7.1.0
+
+### Minor Changes
+
+- [#107](https://github.com/AtomicSmash/packages/pull/107) [`9fdc037`](https://github.com/AtomicSmash/packages/commit/9fdc0377492985efabac76c6b06d67fee66026a6) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Add PHPCS config as beta config
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @atomicsmash/eslint-config@7.1.0
+  - @atomicsmash/browserslist-config@7.1.0
+
 ## 7.0.0
 
 ### Patch Changes
