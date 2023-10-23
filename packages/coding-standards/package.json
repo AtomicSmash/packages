@@ -4,17 +4,15 @@
 	"description": "A collection of coding standards configurations.",
 	"main": "index.js",
 	"types": "index.d.ts",
-	"dependencies": {
-		"@commitlint/cli": "^17.6.6",
-		"@commitlint/config-conventional": "^17.6.6",
-		"prettier": "^2.8.8"
-	},
 	"devDependencies": {
 		"@cspell/cspell-types": "^6.31.1"
 	},
 	"peerDependencies": {
 		"@atomicsmash/browserslist-config": "7.1.0",
-		"@atomicsmash/eslint-config": "7.1.0"
+		"@atomicsmash/eslint-config": "7.1.0",
+		"@commitlint/cli": "^17.6.6",
+		"@commitlint/config-conventional": "^17.6.6",
+		"prettier": "^2.8.8"
 	},
 	"keywords": [
 		"atomic",
