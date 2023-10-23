@@ -1,5 +1,11 @@
 # @atomicsmash/browserslist-config
 
+## 8.0.0
+
+### Minor Changes
+
+- [#113](https://github.com/AtomicSmash/packages/pull/113) [`fcd111f`](https://github.com/AtomicSmash/packages/commit/fcd111f809f84ebc55104bd70c4c4f949e99c697) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Add browserslist major browser fallback
+
 ## 7.1.0
 
 ## 7.0.0

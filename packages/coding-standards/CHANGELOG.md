@@ -1,5 +1,21 @@
 # @atomicsmash/coding-standards
 
+## 8.0.0
+
+### Major Changes
+
+- [#113](https://github.com/AtomicSmash/packages/pull/113) [`bc24fbd`](https://github.com/AtomicSmash/packages/commit/bc24fbdc8ae6710785028c2fcfb907714780f61a) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Set related packages as peer dependencies so they're always in the root
+
+- [#113](https://github.com/AtomicSmash/packages/pull/113) [`f741f26`](https://github.com/AtomicSmash/packages/commit/f741f26ae0ffe5766a9358517fc3e53a3c6bfeda) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Set other deps to peer deps too
+
+### Patch Changes
+
+- [#113](https://github.com/AtomicSmash/packages/pull/113) [`efb94ae`](https://github.com/AtomicSmash/packages/commit/efb94aee9ae78e37420177c8efcaa84c7ab49796) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Beta update to PHPCS
+
+- Updated dependencies [[`fcd111f`](https://github.com/AtomicSmash/packages/commit/fcd111f809f84ebc55104bd70c4c4f949e99c697)]:
+  - @atomicsmash/browserslist-config@8.0.0
+  - @atomicsmash/eslint-config@8.0.0
+
 ## 7.1.0
 
 ### Minor Changes
