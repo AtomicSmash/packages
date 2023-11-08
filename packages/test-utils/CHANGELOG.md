@@ -1,5 +1,11 @@
 # @atomicsmash/test-utils
 
+## 1.2.0
+
+### Minor Changes
+
+- [#115](https://github.com/AtomicSmash/packages/pull/115) [`ad1f556`](https://github.com/AtomicSmash/packages/commit/ad1f5568edb28d544945e7a4972485eeaa248392) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Add playwright shared config
+
 ## 1.1.0
 
 ### Minor Changes
