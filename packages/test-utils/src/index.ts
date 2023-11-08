@@ -67,12 +67,15 @@ export const playwrightConfig = {
 	forbidOnly: !!process.env.CI,
 	retries: process.env.CI ? 2 : 0,
 	workers: process.env.CI ? 1 : undefined,
-	reporter: "html",
+	reporter: "dot",
 	/* Configure projects for major browsers */
 	projects: playwrightProjectsConfig,
 	use: {
 		actionTimeout: 0,
 		trace: "on-first-retry",
+	},
+	webServer: {
+		command: `cross-env NO_LOGS=true MOCKS=true npm run dev`,
 	},
 } satisfies PlaywrightTestConfig;
 
