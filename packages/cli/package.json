@@ -56,10 +56,10 @@
 	},
 	"devDependencies": {
 		"@types/glob": "^8.1.0",
-		"@types/node": "^18.15.5",
-		"@types/svg-sprite": "^0.0.34",
+		"@types/node": "^18.19.3",
+		"@types/svg-sprite": "^0.0.38",
 		"@types/vinyl": "^2.0.7",
 		"@types/webpack": "^5.28.1",
-		"type-fest": "^3.13.0"
+		"type-fest": "^4.9.0"
 	}
 }
