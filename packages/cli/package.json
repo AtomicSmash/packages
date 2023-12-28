@@ -41,7 +41,7 @@
 	},
 	"dependencies": {
 		"@wordpress/dependency-extraction-webpack-plugin": "^4.20.0",
-		"@wordpress/scripts": "^26.8.0",
+		"@wordpress/scripts": "^26.19.0",
 		"autoprefixer": "^10.4.14",
 		"cssnano": "^5.1.15",
 		"glob": "^8.1.0",

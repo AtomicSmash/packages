@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import type { WPElement } from "@wordpress/element";
+import type { Element as WPElement } from "@wordpress/element";
 import type { SVGProps } from "react";
 import {
 	createBlock,
