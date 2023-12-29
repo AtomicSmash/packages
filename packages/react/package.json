@@ -1,5 +1,6 @@
 {
 	"name": "@atomicsmash/react",
+	"type": "module",
 	"version": "1.5.0",
 	"description": "A collection of reusable react components, hooks and helpers.",
 	"keywords": [
@@ -56,7 +57,7 @@
 	"peerDependencies": {
 		"react": "^18.2.0",
 		"react-dom": "^18.2.0",
-		"remix-utils": "^6.4.0",
+		"remix-utils": "^7.4.0",
 		"tailwind-merge": "^1.13.1",
 		"zod": "^3.21.4"
 	},

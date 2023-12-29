@@ -1,17 +1,19 @@
 {
 	"$schema": "http://json.schemastore.org/tsconfig",
 	"compilerOptions": {
-		"isolatedModules": true,
 		"esModuleInterop": true,
-		"moduleResolution": "Node16",
-		"resolveJsonModule": true,
-		"target": "es2022",
-		"module": "Node16",
-		"strict": true,
-		"allowJs": true,
-		"checkJs": true,
-		"forceConsistentCasingInFileNames": true,
 		"skipLibCheck": true,
-		"noEmit": true
+		"target": "es2022",
+		"allowJs": true,
+		"resolveJsonModule": true,
+		"moduleDetection": "force",
+		"isolatedModules": true,
+		"strict": true,
+		"noUncheckedIndexedAccess": true,
+		"moduleResolution": "Bundler",
+		"module": "ESNext",
+		"noEmit": true,
+		"checkJs": true,
+		"forceConsistentCasingInFileNames": true
 	}
 }

@@ -1,4 +1,4 @@
-import type { ErrorStateValues } from "../shared/forms";
+import type { ErrorStateValues } from "../shared/forms.js";
 import type { ComponentPropsWithRef } from "react";
 import { Slot } from "@radix-ui/react-slot";
 import {
@@ -9,7 +9,7 @@ import {
 	useId,
 	useState,
 } from "react";
-import { combineErrorMessages } from "../shared/forms";
+import { combineErrorMessages } from "../shared/forms.js";
 
 const FieldsetIdContext = createContext("");
 const IdContext = createContext("");

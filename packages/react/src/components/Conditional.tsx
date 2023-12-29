@@ -7,8 +7,8 @@ import {
 	useEffect,
 } from "react";
 import { twMerge } from "tailwind-merge";
-import { useOptionalExternalState } from "../hooks/useOptionalExternalState";
-import { Pretty } from "../shared/types";
+import { useOptionalExternalState } from "../hooks/useOptionalExternalState.js";
+import { Pretty } from "../shared/types.js";
 
 const TypeContext = createContext<"render" | "display">("display");
 const HideClassContext = createContext("hidden");

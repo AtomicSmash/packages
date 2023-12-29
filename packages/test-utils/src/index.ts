@@ -184,6 +184,7 @@ export async function checkAccessibility(
 		accessibilityScanResults.violations.filter((violation) => {
 			if (
 				violation.id === "aria-allowed-attr" &&
+				violation.nodes[0] &&
 				violation.nodes[0].html.startsWith("<button") &&
 				violation.nodes[0].html.includes(`role="switch"`)
 			) {
