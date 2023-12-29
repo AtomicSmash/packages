@@ -22,25 +22,24 @@ export type AttributeTypes =
 	| "string"
 	| "integer"
 	| "number";
-export type AttributesObject =
+export type AttributesObject = {
+	source?: "attribute" | "text" | "html" | "query" | "meta";
+	selector?: string;
+	attribute?: string;
+	multiline?: string;
+	query?: Record<string, any>;
+	meta?: string;
+	default?: any;
+} & (
 	| {
-			source?: "attribute" | "text" | "html" | "query" | "meta";
-			selector?: string;
-			attribute?: string;
-			multiline?: string;
-			query?: Record<string, any>;
-			meta?: string;
-			default?: any;
-	  } & (
-			| {
-					type: AttributeTypes | AttributeTypes[];
-					enum?: readonly boolean[] | readonly number[] | readonly string[];
-			  }
-			| {
-					type?: AttributeTypes | AttributeTypes[];
-					enum: readonly boolean[] | readonly number[] | readonly string[];
-			  }
-	  );
+			type: AttributeTypes | AttributeTypes[];
+			enum?: readonly boolean[] | readonly number[] | readonly string[];
+	  }
+	| {
+			type?: AttributeTypes | AttributeTypes[];
+			enum: readonly boolean[] | readonly number[] | readonly string[];
+	  }
+);
 type ReadonlyRecursive<T> = {
 	[k in keyof T]: T[k] extends Record<string, any>
 		? ReadonlyRecursive<T[k]>
@@ -54,20 +53,20 @@ export type InterpretAttributes<
 	}
 		? string
 		: Attributes[Property] extends { type: "boolean" }
-		? boolean
-		: Attributes[Property] extends { type: "object" }
-		? Record<string, any>
-		: Attributes[Property] extends { type: "null" }
-		? null
-		: Attributes[Property] extends { type: "array" }
-		? any[]
-		: Attributes[Property] extends { type: "integer" }
-		? number
-		: Attributes[Property] extends { type: "number" }
-		? number
-		: Attributes[Property]["enum"] extends undefined
-		? undefined
-		: NonNullable<Attributes[Property]["enum"]>[number];
+			? boolean
+			: Attributes[Property] extends { type: "object" }
+				? Record<string, any>
+				: Attributes[Property] extends { type: "null" }
+					? null
+					: Attributes[Property] extends { type: "array" }
+						? any[]
+						: Attributes[Property] extends { type: "integer" }
+							? number
+							: Attributes[Property] extends { type: "number" }
+								? number
+								: Attributes[Property]["enum"] extends undefined
+									? undefined
+									: NonNullable<Attributes[Property]["enum"]>[number];
 };
 export type BlockAttributes = Readonly<Record<string, AttributesObject>>;
 export type BlockSupports = Record<string, any> & {
@@ -553,10 +552,10 @@ export type LoosenTypeOfObject<Type extends Record<string, any>> = {
 	[Property in keyof Type]: Type[Property] extends string
 		? string
 		: Type[Property] extends boolean
-		? boolean
-		: Type[Property] extends number
-		? number
-		: Type[Property];
+			? boolean
+			: Type[Property] extends number
+				? number
+				: Type[Property];
 };
 
 export function registerBlockType<

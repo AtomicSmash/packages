@@ -77,10 +77,9 @@ export function handleTextInput({
 				).then((module) => ({ faker: module.fakerEN_GB as Faker }));
 				inputFieldElement.value = dataTypes.faker(faker);
 			} else {
-				inputFieldElement.value =
-					dataTypes[dataTypeToUse][
-						Math.floor(Math.random() * dataTypes[dataTypeToUse].length)
-					] as string;
+				inputFieldElement.value = dataTypes[dataTypeToUse][
+					Math.floor(Math.random() * dataTypes[dataTypeToUse].length)
+				] as string;
 			}
 			// trigger error validation by focusing and blurring the input
 			inputFieldElement.focus();
@@ -251,10 +250,9 @@ export function handleSelectInput({
 					}
 				}
 			} else {
-				const value =
-					dataTypes[dataTypeToUse][
-						Math.floor(Math.random() * dataTypes[dataTypeToUse].length)
-					] as string;
+				const value = dataTypes[dataTypeToUse][
+					Math.floor(Math.random() * dataTypes[dataTypeToUse].length)
+				] as string;
 				selectFieldElement.value = value;
 				for (const option of options) {
 					if (option.value.toString() === value) {

@@ -81,8 +81,8 @@ export function ValidationState({
 				validationSummary: stateIsInvalid(validationState)
 					? "invalid"
 					: stateIsValid(validationState)
-					? "valid"
-					: null,
+						? "valid"
+						: null,
 			})}
 		</>
 	);

@@ -47,23 +47,21 @@ export function useFormValidation<SchemaType extends SomeZodObject>(
 				if (!fieldSchema) {
 					throw new Error(`Unable to find schema for ${action.fieldName}.`);
 				}
-				validation = fieldSchema.safeParse(
-					action.fieldValue,
-				);
+				validation = fieldSchema.safeParse(action.fieldValue);
 			}
 			const newState = { ...prevState };
 			newState[action.fieldName as keyof SchemaType["shape"]] =
 				validation.success
 					? {
 							validity: "valid",
-					  }
+						}
 					: {
 							validity: "invalid",
 							messages: validation.error.issues.map((issue) => ({
 								message: issue.message,
 								errorCode: issue.code,
 							})),
-					  };
+						};
 			return newState;
 		} else if (action.type === "reset") {
 			return initialiseFormErrorState(action.parsedActionData);
@@ -91,7 +89,10 @@ export function useFormValidation<SchemaType extends SomeZodObject>(
 					if (actionDataParsed.data.errors.fieldErrors[key]) {
 						object[key as keyof SchemaType["shape"]] = {
 							validity: "invalid",
-							messages: actionDataParsed.data.errors.fieldErrors[key] as { message: string; errorCode: string }[],
+							messages: actionDataParsed.data.errors.fieldErrors[key] as {
+								message: string;
+								errorCode: string;
+							}[],
 						};
 					} else {
 						object[key as keyof SchemaType["shape"]] = { validity: "valid" };

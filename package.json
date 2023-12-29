@@ -34,6 +34,8 @@
 		"lint": "run-p lint:*",
 		"lint:eslint": "eslint --cache --cache-location ./node_modules/.cache/eslint . --ext .js,.ts,.jsx,.tsx",
 		"lint:types": "tsc",
+		"format": "run-p format:*",
+		"format:prettier": "prettier . --write",
 		"release": "npm-run-all build lint publish",
 		"publish": "changeset publish"
 	},

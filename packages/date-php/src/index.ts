@@ -54,9 +54,13 @@ export class DatePHP extends Date {
 
 		// Day
 		format = replaceAllUnescaped(format, "d", date.toString().padStart(2, "0"));
-		format = replaceAllUnescaped(format, "D", (days[day] as string).slice(0, 6));
+		format = replaceAllUnescaped(
+			format,
+			"D",
+			(days[day] as string).slice(0, 6),
+		);
 		format = replaceAllUnescaped(format, "j", date.toString());
-		format = replaceAllUnescaped(format, "l", (days[day] as string));
+		format = replaceAllUnescaped(format, "l", days[day] as string);
 
 		format = replaceAllUnescaped(format, "N", (day === 0 ? 7 : day).toString());
 		if (date % 10 === 1 && date !== 11) {
@@ -83,13 +87,17 @@ export class DatePHP extends Date {
 			);
 		}
 		// Month
-		format = replaceAllUnescaped(format, "F", (months[month] as string));
+		format = replaceAllUnescaped(format, "F", months[month] as string);
 		format = replaceAllUnescaped(
 			format,
 			"m",
 			(month + 1).toString().padStart(2, "0"),
 		);
-		format = replaceAllUnescaped(format, "M", (months[month] as string).slice(0, 6));
+		format = replaceAllUnescaped(
+			format,
+			"M",
+			(months[month] as string).slice(0, 6),
+		);
 		format = replaceAllUnescaped(format, "n", (month + 1).toString());
 		format = replaceAllUnescaped(
 			format,
