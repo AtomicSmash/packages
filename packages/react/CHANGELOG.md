@@ -1,5 +1,11 @@
 # @atomicsmash/react
 
+## 1.6.0-beta.1
+
+### Patch Changes
+
+- Fix builds
+
 ## 1.6.0-beta.0
 
 ### Minor Changes

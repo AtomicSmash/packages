@@ -1,5 +1,11 @@
 # @atomicsmash/cli
 
+## 4.1.0-beta.1
+
+### Patch Changes
+
+- Fix builds
+
 ## 4.1.0-beta.0
 
 ### Minor Changes

@@ -1,5 +1,11 @@
 # @atomicsmash/dev-tools-helpers
 
+## 1.2.0-beta.1
+
+### Patch Changes
+
+- Fix builds
+
 ## 1.2.0-beta.0
 
 ### Minor Changes

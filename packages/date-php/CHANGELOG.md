@@ -1,5 +1,11 @@
 # @atomicsmash/date_php
 
+## 2.1.0-beta.1
+
+### Patch Changes
+
+- Fix builds
+
 ## 2.1.0-beta.0
 
 ### Minor Changes

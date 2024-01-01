@@ -1,5 +1,11 @@
 # @atomicsmash/test-utils
 
+## 1.3.0-beta.1
+
+### Patch Changes
+
+- Fix builds
+
 ## 1.3.0-beta.0
 
 ### Minor Changes

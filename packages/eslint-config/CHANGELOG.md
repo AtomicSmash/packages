@@ -1,5 +1,11 @@
 # @atomicsmash/eslint-config
 
+## 9.0.0-beta.1
+
+### Patch Changes
+
+- Fix builds
+
 ## 9.0.0-beta.0
 
 ### Major Changes

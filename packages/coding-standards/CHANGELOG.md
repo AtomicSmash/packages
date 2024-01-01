@@ -1,5 +1,15 @@
 # @atomicsmash/coding-standards
 
+## 9.0.0-beta.1
+
+### Patch Changes
+
+- Fix builds
+
+- Updated dependencies []:
+  - @atomicsmash/browserslist-config@9.0.0-beta.1
+  - @atomicsmash/eslint-config@9.0.0-beta.1
+
 ## 9.0.0-beta.0
 
 ### Major Changes
