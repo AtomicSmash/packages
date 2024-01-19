@@ -1,6 +1,6 @@
 {
 	"name": "@atomicsmash/cli",
-	"version": "4.0.1",
+	"version": "4.1.0-beta.1",
 	"description": "A collection of CLI tools by Atomic Smash.",
 	"keywords": [],
 	"homepage": "https://www.atomicsmash.co.uk/",
@@ -41,10 +41,10 @@
 	},
 	"dependencies": {
 		"@wordpress/dependency-extraction-webpack-plugin": "^4.20.0",
-		"@wordpress/scripts": "^26.8.0",
+		"@wordpress/scripts": "^26.19.0",
 		"autoprefixer": "^10.4.14",
-		"cssnano": "^5.1.15",
-		"glob": "^8.1.0",
+		"cssnano": "^6.0.2",
+		"glob": "^10.3.10",
 		"glob-promise": "^6.0.3",
 		"path": "^0.12.7",
 		"postcss": "^8.4.25",
@@ -56,10 +56,10 @@
 	},
 	"devDependencies": {
 		"@types/glob": "^8.1.0",
-		"@types/node": "^18.15.5",
-		"@types/svg-sprite": "^0.0.34",
+		"@types/node": "^18.19.3",
+		"@types/svg-sprite": "^0.0.38",
 		"@types/vinyl": "^2.0.7",
 		"@types/webpack": "^5.28.1",
-		"type-fest": "^3.13.0"
+		"type-fest": "^4.9.0"
 	}
 }

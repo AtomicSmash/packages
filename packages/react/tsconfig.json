@@ -6,7 +6,9 @@
 		"rootDir": ".",
 		"outDir": "dist",
 		"jsx": "react-jsx",
-		"module": "es2022",
-		"target": "es2022"
+		"moduleResolution": "NodeNext",
+		"module": "NodeNext",
+		"target": "es2022",
+		"sourceMap": true
 	}
 }

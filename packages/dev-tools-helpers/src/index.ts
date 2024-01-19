@@ -77,10 +77,9 @@ export function handleTextInput({
 				).then((module) => ({ faker: module.fakerEN_GB as Faker }));
 				inputFieldElement.value = dataTypes.faker(faker);
 			} else {
-				inputFieldElement.value =
-					dataTypes[dataTypeToUse][
-						Math.floor(Math.random() * dataTypes[dataTypeToUse].length)
-					];
+				inputFieldElement.value = dataTypes[dataTypeToUse][
+					Math.floor(Math.random() * dataTypes[dataTypeToUse].length)
+				] as string;
 			}
 			// trigger error validation by focusing and blurring the input
 			inputFieldElement.focus();
@@ -251,10 +250,9 @@ export function handleSelectInput({
 					}
 				}
 			} else {
-				const value =
-					dataTypes[dataTypeToUse][
-						Math.floor(Math.random() * dataTypes[dataTypeToUse].length)
-					];
+				const value = dataTypes[dataTypeToUse][
+					Math.floor(Math.random() * dataTypes[dataTypeToUse].length)
+				] as string;
 				selectFieldElement.value = value;
 				for (const option of options) {
 					if (option.value.toString() === value) {
@@ -313,16 +311,22 @@ export function constructFillPageForm(
 			);
 			dataTypeToUse = dataTypeToUse === false ? "invalid" : "valid";
 		}
-		if (page === undefined || pageFormData[page] === undefined) {
+		if (page === undefined) {
 			throw new Error(
 				"Unable to find a match for the current page. Either there is no form elements to fill, or the page hasn't been added to the dev tools data array.",
 			);
 		}
-		const beforeAll = pageFormData[page].beforeAll;
+		const singlePageFormData = pageFormData[page];
+		if (singlePageFormData === undefined) {
+			throw new Error(
+				"Unable to find a match for the current page. Either there is no form elements to fill, or the page hasn't been added to the dev tools data array.",
+			);
+		}
+		const beforeAll = singlePageFormData.beforeAll;
 		if (beforeAll) {
 			beforeAll();
 		}
-		for (const input of pageFormData[page].inputs) {
+		for (const input of singlePageFormData.inputs) {
 			if (input.name === "fillTextInput") {
 				await (input as ReturnType<typeof handleTextInput>)({
 					page,
@@ -336,7 +340,7 @@ export function constructFillPageForm(
 				});
 			}
 		}
-		const afterAll = pageFormData[page].afterAll;
+		const afterAll = singlePageFormData.afterAll;
 		if (afterAll) {
 			afterAll();
 		}

@@ -1,5 +1,13 @@
 # @atomicsmash/browserslist-config
 
+## 9.0.0-beta.1
+
+### Patch Changes
+
+- Fix builds
+
+## 9.0.0-beta.0
+
 ## 8.0.0
 
 ### Minor Changes

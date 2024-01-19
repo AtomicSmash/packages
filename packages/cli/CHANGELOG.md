@@ -1,5 +1,17 @@
 # @atomicsmash/cli
 
+## 4.1.0-beta.1
+
+### Patch Changes
+
+- Fix builds
+
+## 4.1.0-beta.0
+
+### Minor Changes
+
+- [`38d8dac`](https://github.com/AtomicSmash/packages/commit/38d8dac02de80f2a0dfa673194a401e2a69aed55) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Update dependencies
+
 ## 4.0.1
 
 ### Patch Changes

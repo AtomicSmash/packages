@@ -1,0 +1,24 @@
+{
+  "mode": "exit",
+  "tag": "beta",
+  "initialVersions": {
+    "@atomicsmash/blocks-helpers": "2.0.1",
+    "@atomicsmash/browserslist-config": "8.0.0",
+    "@atomicsmash/cli": "4.0.1",
+    "@atomicsmash/coding-standards": "8.0.0",
+    "@atomicsmash/date-php": "2.0.0",
+    "@atomicsmash/dev-tools-helpers": "1.1.1",
+    "@atomicsmash/eslint-config": "8.0.0",
+    "@atomicsmash/http-response-codes": "1.2.1",
+    "@atomicsmash/react": "1.5.0",
+    "@atomicsmash/test-utils": "1.2.1"
+  },
+  "changesets": [
+    "breezy-beds-occur",
+    "mighty-insects-tap",
+    "old-starfishes-compete",
+    "poor-apples-deliver",
+    "red-mice-remember",
+    "twelve-clouds-invent"
+  ]
+}

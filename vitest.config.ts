@@ -22,7 +22,7 @@ export default defineConfig({
 							process.env.LOCALHOST_TLS_KEY_FILE ??
 								`${userHomeDir}/.certs/key.pem`,
 						),
-				  }
+					}
 				: undefined,
 	},
 	test: {

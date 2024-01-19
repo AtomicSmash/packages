@@ -1,9 +1,9 @@
-import type { ErrorStateValues } from "../shared/forms";
+import type { ErrorStateValues } from "../shared/forms.js";
 import type { Reducer } from "react";
 import type { SomeZodObject, ZodTypeAny, z } from "zod";
 import { useReducer, useEffect, useCallback, useMemo } from "react";
-import { useHydrated } from "remix-utils";
-import { actionDataSchema } from "../shared/forms";
+import { useHydrated } from "remix-utils/use-hydrated";
+import { actionDataSchema } from "../shared/forms.js";
 
 /**
  * A hook to simplify form validation
@@ -43,23 +43,25 @@ export function useFormValidation<SchemaType extends SomeZodObject>(
 			if (action.customSchema) {
 				validation = action.customSchema.safeParse(action.fieldValue);
 			} else {
-				validation = schema.shape[action.fieldName].safeParse(
-					action.fieldValue,
-				);
+				const fieldSchema = schema.shape[action.fieldName];
+				if (!fieldSchema) {
+					throw new Error(`Unable to find schema for ${action.fieldName}.`);
+				}
+				validation = fieldSchema.safeParse(action.fieldValue);
 			}
 			const newState = { ...prevState };
 			newState[action.fieldName as keyof SchemaType["shape"]] =
 				validation.success
 					? {
 							validity: "valid",
-					  }
+						}
 					: {
 							validity: "invalid",
 							messages: validation.error.issues.map((issue) => ({
 								message: issue.message,
 								errorCode: issue.code,
 							})),
-					  };
+						};
 			return newState;
 		} else if (action.type === "reset") {
 			return initialiseFormErrorState(action.parsedActionData);
@@ -87,7 +89,10 @@ export function useFormValidation<SchemaType extends SomeZodObject>(
 					if (actionDataParsed.data.errors.fieldErrors[key]) {
 						object[key as keyof SchemaType["shape"]] = {
 							validity: "invalid",
-							messages: actionDataParsed.data.errors.fieldErrors[key],
+							messages: actionDataParsed.data.errors.fieldErrors[key] as {
+								message: string;
+								errorCode: string;
+							}[],
 						};
 					} else {
 						object[key as keyof SchemaType["shape"]] = { validity: "valid" };

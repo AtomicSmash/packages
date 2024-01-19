@@ -123,7 +123,8 @@ export const doLighthouseTest: (
 	async function ({ port, authenticatedPage }) {
 		await authenticatedPage.goto(pageToTest.url);
 		await playAudit({
-			page: authenticatedPage,
+			// TODO: Wait for playwright-lighthouse to update dependency constraint, then remove this "as" declaration.
+			page: authenticatedPage as Parameters<typeof playAudit>[0]["page"],
 			thresholds: {
 				performance: 85,
 				accessibility: 85,
@@ -162,7 +163,10 @@ export async function checkAccessibility(
 	} = {},
 ) {
 	let builder;
-	builder = new AxeBuilder({ page });
+	// TODO: Wait for @wordpress/scripts to update dependency constraint, then remove this "as" declaration.
+	builder = new AxeBuilder({ page } as {
+		page: ConstructorParameters<typeof AxeBuilder>[0]["page"];
+	});
 	if (includes) {
 		for (const include of includes) {
 			builder = builder.include(include);
@@ -180,6 +184,7 @@ export async function checkAccessibility(
 		accessibilityScanResults.violations.filter((violation) => {
 			if (
 				violation.id === "aria-allowed-attr" &&
+				violation.nodes[0] &&
 				violation.nodes[0].html.startsWith("<button") &&
 				violation.nodes[0].html.includes(`role="switch"`)
 			) {
