@@ -1,5 +1,19 @@
 # @atomicsmash/react
 
+## 1.6.0
+
+### Minor Changes
+
+- [#121](https://github.com/AtomicSmash/packages/pull/121) [`98958bf`](https://github.com/AtomicSmash/packages/commit/98958bf72441f3c85e046d42f8ac13dde8ae7f89) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Update dependencies
+
+- [#121](https://github.com/AtomicSmash/packages/pull/121) [`98958bf`](https://github.com/AtomicSmash/packages/commit/98958bf72441f3c85e046d42f8ac13dde8ae7f89) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Removed tailwind-merge dependency
+
+### Patch Changes
+
+- [#121](https://github.com/AtomicSmash/packages/pull/121) [`98958bf`](https://github.com/AtomicSmash/packages/commit/98958bf72441f3c85e046d42f8ac13dde8ae7f89) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Fix builds
+
+- [#121](https://github.com/AtomicSmash/packages/pull/121) [`98958bf`](https://github.com/AtomicSmash/packages/commit/98958bf72441f3c85e046d42f8ac13dde8ae7f89) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Remove classes and class merging from Conditional
+
 ## 1.6.0-beta.1
 
 ### Patch Changes

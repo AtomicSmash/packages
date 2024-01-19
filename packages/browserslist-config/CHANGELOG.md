@@ -1,5 +1,11 @@
 # @atomicsmash/browserslist-config
 
+## 9.0.0
+
+### Patch Changes
+
+- [#121](https://github.com/AtomicSmash/packages/pull/121) [`98958bf`](https://github.com/AtomicSmash/packages/commit/98958bf72441f3c85e046d42f8ac13dde8ae7f89) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Fix builds
+
 ## 9.0.0-beta.1
 
 ### Patch Changes

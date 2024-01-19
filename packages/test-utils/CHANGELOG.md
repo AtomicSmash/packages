@@ -1,5 +1,15 @@
 # @atomicsmash/test-utils
 
+## 1.3.0
+
+### Minor Changes
+
+- [#121](https://github.com/AtomicSmash/packages/pull/121) [`98958bf`](https://github.com/AtomicSmash/packages/commit/98958bf72441f3c85e046d42f8ac13dde8ae7f89) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Update dependencies
+
+### Patch Changes
+
+- [#121](https://github.com/AtomicSmash/packages/pull/121) [`98958bf`](https://github.com/AtomicSmash/packages/commit/98958bf72441f3c85e046d42f8ac13dde8ae7f89) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Fix builds
+
 ## 1.3.0-beta.1
 
 ### Patch Changes

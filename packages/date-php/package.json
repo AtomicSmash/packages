@@ -1,6 +1,6 @@
 {
 	"name": "@atomicsmash/date-php",
-	"version": "2.1.0-beta.1",
+	"version": "2.1.0",
 	"description": "A JS date library built to emulate PHP date formats.",
 	"keywords": [
 		"atomic",
