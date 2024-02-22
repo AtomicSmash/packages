@@ -191,12 +191,30 @@ export default function blocks(args: string[]) {
 }
 
 async function getAllBlocksJSEntryPoints(srcFolder: string) {
-	const entryPoints: Configuration["entry"] = {
-		svgs: {
-			import: `${srcFolder}/svgs.tsx`,
-			filename: `svgs${isProduction ? `.[contenthash]` : ""}.js`,
-		},
-	};
+	const entryPoints: Configuration["entry"] = {};
+	const rootFiles = await readdir(srcFolder, {
+		withFileTypes: true,
+	}).then((srcDirFiles) => {
+		return srcDirFiles
+			.filter((dirent) => dirent.isFile())
+			.map((dirent) => dirent.name);
+	});
+	for (const fileNameAndExtension of rootFiles) {
+		const [entryName, extension] = fileNameAndExtension.split(".", 2) as [
+			string,
+			string,
+		];
+		if (entryName === undefined || extension === undefined) {
+			console.log(
+				`Failed to process ${fileNameAndExtension}, continuing anyway.`,
+			);
+			continue;
+		}
+		entryPoints[toCamelCase(entryName)] = {
+			import: `${srcFolder}/${fileNameAndExtension}`,
+			filename: `${entryName}${isProduction ? `.[contenthash]` : ""}.js`,
+		};
+	}
 	const blockFolders = await readdir(`${srcFolder}/blocks`, {
 		withFileTypes: true,
 	}).then((srcDirFiles) => {
