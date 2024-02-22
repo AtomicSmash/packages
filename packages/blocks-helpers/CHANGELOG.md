@@ -1,5 +1,13 @@
 # @atomicsmash/blocks-helpers
 
+## 3.0.0
+
+### Major Changes
+
+- [#126](https://github.com/AtomicSmash/packages/pull/126) [`f3f55f1`](https://github.com/AtomicSmash/packages/commit/f3f55f1df0f84d6440410e9277955f26a0d199e9) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Improve blocks helper types
+
+- [#126](https://github.com/AtomicSmash/packages/pull/126) [`f3f55f1`](https://github.com/AtomicSmash/packages/commit/f3f55f1df0f84d6440410e9277955f26a0d199e9) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Remove AS specific functions
+
 ## 2.1.0
 
 ### Minor Changes
