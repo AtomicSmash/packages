@@ -1,5 +1,11 @@
 # @atomicsmash/cli
 
+## 4.2.0
+
+### Minor Changes
+
+- [#128](https://github.com/AtomicSmash/packages/pull/128) [`49ae381`](https://github.com/AtomicSmash/packages/commit/49ae38101e05531e26806d9ba23202e7efb546f2) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Process all root files for blocks compiler
+
 ## 4.1.0
 
 ### Minor Changes
