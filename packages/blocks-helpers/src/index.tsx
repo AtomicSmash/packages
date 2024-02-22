@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import type { Element as WPElement } from "@wordpress/element";
+import type { Element } from "@wordpress/element";
 import type { SVGProps } from "react";
 import {
 	createBlock,
@@ -30,6 +30,9 @@ export type AttributesObject = {
 	query?: Record<string, any>;
 	meta?: string;
 	default?: any;
+	items?: {
+		type: AttributeTypes;
+	};
 } & (
 	| {
 			type: AttributeTypes | AttributeTypes[];
@@ -45,28 +48,49 @@ type ReadonlyRecursive<T> = {
 		? ReadonlyRecursive<T[k]>
 		: T[k];
 };
+type InheritType<Type extends { type: string | string[] }> = Type extends {
+	type: string[];
+}
+	? any[]
+	: Type extends {
+				type: "string";
+		  }
+		? string
+		: Type extends { type: "boolean" }
+			? boolean
+			: Type extends { type: "object" }
+				? Record<string, any>
+				: Type extends { type: "null" }
+					? null
+					: Type extends { type: "array" }
+						? any[]
+						: Type extends { type: "integer" }
+							? number
+							: Type extends { type: "number" }
+								? number
+								: never;
+
 export type InterpretAttributes<
 	Attributes extends Record<string, ReadonlyRecursive<AttributesObject>>,
 > = {
 	[Property in keyof Attributes]: Attributes[Property] extends {
-		type: "string";
+		enum: NonNullable<Attributes[Property]["enum"]>;
 	}
-		? string
-		: Attributes[Property] extends { type: "boolean" }
-			? boolean
-			: Attributes[Property] extends { type: "object" }
-				? Record<string, any>
-				: Attributes[Property] extends { type: "null" }
-					? null
-					: Attributes[Property] extends { type: "array" }
-						? any[]
-						: Attributes[Property] extends { type: "integer" }
-							? number
-							: Attributes[Property] extends { type: "number" }
-								? number
-								: Attributes[Property]["enum"] extends undefined
-									? undefined
-									: NonNullable<Attributes[Property]["enum"]>[number];
+		? NonNullable<Attributes[Property]["enum"]>[number]
+		: Attributes[Property] extends {
+					type: "array";
+					query: NonNullable<Attributes[Property]["query"]>;
+			  }
+			? {
+					[SubProperty in keyof NonNullable<
+						Attributes[Property]["query"]
+					>]: InheritType<
+						NonNullable<Attributes[Property]["query"]>[SubProperty]
+					>;
+				}[]
+			: Attributes[Property] extends { type: string }
+				? InheritType<Attributes[Property]>
+				: never;
 };
 export type BlockAttributes = Readonly<Record<string, AttributesObject>>;
 export type BlockSupports = Record<string, any> & {
@@ -367,7 +391,7 @@ export type DeprecatedBlock<InterpretedAttributes extends Record<string, any>> =
 			Record<string, any>
 		>;
 		isEligible?: BlockIsDeprecationEligibleFunction<InterpretedAttributes>;
-		save: ({ attributes }: BlockSaveProps<InterpretedAttributes>) => WPElement;
+		save: ({ attributes }: BlockSaveProps<InterpretedAttributes>) => Element;
 	};
 
 export type BlockTypeTransform = {
@@ -377,10 +401,7 @@ export type BlockTypeTransform = {
 		attributes: BlockAttributes,
 		innerBlocks: InnerBlocks[],
 	) => BlockInstance | BlockInstance[];
-	isMatch?: (
-		attributes: BlockAttributes,
-		block: ReturnType<typeof createBlock>,
-	) => boolean;
+	isMatch?: (attributes: BlockAttributes, block: BlockInstance) => boolean;
 	isMultiBlock?: boolean;
 	priority?: number;
 };
@@ -539,8 +560,8 @@ export type BlockSettings<
 		attributes,
 		setAttributes,
 		isSelected,
-	}: BlockEditProps<InterpretedAttributes, Context>) => WPElement;
-	save: ({ attributes }: BlockSaveProps<InterpretedAttributes>) => WPElement;
+	}: BlockEditProps<InterpretedAttributes, Context>) => Element;
+	save: ({ attributes }: BlockSaveProps<InterpretedAttributes>) => Element;
 	transforms?: {
 		from: BlockTransforms;
 		to: BlockTransforms;
