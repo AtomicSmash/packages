@@ -6,6 +6,7 @@ import { resolve as resolvePath } from "node:path";
 import DependencyExtractionWebpackPlugin from "@wordpress/dependency-extraction-webpack-plugin";
 import defaultConfig from "@wordpress/scripts/config/webpack.config.js";
 import autoprefixer from "autoprefixer";
+import CopyWebpackPlugin from "copy-webpack-plugin";
 import cssnano from "cssnano";
 import glob from "glob-promise";
 import postcss, { AcceptedPlugin } from "postcss";
@@ -51,10 +52,21 @@ export default function blocks(args: string[]) {
 		plugins: [
 			...((defaultConfig as Configuration).plugins?.filter(
 				(plugin) =>
-					plugin?.constructor.name !== "DependencyExtractionWebpackPlugin",
+					!["DependencyExtractionWebpackPlugin", "CopyWebpackPlugin"].includes(
+						plugin?.constructor.name ?? "",
+					),
 			) ?? []),
 			new DependencyExtractionWebpackPlugin({
 				combineAssets: true,
+			}),
+			new CopyWebpackPlugin({
+				patterns: [
+					{
+						from: `**/block.json`,
+						context: `blocks/`,
+						noErrorOnMissing: true,
+					},
+				],
 			}),
 			{
 				apply: (compiler: Compiler) => {
