@@ -1,5 +1,11 @@
 # @atomicsmash/cli
 
+## 5.0.0-beta.1
+
+### Patch Changes
+
+- [`69deb75`](https://github.com/AtomicSmash/packages/commit/69deb75f2d4c93869736e6f54bed431a82d7b097) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Fix block.json output placement
+
 ## 5.0.0-beta.0
 
 ### Major Changes
