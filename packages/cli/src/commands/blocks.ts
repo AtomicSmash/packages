@@ -66,7 +66,7 @@ export default function blocks(args: string[]) {
 								plugins.push(cssnano({ preset: "default" }));
 							}
 							await glob
-								.promise(`${srcFolder}/blocks/**/*.css`)
+								.promise(`${srcFolder}/**/*.css`)
 								.then(async (matches) => {
 									for (const match of matches) {
 										const fileName = match.split("/").pop();
@@ -215,7 +215,7 @@ async function getAllBlocksJSEntryPoints(srcFolder: string) {
 			filename: `${entryName}${isProduction ? `.[contenthash]` : ""}.js`,
 		};
 	}
-	const blockFolders = await readdir(`${srcFolder}/blocks`, {
+	const blockFolders = await readdir(`${srcFolder}`, {
 		withFileTypes: true,
 	}).then((srcDirFiles) => {
 		return srcDirFiles
@@ -223,7 +223,7 @@ async function getAllBlocksJSEntryPoints(srcFolder: string) {
 			.map((dirent) => dirent.name);
 	});
 	for (const block of blockFolders) {
-		const blockFiles = await readdir(`${srcFolder}/blocks/${block}`, {
+		const blockFiles = await readdir(`${srcFolder}/${block}`, {
 			withFileTypes: true,
 		}).then((blockDirFiles) => {
 			return blockDirFiles
@@ -246,8 +246,8 @@ async function getAllBlocksJSEntryPoints(srcFolder: string) {
 				blockBonusScriptNumber++;
 			}
 			entryPoints[toCamelCase(entryName)] = {
-				import: `${srcFolder}/blocks/${block}/${blockJSFile}`,
-				filename: `blocks/${block}/${filename}${
+				import: `${srcFolder}/${block}/${blockJSFile}`,
+				filename: `${block}/${filename}${
 					isProduction ? `.[contenthash]` : ""
 				}.js`,
 			};
