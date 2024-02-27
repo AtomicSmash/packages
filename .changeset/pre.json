@@ -13,5 +13,7 @@
     "@atomicsmash/react": "1.6.0",
     "@atomicsmash/test-utils": "1.3.0"
   },
-  "changesets": []
+  "changesets": [
+    "moody-pillows-yawn"
+  ]
 }
