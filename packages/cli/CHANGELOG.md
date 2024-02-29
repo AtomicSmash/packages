@@ -1,5 +1,11 @@
 # @atomicsmash/cli
 
+## 5.0.0-beta.2
+
+### Patch Changes
+
+- [`cd5b021`](https://github.com/AtomicSmash/packages/commit/cd5b021b51e0c23a1bc82470c92e64558a1f714c) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Fix and refactor blocks compiler
+
 ## 5.0.0-beta.1
 
 ### Patch Changes
