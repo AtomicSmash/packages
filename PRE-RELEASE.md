@@ -1,4 +1,4 @@
-# Prereleases
+# Pre-releases
 
 To publish a beta package version (recommended), follow these steps:
 
