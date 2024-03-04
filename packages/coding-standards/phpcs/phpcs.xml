@@ -12,6 +12,8 @@
 		<exclude name="Generic.Formatting.MultipleStatementAlignment"/>
 		<exclude name="WordPress.Arrays.MultipleStatementAlignment"/>
 		<exclude name="Squiz.Commenting.FileComment.MissingPackageTag"/>
+		<exclude name="WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound"/>
+		<exclude name="Squiz.Commenting.InlineComment.InvalidEndChar"/>
 	</rule>
 	<rule ref="Generic.CodeAnalysis.UnusedFunctionParameter"/>
 	<rule ref="Generic.WhiteSpace.DisallowSpaceIndent"/>
