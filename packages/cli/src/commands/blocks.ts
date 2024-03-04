@@ -6,6 +6,7 @@ import { resolve as resolvePath } from "node:path";
 import DependencyExtractionWebpackPlugin from "@wordpress/dependency-extraction-webpack-plugin";
 import defaultConfig from "@wordpress/scripts/config/webpack.config.js";
 import autoprefixer from "autoprefixer";
+import CopyWebpackPlugin from "copy-webpack-plugin";
 import cssnano from "cssnano";
 import glob from "glob-promise";
 import postcss, { AcceptedPlugin } from "postcss";
@@ -21,12 +22,13 @@ export const blocksHelpMessage = `
   A command to generate WordPress blocks from a src folder.
 
   Options:
-    --in         The directory where the WP blocks can be found.
-    --out        The directory where the WP blocks will be output.
-		--watch      Watch the blocks in folder for changes and compile.
+    --in            The directory where the WP blocks can be found. Relative to cwd.
+    --out           The directory where the WP blocks will be output. Relative to cwd.
+    --tsConfigPath  (optional) The directory where the tsconfig file can be found. Relative to cwd. Defaults to the in folder.
+    --watch         (optional) Watch the blocks in folder for changes and compile.
 
   Example usage:
-    $ smash-cli blocks --watch --in src --out build
+    $ smash-cli blocks --watch --in src --out build --tsConfigPath tsconfig.json
 `;
 
 export default function blocks(args: string[]) {
@@ -42,106 +44,123 @@ export default function blocks(args: string[]) {
 	if (!outFlag || outFlag.startsWith("--")) {
 		throw new Error("You need to provide a value for the --out flag.");
 	}
+	const tsConfigFlag =
+		args[args.findIndex((arg) => arg === "--tsConfigPath") + 1];
+
 	const srcFolder = resolvePath(inFlag);
 	const distFolder = resolvePath(outFlag);
+
+	const postCSSPlugins: AcceptedPlugin[] = [autoprefixer];
+	if (isProduction) {
+		postCSSPlugins.push(cssnano({ preset: "default" }));
+	}
+
+	async function processCSSFiles(
+		globMatches: Awaited<ReturnType<typeof glob.promise>>,
+	) {
+		for (const match of globMatches) {
+			const fileName = match.split("/").pop();
+			if (!fileName) {
+				console.error(`Failed to get filename of ${match}`);
+				continue;
+			}
+			const css = readFileSync(match);
+			await postcss(postCSSPlugins)
+				.process(css, {
+					from: match,
+					to: match.replace(srcFolder, distFolder),
+				})
+				.then((result) => {
+					writeFileSync(match.replace(srcFolder, distFolder), result.css);
+					if (result.map) {
+						writeFileSync(
+							`${match.replace(srcFolder, distFolder)}.map`,
+							result.map.toString(),
+						);
+					}
+				});
+		}
+	}
+
+	async function fingerprintCSSFilesIfProduction() {
+		if (!isProduction) {
+			return;
+		}
+		return glob.promise(`${distFolder}/**/*.css`).then((matches) => {
+			for (const match of matches) {
+				const fileBuffer = readFileSync(match);
+				const contentHash = crypto.createHash("shake256", {
+					outputLength: 10,
+				});
+				contentHash.update(fileBuffer);
+				const fileMatchArray = match.split("/");
+				const newFileName = fileMatchArray
+					.pop()
+					?.replace(".css", `.${contentHash.digest("hex")}.css`);
+				if (!newFileName || newFileName === "") {
+					throw new Error("Error getting CSS file name.");
+				}
+				renameSync(match, `${fileMatchArray.join("/")}/${newFileName}`);
+			}
+			return;
+		});
+	}
+
+	const plugins = [
+		...((defaultConfig as Configuration).plugins?.filter((plugin) => {
+			return ![
+				"DependencyExtractionWebpackPlugin",
+				"CopyPlugin", // CopyWebpackPlugin
+			].includes(plugin?.constructor.name ?? "");
+		}) ?? []),
+		new DependencyExtractionWebpackPlugin({
+			combineAssets: true,
+		}),
+		new CopyWebpackPlugin({
+			patterns: [
+				{
+					from: `**/block.json`,
+					noErrorOnMissing: true,
+				},
+			],
+		}),
+		{
+			apply: (compiler: Compiler) => {
+				compiler.hooks.afterEmit.tapPromise(
+					"Build CSS and copy to test area",
+					async () => {
+						await glob
+							.promise(`${srcFolder}/**/*.css`)
+							.then(processCSSFiles)
+							.then(fingerprintCSSFilesIfProduction)
+							.catch((error) => {
+								console.error(error);
+								throw error;
+							});
+					},
+				);
+			},
+		},
+	] satisfies Configuration["plugins"];
 
 	const compiler = webpack({
 		...(defaultConfig as Configuration),
 		entry: () => getAllBlocksJSEntryPoints(srcFolder),
-		plugins: [
-			...((defaultConfig as Configuration).plugins?.filter(
-				(plugin) =>
-					plugin?.constructor.name !== "DependencyExtractionWebpackPlugin",
-			) ?? []),
-			new DependencyExtractionWebpackPlugin({
-				combineAssets: true,
-			}),
-			{
-				apply: (compiler: Compiler) => {
-					compiler.hooks.afterEmit.tapPromise(
-						"Build CSS and copy to test area",
-						async () => {
-							const plugins: AcceptedPlugin[] = [autoprefixer];
-							if (isProduction) {
-								plugins.push(cssnano({ preset: "default" }));
-							}
-							await glob
-								.promise(`${srcFolder}/blocks/**/*.css`)
-								.then(async (matches) => {
-									for (const match of matches) {
-										const fileName = match.split("/").pop();
-										if (!fileName) {
-											console.error(`Failed to get filename of ${match}`);
-											continue;
-										}
-										const css = readFileSync(match);
-										await postcss(plugins)
-											.process(css, {
-												from: match,
-												to: match.replace(srcFolder, distFolder),
-											})
-											.then((result) => {
-												writeFileSync(
-													match.replace(srcFolder, distFolder),
-													result.css,
-												);
-												if (result.map) {
-													writeFileSync(
-														`${match.replace(srcFolder, distFolder)}.map`,
-														result.map.toString(),
-													);
-												}
-											});
-									}
-								})
-								.then(async () => {
-									if (!isProduction) {
-										return;
-									}
-									return glob
-										.promise(`${distFolder}/**/*.css`)
-										.then((matches) => {
-											for (const match of matches) {
-												const fileBuffer = readFileSync(match);
-												const contentHash = crypto.createHash("shake256", {
-													outputLength: 10,
-												});
-												contentHash.update(fileBuffer);
-												const fileMatchArray = match.split("/");
-												const newFileName = fileMatchArray
-													.pop()
-													?.replace(
-														".css",
-														`.${contentHash.digest("hex")}.css`,
-													);
-												if (!newFileName || newFileName === "") {
-													throw new Error("Error getting CSS file name.");
-												}
-												renameSync(
-													match,
-													`${fileMatchArray.join("/")}/${newFileName}`,
-												);
-											}
-											return;
-										});
-								})
-								.catch((error) => {
-									console.error(error);
-									throw error;
-								});
-						},
-					);
-				},
-			},
-		],
+		context: srcFolder,
+		plugins: plugins,
 		output: {
 			path: distFolder,
 			clean: true,
 		},
 		resolve: {
-			plugins: [new TsconfigPathsPlugin()],
+			plugins: [
+				new TsconfigPathsPlugin({
+					configFile: tsConfigFlag ?? srcFolder,
+				}),
+			],
 			extensions: [".ts", ".js", ".tsx", ".jsx"],
 		},
+		mode: isProduction ? "production" : "development",
 	});
 
 	if (args.find((value) => value === "--watch")) {
@@ -153,15 +172,18 @@ export default function blocks(args: string[]) {
 			},
 			(error, stats) => {
 				if (error) {
-					console.error(error);
+					console.error(error.stack ?? error);
 					process.exitCode = 1;
 					watching.close((closeError) => {
 						console.error(closeError);
 					});
-				}
-				if (stats?.hasErrors()) {
-					for (const statError of stats.compilation.errors) {
-						console.error(statError.message);
+				} else if (stats) {
+					const info = stats.toJson();
+					if (stats.hasErrors()) {
+						console.error(info.errors);
+					}
+					if (stats.hasWarnings()) {
+						console.warn(info.warnings);
 					}
 				}
 			},
@@ -176,9 +198,16 @@ export default function blocks(args: string[]) {
 			if (error) {
 				console.error(error);
 				process.exitCode = 1;
-			}
-			if (stats?.hasErrors()) {
-				process.exitCode = 1;
+			} else if (stats) {
+				const info = stats.toJson();
+				if (stats.hasErrors()) {
+					console.error(info.errors);
+					process.exitCode = 1;
+				}
+				if (stats.hasWarnings()) {
+					console.warn(info.warnings);
+					process.exitCode = 2;
+				}
 			}
 
 			compiler.close((closeError) => {
@@ -210,12 +239,15 @@ async function getAllBlocksJSEntryPoints(srcFolder: string) {
 			);
 			continue;
 		}
+		if (!["ts", "js", "tsx", "jsx"].includes(extension)) {
+			continue;
+		}
 		entryPoints[toCamelCase(entryName)] = {
 			import: `${srcFolder}/${fileNameAndExtension}`,
 			filename: `${entryName}${isProduction ? `.[contenthash]` : ""}.js`,
 		};
 	}
-	const blockFolders = await readdir(`${srcFolder}/blocks`, {
+	const blockFolders = await readdir(`${srcFolder}`, {
 		withFileTypes: true,
 	}).then((srcDirFiles) => {
 		return srcDirFiles
@@ -223,7 +255,7 @@ async function getAllBlocksJSEntryPoints(srcFolder: string) {
 			.map((dirent) => dirent.name);
 	});
 	for (const block of blockFolders) {
-		const blockFiles = await readdir(`${srcFolder}/blocks/${block}`, {
+		const blockFiles = await readdir(`${srcFolder}/${block}`, {
 			withFileTypes: true,
 		}).then((blockDirFiles) => {
 			return blockDirFiles
@@ -246,8 +278,8 @@ async function getAllBlocksJSEntryPoints(srcFolder: string) {
 				blockBonusScriptNumber++;
 			}
 			entryPoints[toCamelCase(entryName)] = {
-				import: `${srcFolder}/blocks/${block}/${blockJSFile}`,
-				filename: `blocks/${block}/${filename}${
+				import: `${srcFolder}/${block}/${blockJSFile}`,
+				filename: `${block}/${filename}${
 					isProduction ? `.[contenthash]` : ""
 				}.js`,
 			};

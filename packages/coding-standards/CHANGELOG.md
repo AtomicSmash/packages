@@ -1,5 +1,17 @@
 # @atomicsmash/coding-standards
 
+## 10.0.0-beta.0
+
+### Minor Changes
+
+- [`5972517`](https://github.com/AtomicSmash/packages/commit/59725170d7252d23d06e90a43d7f02fb1057e661) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Stabilise PHPCS config
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @atomicsmash/eslint-config@10.0.0-beta.0
+  - @atomicsmash/browserslist-config@10.0.0-beta.0
+
 ## 9.0.0
 
 ### Major Changes
