@@ -1,5 +1,11 @@
 # @atomicsmash/cli
 
+## 5.0.0-beta.3
+
+### Patch Changes
+
+- [`de0da95`](https://github.com/AtomicSmash/packages/commit/de0da953bb5369ba54652da88549a230e34b4a9c) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Fix svg-sprite vulnerability
+
 ## 5.0.0-beta.2
 
 ### Patch Changes
