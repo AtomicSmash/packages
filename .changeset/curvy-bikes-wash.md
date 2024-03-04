@@ -1,5 +1,5 @@
 ---
-"@atomicsmash/coding-standards": minor
+"@atomicsmash/coding-standards": major
 ---
 
 Stabilise PHPCS config
