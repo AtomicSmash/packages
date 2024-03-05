@@ -1,27 +1,44 @@
 #!/usr/bin/env node
-import { readFile, writeFile, readdir, appendFile } from "node:fs/promises";
-import { dirname as pathDirname } from "node:path";
-import { fileURLToPath } from "node:url";
+import {
+	readFile,
+	writeFile,
+	readdir,
+	appendFile,
+	mkdir,
+} from "node:fs/promises";
+import { resolve as pathResolve, relative as pathRelative } from "node:path";
 import yargs from "yargs";
 import { hideBin } from "yargs/helpers";
 import { PackageManager } from "./utils.js";
 
-// eslint-disable-next-line @typescript-eslint/naming-convention
-const __filename = fileURLToPath(import.meta.url);
-// eslint-disable-next-line @typescript-eslint/naming-convention
-const __dirname = pathDirname(__filename);
+type JSONValue =
+	| string
+	| number
+	| boolean
+	| { [x: string]: JSONValue }
+	| JSONValue[];
 
 const packageManager = new PackageManager(
-	await import(`${process.cwd()}/package.json`).catch(() => {
-		throw new Error(
-			"Unable to find package.json in your cwd. Make sure you're running this command in the right folder.",
-		);
-	}),
-	await import(`${process.cwd()}/package-lock.json`).catch(() => {
-		throw new Error(
-			"Unable to find package-lock.json in your cwd. Make sure you're running this command in the right folder.",
-		);
-	}),
+	await import(`${process.cwd()}/package.json`, {
+		with: { type: "json" },
+	})
+		.then((module: { default: JSONValue }) => module.default)
+		.catch((error: unknown) => {
+			console.log({ error });
+			throw new Error(
+				"Unable to find package.json in your cwd. Make sure you're running this command in the right folder.",
+			);
+		}),
+	await import(`${process.cwd()}/package-lock.json`, {
+		with: { type: "json" },
+	})
+		.then((module: { default: JSONValue }) => module.default)
+		.catch((error: unknown) => {
+			console.log({ error });
+			throw new Error(
+				"Unable to find package-lock.json in your cwd. Make sure you're running this command in the right folder.",
+			);
+		}),
 );
 
 const argv = await yargs(hideBin(process.argv))
@@ -30,6 +47,11 @@ const argv = await yargs(hideBin(process.argv))
 			demandOption: true,
 			describe: "Base URL to use in actions like `await page.goto('/')`",
 			type: "string",
+		},
+		"overwrite-files": {
+			boolean: true,
+			default: false,
+			describe: "If present, will overwrite existing files when copying.",
 		},
 		"no-example": {
 			boolean: true,
@@ -47,12 +69,16 @@ const argv = await yargs(hideBin(process.argv))
 	.parse();
 
 const fileCopies: Promise<string>[] = [];
-const copyFiles = await readdir(`${__dirname}/../toCopy`, {
+const copyFolder = pathResolve(import.meta.dirname, "../toCopy");
+const copyFiles = await readdir(copyFolder, {
 	withFileTypes: true,
 	recursive: true,
 });
 for (const dirent of copyFiles) {
-	console.log({ name: dirent.name, path: dirent.path });
+	const relativePath = pathRelative(copyFolder, `${dirent.path}`);
+	if (relativePath.endsWith("/")) {
+		relativePath.slice(0, -1);
+	}
 	if (!dirent.isFile()) {
 		continue;
 	}
@@ -63,14 +89,24 @@ for (const dirent of copyFiles) {
 		continue;
 	}
 	fileCopies.push(
-		readFile(dirent.path, "utf8")
+		readFile(`${dirent.path}/${dirent.name}`, "utf8")
 			.then(async (data) => {
 				for (const [search, replace] of [
 					["%%BASE_URL%%", argv.baseUrl],
 				] as const) {
 					data = data.replace(search, replace);
 				}
-				await writeFile(dirent.path, data, "utf8");
+				await mkdir(`${process.cwd()}/${relativePath}`, {
+					recursive: true,
+				});
+				await writeFile(
+					`${process.cwd()}/${relativePath}/${dirent.name}`,
+					data,
+					{
+						encoding: "utf8",
+						flag: argv.overwriteFiles ? "w" : "wx",
+					},
+				);
 				return `${dirent.name} copied successfully.`;
 			})
 			.catch((error) => `${dirent.name} failed to copy. Error: ${error}`),

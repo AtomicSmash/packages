@@ -46,11 +46,25 @@ export class PackageManager {
 	 * Run all the queued commands and then clear the commands object.
 	 */
 	runCommands() {
-		for (const basicCommand of this.commands.basic) {
-			exec(basicCommand);
+		if (this.commands.basic.length > 0) {
+			for (const basicCommand of this.commands.basic) {
+				exec(basicCommand);
+			}
 		}
-		exec(`npm install --save ${this.commands.install.join(" ")}`);
-		exec(`npm install --save-dev ${this.commands.devInstall.join(" ")}`);
+
+		if (this.commands.install.length > 0) {
+			const installCommand = `npm install --save ${this.commands.install.join(
+				" ",
+			)}`;
+			exec(installCommand);
+		}
+
+		if (this.commands.devInstall.length > 0) {
+			const devInstallCommand = `npm install --save-dev ${this.commands.devInstall.join(
+				" ",
+			)}`;
+			exec(devInstallCommand);
+		}
 		this.commands = {
 			basic: [],
 			install: [],
@@ -125,7 +139,7 @@ export class PackageManager {
 						`${packageName} is missing, we will automatically install it for you.`,
 					);
 					this.commands.devInstall.push(
-						`${packageName}@${packageConstraintRange}`,
+						`${packageName}@"${packageConstraintRange}"`,
 					);
 					return resolve(true);
 				}
@@ -157,7 +171,9 @@ export class PackageManager {
 				console.log(
 					`${packageName} is missing, we will automatically install it for you.`,
 				);
-				this.commands.install.push(`${packageName}@${packageConstraintRange}`);
+				this.commands.install.push(
+					`${packageName}@"${packageConstraintRange}"`,
+				);
 				return resolve(true);
 			}
 			const isFoundAsDevDependency = dependencyInfo.type === "dev";
@@ -189,7 +205,9 @@ export class PackageManager {
 				console.log(
 					`An acceptable version of ${packageName} is already installed, updating it to a normal dependency...`,
 				);
-				this.commands.install.push(`${packageName}@${packageConstraintRange}`);
+				this.commands.install.push(
+					`${packageName}@"${packageConstraintRange}"`,
+				);
 				return resolve(true);
 			}
 			console.log(
