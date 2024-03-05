@@ -75,9 +75,9 @@ const copyFiles = await readdir(copyFolder, {
 	recursive: true,
 });
 for (const dirent of copyFiles) {
-	const relativePath = pathRelative(copyFolder, `${dirent.path}`);
-	if (relativePath.endsWith("/")) {
-		relativePath.slice(0, -1);
+	let relativePath = pathRelative(copyFolder, `${dirent.path}`);
+	if (relativePath !== "" && !relativePath.endsWith("/")) {
+		relativePath = `${relativePath}/`;
 	}
 	if (!dirent.isFile()) {
 		continue;
@@ -96,11 +96,11 @@ for (const dirent of copyFiles) {
 				] as const) {
 					data = data.replace(search, replace);
 				}
-				await mkdir(`${process.cwd()}/${relativePath}`, {
+				await mkdir(`${process.cwd()}/${relativePath}`.slice(0, -1), {
 					recursive: true,
 				});
 				await writeFile(
-					`${process.cwd()}/${relativePath}/${dirent.name}`,
+					`${process.cwd()}/${relativePath}${dirent.name}`,
 					data,
 					{
 						encoding: "utf8",
