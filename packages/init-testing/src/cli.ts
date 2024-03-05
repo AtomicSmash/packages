@@ -107,11 +107,11 @@ for (const dirent of copyFiles) {
 						flag: argv.overwriteFiles ? "w" : "wx",
 					},
 				);
-				return `${relativePath}/${dirent.name} copied successfully.`;
+				return `${relativePath}${dirent.name} copied successfully.`;
 			})
 			.catch(
 				(error) =>
-					`${relativePath}/${dirent.name} failed to copy. Error: ${error}`,
+					`${relativePath}${dirent.name} failed to copy. Error: ${error}`,
 			),
 	);
 }
