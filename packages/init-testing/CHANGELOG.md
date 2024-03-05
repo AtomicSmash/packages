@@ -1,5 +1,13 @@
 # @atomicsmash/init-testing
 
+## 1.0.0-beta.2
+
+### Patch Changes
+
+- [`8408fe5`](https://github.com/AtomicSmash/packages/commit/8408fe586e8d513723951174cf43a689ad25cc89) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Fix trailing slash behaviour for relative path
+
+- [`40b9521`](https://github.com/AtomicSmash/packages/commit/40b9521bbc0d2107fdd9a07d8f57d29a15f33199) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Fix eslint and tsconfig location
+
 ## 1.0.0-beta.1
 
 ### Patch Changes

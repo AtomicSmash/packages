@@ -15,7 +15,9 @@
     "@atomicsmash/test-utils": "1.3.0"
   },
   "changesets": [
+    "calm-berries-hear",
     "cold-squids-sell",
+    "nine-dodos-leave",
     "odd-trees-turn",
     "poor-needles-confess"
   ]
