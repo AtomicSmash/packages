@@ -25,3 +25,6 @@ packages/cli/src/tests/package-lock.json
 .env.test.local
 .env.production.local
 .env.local
+
+# Cache files
+.cache/
