@@ -1,5 +1,13 @@
 # @atomicsmash/init-testing
 
+## 1.0.0-beta.3
+
+### Patch Changes
+
+- [`9ebcd42`](https://github.com/AtomicSmash/packages/commit/9ebcd42720afe49e08bd0b3b45e21f34f9d09f22) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Update dependencies
+
+- [`d0faaad`](https://github.com/AtomicSmash/packages/commit/d0faaad708c814806d7c80bf944f1150b9023127) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Fix relative path for logs
+
 ## 1.0.0-beta.2
 
 ### Patch Changes

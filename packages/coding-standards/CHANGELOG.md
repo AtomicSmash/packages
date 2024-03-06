@@ -1,5 +1,15 @@
 # @atomicsmash/coding-standards
 
+## 10.0.1-beta.0
+
+### Patch Changes
+
+- [`9ebcd42`](https://github.com/AtomicSmash/packages/commit/9ebcd42720afe49e08bd0b3b45e21f34f9d09f22) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Update dependencies
+
+- Updated dependencies [[`9ebcd42`](https://github.com/AtomicSmash/packages/commit/9ebcd42720afe49e08bd0b3b45e21f34f9d09f22)]:
+  - @atomicsmash/eslint-config@10.0.1-beta.0
+  - @atomicsmash/browserslist-config@10.0.1-beta.0
+
 ## 10.0.0
 
 ### Major Changes
