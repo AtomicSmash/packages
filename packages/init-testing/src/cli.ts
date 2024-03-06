@@ -164,15 +164,16 @@ await Promise.all([
 			return data.toString().split("\n");
 		})
 		.then((fileLines) => {
-			const linesToAddToGitignore = [
+			const linesToCheck = [
 				"/test-results/",
 				"/playwright-report/",
 				"/blob-report/",
 				"/playwright/.cache/",
 			];
-			for (const line of linesToAddToGitignore) {
-				if (fileLines.includes(line)) {
-					linesToAddToGitignore.splice(linesToAddToGitignore.indexOf(line), 1);
+			const linesToAddToGitignore: string[] = [];
+			for (const line of linesToCheck) {
+				if (!fileLines.includes(line)) {
+					linesToAddToGitignore.push(line);
 				}
 			}
 			return linesToAddToGitignore;
@@ -183,7 +184,7 @@ await Promise.all([
 			}
 			await appendFile(
 				`${process.cwd()}/.gitignore`,
-				`\n# Testing tools\n${linesToAddToGitignore.join(`\n`)}`,
+				`\n\n# Testing tools\n${linesToAddToGitignore.join(`\n`)}\n`,
 			);
 			return true;
 		})
