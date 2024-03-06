@@ -38,7 +38,7 @@
 		"lint:types": "tsc",
 		"format": "run-p format:*",
 		"format:prettier": "prettier . --write",
-		"release": "npm-run-all build lint publish",
+		"release": "npm-run-all build lint test publish",
 		"publish": "changeset publish"
 	},
 	"devDependencies": {
