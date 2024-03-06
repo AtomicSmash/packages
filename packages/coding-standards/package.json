@@ -1,18 +1,18 @@
 {
 	"name": "@atomicsmash/coding-standards",
-	"version": "10.0.0",
+	"version": "10.0.1-beta.0",
 	"description": "A collection of coding standards configurations.",
 	"main": "index.js",
 	"types": "index.d.ts",
 	"devDependencies": {
-		"@cspell/cspell-types": "^8.2.3"
+		"@cspell/cspell-types": "^8.6.0"
 	},
 	"peerDependencies": {
-		"@atomicsmash/browserslist-config": "10.0.0",
-		"@atomicsmash/eslint-config": "10.0.0",
-		"@commitlint/cli": "^18.4.3",
-		"@commitlint/config-conventional": "^18.4.3",
-		"prettier": "^3.1.1"
+		"@atomicsmash/browserslist-config": "10.0.1-beta.0",
+		"@atomicsmash/eslint-config": "10.0.1-beta.0",
+		"@commitlint/cli": "^19.0.3",
+		"@commitlint/config-conventional": "^19.0.3",
+		"prettier": "^3.2.5"
 	},
 	"keywords": [
 		"atomic",

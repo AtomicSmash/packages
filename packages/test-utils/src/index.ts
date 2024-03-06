@@ -113,7 +113,7 @@ export const getLighthouseTest = (logInUser: AuthenticatePageFunction) => {
 
 type LighthouseTestFunction = Parameters<
 	ReturnType<typeof getLighthouseTest>
->[1];
+>[2];
 
 export const doLighthouseTest: (
 	pageToTest: PageList[number],

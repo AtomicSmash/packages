@@ -1,5 +1,7 @@
 # @atomicsmash/browserslist-config
 
+## 10.0.1-beta.0
+
 ## 10.0.0
 
 ## 10.0.0-beta.0
