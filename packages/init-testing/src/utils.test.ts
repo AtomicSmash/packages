@@ -90,7 +90,7 @@ describe.sequential("ensurePackageIsInstalled()", () => {
 		expect(packageManager.commands).toEqual({
 			basic: [],
 			install: [],
-			devInstall: [`test-package-3@>=2.0.0 <3.0.0-0`],
+			devInstall: [`test-package-3@">=2.0.0 <3.0.0-0"`],
 		});
 	});
 	it("should not install a dev dependency package that is present and already a higher version", async () => {
@@ -111,7 +111,7 @@ describe.sequential("ensurePackageIsInstalled()", () => {
 		expect(packageManager.commands).toEqual({
 			basic: [],
 			install: [],
-			devInstall: [`test-package-3@>=2.0.0 <3.0.0-0`],
+			devInstall: [`test-package-3@">=2.0.0 <3.0.0-0"`],
 		});
 	});
 	it("should not install a dev dependency package that is present and has a lower version", async () => {
@@ -132,7 +132,7 @@ describe.sequential("ensurePackageIsInstalled()", () => {
 		expect(packageManager.commands).toEqual({
 			basic: [],
 			install: [],
-			devInstall: [`test-package-3@>=2.0.0 <3.0.0-0`],
+			devInstall: [`test-package-3@">=2.0.0 <3.0.0-0"`],
 		});
 	});
 	it("should do nothing if normal dependency is already installed", async () => {
@@ -149,7 +149,7 @@ describe.sequential("ensurePackageIsInstalled()", () => {
 		expect(packageManager.commands).toEqual({
 			basic: [],
 			install: [],
-			devInstall: [`test-package-3@>=2.0.0 <3.0.0-0`],
+			devInstall: [`test-package-3@">=2.0.0 <3.0.0-0"`],
 		});
 	});
 	it("should install a normal dependency package that is missing", async () => {
@@ -163,8 +163,8 @@ describe.sequential("ensurePackageIsInstalled()", () => {
 		);
 		expect(packageManager.commands).toEqual({
 			basic: [],
-			install: [`test-package-4@>=2.0.0 <3.0.0-0`],
-			devInstall: [`test-package-3@>=2.0.0 <3.0.0-0`],
+			install: [`test-package-4@">=2.0.0 <3.0.0-0"`],
+			devInstall: [`test-package-3@">=2.0.0 <3.0.0-0"`],
 		});
 	});
 	it("should not install a normal dependency package that is present and already a higher version", async () => {
@@ -184,8 +184,8 @@ describe.sequential("ensurePackageIsInstalled()", () => {
 		);
 		expect(packageManager.commands).toEqual({
 			basic: [],
-			install: [`test-package-4@>=2.0.0 <3.0.0-0`],
-			devInstall: [`test-package-3@>=2.0.0 <3.0.0-0`],
+			install: [`test-package-4@">=2.0.0 <3.0.0-0"`],
+			devInstall: [`test-package-3@">=2.0.0 <3.0.0-0"`],
 		});
 	});
 	it("should not install a normal dependency package that is present as a dev dependency and already a higher version", async () => {
@@ -205,8 +205,8 @@ describe.sequential("ensurePackageIsInstalled()", () => {
 		);
 		expect(packageManager.commands).toEqual({
 			basic: [],
-			install: [`test-package-4@>=2.0.0 <3.0.0-0`],
-			devInstall: [`test-package-3@>=2.0.0 <3.0.0-0`],
+			install: [`test-package-4@">=2.0.0 <3.0.0-0"`],
+			devInstall: [`test-package-3@">=2.0.0 <3.0.0-0"`],
 		});
 	});
 	it("should not install a normal dependency package that is present and has a lower version", async () => {
@@ -226,8 +226,8 @@ describe.sequential("ensurePackageIsInstalled()", () => {
 		);
 		expect(packageManager.commands).toEqual({
 			basic: [],
-			install: [`test-package-4@>=2.0.0 <3.0.0-0`],
-			devInstall: [`test-package-3@>=2.0.0 <3.0.0-0`],
+			install: [`test-package-4@">=2.0.0 <3.0.0-0"`],
+			devInstall: [`test-package-3@">=2.0.0 <3.0.0-0"`],
 		});
 	});
 	it("should not install a normal dependency package that is present as a dev dependency and has a lower version", async () => {
@@ -247,8 +247,8 @@ describe.sequential("ensurePackageIsInstalled()", () => {
 		);
 		expect(packageManager.commands).toEqual({
 			basic: [],
-			install: [`test-package-4@>=2.0.0 <3.0.0-0`],
-			devInstall: [`test-package-3@>=2.0.0 <3.0.0-0`],
+			install: [`test-package-4@">=2.0.0 <3.0.0-0"`],
+			devInstall: [`test-package-3@">=2.0.0 <3.0.0-0"`],
 		});
 	});
 });
