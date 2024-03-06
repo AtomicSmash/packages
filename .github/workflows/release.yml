@@ -5,6 +5,9 @@ on:
     branches:
       - main
 
+env:
+  HUSKY: 0
+
 concurrency: ${{ github.workflow }}-${{ github.ref }}
 
 jobs:
@@ -25,7 +28,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: |
-            .cache/eslint/
+            /home/runner/work/packages/packages/.cache/eslint/
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json', '**/.eslintrc.cjs') }}
 
       - name: Install Dependencies
