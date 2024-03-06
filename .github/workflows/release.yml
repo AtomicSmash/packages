@@ -25,7 +25,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: |
-            ~/.cache/eslint/
+            .cache/eslint/
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json', '**/.eslintrc.cjs') }}
 
       - name: Install Dependencies
