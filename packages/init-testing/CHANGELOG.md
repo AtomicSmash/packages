@@ -1,5 +1,11 @@
 # @atomicsmash/init-testing
 
+## 1.0.0-beta.5
+
+### Patch Changes
+
+- [`fafecd5`](https://github.com/AtomicSmash/packages/commit/fafecd5be7a9d8235db9252fb3b91460ebedc74c) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Fix gitignore line check
+
 ## 1.0.0-beta.4
 
 ### Patch Changes
