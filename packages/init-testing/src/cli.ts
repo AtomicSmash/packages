@@ -176,15 +176,18 @@ await Promise.all([
 					linesToAddToGitignore.push(line);
 				}
 			}
-			return linesToAddToGitignore;
+			return {
+				linesToAddToGitignore,
+				fileEndsWithEmptyLine: fileLines.at(-1) === "",
+			};
 		})
-		.then(async (linesToAddToGitignore) => {
+		.then(async ({ linesToAddToGitignore, fileEndsWithEmptyLine }) => {
 			if (linesToAddToGitignore.length === 0) {
 				return false;
 			}
 			await appendFile(
 				`${process.cwd()}/.gitignore`,
-				`\n\n# Testing tools\n${linesToAddToGitignore.join(`\n`)}\n`,
+				`${fileEndsWithEmptyLine ? "\n" : "\n\n"}# Testing tools\n${linesToAddToGitignore.join(`\n`)}\n`,
 			);
 			return true;
 		})
