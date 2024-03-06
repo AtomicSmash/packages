@@ -159,15 +159,41 @@ await Promise.all([
 			console.log(result.status === "fulfilled" ? result.value : result.reason);
 		});
 	}),
-	appendFile(
-		`${process.cwd()}/.gitignore`,
-		`
-
-# Testing tools
-/test-results/
-/playwright-report/
-/blob-report/
-/playwright/.cache/
-`,
-	),
+	readFile(`${process.cwd()}/.gitignore`)
+		.then((data) => {
+			return data.toString().split("\n");
+		})
+		.then((fileLines) => {
+			const linesToAddToGitignore = [
+				"/test-results/",
+				"/playwright-report/",
+				"/blob-report/",
+				"/playwright/.cache/",
+			];
+			for (const line of linesToAddToGitignore) {
+				if (fileLines.includes(line)) {
+					linesToAddToGitignore.splice(linesToAddToGitignore.indexOf(line), 1);
+				}
+			}
+			return linesToAddToGitignore;
+		})
+		.then(async (linesToAddToGitignore) => {
+			if (linesToAddToGitignore.length === 0) {
+				return false;
+			}
+			await appendFile(
+				`${process.cwd()}/.gitignore`,
+				`\n# Testing tools\n${linesToAddToGitignore.join(`\n`)}`,
+			);
+			return true;
+		})
+		.then((wasFileUpdated) => {
+			if (wasFileUpdated) {
+				console.log(".gitignore updated");
+			} else {
+				console.log(
+					".gitignore not updated as all values are already in the file.",
+				);
+			}
+		}),
 ]);
