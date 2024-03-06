@@ -1,5 +1,11 @@
 # @atomicsmash/init-testing
 
+## 1.0.0-beta.4
+
+### Patch Changes
+
+- [`842117a`](https://github.com/AtomicSmash/packages/commit/842117a3b84bdfbc813ba5e387bd08a342170509) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Fix gitignore update function to avoid duplicates and notify user
+
 ## 1.0.0-beta.3
 
 ### Patch Changes
