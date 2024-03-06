@@ -1,5 +1,11 @@
 # @atomicsmash/dev-tools-helpers
 
+## 1.2.1
+
+### Patch Changes
+
+- [#133](https://github.com/AtomicSmash/packages/pull/133) [`9ebcd42`](https://github.com/AtomicSmash/packages/commit/9ebcd42720afe49e08bd0b3b45e21f34f9d09f22) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Update dependencies
+
 ## 1.2.1-beta.0
 
 ### Patch Changes

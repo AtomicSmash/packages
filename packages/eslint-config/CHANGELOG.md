@@ -1,5 +1,11 @@
 # @atomicsmash/eslint-config
 
+## 10.0.1
+
+### Patch Changes
+
+- [#133](https://github.com/AtomicSmash/packages/pull/133) [`9ebcd42`](https://github.com/AtomicSmash/packages/commit/9ebcd42720afe49e08bd0b3b45e21f34f9d09f22) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Update dependencies
+
 ## 10.0.1-beta.0
 
 ### Patch Changes
