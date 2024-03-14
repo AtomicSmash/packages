@@ -1,0 +1,22 @@
+{
+  "mode": "exit",
+  "tag": "beta",
+  "initialVersions": {
+    "@atomicsmash/blocks-helpers": "3.0.1",
+    "@atomicsmash/browserslist-config": "10.0.1",
+    "@atomicsmash/cli": "5.0.1",
+    "@atomicsmash/coding-standards": "10.0.1",
+    "@atomicsmash/date-php": "2.1.0",
+    "@atomicsmash/dev-tools-helpers": "1.2.1",
+    "@atomicsmash/eslint-config": "10.0.1",
+    "@atomicsmash/http-response-codes": "1.2.1",
+    "@atomicsmash/init-testing": "1.0.0",
+    "@atomicsmash/react": "1.6.1",
+    "@atomicsmash/test-utils": "1.3.1"
+  },
+  "changesets": [
+    "afraid-phones-fry",
+    "orange-toes-dress",
+    "silly-actors-kiss"
+  ]
+}

@@ -47,6 +47,117 @@ export async function execute(
 	});
 }
 
+export function interpretFlag(
+	args: string[],
+	flag: string,
+	type: "boolean",
+):
+	| {
+			isPresent: false;
+			rawValue: null;
+			value: false;
+	  }
+	| {
+			isPresent: true;
+			rawValue: string | null;
+			value: boolean;
+	  };
+export function interpretFlag(
+	args: string[],
+	flag: string,
+	type: "list",
+):
+	| {
+			isPresent: false;
+			rawValue: null;
+			value: null;
+	  }
+	| {
+			isPresent: true;
+			rawValue: string | null;
+			value: string[];
+	  };
+export function interpretFlag(
+	args: string[],
+	flag: string,
+	type?: "string",
+):
+	| {
+			isPresent: false;
+			rawValue: null;
+			value: null;
+	  }
+	| {
+			isPresent: true;
+			rawValue: string | null;
+			value: string;
+	  };
+export function interpretFlag(
+	args: string[],
+	flag: string,
+	type: "string" | "boolean" | "list" = "string",
+):
+	| {
+			isPresent: false;
+			rawValue: null;
+			value: null;
+	  }
+	| {
+			isPresent: true;
+			rawValue: string | null;
+			value: string[];
+	  }
+	| {
+			isPresent: boolean;
+			rawValue: string | null;
+			value: boolean;
+	  }
+	| {
+			isPresent: true;
+			rawValue: string | null;
+			value: string | null;
+	  } {
+	const flagValue = args.find((arg) => arg.startsWith(flag));
+	if (flagValue === undefined) {
+		// Flag not found
+		return {
+			isPresent: false,
+			rawValue: null,
+			value: type === "boolean" ? false : null,
+		};
+	}
+	let rawValue: string | null = null;
+
+	if (flagValue.includes("=")) {
+		rawValue = flagValue.replace(`${flag}=`, "").trim();
+	} else {
+		const flagIndex = args.findIndex((arg) => arg === flag);
+		const potentialFlagValue = args[flagIndex + 1];
+		if (potentialFlagValue && !potentialFlagValue.startsWith("--")) {
+			rawValue = potentialFlagValue;
+		}
+	}
+	if (type === "boolean") {
+		return {
+			isPresent: true,
+			rawValue,
+			value: rawValue ? rawValue.toLowerCase() === "true" : true,
+		};
+	}
+	if (type === "list") {
+		return {
+			isPresent: true,
+			rawValue,
+			value: rawValue?.split(",") ?? [],
+		};
+	}
+	return {
+		isPresent: true,
+		rawValue,
+		value: rawValue,
+	};
+}
+
 export function toCamelCase(text: string) {
 	return text.replace(
 		/^([A-Z])|[\s-_](\w)/g,

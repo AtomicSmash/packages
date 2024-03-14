@@ -3,7 +3,7 @@ import { resolve as resolvePath, join as joinPath, dirname } from "path";
 import glob from "glob-promise";
 import SVGSpriter from "svg-sprite";
 import File from "vinyl";
-import { hasHelpFlag } from "../utils.js";
+import { hasHelpFlag, interpretFlag } from "../utils.js";
 
 export const svgHelpMessage = `
   Atomic Smash CLI - SVG command.
@@ -23,17 +23,17 @@ export default function svg(args: string[]) {
 		console.log(svgHelpMessage);
 		return;
 	}
-	const inFlag = args[args.findIndex((arg) => arg === "--in") + 1];
-	if (!inFlag || inFlag.startsWith("--")) {
+	const inFlag = interpretFlag(args, "--in");
+	if (!inFlag.isPresent || inFlag.value === null) {
 		throw new Error("You need to provide a value for the --in flag.");
 	}
-	const outFlag = args[args.findIndex((arg) => arg === "--out") + 1];
-	if (!outFlag || outFlag.startsWith("--")) {
+	const outFlag = interpretFlag(args, "--out");
+	if (!outFlag.isPresent || outFlag.value === null) {
 		throw new Error("You need to provide a value for the --out flag.");
 	}
 
 	const config = {
-		dest: outFlag,
+		dest: outFlag.value,
 		shape: {
 			dimension: {
 				attributes: false,
@@ -53,7 +53,7 @@ export default function svg(args: string[]) {
 	};
 	const spriter = new SVGSpriter(config);
 
-	const cwd = resolvePath(inFlag);
+	const cwd = resolvePath(inFlag.value);
 	// Find SVG files recursively via `glob`
 	glob("**/*.svg", { cwd })
 		.then(async (files) => {
@@ -90,7 +90,9 @@ export default function svg(args: string[]) {
 						);
 				})
 				.then(() => {
-					console.log(`SVG sprite was successfully generated in ${outFlag}.`);
+					console.log(
+						`SVG sprite was successfully generated in ${outFlag.value}.`,
+					);
 				});
 		})
 		.catch((error: unknown) => {
