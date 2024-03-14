@@ -22,12 +22,13 @@ export const blocksHelpMessage = `
   A command to generate WordPress blocks from a src folder.
 
   Options:
-    --in               The directory where the WP blocks can be found. Relative to cwd.
-    --out              The directory where the WP blocks will be output. Relative to cwd.
-    --tsConfigPath     (optional) The directory where the tsconfig file can be found. Relative to cwd. Defaults to the in folder.
-    --watch            (optional) Watch the blocks in folder for changes and compile.
-    --excludeBlocks    (optional) A comma separated list of the folder names of blocks to exclude from compilation. Defaults to "__TEMPLATE__".
-    --excludeRootFiles (optional) A comma separated list of the root file names to exclude from compilation. Nothing is excluded by default.
+    --in                     The directory where the WP blocks can be found. Relative to cwd.
+    --out                    The directory where the WP blocks will be output. Relative to cwd.
+    --tsConfigPath           (optional) The directory where the tsconfig file can be found. Relative to cwd. Defaults to the in folder.
+    --watch                  (optional) Watch the blocks in folder for changes and compile.
+    --excludeBlocks          (optional) A comma separated list of the folder names of blocks to exclude from compilation. Defaults to "__TEMPLATE__".
+    --excludeRootFiles       (optional) A comma separated list of the root file names to exclude from compilation. Nothing is excluded by default.
+    --alwaysCompileRootFiles (optional) By default, we won't compile root files if no blocks are found, this allows you to override that setting. Defaults to false.
 
   Example usage:
     $ smash-cli blocks --watch --in src --out build --tsConfigPath tsconfig.json
@@ -58,6 +59,9 @@ export default function blocks(args: string[]) {
 		args[args.findIndex((arg) => arg === "--excludeRootFiles") + 1]?.split(
 			",",
 		) ?? [];
+	const shouldAlwaysCompileRootFiles = !!args.find(
+		(arg) => arg === "--alwaysCompileRootFiles",
+	);
 
 	const postCSSPlugins: AcceptedPlugin[] = [autoprefixer];
 	if (isProduction) {
@@ -157,6 +161,7 @@ export default function blocks(args: string[]) {
 		entry: () =>
 			getAllBlocksJSEntryPoints({
 				srcFolder,
+				shouldAlwaysCompileRootFiles,
 				excludeBlocks,
 				excludeRootFiles,
 			}),
@@ -235,10 +240,12 @@ export default function blocks(args: string[]) {
 
 async function getAllBlocksJSEntryPoints({
 	srcFolder,
-	excludeBlocks = [],
-	excludeRootFiles = [],
+	shouldAlwaysCompileRootFiles,
+	excludeBlocks,
+	excludeRootFiles,
 }: {
 	srcFolder: string;
+	shouldAlwaysCompileRootFiles: boolean;
 	excludeBlocks: string[];
 	excludeRootFiles: string[];
 }) {
@@ -286,6 +293,11 @@ async function getAllBlocksJSEntryPoints({
 		.then((blockFolders) => {
 			return blockFolders.filter((block) => !excludeBlocks.includes(block));
 		});
+	if (blockFolders.length === 0 && !shouldAlwaysCompileRootFiles) {
+		// If there are no blocks, don't compile root files, unless the flag is present.
+		console.log({ entryPoints: {} });
+		return {};
+	}
 	for (const block of blockFolders) {
 		const blockFiles = await readdir(`${srcFolder}/${block}`, {
 			withFileTypes: true,
