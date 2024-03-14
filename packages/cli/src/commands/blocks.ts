@@ -12,7 +12,7 @@ import glob from "glob-promise";
 import postcss, { AcceptedPlugin } from "postcss";
 import { TsconfigPathsPlugin } from "tsconfig-paths-webpack-plugin";
 import webpack from "webpack";
-import { hasHelpFlag, toCamelCase } from "../utils.js";
+import { hasHelpFlag, interpretFlag, toCamelCase } from "../utils.js";
 
 const isProduction = process.env.NODE_ENV === "production";
 
@@ -39,29 +39,28 @@ export default function blocks(args: string[]) {
 		console.log(blocksHelpMessage);
 		return;
 	}
-	const inFlag = args[args.findIndex((arg) => arg === "--in") + 1];
-	if (!inFlag || inFlag.startsWith("--")) {
+	const inFlag = interpretFlag(args, "--in");
+	if (!inFlag.isPresent || inFlag.value === null) {
 		throw new Error("You need to provide a value for the --in flag.");
 	}
-	const outFlag = args[args.findIndex((arg) => arg === "--out") + 1];
-	if (!outFlag || outFlag.startsWith("--")) {
+	const outFlag = interpretFlag(args, "--out");
+	if (!outFlag.isPresent || outFlag.value === null) {
 		throw new Error("You need to provide a value for the --out flag.");
 	}
-	const srcFolder = resolvePath(inFlag);
-	const distFolder = resolvePath(outFlag);
+	const srcFolder = resolvePath(inFlag.value);
+	const distFolder = resolvePath(outFlag.value);
 
 	const tsConfigLocation =
-		args[args.findIndex((arg) => arg === "--tsConfigPath") + 1] ?? srcFolder;
-	const excludeBlocks = args[
-		args.findIndex((arg) => arg === "--excludeBlocks") + 1
-	]?.split(",") ?? ["__TEMPLATE__"];
+		interpretFlag(args, "--tsConfigPath").value ?? srcFolder;
+	const excludeBlocks = interpretFlag(args, "--excludeBlocks", "list")
+		.value ?? ["__TEMPLATE__"];
 	const excludeRootFiles =
-		args[args.findIndex((arg) => arg === "--excludeRootFiles") + 1]?.split(
-			",",
-		) ?? [];
-	const shouldAlwaysCompileRootFiles = !!args.find(
-		(arg) => arg === "--alwaysCompileRootFiles",
-	);
+		interpretFlag(args, "--excludeRootFiles", "list").value ?? [];
+	const shouldAlwaysCompileRootFiles = interpretFlag(
+		args,
+		"--alwaysCompileRootFiles",
+		"boolean",
+	).value;
 
 	const postCSSPlugins: AcceptedPlugin[] = [autoprefixer];
 	if (isProduction) {
