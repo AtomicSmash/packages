@@ -1,5 +1,17 @@
 # @atomicsmash/cli
 
+## 6.0.0
+
+### Major Changes
+
+- [#140](https://github.com/AtomicSmash/packages/pull/140) [`918e9de`](https://github.com/AtomicSmash/packages/commit/918e9de32e0d86fdf607c5f0264f82067b88fcfc) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Exclude the **TEMPLATE** block folder by default
+
+- [#140](https://github.com/AtomicSmash/packages/pull/140) [`918e9de`](https://github.com/AtomicSmash/packages/commit/918e9de32e0d86fdf607c5f0264f82067b88fcfc) Thanks [@mikeybinns](https://github.com/mikeybinns)! - No longer compile root files if there are no blocks, unless specifically opted in via flag
+
+### Minor Changes
+
+- [#140](https://github.com/AtomicSmash/packages/pull/140) [`918e9de`](https://github.com/AtomicSmash/packages/commit/918e9de32e0d86fdf607c5f0264f82067b88fcfc) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Add block and root file excludes flags
+
 ## 6.0.0-beta.0
 
 ### Major Changes
