@@ -22,10 +22,12 @@ export const blocksHelpMessage = `
   A command to generate WordPress blocks from a src folder.
 
   Options:
-    --in            The directory where the WP blocks can be found. Relative to cwd.
-    --out           The directory where the WP blocks will be output. Relative to cwd.
-    --tsConfigPath  (optional) The directory where the tsconfig file can be found. Relative to cwd. Defaults to the in folder.
-    --watch         (optional) Watch the blocks in folder for changes and compile.
+    --in               The directory where the WP blocks can be found. Relative to cwd.
+    --out              The directory where the WP blocks will be output. Relative to cwd.
+    --tsConfigPath     (optional) The directory where the tsconfig file can be found. Relative to cwd. Defaults to the in folder.
+    --watch            (optional) Watch the blocks in folder for changes and compile.
+    --excludeBlocks    (optional) A comma separated list of the folder names of blocks to exclude from compilation. Defaults to "__TEMPLATE__".
+    --excludeRootFiles (optional) A comma separated list of the root file names to exclude from compilation. Nothing is excluded by default.
 
   Example usage:
     $ smash-cli blocks --watch --in src --out build --tsConfigPath tsconfig.json
@@ -44,11 +46,18 @@ export default function blocks(args: string[]) {
 	if (!outFlag || outFlag.startsWith("--")) {
 		throw new Error("You need to provide a value for the --out flag.");
 	}
-	const tsConfigFlag =
-		args[args.findIndex((arg) => arg === "--tsConfigPath") + 1];
-
 	const srcFolder = resolvePath(inFlag);
 	const distFolder = resolvePath(outFlag);
+
+	const tsConfigLocation =
+		args[args.findIndex((arg) => arg === "--tsConfigPath") + 1] ?? srcFolder;
+	const excludeBlocks = args[
+		args.findIndex((arg) => arg === "--excludeBlocks") + 1
+	]?.split(",") ?? ["__TEMPLATE__"];
+	const excludeRootFiles =
+		args[args.findIndex((arg) => arg === "--excludeRootFiles") + 1]?.split(
+			",",
+		) ?? [];
 
 	const postCSSPlugins: AcceptedPlugin[] = [autoprefixer];
 	if (isProduction) {
@@ -145,7 +154,12 @@ export default function blocks(args: string[]) {
 
 	const compiler = webpack({
 		...(defaultConfig as Configuration),
-		entry: () => getAllBlocksJSEntryPoints(srcFolder),
+		entry: () =>
+			getAllBlocksJSEntryPoints({
+				srcFolder,
+				excludeBlocks,
+				excludeRootFiles,
+			}),
 		context: srcFolder,
 		plugins: plugins,
 		output: {
@@ -155,7 +169,7 @@ export default function blocks(args: string[]) {
 		resolve: {
 			plugins: [
 				new TsconfigPathsPlugin({
-					configFile: tsConfigFlag ?? srcFolder,
+					configFile: tsConfigLocation,
 				}),
 			],
 			extensions: [".ts", ".js", ".tsx", ".jsx"],
@@ -219,7 +233,15 @@ export default function blocks(args: string[]) {
 	}
 }
 
-async function getAllBlocksJSEntryPoints(srcFolder: string) {
+async function getAllBlocksJSEntryPoints({
+	srcFolder,
+	excludeBlocks = [],
+	excludeRootFiles = [],
+}: {
+	srcFolder: string;
+	excludeBlocks: string[];
+	excludeRootFiles: string[];
+}) {
 	const entryPoints: Configuration["entry"] = {};
 	const rootFiles = await readdir(srcFolder, {
 		withFileTypes: true,
@@ -233,6 +255,12 @@ async function getAllBlocksJSEntryPoints(srcFolder: string) {
 			string,
 			string,
 		];
+		if (
+			excludeRootFiles.includes(entryName) ||
+			excludeRootFiles.includes(fileNameAndExtension)
+		) {
+			continue;
+		}
 		if (entryName === undefined || extension === undefined) {
 			console.log(
 				`Failed to process ${fileNameAndExtension}, continuing anyway.`,
@@ -249,11 +277,15 @@ async function getAllBlocksJSEntryPoints(srcFolder: string) {
 	}
 	const blockFolders = await readdir(`${srcFolder}`, {
 		withFileTypes: true,
-	}).then((srcDirFiles) => {
-		return srcDirFiles
-			.filter((dirent) => dirent.isDirectory())
-			.map((dirent) => dirent.name);
-	});
+	})
+		.then((srcDirFiles) => {
+			return srcDirFiles
+				.filter((dirent) => dirent.isDirectory())
+				.map((dirent) => dirent.name);
+		})
+		.then((blockFolders) => {
+			return blockFolders.filter((block) => !excludeBlocks.includes(block));
+		});
 	for (const block of blockFolders) {
 		const blockFiles = await readdir(`${srcFolder}/${block}`, {
 			withFileTypes: true,
