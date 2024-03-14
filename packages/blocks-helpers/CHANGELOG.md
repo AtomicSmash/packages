@@ -1,5 +1,11 @@
 # @atomicsmash/blocks-helpers
 
+## 3.1.0-beta.0
+
+### Minor Changes
+
+- [`5e5ecf2`](https://github.com/AtomicSmash/packages/commit/5e5ecf264e56994085364c129ad61451f969f07b) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Refine context types
+
 ## 3.0.1
 
 ### Patch Changes
