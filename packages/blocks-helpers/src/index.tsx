@@ -126,6 +126,30 @@ export type BlockSupports = Record<string, any> & {
 		lineHeight?: boolean;
 	};
 };
+export type BlockProvidesContext<
+	Attributes extends Record<string, ReadonlyRecursive<AttributesObject>>,
+> = Record<string, keyof Attributes>;
+export type InterpretContext<
+	UsedContextAttributes extends Record<
+		string,
+		ReadonlyRecursive<AttributesObject>
+	>,
+	Context extends
+		BlockProvidesContext<UsedContextAttributes> = BlockProvidesContext<UsedContextAttributes>,
+> = {
+	[Property in keyof Context]: InterpretAttributes<UsedContextAttributes>[Context[Property]];
+};
+
+export type BlockUsesContext<InterpretedContext extends Record<string, any>> =
+	(keyof InterpretedContext)[];
+
+export type InterpretUsedContext<
+	UsesContext extends string[],
+	InterpretedContext extends Record<UsesContext[number], any>,
+> = {
+	[Property in UsesContext[number]]: InterpretedContext[Property];
+};
+
 type BlockInstance = ReturnType<typeof createBlock>;
 export type InnerBlocks = {
 	name: BlockInstance["name"];
@@ -252,7 +276,7 @@ export type BlockMetaData<
 	 * See the block context documentation at https://developer.wordpress.org/block-editor/reference-guides/block-api/block-context/ for more details.
 	 * Property names must only contain letters Regex:[a-zA-Z]
 	 */
-	providesContext?: Record<string, string>;
+	providesContext?: BlockProvidesContext<Attributes>;
 
 	/**
 	 * Array of the names of context values to inherit from an ancestor provider.
@@ -552,13 +576,13 @@ export type BlockSettings<
 		string,
 		any
 	> = InterpretedAttributes,
-	Context extends Record<string, any> = Record<string, never>,
+	UsedContext extends Record<string, any> = Record<string, never>,
 > = {
 	edit: ({
 		attributes,
 		setAttributes,
 		isSelected,
-	}: BlockEditProps<InterpretedAttributes, Context>) => Element;
+	}: BlockEditProps<InterpretedAttributes, UsedContext>) => Element;
 	save: ({ attributes }: BlockSaveProps<InterpretedAttributes>) => Element;
 	transforms?: {
 		from: BlockTransforms;
@@ -587,14 +611,14 @@ export function registerBlockType<
 		string,
 		any
 	> = InterpretedAttributes,
-	Context extends Record<string, any> = Record<string, never>,
+	UsedContext extends Record<string, any> = Record<string, never>,
 >(
 	name: string,
 	settings: Partial<BlockMetaData<Attributes>> &
 		BlockSettings<
 			InterpretedAttributes,
 			AllPossibleInterpretedAttributes,
-			Context
+			UsedContext
 		>,
 ) {
 	/* @ts-expect-error Provided types are inaccurate and will provide an error with some valid inputs */
