@@ -601,6 +601,24 @@ export type LoosenTypeOfObject<Type extends Record<string, any>> = {
 				: Type[Property];
 };
 
+export type BlockDefinition<
+	Attributes extends BlockAttributes = Record<string, never>,
+	InterpretedAttributes extends Record<
+		string,
+		any
+	> = InterpretAttributes<Attributes>,
+	AllPossibleInterpretedAttributes extends Record<
+		string,
+		any
+	> = InterpretedAttributes,
+	UsedContext extends Record<string, any> = Record<string, never>,
+> = Partial<BlockMetaData<Attributes>> &
+	BlockSettings<
+		InterpretedAttributes,
+		AllPossibleInterpretedAttributes,
+		UsedContext
+	>;
+
 export function registerBlockType<
 	Attributes extends BlockAttributes = Record<string, never>,
 	InterpretedAttributes extends Record<
