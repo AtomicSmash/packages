@@ -3,7 +3,7 @@ import {
 	checkPrivilegedPages,
 	checkForLoremIpsum,
 } from "@atomicsmash/test-utils";
-import { test, lighthouseTest, pagesToTest } from "../playwright-utils";
+import { test, lighthouseTest, pagesToTest } from "../playwright-utils.mjs";
 
 test(
 	"privileged pages of the site to ensure non-logged in users can't access them",

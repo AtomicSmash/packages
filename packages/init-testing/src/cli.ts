@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+import { existsSync } from "node:fs";
 import {
 	readFile,
 	writeFile,
@@ -40,6 +41,8 @@ const packageManager = new PackageManager(
 			);
 		}),
 );
+
+const hasRootTSConfig = existsSync(`${process.cwd()}/tsconfig.json`);
 
 const argv = await yargs(hideBin(process.argv))
 	.options({
@@ -93,6 +96,12 @@ for (const dirent of copyFiles) {
 			.then(async (data) => {
 				for (const [search, replace] of [
 					["%%BASE_URL%%", argv.baseUrl],
+					[
+						"%%TS_CONFIG_LOCATION%%",
+						hasRootTSConfig
+							? "../tsconfig.json"
+							: "@atomicsmash/coding-standards/typescript/base",
+					],
 				] as const) {
 					data = data.replace(search, replace);
 				}
@@ -145,6 +154,12 @@ await Promise.all([
 				type: "dev",
 			});
 		},
+		!hasRootTSConfig
+			? packageManager.ensurePackageIsInstalled("typescript", {
+					packageConstraint: "^5.4.0",
+					type: "dev",
+				})
+			: false,
 	]).then((results) => {
 		if (
 			results.some((result) => {
