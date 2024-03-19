@@ -1,5 +1,11 @@
 # @atomicsmash/init-testing
 
+## 1.1.0-beta.3
+
+### Patch Changes
+
+- [`cd493a3`](https://github.com/AtomicSmash/packages/commit/cd493a3eeea80e01ba1e693dcc621999ec3e55f6) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Improve logging for package install complete and initialisers
+
 ## 1.1.0-beta.2
 
 ### Patch Changes
