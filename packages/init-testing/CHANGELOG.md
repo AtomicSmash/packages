@@ -1,5 +1,15 @@
 # @atomicsmash/init-testing
 
+## 1.1.0-beta.0
+
+### Minor Changes
+
+- [`aad23f8`](https://github.com/AtomicSmash/packages/commit/aad23f8bc1c200ea1dfbf6fc00d9a1673193fe3b) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Check for site level ts for config
+
+### Patch Changes
+
+- [`e607650`](https://github.com/AtomicSmash/packages/commit/e607650e5e1afee161a1eeb4c026967695980be7) Thanks [@mikeybinns](https://github.com/mikeybinns)! - make files work in commonjs projects
+
 ## 1.0.0
 
 ### Major Changes

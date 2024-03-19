@@ -1,5 +1,13 @@
 # @atomicsmash/blocks-helpers
 
+## 3.1.0-beta.1
+
+### Minor Changes
+
+- [`5bf9c2c`](https://github.com/AtomicSmash/packages/commit/5bf9c2c2d33f1f0038ef45120e6ee1dc2950e4c4) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Add readme to help new users understand types available
+
+- [`5bf9c2c`](https://github.com/AtomicSmash/packages/commit/5bf9c2c2d33f1f0038ef45120e6ee1dc2950e4c4) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Add block def type
+
 ## 3.1.0-beta.0
 
 ### Minor Changes

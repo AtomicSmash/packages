@@ -15,6 +15,10 @@
     "@atomicsmash/test-utils": "1.3.1"
   },
   "changesets": [
-    "rich-turkeys-worry"
+    "breezy-pets-search",
+    "early-gifts-cry",
+    "quick-hairs-knock",
+    "rich-turkeys-worry",
+    "tricky-masks-hear"
   ]
 }
