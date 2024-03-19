@@ -167,15 +167,22 @@ await Promise.all([
 					return result.status === "fulfilled" && result.value === true;
 				})
 			) {
+				const installedPackages = [
+					...packageManager.commands.install,
+					...packageManager.commands.devInstall,
+				];
 				packageManager.runCommands();
+				console.log(`Packages installed: ${installedPackages.join(",")}.`);
 			}
 			return results[1].status === "fulfilled" && results[1].value === true;
 		})
 		.then((shouldInstallPlaywright) => {
 			if (shouldInstallPlaywright) {
+				console.log("Running playwright installer...");
 				// Run Playwright installer after package install
 				packageManager.commands.basic.push("npx playwright install");
 				packageManager.runCommands();
+				console.log("Playwright installer finished.");
 			}
 		}),
 	Promise.allSettled(fileCopies).then((results) => {
