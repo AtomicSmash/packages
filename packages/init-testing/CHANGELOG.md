@@ -1,5 +1,11 @@
 # @atomicsmash/init-testing
 
+## 1.1.0-beta.2
+
+### Patch Changes
+
+- [`dc6ea3b`](https://github.com/AtomicSmash/packages/commit/dc6ea3bfe8631b76d12a1eb367596f8ede7be7c4) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Add lighthouse folder to gitignore
+
 ## 1.1.0-beta.1
 
 ### Patch Changes
