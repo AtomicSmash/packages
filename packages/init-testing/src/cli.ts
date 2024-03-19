@@ -160,15 +160,24 @@ await Promise.all([
 					type: "dev",
 				})
 			: false,
-	]).then((results) => {
-		if (
-			results.some((result) => {
-				return result.status === "fulfilled" && result.value === true;
-			})
-		) {
-			packageManager.runCommands();
-		}
-	}),
+	])
+		.then((results) => {
+			if (
+				results.some((result) => {
+					return result.status === "fulfilled" && result.value === true;
+				})
+			) {
+				packageManager.runCommands();
+			}
+			return results[1].status === "fulfilled" && results[1].value === true;
+		})
+		.then((shouldInstallPlaywright) => {
+			if (shouldInstallPlaywright) {
+				// Run Playwright installer after package install
+				packageManager.commands.basic.push("npx playwright install");
+				packageManager.runCommands();
+			}
+		}),
 	Promise.allSettled(fileCopies).then((results) => {
 		results.forEach((result) => {
 			console.log(result.status === "fulfilled" ? result.value : result.reason);
