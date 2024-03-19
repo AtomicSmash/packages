@@ -1,5 +1,13 @@
 # @atomicsmash/init-testing
 
+## 1.1.0-beta.1
+
+### Patch Changes
+
+- [`d384e18`](https://github.com/AtomicSmash/packages/commit/d384e182cd64886c786f36e079082a734c2e35e9) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Run playwright installer after package install
+
+- [`71d0b8b`](https://github.com/AtomicSmash/packages/commit/71d0b8b1f631f71bc2b892e3e4958eda7e983dd3) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Make ./playwright.config.ts work in commonjs projects
+
 ## 1.1.0-beta.0
 
 ### Minor Changes
