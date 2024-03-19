@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+import { existsSync } from "node:fs";
 import {
 	readFile,
 	writeFile,
@@ -93,6 +94,12 @@ for (const dirent of copyFiles) {
 			.then(async (data) => {
 				for (const [search, replace] of [
 					["%%BASE_URL%%", argv.baseUrl],
+					[
+						"%%TS_CONFIG_LOCATION%%",
+						existsSync(`${process.cwd()}/tsconfig.json`)
+							? "../tsconfig.json"
+							: "@atomicsmash/coding-standards/typescript/base",
+					],
 				] as const) {
 					data = data.replace(search, replace);
 				}
