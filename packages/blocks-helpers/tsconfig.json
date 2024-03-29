@@ -5,6 +5,9 @@
 	"compilerOptions": {
 		"rootDir": "src",
 		"outDir": "dist",
-		"jsx": "react-jsx"
+		"jsx": "react-jsx",
+		"paths": {
+			"@atomicsmash/blocks-helpers": ["./src/index"]
+		}
 	}
 }
