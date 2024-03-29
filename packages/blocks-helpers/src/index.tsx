@@ -601,23 +601,40 @@ export type LoosenTypeOfObject<Type extends Record<string, any>> = {
 				: Type[Property];
 };
 
-export type BlockDefinition<
-	Attributes extends BlockAttributes = Record<string, never>,
+export type CurrentBlockDefinition<
+	Attributes extends BlockAttributes,
 	InterpretedAttributes extends Record<
 		string,
 		any
 	> = InterpretAttributes<Attributes>,
-	AllPossibleInterpretedAttributes extends Record<
-		string,
-		any
-	> = InterpretedAttributes,
 	UsedContext extends Record<string, any> = Record<string, never>,
-> = Partial<BlockMetaData<Attributes>> &
-	BlockSettings<
-		InterpretedAttributes,
-		AllPossibleInterpretedAttributes,
-		UsedContext
-	>;
+> = {
+	/**
+	 * Attributes provide the structured data needs of a block. They can exist in different forms when they are serialized, but they are declared together under a common interface.
+	 * See the attributes documentation at https://developer.wordpress.org/block-editor/reference-guides/block-api/block-attributes/ for more details.
+	 * Property names must only contain letters Regex:[a-zA-Z]
+	 */
+	attributes?: Attributes;
+
+	/**
+	 * It contains as set of options to control features used in the editor. See the supports documentation at https://developer.wordpress.org/block-editor/reference-guides/block-api/block-supports/ for more details.
+	 */
+	supports?: BlockSupports;
+	edit: (props: BlockEditProps<InterpretedAttributes, UsedContext>) => Element;
+	save: (props: BlockSaveProps<InterpretedAttributes>) => Element;
+	/**
+	 * Context provided for available access by descendants of blocks of this type, in the form of an object which maps a context name to one of the block’s own attribute.
+	 * See the block context documentation at https://developer.wordpress.org/block-editor/reference-guides/block-api/block-context/ for more details.
+	 * Property names must only contain letters Regex:[a-zA-Z]
+	 */
+	providesContext?: BlockProvidesContext<Attributes>;
+
+	/**
+	 * Array of the names of context values to inherit from an ancestor provider.
+	 * See the block context documentation at https://developer.wordpress.org/block-editor/reference-guides/block-api/block-context/ for more details.
+	 */
+	usesContext?: readonly (keyof UsedContext)[];
+};
 
 export function registerBlockType<
 	Attributes extends BlockAttributes = Record<string, never>,
