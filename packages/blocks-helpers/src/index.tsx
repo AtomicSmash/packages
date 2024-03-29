@@ -413,7 +413,7 @@ export type DeprecatedBlock<InterpretedAttributes extends Record<string, any>> =
 			Record<string, any>
 		>;
 		isEligible?: BlockIsDeprecationEligibleFunction<InterpretedAttributes>;
-		save: ({ attributes }: BlockSaveProps<InterpretedAttributes>) => Element;
+		save: (props: BlockSaveProps<InterpretedAttributes>) => Element;
 	};
 
 export type BlockTypeTransform = {
@@ -578,12 +578,8 @@ export type BlockSettings<
 	> = InterpretedAttributes,
 	UsedContext extends Record<string, any> = Record<string, never>,
 > = {
-	edit: ({
-		attributes,
-		setAttributes,
-		isSelected,
-	}: BlockEditProps<InterpretedAttributes, UsedContext>) => Element;
-	save: ({ attributes }: BlockSaveProps<InterpretedAttributes>) => Element;
+	edit: (props: BlockEditProps<InterpretedAttributes, UsedContext>) => Element;
+	save: (props: BlockSaveProps<InterpretedAttributes>) => Element;
 	transforms?: {
 		from: BlockTransforms;
 		to: BlockTransforms;
