@@ -129,7 +129,7 @@ export type BlockSupports = Record<string, any> & {
 export type BlockProvidesContext<
 	Attributes extends Record<string, ReadonlyRecursive<AttributesObject>>,
 > = Record<string, keyof Attributes>;
-export type InterpretContext<
+export type InterpretProvidesContext<
 	UsedContextAttributes extends Record<
 		string,
 		ReadonlyRecursive<AttributesObject>
