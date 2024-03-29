@@ -1,5 +1,13 @@
 # @atomicsmash/blocks-helpers
 
+## 3.1.0-beta.2
+
+### Patch Changes
+
+- [`49e2765`](https://github.com/AtomicSmash/packages/commit/49e276549f33852b98c15f7efe1cefea642ac635) Thanks [@mikeybinns](https://github.com/mikeybinns)! - swap block def for current block def
+
+- [`22396de`](https://github.com/AtomicSmash/packages/commit/22396de50a67801ea8063db86aed69e4388e5ec3) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Clarify interpret provides context name
+
 ## 3.1.0-beta.1
 
 ### Minor Changes
