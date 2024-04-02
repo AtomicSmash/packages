@@ -1,5 +1,11 @@
 # @atomicsmash/cli
 
+## 7.0.0-beta.2
+
+### Patch Changes
+
+- [`829ae3b`](https://github.com/AtomicSmash/packages/commit/829ae3b8228f48657c60da545e416c1939c7f609) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Refactor CSS fingerprinting
+
 ## 7.0.0-beta.1
 
 ### Patch Changes
