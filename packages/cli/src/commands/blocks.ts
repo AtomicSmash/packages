@@ -103,6 +103,7 @@ export default function blocks(args: string[]) {
 									}
 									const css = readFileSync(match);
 									let newFileNameWithExtension = fileNameWithExtension;
+									let newMatch = match.replace(srcFolder, distFolder);
 									if (isProduction) {
 										const fileBuffer = readFileSync(match);
 										const contentHash = crypto.createHash("shake256", {
@@ -110,25 +111,21 @@ export default function blocks(args: string[]) {
 										});
 										contentHash.update(fileBuffer);
 										newFileNameWithExtension = `${fileNameWithExtension.split(".")[0]}.${contentHash.digest("hex")}.css`;
-										currentCSSFileNames.push(
-											`!${match.replace(fileNameWithExtension, newFileNameWithExtension)}`,
+										newMatch = newMatch.replace(
+											fileNameWithExtension,
+											newFileNameWithExtension,
 										);
+										currentCSSFileNames.push(`!${newMatch}`);
 									}
 									await postcss(postCSSPlugins)
 										.process(css, {
 											from: match,
-											to: match.replace(srcFolder, distFolder),
+											to: newMatch,
 										})
 										.then((result) => {
-											writeFileSync(
-												match.replace(srcFolder, distFolder),
-												result.css,
-											);
+											writeFileSync(newMatch, result.css);
 											if (result.map) {
-												writeFileSync(
-													`${match.replace(srcFolder, distFolder)}.map`,
-													result.map.toString(),
-												);
+												writeFileSync(`${newMatch}.map`, result.map.toString());
 											}
 										});
 								}
