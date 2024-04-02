@@ -8,6 +8,7 @@ import defaultConfig from "@wordpress/scripts/config/webpack.config.js";
 import autoprefixer from "autoprefixer";
 import CopyWebpackPlugin from "copy-webpack-plugin";
 import cssnano from "cssnano";
+import { deleteAsync } from "del";
 import glob from "glob-promise";
 import postcss, { AcceptedPlugin } from "postcss";
 import { TsconfigPathsPlugin } from "tsconfig-paths-webpack-plugin";
@@ -99,6 +100,7 @@ export default function blocks(args: string[]) {
 			return;
 		}
 		return glob.promise(`${distFolder}/**/*.css`).then((matches) => {
+			const currentCSSFileNames: `!${string}`[] = [];
 			for (const match of matches) {
 				const fileBuffer = readFileSync(match);
 				const contentHash = crypto.createHash("shake256", {
@@ -112,7 +114,13 @@ export default function blocks(args: string[]) {
 				}
 				const newFileName = `${fileName}.${contentHash.digest("hex")}.css`;
 				renameSync(match, `${fileMatchArray.join("/")}/${newFileName}`);
+				currentCSSFileNames.push(`!${fileMatchArray.join("/")}/${newFileName}`);
 			}
+			deleteAsync([`${distFolder}/**/*.css`, ...currentCSSFileNames]).catch(
+				(error) => {
+					console.log(error);
+				},
+			);
 			return;
 		});
 	}
