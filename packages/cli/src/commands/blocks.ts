@@ -131,8 +131,13 @@ export default function blocks(args: string[]) {
 		new CopyWebpackPlugin({
 			patterns: [
 				{
-					from: `**/block.json`,
+					from: `${srcFolder}/**/block.json`,
 					noErrorOnMissing: true,
+					globOptions: {
+						ignore: excludeBlocks.map(
+							(blockName) => `${srcFolder}/${blockName}/**/*`,
+						),
+					},
 				},
 			],
 		}),
@@ -142,7 +147,11 @@ export default function blocks(args: string[]) {
 					"Build CSS and copy to test area",
 					async () => {
 						await glob
-							.promise(`${srcFolder}/**/*.css`)
+							.promise(`${srcFolder}/**/*.css`, {
+								ignore: excludeBlocks.map(
+									(blockName) => `${srcFolder}/${blockName}/**/*`,
+								),
+							})
 							.then(processCSSFiles)
 							.then(fingerprintCSSFilesIfProduction)
 							.catch((error) => {
