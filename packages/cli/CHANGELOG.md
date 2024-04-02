@@ -1,5 +1,15 @@
 # @atomicsmash/cli
 
+## 7.0.0-beta.0
+
+### Major Changes
+
+- [`d09917a`](https://github.com/AtomicSmash/packages/commit/d09917ac8ca7b09be83587f98bc068c9f0e90b61) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Delete extra CSS files after compilation
+
+### Patch Changes
+
+- [`9a84a3b`](https://github.com/AtomicSmash/packages/commit/9a84a3bdb054311702e0c4a6abf7198d7053d85d) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Fix fingerprinting of CSS files when watching for changes
+
 ## 6.0.0
 
 ### Major Changes
