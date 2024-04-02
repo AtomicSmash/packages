@@ -106,12 +106,11 @@ export default function blocks(args: string[]) {
 				});
 				contentHash.update(fileBuffer);
 				const fileMatchArray = match.split("/");
-				const newFileName = fileMatchArray
-					.pop()
-					?.replace(".css", `.${contentHash.digest("hex")}.css`);
-				if (!newFileName || newFileName === "") {
+				const fileName = fileMatchArray.pop()?.split(".")[0];
+				if (!fileName) {
 					throw new Error("Error getting CSS file name.");
 				}
+				const newFileName = `${fileName}.${contentHash.digest("hex")}.css`;
 				renameSync(match, `${fileMatchArray.join("/")}/${newFileName}`);
 			}
 			return;
