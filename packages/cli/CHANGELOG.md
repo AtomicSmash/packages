@@ -1,5 +1,11 @@
 # @atomicsmash/cli
 
+## 7.0.0-beta.1
+
+### Patch Changes
+
+- [`b91329b`](https://github.com/AtomicSmash/packages/commit/b91329b9d6837e2d4d6141d8a1adeb089958cb5f) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Ignore CSS files and block.json file for ignored blocks
+
 ## 7.0.0-beta.0
 
 ### Major Changes
