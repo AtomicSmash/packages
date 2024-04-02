@@ -1,6 +1,6 @@
 import type { Compiler, Configuration } from "webpack";
 import crypto from "node:crypto";
-import { readFileSync, writeFileSync, renameSync } from "node:fs";
+import { readFileSync, writeFileSync } from "node:fs";
 import { readdir } from "node:fs/promises";
 import { resolve as resolvePath } from "node:path";
 import DependencyExtractionWebpackPlugin from "@wordpress/dependency-extraction-webpack-plugin";
@@ -68,63 +68,6 @@ export default function blocks(args: string[]) {
 		postCSSPlugins.push(cssnano({ preset: "default" }));
 	}
 
-	async function processCSSFiles(
-		globMatches: Awaited<ReturnType<typeof glob.promise>>,
-	) {
-		for (const match of globMatches) {
-			const fileName = match.split("/").pop();
-			if (!fileName) {
-				console.error(`Failed to get filename of ${match}`);
-				continue;
-			}
-			const css = readFileSync(match);
-			await postcss(postCSSPlugins)
-				.process(css, {
-					from: match,
-					to: match.replace(srcFolder, distFolder),
-				})
-				.then((result) => {
-					writeFileSync(match.replace(srcFolder, distFolder), result.css);
-					if (result.map) {
-						writeFileSync(
-							`${match.replace(srcFolder, distFolder)}.map`,
-							result.map.toString(),
-						);
-					}
-				});
-		}
-	}
-
-	async function fingerprintCSSFilesIfProduction() {
-		if (!isProduction) {
-			return;
-		}
-		return glob.promise(`${distFolder}/**/*.css`).then((matches) => {
-			const currentCSSFileNames: `!${string}`[] = [];
-			for (const match of matches) {
-				const fileBuffer = readFileSync(match);
-				const contentHash = crypto.createHash("shake256", {
-					outputLength: 10,
-				});
-				contentHash.update(fileBuffer);
-				const fileMatchArray = match.split("/");
-				const fileName = fileMatchArray.pop()?.split(".")[0];
-				if (!fileName) {
-					throw new Error("Error getting CSS file name.");
-				}
-				const newFileName = `${fileName}.${contentHash.digest("hex")}.css`;
-				renameSync(match, `${fileMatchArray.join("/")}/${newFileName}`);
-				currentCSSFileNames.push(`!${fileMatchArray.join("/")}/${newFileName}`);
-			}
-			deleteAsync([`${distFolder}/**/*.css`, ...currentCSSFileNames]).catch(
-				(error) => {
-					console.log(error);
-				},
-			);
-			return;
-		});
-	}
-
 	const plugins = [
 		...((defaultConfig as Configuration).plugins?.filter((plugin) => {
 			return ![
@@ -159,8 +102,52 @@ export default function blocks(args: string[]) {
 									(blockName) => `${srcFolder}/${blockName}/**/*`,
 								),
 							})
-							.then(processCSSFiles)
-							.then(fingerprintCSSFilesIfProduction)
+							.then(async (globMatches) => {
+								const currentCSSFileNames = [];
+								for (const match of globMatches) {
+									const fileNameWithExtension = match.split("/").pop();
+									if (!fileNameWithExtension) {
+										console.error(`Failed to get filename of ${match}`);
+										continue;
+									}
+									const css = readFileSync(match);
+									let newFileNameWithExtension = fileNameWithExtension;
+									if (isProduction) {
+										const fileBuffer = readFileSync(match);
+										const contentHash = crypto.createHash("shake256", {
+											outputLength: 10,
+										});
+										contentHash.update(fileBuffer);
+										newFileNameWithExtension = `${fileNameWithExtension.split(".")[0]}.${contentHash.digest("hex")}.css`;
+										currentCSSFileNames.push(
+											`!${match.replace(fileNameWithExtension, newFileNameWithExtension)}`,
+										);
+									}
+									await postcss(postCSSPlugins)
+										.process(css, {
+											from: match,
+											to: match.replace(srcFolder, distFolder),
+										})
+										.then((result) => {
+											writeFileSync(
+												match.replace(srcFolder, distFolder),
+												result.css,
+											);
+											if (result.map) {
+												writeFileSync(
+													`${match.replace(srcFolder, distFolder)}.map`,
+													result.map.toString(),
+												);
+											}
+										});
+								}
+								deleteAsync([
+									`${distFolder}/**/*.css`,
+									...currentCSSFileNames,
+								]).catch((error) => {
+									console.log(error);
+								});
+							})
 							.catch((error) => {
 								console.error(error);
 								throw error;
