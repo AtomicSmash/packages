@@ -1,5 +1,11 @@
 # @atomicsmash/cli
 
+## 7.0.0-beta.3
+
+### Patch Changes
+
+- [`5f6be58`](https://github.com/AtomicSmash/packages/commit/5f6be5850cea5fa591cbfe89ed25699ab9d22821) Thanks [@mikeybinns](https://github.com/mikeybinns)! - fix css file output
+
 ## 7.0.0-beta.2
 
 ### Patch Changes
