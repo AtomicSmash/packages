@@ -89,12 +89,23 @@ const config = {
 			"commitlint",
 			"sass",
 			"Userback",
+			"phpcs",
+			"phpcbf",
 		], // package and language names
-		...["tsbuildinfo"], // filenames
+		...["tsbuildinfo", "svgs"], // filenames
 		...["combobox", "spinbutton"], // accessible roles
 		...["popover", "dialog"], // custom element names
 		...["atomicsmash"], // company all lowercase
-		...["unstringified", "formattable", "keyof", "nonnullable"], // coding actions
+		...["unstringified", "formattable", "keyof", "nonnullable", "hidable"], // coding actions
+		...[
+			"alignfull",
+			"alignleft",
+			"alignright",
+			"muplugin",
+			"textdomain",
+			"color", // For in theme.json
+			"gfield", // Gravity Forms field class
+		], // WordPress stuff
 	],
 	languageSettings: [
 		{
