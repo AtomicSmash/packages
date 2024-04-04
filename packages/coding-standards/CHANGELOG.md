@@ -1,5 +1,17 @@
 # @atomicsmash/coding-standards
 
+## 11.0.0-beta.0
+
+### Minor Changes
+
+- [`db462fe`](https://github.com/AtomicSmash/packages/commit/db462fecd0ceb0a46e5bd65748f65089fa6fc2d1) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Add more allowed words to cSpell config
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @atomicsmash/eslint-config@11.0.0-beta.0
+  - @atomicsmash/browserslist-config@11.0.0-beta.0
+
 ## 10.0.1
 
 ### Patch Changes

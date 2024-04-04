@@ -1,5 +1,7 @@
 # @atomicsmash/eslint-config
 
+## 11.0.0-beta.0
+
 ## 10.0.1
 
 ### Patch Changes
