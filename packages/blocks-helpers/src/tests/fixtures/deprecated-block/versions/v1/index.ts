@@ -1,9 +1,9 @@
-import type { InterpretedAttributes as NewInterpretedAttributes } from "../v2/index";
+import type { Attributes as NewAttributes } from "../v2/index";
 import type {
 	BlockAttributes,
 	BlockSupports,
 	InterpretAttributes,
-	DeprecatedBlock,
+	DeprecatedStaticBlock,
 	BlockMigrateDeprecationFunction,
 	BlockIsDeprecationEligibleFunction,
 } from "@atomicsmash/blocks-helpers";
@@ -44,7 +44,7 @@ export type Supports = typeof supports;
  */
 const migrate: BlockMigrateDeprecationFunction<
 	InterpretedAttributes,
-	NewInterpretedAttributes
+	InterpretAttributes<NewAttributes>
 > = (oldAttributes) => {
 	const { url, ...migratedAttributes } = oldAttributes;
 	return [
@@ -78,4 +78,4 @@ export const v1 = {
 	migrate,
 	isEligible,
 	save: Save,
-} satisfies DeprecatedBlock<InterpretedAttributes>;
+} satisfies DeprecatedStaticBlock<Attributes, NewAttributes>;

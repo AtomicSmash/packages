@@ -395,27 +395,6 @@ export type BlockEditProps<
 	readonly toggleSelection: (isSelectionEnabled: boolean) => void;
 };
 
-export type DeprecatedBlock<InterpretedAttributes extends Record<string, any>> =
-	{
-		/**
-		 * Attributes provide the structured data needs of a block. They can exist in different forms when they are serialized, but they are declared together under a common interface.
-		 * See the attributes documentation at https://developer.wordpress.org/block-editor/reference-guides/block-api/block-attributes/ for more details.
-		 * Property names must only contain letters Regex:[a-zA-Z]
-		 */
-		attributes?: BlockAttributes;
-
-		/**
-		 * It contains as set of options to control features used in the editor. See the supports documentation at https://developer.wordpress.org/block-editor/reference-guides/block-api/block-supports/ for more details.
-		 */
-		supports?: BlockSupports;
-		migrate?: BlockMigrateDeprecationFunction<
-			InterpretedAttributes,
-			Record<string, any>
-		>;
-		isEligible?: BlockIsDeprecationEligibleFunction<InterpretedAttributes>;
-		save: (props: BlockSaveProps<InterpretedAttributes>) => Element;
-	};
-
 export type BlockTypeTransform = {
 	type: "block";
 	blocks: string[];
@@ -571,20 +550,18 @@ export type BlockTransforms =
 	| ShortCodeTypeTransform[];
 
 export type BlockSettings<
-	InterpretedAttributes extends Record<string, any>,
-	AllPossibleInterpretedAttributes extends Record<
-		string,
-		any
-	> = InterpretedAttributes,
+	Attributes extends BlockAttributes,
 	UsedContext extends Record<string, any> = Record<string, never>,
 > = {
-	edit: (props: BlockEditProps<InterpretedAttributes, UsedContext>) => Element;
-	save: (props: BlockSaveProps<InterpretedAttributes>) => Element;
+	edit: (
+		props: BlockEditProps<InterpretAttributes<Attributes>, UsedContext>,
+	) => Element;
+	save: (props: BlockSaveProps<InterpretAttributes<Attributes>>) => Element;
 	transforms?: {
 		from: BlockTransforms;
 		to: BlockTransforms;
 	};
-	deprecated?: DeprecatedBlock<AllPossibleInterpretedAttributes>[];
+	deprecated?: DeprecatedBlock<any, any>[];
 };
 
 export type LoosenTypeOfObject<Type extends Record<string, any>> = {
@@ -597,13 +574,9 @@ export type LoosenTypeOfObject<Type extends Record<string, any>> = {
 				: Type[Property];
 };
 
-export type CurrentBlockDefinition<
+type CurrentBlockDefinitionBase<
 	Attributes extends BlockAttributes,
-	InterpretedAttributes extends Record<
-		string,
-		any
-	> = InterpretAttributes<Attributes>,
-	UsedContext extends Record<string, any> = Record<string, never>,
+	InterpretedUsedContext extends Record<string, any> = Record<string, never>,
 > = {
 	/**
 	 * Attributes provide the structured data needs of a block. They can exist in different forms when they are serialized, but they are declared together under a common interface.
@@ -611,46 +584,82 @@ export type CurrentBlockDefinition<
 	 * Property names must only contain letters Regex:[a-zA-Z]
 	 */
 	attributes?: Attributes;
-
 	/**
 	 * It contains as set of options to control features used in the editor. See the supports documentation at https://developer.wordpress.org/block-editor/reference-guides/block-api/block-supports/ for more details.
 	 */
 	supports?: BlockSupports;
-	edit: (props: BlockEditProps<InterpretedAttributes, UsedContext>) => Element;
-	save: (props: BlockSaveProps<InterpretedAttributes>) => Element;
+	edit: (
+		props: BlockEditProps<
+			InterpretAttributes<Attributes>,
+			InterpretedUsedContext
+		>,
+	) => Element;
 	/**
 	 * Context provided for available access by descendants of blocks of this type, in the form of an object which maps a context name to one of the block’s own attribute.
 	 * See the block context documentation at https://developer.wordpress.org/block-editor/reference-guides/block-api/block-context/ for more details.
 	 * Property names must only contain letters Regex:[a-zA-Z]
 	 */
 	providesContext?: BlockProvidesContext<Attributes>;
-
 	/**
 	 * Array of the names of context values to inherit from an ancestor provider.
 	 * See the block context documentation at https://developer.wordpress.org/block-editor/reference-guides/block-api/block-context/ for more details.
 	 */
-	usesContext?: readonly (keyof UsedContext)[];
+	usesContext?: readonly (keyof InterpretedUsedContext)[];
 };
+
+export type CurrentStaticBlockDefinition<
+	Attributes extends Readonly<Record<string, AttributesObject>>,
+	InterpretedUsedContext extends Record<string, any> = Record<string, never>,
+> = CurrentBlockDefinitionBase<Attributes, InterpretedUsedContext> & {
+	save: (props: BlockSaveProps<InterpretAttributes<Attributes>>) => Element;
+};
+export type CurrentDynamicBlockDefinition<
+	Attributes extends Readonly<Record<string, AttributesObject>>,
+	InterpretedUsedContext extends Record<string, any> = Record<string, never>,
+> = CurrentBlockDefinitionBase<Attributes, InterpretedUsedContext> & {
+	/**
+	 * The file path to the PHP file for rendering the markup. Must be relative to block.json and start with `file:`.
+	 */
+	render: WPDefinedPath;
+	save?: (
+		props: BlockSaveProps<InterpretAttributes<Attributes>>,
+	) => Element | null;
+};
+type DeprecatedBlockBase<
+	OldAttributes extends BlockAttributes,
+	NewAttributes extends BlockAttributes,
+> = {
+	migrate?: BlockMigrateDeprecationFunction<
+		InterpretAttributes<OldAttributes>,
+		InterpretAttributes<NewAttributes>
+	>;
+	isEligible?: BlockIsDeprecationEligibleFunction<
+		InterpretAttributes<OldAttributes>
+	>;
+};
+export type DeprecatedStaticBlock<
+	OldAttributes extends BlockAttributes,
+	NewAttributes extends BlockAttributes,
+> = Omit<CurrentStaticBlockDefinition<OldAttributes>, "edit"> &
+	DeprecatedBlockBase<OldAttributes, NewAttributes>;
+export type DeprecatedDynamicBlock<
+	OldAttributes extends BlockAttributes,
+	NewAttributes extends BlockAttributes,
+> = Omit<CurrentStaticBlockDefinition<OldAttributes>, "edit"> &
+	DeprecatedBlockBase<OldAttributes, NewAttributes>;
+export type DeprecatedBlock<
+	OldAttributes extends BlockAttributes,
+	NewAttributes extends BlockAttributes,
+> = DeprecatedStaticBlock<OldAttributes, NewAttributes> &
+	DeprecatedDynamicBlock<OldAttributes, NewAttributes>;
 
 export function registerBlockType<
 	Attributes extends BlockAttributes = Record<string, never>,
-	InterpretedAttributes extends Record<
-		string,
-		any
-	> = InterpretAttributes<Attributes>,
-	AllPossibleInterpretedAttributes extends Record<
-		string,
-		any
-	> = InterpretedAttributes,
 	UsedContext extends Record<string, any> = Record<string, never>,
 >(
 	name: string,
 	settings: Partial<BlockMetaData<Attributes>> &
-		BlockSettings<
-			InterpretedAttributes,
-			AllPossibleInterpretedAttributes,
-			UsedContext
-		>,
+		BlockSettings<Attributes, UsedContext>,
 ) {
 	/* @ts-expect-error Provided types are inaccurate and will provide an error with some valid inputs */
 	return wordpressRegisterBlockType<Attributes>(name, settings);

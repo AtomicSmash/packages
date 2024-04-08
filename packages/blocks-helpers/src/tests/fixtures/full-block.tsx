@@ -8,7 +8,7 @@ import type {
 	InterpretProvidesContext,
 	BlockUsesContext,
 	InterpretUsedContext,
-	CurrentBlockDefinition,
+	CurrentStaticBlockDefinition,
 } from "@atomicsmash/blocks-helpers";
 import type { Element } from "@wordpress/element";
 import { registerBlockType } from "@atomicsmash/blocks-helpers";
@@ -163,17 +163,8 @@ const v1 = {
 	usesContext,
 	edit: Edit,
 	save: Save,
-} satisfies CurrentBlockDefinition<
-	Attributes,
-	InterpretedAttributes,
-	InterpretedUsedContext
->;
+} satisfies CurrentStaticBlockDefinition<Attributes, InterpretedUsedContext>;
 
-registerBlockType<
-	Attributes,
-	InterpretedAttributes,
-	InterpretedAttributes,
-	InterpretedUsedContext
->("simple-block", {
+registerBlockType<Attributes, InterpretedUsedContext>("simple-block", {
 	...v1,
 });

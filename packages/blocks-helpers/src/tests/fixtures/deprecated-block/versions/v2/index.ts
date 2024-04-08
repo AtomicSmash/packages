@@ -2,7 +2,7 @@ import {
 	BlockAttributes,
 	BlockSupports,
 	InterpretAttributes,
-	CurrentBlockDefinition,
+	CurrentStaticBlockDefinition,
 } from "@atomicsmash/blocks-helpers";
 import { Edit } from "./edit";
 import { Save } from "./save";
@@ -45,4 +45,4 @@ export const v2 = {
 	supports,
 	edit: Edit,
 	save: Save,
-} satisfies CurrentBlockDefinition<Attributes, InterpretedAttributes>;
+} satisfies CurrentStaticBlockDefinition<Attributes>;
