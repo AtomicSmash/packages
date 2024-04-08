@@ -1,5 +1,11 @@
 # @atomicsmash/blocks-helpers
 
+## 4.0.0-beta.3
+
+### Major Changes
+
+- [`c64cbcc`](https://github.com/AtomicSmash/packages/commit/c64cbccb9ed58b2d36b2a33b27a86d630710b0fc) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Adds support for static and dynamic blocks
+
 ## 3.1.0-beta.2
 
 ### Patch Changes
