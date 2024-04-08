@@ -551,16 +551,11 @@ export type BlockTransforms =
 
 export type BlockSettings<
 	Attributes extends BlockAttributes,
-	UsedContext extends Record<string, any> = Record<string, never>,
-> = {
-	edit: (
-		props: BlockEditProps<InterpretAttributes<Attributes>, UsedContext>,
-	) => Element;
-	save: (props: BlockSaveProps<InterpretAttributes<Attributes>>) => Element;
-	transforms?: {
-		from: BlockTransforms;
-		to: BlockTransforms;
-	};
+	InterpretedUsedContext extends Record<string, any> = Record<string, never>,
+> = (
+	| CurrentStaticBlockDefinition<Attributes, InterpretedUsedContext>
+	| CurrentDynamicBlockDefinition<Attributes, InterpretedUsedContext>
+) & {
 	deprecated?: DeprecatedBlock<any, any>[];
 };
 
@@ -580,12 +575,15 @@ type CurrentBlockDefinitionBase<
 > = {
 	/**
 	 * Attributes provide the structured data needs of a block. They can exist in different forms when they are serialized, but they are declared together under a common interface.
-	 * See the attributes documentation at https://developer.wordpress.org/block-editor/reference-guides/block-api/block-attributes/ for more details.
 	 * Property names must only contain letters Regex:[a-zA-Z]
+	 *
+	 * @see https://developer.wordpress.org/block-editor/reference-guides/block-api/block-attributes/
 	 */
 	attributes?: Attributes;
 	/**
-	 * It contains as set of options to control features used in the editor. See the supports documentation at https://developer.wordpress.org/block-editor/reference-guides/block-api/block-supports/ for more details.
+	 * It contains as set of options to control features used in the editor.
+	 *
+	 * @see https://developer.wordpress.org/block-editor/reference-guides/block-api/block-supports/
 	 */
 	supports?: BlockSupports;
 	edit: (
@@ -596,15 +594,26 @@ type CurrentBlockDefinitionBase<
 	) => Element;
 	/**
 	 * Context provided for available access by descendants of blocks of this type, in the form of an object which maps a context name to one of the block’s own attribute.
-	 * See the block context documentation at https://developer.wordpress.org/block-editor/reference-guides/block-api/block-context/ for more details.
 	 * Property names must only contain letters Regex:[a-zA-Z]
+	 *
+	 * @see https://developer.wordpress.org/block-editor/reference-guides/block-api/block-context/
 	 */
 	providesContext?: BlockProvidesContext<Attributes>;
 	/**
 	 * Array of the names of context values to inherit from an ancestor provider.
-	 * See the block context documentation at https://developer.wordpress.org/block-editor/reference-guides/block-api/block-context/ for more details.
+	 * @see https://developer.wordpress.org/block-editor/reference-guides/block-api/block-context/
 	 */
 	usesContext?: readonly (keyof InterpretedUsedContext)[];
+	/**
+	 * An API that allows a block to be transformed from and to other blocks, as well as from other entities.
+	 * Existing entities that work with this API include shortcodes, files, regular expressions, and raw DOM nodes.
+	 *
+	 * @see https://developer.wordpress.org/block-editor/reference-guides/block-api/block-transforms/
+	 */
+	transforms?: {
+		from: BlockTransforms;
+		to: BlockTransforms;
+	};
 };
 
 export type CurrentStaticBlockDefinition<
