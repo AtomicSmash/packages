@@ -1,5 +1,11 @@
 # @atomicsmash/blocks-helpers
 
+## 4.0.0-beta.4
+
+### Patch Changes
+
+- [`f46dbbb`](https://github.com/AtomicSmash/packages/commit/f46dbbbe58b990037ddb488b9303b2a6f17993a4) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Fix dymanic blocks on registerBlockType
+
 ## 4.0.0-beta.3
 
 ### Major Changes
