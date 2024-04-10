@@ -105,6 +105,7 @@ const config = {
 			"textdomain",
 			"color", // For in theme.json
 			"gfield", // Gravity Forms field class
+			"phpmailer",
 		], // WordPress stuff
 	],
 	languageSettings: [
