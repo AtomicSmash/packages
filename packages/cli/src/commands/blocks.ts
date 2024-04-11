@@ -27,7 +27,7 @@ export const blocksHelpMessage = `
     --in                     The directory where the WP blocks can be found. Relative to cwd.
     --out                    The directory where the WP blocks will be output. Relative to cwd.
     --tsConfigPath           (optional) The directory where the tsconfig file can be found. Relative to cwd. Defaults to the in folder.
-    --postcssConfigPath      (optional) The directory where the postcss config file can be found. Relative to cwd. Defaults to the in folder.
+    --postcssConfigPath      (optional) The directory where the postcss config file can be found. Relative to cwd. Defaults to the in folder and then searches up the directory tree.
     --watch                  (optional) Watch the blocks in folder for changes and compile.
     --excludeBlocks          (optional) A comma separated list of the folder names of blocks to exclude from compilation. Defaults to "__TEMPLATE__".
     --excludeRootFiles       (optional) A comma separated list of the root file names to exclude from compilation. Nothing is excluded by default.
