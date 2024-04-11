@@ -12,6 +12,7 @@ import { deleteAsync } from "del";
 import glob from "glob-promise";
 import postcss, { AcceptedPlugin } from "postcss";
 import postcssLoadConfig from "postcss-load-config";
+import { compileStringAsync } from "sass";
 import { TsconfigPathsPlugin } from "tsconfig-paths-webpack-plugin";
 import webpack from "webpack";
 import { hasHelpFlag, interpretFlag, toCamelCase } from "../utils.js";
@@ -96,7 +97,7 @@ export default function blocks(args: string[]) {
 					"Build CSS and copy to test area",
 					async () => {
 						await glob
-							.promise(`${srcFolder}/**/*.css`, {
+							.promise(`${srcFolder}/**/*.{css,scss}`, {
 								ignore: excludeBlocks.map(
 									(blockName) => `${srcFolder}/${blockName}/**/*`,
 								),
@@ -109,7 +110,12 @@ export default function blocks(args: string[]) {
 										console.error(`Failed to get filename of ${match}`);
 										continue;
 									}
-									const css = readFileSync(match);
+									let css = readFileSync(match, "utf8");
+									if (fileNameWithExtension.split(".").pop() === "scss") {
+										css = await compileStringAsync(css).then(
+											(result) => result.css,
+										);
+									}
 									let newFileNameWithExtension = fileNameWithExtension;
 									let newMatch = match.replace(srcFolder, distFolder);
 									if (isProduction) {
