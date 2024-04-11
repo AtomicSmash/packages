@@ -1,5 +1,17 @@
 # @atomicsmash/coding-standards
 
+## 11.0.0-beta.1
+
+### Minor Changes
+
+- [`2ec63f6`](https://github.com/AtomicSmash/packages/commit/2ec63f6893c67ce504a93633816fb3040d698c61) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Add phpmailer to allowed words
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @atomicsmash/eslint-config@11.0.0-beta.1
+  - @atomicsmash/browserslist-config@11.0.0-beta.1
+
 ## 11.0.0-beta.0
 
 ### Minor Changes

@@ -15,6 +15,7 @@
     "@atomicsmash/test-utils": "1.3.1"
   },
   "changesets": [
+    "breezy-jars-jump",
     "breezy-pets-search",
     "clever-candles-live",
     "early-gifts-cry",
@@ -33,6 +34,7 @@
     "tiny-swans-bathe",
     "tricky-masks-hear",
     "twelve-eagles-walk",
+    "weak-parents-type",
     "young-bats-kiss"
   ]
 }

@@ -1,5 +1,11 @@
 # @atomicsmash/cli
 
+## 7.0.0-beta.4
+
+### Minor Changes
+
+- [`cfa32fe`](https://github.com/AtomicSmash/packages/commit/cfa32fe4cfacbd7bd07cc81453eb3d39aac022c4) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Add external postcss config support to blocks command
+
 ## 7.0.0-beta.3
 
 ### Patch Changes
