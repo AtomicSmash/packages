@@ -1,5 +1,11 @@
 # @atomicsmash/cli
 
+## 7.0.0-beta.6
+
+### Minor Changes
+
+- [`e36158c`](https://github.com/AtomicSmash/packages/commit/e36158c38c3e5895a8dfd9564eda01efc393ce86) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Add sass file support for blocks
+
 ## 7.0.0-beta.5
 
 ### Patch Changes
