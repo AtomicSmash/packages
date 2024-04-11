@@ -50,6 +50,7 @@
 		"path": "^0.12.7",
 		"postcss": "^8.4.25",
 		"postcss-load-config": "^5.0.3",
+		"sass": "^1.74.1",
 		"svg-sprite": "^2.0.3",
 		"tsconfig-paths": "^4.2.0",
 		"tsconfig-paths-webpack-plugin": "^4.1.0",
