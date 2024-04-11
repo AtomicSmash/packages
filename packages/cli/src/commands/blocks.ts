@@ -11,6 +11,7 @@ import cssnano from "cssnano";
 import { deleteAsync } from "del";
 import glob from "glob-promise";
 import postcss, { AcceptedPlugin } from "postcss";
+import postcssLoadConfig from "postcss-load-config";
 import { TsconfigPathsPlugin } from "tsconfig-paths-webpack-plugin";
 import webpack from "webpack";
 import { hasHelpFlag, interpretFlag, toCamelCase } from "../utils.js";
@@ -26,6 +27,7 @@ export const blocksHelpMessage = `
     --in                     The directory where the WP blocks can be found. Relative to cwd.
     --out                    The directory where the WP blocks will be output. Relative to cwd.
     --tsConfigPath           (optional) The directory where the tsconfig file can be found. Relative to cwd. Defaults to the in folder.
+    --postcssConfigPath      (optional) The directory where the postcss config file can be found. Relative to cwd. Defaults to the in folder.
     --watch                  (optional) Watch the blocks in folder for changes and compile.
     --excludeBlocks          (optional) A comma separated list of the folder names of blocks to exclude from compilation. Defaults to "__TEMPLATE__".
     --excludeRootFiles       (optional) A comma separated list of the root file names to exclude from compilation. Nothing is excluded by default.
@@ -53,6 +55,8 @@ export default function blocks(args: string[]) {
 
 	const tsConfigLocation =
 		interpretFlag(args, "--tsConfigPath").value ?? srcFolder;
+	const postcssConfigLocation =
+		interpretFlag(args, "--postcssConfigPath").value ?? srcFolder;
 	const excludeBlocks = interpretFlag(args, "--excludeBlocks", "list")
 		.value ?? ["__TEMPLATE__"];
 	const excludeRootFiles =
@@ -62,11 +66,6 @@ export default function blocks(args: string[]) {
 		"--alwaysCompileRootFiles",
 		"boolean",
 	).value;
-
-	const postCSSPlugins: AcceptedPlugin[] = [autoprefixer];
-	if (isProduction) {
-		postCSSPlugins.push(cssnano({ preset: "default" }));
-	}
 
 	const plugins = [
 		...((defaultConfig as Configuration).plugins?.filter((plugin) => {
@@ -126,11 +125,37 @@ export default function blocks(args: string[]) {
 										);
 										currentCSSFileNames.push(`!${newMatch}`);
 									}
-									await postcss(postCSSPlugins)
-										.process(css, {
-											from: match,
-											to: newMatch,
+									const { plugins, options } = await postcssLoadConfig(
+										{},
+										postcssConfigLocation,
+									)
+										.then(({ plugins, options }) => {
+											options.from = match;
+											options.to = newMatch;
+											return { plugins, options };
 										})
+										.catch((error: unknown) => {
+											if (
+												error &&
+												error instanceof Error &&
+												error.message.startsWith("No PostCSS Config found")
+											) {
+												const postCSSPlugins: AcceptedPlugin[] = [autoprefixer];
+												if (isProduction) {
+													postCSSPlugins.push(cssnano({ preset: "default" }));
+												}
+												return {
+													plugins: postCSSPlugins,
+													options: {
+														from: match,
+														to: newMatch,
+													},
+												};
+											}
+											throw error;
+										});
+									await postcss(plugins)
+										.process(css, options)
 										.then((result) => {
 											writeFileSync(newMatch, result.css);
 											if (result.map) {
