@@ -1,5 +1,11 @@
 # @atomicsmash/cli
 
+## 7.0.0-beta.5
+
+### Patch Changes
+
+- [`42e8362`](https://github.com/AtomicSmash/packages/commit/42e83624f46c1c69206e8f6350ba940c6b83ceb6) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Clarify command message to match usage
+
 ## 7.0.0-beta.4
 
 ### Minor Changes
