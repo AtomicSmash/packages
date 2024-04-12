@@ -1,5 +1,11 @@
 # @atomicsmash/cli
 
+## 7.0.0-beta.7
+
+### Minor Changes
+
+- [`1c8e244`](https://github.com/AtomicSmash/packages/commit/1c8e244bcd4699d2365a2ab540f102be14371c6a) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Allow JSX for main block files
+
 ## 7.0.0-beta.6
 
 ### Minor Changes

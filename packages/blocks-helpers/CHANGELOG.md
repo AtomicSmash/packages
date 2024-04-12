@@ -1,5 +1,11 @@
 # @atomicsmash/blocks-helpers
 
+## 4.0.0-beta.5
+
+### Patch Changes
+
+- [`b6630c2`](https://github.com/AtomicSmash/packages/commit/b6630c271c3d3c2c401416933c4ce877e36eb958) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Allow JSX elements for icon property
+
 ## 4.0.0-beta.4
 
 ### Patch Changes
