@@ -238,7 +238,7 @@ export type BlockMetaData<
 	 * An icon property should be specified to make it easier to identify a block.
 	 * These can be any of WordPress’ Dashicons (slug serving also as a fallback in non-js contexts).
 	 */
-	icon?: string;
+	icon?: string | JSX.Element;
 
 	/**
 	 * This is a short description for your block, which can be translated with our translation functions. This will be shown in the block inspector.
@@ -342,7 +342,7 @@ export type BlockMetaData<
 		title: string;
 		description?: string;
 		category?: BlockCategory;
-		icon?: string;
+		icon?: string | JSX.Element;
 		isDefault?: boolean;
 		attributes?: Attributes;
 		innerBlocks?: InnerBlocks[];
