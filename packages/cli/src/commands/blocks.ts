@@ -335,7 +335,13 @@ async function getAllBlocksJSEntryPoints({
 			return blockDirFiles
 				.filter((file) => !file.isDirectory())
 				.map((file) => file.name)
-				.filter((file) => file.endsWith(".js") || file.endsWith(".ts"));
+				.filter(
+					(file) =>
+						file.endsWith(".js") ||
+						file.endsWith(".ts") ||
+						file.endsWith(".jsx") ||
+						file.endsWith(".tsx"),
+				);
 		});
 		for (const blockJSFile of blockFiles) {
 			let blockBonusScriptNumber = 1;
