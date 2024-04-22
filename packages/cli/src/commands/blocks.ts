@@ -3,6 +3,7 @@ import crypto from "node:crypto";
 import { readFileSync, writeFileSync } from "node:fs";
 import { readdir } from "node:fs/promises";
 import { resolve as resolvePath } from "node:path";
+import { pathToFileURL } from "node:url";
 import DependencyExtractionWebpackPlugin from "@wordpress/dependency-extraction-webpack-plugin";
 import defaultConfig from "@wordpress/scripts/config/webpack.config.js";
 import autoprefixer from "autoprefixer";
@@ -103,9 +104,19 @@ export default function blocks(args: string[]) {
 									}
 									let css = readFileSync(match, "utf8");
 									if (fileNameWithExtension.split(".").pop() === "scss") {
-										css = await compileStringAsync(css).then(
-											(result) => result.css,
-										);
+										css = await compileStringAsync(css, {
+											importers: [
+												{
+													findFileUrl(url) {
+														if (!url.startsWith("sitecss:")) return null;
+														const pathname = url.substring(8);
+														return pathToFileURL(
+															`${resolvePath(srcFolder, "../css")}${pathname.startsWith("/") ? pathname : `/${pathname}`}`,
+														);
+													},
+												},
+											],
+										}).then((result) => result.css);
 									}
 									let newFileNameWithExtension = fileNameWithExtension;
 									let newMatch = match.replace(srcFolder, distFolder);
