@@ -1,5 +1,11 @@
 # @atomicsmash/blocks-helpers
 
+## 4.0.0-beta.7
+
+### Minor Changes
+
+- [`33dce8d`](https://github.com/AtomicSmash/packages/commit/33dce8d609cfa344843f10137e635972ecccfef5) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Improve variation types
+
 ## 4.0.0-beta.6
 
 ### Minor Changes
