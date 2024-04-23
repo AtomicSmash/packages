@@ -25,7 +25,7 @@ export type AttributesObject = {
 	selector?: string;
 	attribute?: string;
 	multiline?: string;
-	query?: Record<string, any>;
+	query?: Record<string, AttributesObject>;
 	meta?: string;
 	default?: any;
 	items?: {
@@ -79,13 +79,7 @@ export type InterpretAttributes<
 					type: "array";
 					query: NonNullable<Attributes[Property]["query"]>;
 			  }
-			? {
-					[SubProperty in keyof NonNullable<
-						Attributes[Property]["query"]
-					>]: InheritType<
-						NonNullable<Attributes[Property]["query"]>[SubProperty]
-					>;
-				}[]
+			? InterpretAttributes<NonNullable<Attributes[Property]["query"]>>[]
 			: Attributes[Property] extends { type: string }
 				? InheritType<Attributes[Property]>
 				: never;
