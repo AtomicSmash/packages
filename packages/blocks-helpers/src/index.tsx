@@ -182,12 +182,17 @@ export type BlockVariations<Attributes extends BlockAttributes> = {
 	category?: BlockCategory;
 	icon?: string | JSX.Element;
 	isDefault?: boolean;
-	attributes?: Attributes;
+	attributes?: Partial<InterpretAttributes<Attributes>>;
 	innerBlocks?: InnerBlocks[];
 	example?: BlockExample<InterpretAttributes<Attributes>>;
 	scope?: ("inserter" | "block" | "transform")[];
 	keywords?: string[];
-	isActive?: string[];
+	isActive?:
+		| string[]
+		| ((
+				blockAttributes: InterpretAttributes<Attributes>,
+				variationAttributes?: Partial<InterpretAttributes<Attributes>>,
+		  ) => boolean);
 }[];
 
 export type BlockMetaData<
