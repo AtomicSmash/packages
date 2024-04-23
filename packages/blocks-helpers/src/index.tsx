@@ -175,6 +175,21 @@ export type WPDefinedPath = `file:${string}`;
 // eslint-disable-next-line @typescript-eslint/no-redundant-type-constituents -- WPDefinedPath is defined by WordPress and may be extended in the future.
 export type WPDefinedAsset = WPDefinedPath | string;
 
+export type BlockVariations<Attributes extends BlockAttributes> = {
+	name: string;
+	title: string;
+	description?: string;
+	category?: BlockCategory;
+	icon?: string | JSX.Element;
+	isDefault?: boolean;
+	attributes?: Attributes;
+	innerBlocks?: InnerBlocks[];
+	example?: BlockExample<InterpretAttributes<Attributes>>;
+	scope?: ("inserter" | "block" | "transform")[];
+	keywords?: string[];
+	isActive?: string[];
+}[];
+
 export type BlockMetaData<
 	Attributes extends BlockAttributes,
 	InterpretedAttributes extends Record<
@@ -331,20 +346,7 @@ export type BlockMetaData<
 	/**
 	 * Block Variations is the API that allows a block to have similar versions of it, but all these versions share some common functionality.
 	 */
-	variations?: {
-		name: string;
-		title: string;
-		description?: string;
-		category?: BlockCategory;
-		icon?: string | JSX.Element;
-		isDefault?: boolean;
-		attributes?: Attributes;
-		innerBlocks?: InnerBlocks[];
-		example?: BlockExample<InterpretedAttributes>;
-		scope?: ("inserter" | "block" | "transform")[];
-		keywords?: string[];
-		isActive?: string[];
-	}[];
+	variations?: BlockVariations<Attributes>;
 
 	/**
 	 * Template file loaded on the server when rendering a block.
@@ -608,6 +610,10 @@ type CurrentBlockDefinitionBase<
 		from: BlockTransforms;
 		to: BlockTransforms;
 	};
+	/**
+	 * Block Variations is the API that allows a block to have similar versions of it, but all these versions share some common functionality.
+	 */
+	variations?: BlockVariations<Attributes>;
 };
 
 export type CurrentStaticBlockDefinition<
