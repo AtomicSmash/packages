@@ -1,5 +1,17 @@
 # @atomicsmash/coding-standards
 
+## 11.0.0-beta.2
+
+### Minor Changes
+
+- [`14c4cf9`](https://github.com/AtomicSmash/packages/commit/14c4cf9de75eab9286be33821dbba8ed560631b8) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Add WPMDB to allowed words for licence key
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @atomicsmash/eslint-config@11.0.0-beta.2
+  - @atomicsmash/browserslist-config@11.0.0-beta.2
+
 ## 11.0.0-beta.1
 
 ### Minor Changes
