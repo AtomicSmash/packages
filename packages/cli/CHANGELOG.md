@@ -1,5 +1,11 @@
 # @atomicsmash/cli
 
+## 7.0.0-beta.8
+
+### Minor Changes
+
+- [`97a0ba9`](https://github.com/AtomicSmash/packages/commit/97a0ba967b3945944d15e7678199d9ba6550a45d) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Add sitecss alias for blocks compiler to allow importing of site scss code into blocks scss
+
 ## 7.0.0-beta.7
 
 ### Minor Changes
