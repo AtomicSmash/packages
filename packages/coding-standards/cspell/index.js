@@ -106,6 +106,7 @@ const config = {
 			"color", // For in theme.json
 			"gfield", // Gravity Forms field class
 			"phpmailer",
+			"WPMDB", // WP Migrate DB
 		], // WordPress stuff
 	],
 	languageSettings: [
