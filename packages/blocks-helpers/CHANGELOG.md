@@ -1,5 +1,11 @@
 # @atomicsmash/blocks-helpers
 
+## 4.0.0-beta.8
+
+### Patch Changes
+
+- [`909ebfb`](https://github.com/AtomicSmash/packages/commit/909ebfbd693ca2795e9a61e5e0aac1bbe688024e) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Fix block variations type
+
 ## 4.0.0-beta.7
 
 ### Minor Changes
