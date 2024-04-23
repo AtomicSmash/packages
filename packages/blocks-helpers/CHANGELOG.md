@@ -1,5 +1,11 @@
 # @atomicsmash/blocks-helpers
 
+## 4.0.0-beta.6
+
+### Minor Changes
+
+- [`8ece549`](https://github.com/AtomicSmash/packages/commit/8ece5497bedc0e0efeb930c4b1f4846b47bf4fd3) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Improve query attribute type
+
 ## 4.0.0-beta.5
 
 ### Patch Changes
