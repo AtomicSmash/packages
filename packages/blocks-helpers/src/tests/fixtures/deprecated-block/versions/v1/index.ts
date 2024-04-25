@@ -1,4 +1,7 @@
-import type { Attributes as NewAttributes } from "../v2/index";
+import type {
+	Attributes as NewAttributes,
+	Supports as NewSupports,
+} from "../v2/index";
 import type {
 	BlockAttributes,
 	BlockSupports,
@@ -6,6 +9,7 @@ import type {
 	DeprecatedStaticBlock,
 	BlockMigrateDeprecationFunction,
 	BlockIsDeprecationEligibleFunction,
+	BlockSaveProps as CreateBlockSaveProps,
 } from "@atomicsmash/blocks-helpers";
 import { createBlock } from "@wordpress/blocks";
 import { Save } from "./save";
@@ -35,6 +39,8 @@ export type InterpretedAttributes = InterpretAttributes<Attributes>;
 export const supports = {} as const satisfies BlockSupports;
 export type Supports = typeof supports;
 
+export type BlockSaveProps = CreateBlockSaveProps<Supports, Attributes>;
+
 /**
  * Deprecation migration function.
  *
@@ -43,8 +49,10 @@ export type Supports = typeof supports;
  * @see {@link https://developer.wordpress.org/block-editor/reference-guides/block-api/block-deprecation/ The WordPress documentation}
  */
 const migrate: BlockMigrateDeprecationFunction<
-	InterpretedAttributes,
-	InterpretAttributes<NewAttributes>
+	Supports,
+	Attributes,
+	NewSupports,
+	NewAttributes
 > = (oldAttributes) => {
 	const { url, ...migratedAttributes } = oldAttributes;
 	return [
@@ -66,7 +74,7 @@ const migrate: BlockMigrateDeprecationFunction<
  *
  * @see {@link https://developer.wordpress.org/block-editor/reference-guides/block-api/block-deprecation/ The WordPress documentation}
  */
-const isEligible: BlockIsDeprecationEligibleFunction<InterpretedAttributes> = ({
+const isEligible: BlockIsDeprecationEligibleFunction<Supports, Attributes> = ({
 	url,
 }) => {
 	return url !== undefined;
@@ -78,4 +86,9 @@ export const v1 = {
 	migrate,
 	isEligible,
 	save: Save,
-} satisfies DeprecatedStaticBlock<Attributes, NewAttributes>;
+} satisfies DeprecatedStaticBlock<
+	Supports,
+	Attributes,
+	NewSupports,
+	NewAttributes
+>;

@@ -2,8 +2,8 @@ import type {
 	BlockAttributes,
 	BlockSupports,
 	InterpretAttributes,
-	BlockEditProps,
-	BlockSaveProps,
+	BlockEditProps as CreateBlockEditProps,
+	BlockSaveProps as CreateBlockSaveProps,
 	BlockProvidesContext,
 	InterpretProvidesContext,
 	BlockUsesContext,
@@ -74,10 +74,14 @@ export type InterpretedUsedContext = InterpretUsedContext<
 	OtherBlockInterpretedContext
 >;
 
-export function Edit({
-	attributes,
-	setAttributes,
-}: BlockEditProps<InterpretedAttributes, InterpretedUsedContext>): Element {
+export type BlockEditProps = CreateBlockEditProps<
+	Supports,
+	Attributes,
+	InterpretedUsedContext
+>;
+export type BlockSaveProps = CreateBlockSaveProps<Supports, Attributes>;
+
+export function Edit({ attributes, setAttributes }: BlockEditProps): Element {
 	const { title, url, align, size } = attributes;
 	const blockProps = useBlockProps({ className: `align-${align}` });
 
@@ -141,9 +145,7 @@ export function Edit({
 	);
 }
 
-export function Save({
-	attributes,
-}: BlockSaveProps<InterpretedAttributes>): Element {
+export function Save({ attributes }: BlockSaveProps): Element {
 	const { title, url, align, size } = attributes;
 	const blockProps = useBlockProps.save({
 		className: `align-${align} blockSize-${size}`,
@@ -163,8 +165,15 @@ const v1 = {
 	usesContext,
 	edit: Edit,
 	save: Save,
-} satisfies CurrentStaticBlockDefinition<Attributes, InterpretedUsedContext>;
+} satisfies CurrentStaticBlockDefinition<
+	Supports,
+	Attributes,
+	InterpretedUsedContext
+>;
 
-registerBlockType<Attributes, InterpretedUsedContext>("simple-block", {
-	...v1,
-});
+registerBlockType<Supports, Attributes, InterpretedUsedContext>(
+	"simple-block",
+	{
+		...v1,
+	},
+);

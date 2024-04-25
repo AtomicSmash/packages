@@ -3,6 +3,8 @@ import {
 	BlockSupports,
 	InterpretAttributes,
 	CurrentStaticBlockDefinition,
+	BlockEditProps as CreateBlockEditProps,
+	BlockSaveProps as CreateBlockSaveProps,
 } from "@atomicsmash/blocks-helpers";
 import { Edit } from "./edit";
 import { Save } from "./save";
@@ -40,9 +42,12 @@ export type InterpretedAttributes = InterpretAttributes<Attributes>;
 export const supports = {} as const satisfies BlockSupports;
 export type Supports = typeof supports;
 
+export type BlockEditProps = CreateBlockEditProps<Supports, Attributes>;
+export type BlockSaveProps = CreateBlockSaveProps<Supports, Attributes>;
+
 export const v2 = {
 	attributes,
 	supports,
 	edit: Edit,
 	save: Save,
-} satisfies CurrentStaticBlockDefinition<Attributes>;
+} satisfies CurrentStaticBlockDefinition<Supports, Attributes>;

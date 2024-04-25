@@ -1,5 +1,4 @@
-import type { InterpretedAttributes } from "./index";
-import type { BlockEditProps } from "@atomicsmash/blocks-helpers";
+import type { BlockEditProps, InterpretedAttributes } from "./index";
 import type { Element } from "@wordpress/element";
 import {
 	useBlockProps,
@@ -20,10 +19,7 @@ import { __ } from "@wordpress/i18n";
  *
  * @return {Element} Element to render.
  */
-export function Edit({
-	attributes,
-	setAttributes,
-}: BlockEditProps<InterpretedAttributes>): Element {
+export function Edit({ attributes, setAttributes }: BlockEditProps): Element {
 	const { title, align, size } = attributes;
 	const blockProps = useBlockProps({ className: `align-${align}` });
 
