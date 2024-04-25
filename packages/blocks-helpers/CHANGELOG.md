@@ -1,5 +1,14 @@
 # @atomicsmash/blocks-helpers
 
+## 4.0.0-beta.9
+
+### Major Changes
+
+- [`86ffec9`](https://github.com/AtomicSmash/packages/commit/86ffec9e54b2c39323fe767b50a122ef374bff50) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Simplify attributes passing to other types
+  Loosen deprecated block type on registerBlockType
+  Add default block attributes where necessary, subject to supports
+  Fix block/shortcode transforms and block variations
+
 ## 4.0.0-beta.8
 
 ### Patch Changes
