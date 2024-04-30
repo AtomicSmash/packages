@@ -107,6 +107,7 @@ const config = {
 			"gfield", // Gravity Forms field class
 			"phpmailer",
 			"WPMDB", // WP Migrate DB
+			"shortcode",
 		], // WordPress stuff
 	],
 	languageSettings: [
