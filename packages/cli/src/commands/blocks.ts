@@ -134,6 +134,15 @@ export default function blocks(args: string[]) {
 					from: `**/block.json`,
 					noErrorOnMissing: true,
 				},
+				{
+					from: `${srcFolder}/**/render.php`,
+					noErrorOnMissing: true,
+					globOptions: {
+						ignore: excludeBlocks.map(
+							(blockName) => `${srcFolder}/${blockName}/**/*`,
+						),
+					},
+				},
 			],
 		}),
 		{
