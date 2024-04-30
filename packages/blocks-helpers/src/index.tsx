@@ -20,31 +20,33 @@ export type AttributeTypes =
 	| "string"
 	| "integer"
 	| "number";
-export type AttributesObject<BlockType extends "static" | "dynamic"> = {
+
+type TypeOrEnum =
+	| {
+			type: AttributeTypes | AttributeTypes[];
+			enum?: readonly boolean[] | readonly number[] | readonly string[];
+	  }
+	| {
+			type?: AttributeTypes | AttributeTypes[];
+			enum: readonly boolean[] | readonly number[] | readonly string[];
+	  };
+type BaseAttributes = {
 	default?: any;
 	items?: {
 		type: AttributeTypes;
 	};
-} & (BlockType extends "static"
-	? {
-			source?: "attribute" | "text" | "html" | "query" | "meta";
-			selector?: string;
-			attribute?: string;
-			multiline?: string;
-			query?: Record<string, AttributesObject<BlockType>>;
-			meta?: string;
-		}
-	: Record<string, never>) &
-	(
-		| {
-				type: AttributeTypes | AttributeTypes[];
-				enum?: readonly boolean[] | readonly number[] | readonly string[];
-		  }
-		| {
-				type?: AttributeTypes | AttributeTypes[];
-				enum: readonly boolean[] | readonly number[] | readonly string[];
-		  }
-	);
+} & TypeOrEnum;
+export type AttributesObject<BlockType extends "static" | "dynamic"> =
+	BlockType extends "static"
+		? BaseAttributes & {
+				source?: "attribute" | "text" | "html" | "query" | "meta";
+				selector?: string;
+				attribute?: string;
+				multiline?: string;
+				query?: Record<string, AttributesObject<"static">>;
+				meta?: string;
+			}
+		: BaseAttributes;
 
 type InheritType<Type extends { type: string | string[] }> = Type extends {
 	type: string[];
@@ -75,7 +77,7 @@ export type InterpretAttributes<Attributes extends AnyBlockAttributes> = {
 		? NonNullable<Attributes[Property]["enum"]>[number]
 		: Attributes[Property] extends {
 					type: "array";
-					query: NonNullable<Attributes[Property]["query"]>;
+					query: Record<string, AttributesObject<"static">>;
 			  }
 			? InterpretAttributes<NonNullable<Attributes[Property]["query"]>>[]
 			: Attributes[Property] extends { type: string }
@@ -179,9 +181,12 @@ export type WPDefinedPath = `file:${string}`;
 // eslint-disable-next-line @typescript-eslint/no-redundant-type-constituents -- WPDefinedPath is defined by WordPress and may be extended in the future.
 export type WPDefinedAsset = WPDefinedPath | string;
 
-type RecursivePartial<T> = {
-	[P in keyof T]?: RecursivePartial<T[P]>;
-};
+type RecursivePartial<T> =
+	T extends Record<string, unknown>
+		? {
+				[P in keyof T]?: RecursivePartial<T[P]>;
+			}
+		: T;
 
 export type BlockVariations<
 	Supports extends BlockSupports,
@@ -614,14 +619,10 @@ export type BlockSettings<
 	Supports extends BlockSupports,
 	Attributes extends AnyBlockAttributes,
 	InterpretedUsedContext extends Record<string, any> = Record<string, never>,
-> = (Attributes extends BlockAttributes<"static">
-	? CurrentStaticBlockDefinition<Supports, Attributes, InterpretedUsedContext>
-	: Attributes extends BlockAttributes<"dynamic">
-		? CurrentDynamicBlockDefinition<
-				Supports,
-				Attributes,
-				InterpretedUsedContext
-			>
+> = (Attributes extends BlockAttributes<"dynamic">
+	? CurrentDynamicBlockDefinition<Supports, Attributes, InterpretedUsedContext>
+	: Attributes extends BlockAttributes<"static">
+		? CurrentStaticBlockDefinition<Supports, Attributes, InterpretedUsedContext>
 		: never) & {
 	deprecated?: unknown[];
 };
