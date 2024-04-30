@@ -1,5 +1,11 @@
 # @atomicsmash/blocks-helpers
 
+## 4.0.0-beta.11
+
+### Patch Changes
+
+- [`098b948`](https://github.com/AtomicSmash/packages/commit/098b948c0932f020a1385013beeb38c391c34758) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Minor fixes related to dynamic blocks
+
 ## 4.0.0-beta.10
 
 ### Major Changes
