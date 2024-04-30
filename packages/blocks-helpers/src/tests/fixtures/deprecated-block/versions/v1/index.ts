@@ -32,7 +32,7 @@ export const attributes = {
 		type: "string",
 		default: "none",
 	},
-} as const satisfies BlockAttributes;
+} as const satisfies BlockAttributes<"static">;
 export type Attributes = typeof attributes;
 export type InterpretedAttributes = InterpretAttributes<Attributes>;
 
