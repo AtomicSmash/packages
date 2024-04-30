@@ -1,5 +1,11 @@
 # @atomicsmash/cli
 
+## 7.0.0-beta.9
+
+### Minor Changes
+
+- [`524589f`](https://github.com/AtomicSmash/packages/commit/524589f89cc653e70adeef5553624e851a044216) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Copy render php files from src to dist on build
+
 ## 7.0.0-beta.8
 
 ### Minor Changes
