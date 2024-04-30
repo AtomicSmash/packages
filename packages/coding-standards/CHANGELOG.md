@@ -1,5 +1,17 @@
 # @atomicsmash/coding-standards
 
+## 11.0.0-beta.3
+
+### Minor Changes
+
+- [`321c4e9`](https://github.com/AtomicSmash/packages/commit/321c4e9e18bd7a7e23e19b37a553249f57135138) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Add shortcode
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @atomicsmash/eslint-config@11.0.0-beta.3
+  - @atomicsmash/browserslist-config@11.0.0-beta.3
+
 ## 11.0.0-beta.2
 
 ### Minor Changes

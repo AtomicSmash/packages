@@ -1,5 +1,12 @@
 # @atomicsmash/blocks-helpers
 
+## 4.0.0-beta.10
+
+### Major Changes
+
+- [`5d7b282`](https://github.com/AtomicSmash/packages/commit/5d7b2825f13c0ef0d4348b9d96f31d714ef65b5b) Thanks [@mikeybinns](https://github.com/mikeybinns)! - BlockAttributes now requires static or dynamic type.
+  Make render property optional so it can be defined in block.json instead.
+
 ## 4.0.0-beta.9
 
 ### Major Changes
