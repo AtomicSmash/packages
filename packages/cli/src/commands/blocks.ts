@@ -90,6 +90,15 @@ export default function blocks(args: string[]) {
 						),
 					},
 				},
+				{
+					from: `${srcFolder}/**/render.php`,
+					noErrorOnMissing: true,
+					globOptions: {
+						ignore: excludeBlocks.map(
+							(blockName) => `${srcFolder}/${blockName}/**/*`,
+						),
+					},
+				},
 			],
 		}),
 		{
