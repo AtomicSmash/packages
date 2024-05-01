@@ -186,7 +186,9 @@ type RecursivePartial<T> =
 		? {
 				[P in keyof T]?: RecursivePartial<T[P]>;
 			}
-		: T;
+		: T extends Record<string, unknown>[]
+			? RecursivePartial<T[keyof T]>[]
+			: T;
 
 export type BlockVariations<
 	Supports extends BlockSupports,
