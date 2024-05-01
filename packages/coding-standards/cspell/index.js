@@ -108,6 +108,8 @@ const config = {
 			"phpmailer",
 			"WPMDB", // WP Migrate DB
 			"shortcode",
+			"wp_kses",
+			"sprintf", // For @wordpress/i18n
 		], // WordPress stuff
 	],
 	languageSettings: [
