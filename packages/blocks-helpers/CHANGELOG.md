@@ -1,5 +1,11 @@
 # @atomicsmash/blocks-helpers
 
+## 4.0.0-beta.13
+
+### Patch Changes
+
+- [`a8b72c7`](https://github.com/AtomicSmash/packages/commit/a8b72c71a7f2963f992041b86130f92282f09a3e) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Fix recursive partial array keys
+
 ## 4.0.0-beta.12
 
 ### Minor Changes
