@@ -1,5 +1,11 @@
 # @atomicsmash/blocks-helpers
 
+## 4.0.0-beta.12
+
+### Minor Changes
+
+- [`4dcbaf6`](https://github.com/AtomicSmash/packages/commit/4dcbaf6fa8e6ab87564e9d3c4a4842941e214172) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Update block supports list
+
 ## 4.0.0-beta.11
 
 ### Patch Changes
