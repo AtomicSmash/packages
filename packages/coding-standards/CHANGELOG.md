@@ -1,5 +1,17 @@
 # @atomicsmash/coding-standards
 
+## 11.0.0-beta.4
+
+### Minor Changes
+
+- [`b518b50`](https://github.com/AtomicSmash/packages/commit/b518b501e3bedc5e32ba7bdb19f64c765f0aea2a) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Add wp_kses and sprintf to allowed words
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @atomicsmash/eslint-config@11.0.0-beta.4
+  - @atomicsmash/browserslist-config@11.0.0-beta.4
+
 ## 11.0.0-beta.3
 
 ### Minor Changes
