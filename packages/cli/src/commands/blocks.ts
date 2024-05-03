@@ -1,11 +1,18 @@
 import type { Compiler, Configuration } from "webpack";
 import crypto from "node:crypto";
 import { readFileSync, writeFileSync } from "node:fs";
-import { readdir } from "node:fs/promises";
-import { resolve as resolvePath } from "node:path";
+import { readdir, mkdir } from "node:fs/promises";
+import {
+	basename,
+	dirname,
+	extname,
+	join,
+	resolve as resolvePath,
+} from "node:path";
 import { pathToFileURL } from "node:url";
 import DependencyExtractionWebpackPlugin from "@wordpress/dependency-extraction-webpack-plugin";
 import defaultConfig from "@wordpress/scripts/config/webpack.config.js";
+import { getBlockJsonScriptFields } from "@wordpress/scripts/utils/index.js";
 import autoprefixer from "autoprefixer";
 import CopyWebpackPlugin from "copy-webpack-plugin";
 import cssnano from "cssnano";
@@ -15,6 +22,7 @@ import postcss, { AcceptedPlugin } from "postcss";
 import postcssLoadConfig from "postcss-load-config";
 import { compileStringAsync } from "sass";
 import { TsconfigPathsPlugin } from "tsconfig-paths-webpack-plugin";
+import { register } from "tsx/esm/api";
 import webpack from "webpack";
 import { hasHelpFlag, interpretFlag, toCamelCase } from "../utils.js";
 
@@ -82,12 +90,23 @@ export default function blocks(args: string[]) {
 		new CopyWebpackPlugin({
 			patterns: [
 				{
-					from: `${srcFolder}/**/block.json`,
+					from: `${srcFolder}/**/block.json.ts`,
+					to: "[path]block.json",
 					noErrorOnMissing: true,
 					globOptions: {
 						ignore: excludeBlocks.map(
 							(blockName) => `${srcFolder}/${blockName}/**/*`,
 						),
+					},
+					transform: {
+						async transformer(_content, path): Promise<string> {
+							const loadedFile = (await import(path)) as {
+								default: Record<string, unknown>;
+							};
+							const blockJson = loadedFile.default;
+							return JSON.stringify(blockJson, null, 2);
+						},
+						cache: true,
 					},
 				},
 				{
@@ -182,11 +201,18 @@ export default function blocks(args: string[]) {
 										});
 									await postcss(plugins)
 										.process(css, options)
-										.then((result) => {
-											writeFileSync(newMatch, result.css);
-											if (result.map) {
-												writeFileSync(`${newMatch}.map`, result.map.toString());
-											}
+										.then(async (result) => {
+											await mkdir(newMatch.replace(basename(newMatch), ""), {
+												recursive: true,
+											}).then(() => {
+												writeFileSync(newMatch, result.css);
+												if (result.map) {
+													writeFileSync(
+														`${newMatch}.map`,
+														result.map.toString(),
+													);
+												}
+											});
 										});
 								}
 								deleteAsync([
@@ -332,59 +358,54 @@ async function getAllBlocksJSEntryPoints({
 			filename: `${entryName}${isProduction ? `.[contenthash]` : ""}.js`,
 		};
 	}
-	const blockFolders = await readdir(`${srcFolder}`, {
-		withFileTypes: true,
-	})
-		.then((srcDirFiles) => {
-			return srcDirFiles
-				.filter((dirent) => dirent.isDirectory())
-				.map((dirent) => dirent.name);
-		})
-		.then((blockFolders) => {
-			return blockFolders.filter((block) => !excludeBlocks.includes(block));
-		});
-	if (blockFolders.length === 0 && !shouldAlwaysCompileRootFiles) {
+
+	const blockJsonFiles = await glob.promise(`${srcFolder}/**/block.json.ts`, {
+		ignore: excludeBlocks.map(
+			(blockName) => `${srcFolder}/**/${blockName}/block.json.ts`,
+		),
+	});
+	if (blockJsonFiles.length === 0 && !shouldAlwaysCompileRootFiles) {
 		// If there are no blocks, don't compile root files, unless the flag is present.
 		console.log({ entryPoints: {} });
 		return {};
 	}
-	for (const block of blockFolders) {
-		const blockFiles = await readdir(`${srcFolder}/${block}`, {
-			withFileTypes: true,
-		}).then((blockDirFiles) => {
-			return blockDirFiles
-				.filter((file) => !file.isDirectory())
-				.map((file) => file.name)
-				.filter(
-					(file) =>
-						file.endsWith(".js") ||
-						file.endsWith(".ts") ||
-						file.endsWith(".jsx") ||
-						file.endsWith(".tsx"),
-				);
+	// Allow imports of Typescript files via tsx.
+	const unregister = register();
+	for (const blockJsonFile of blockJsonFiles) {
+		const blockJson = await import(blockJsonFile).then((loadedFile) => {
+			// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+			return loadedFile.default as Record<string, unknown>;
 		});
-		for (const blockJSFile of blockFiles) {
-			let blockBonusScriptNumber = 1;
-			const [filename] = blockJSFile.split(".");
-			let entryName;
-			if (filename === "index") {
-				entryName = block;
-			} else if (filename === "editor") {
-				entryName = `${block}-editor`;
-			} else if (filename === "view") {
-				entryName = `${block}-view`;
-			} else {
-				entryName = `${block}-bonus${blockBonusScriptNumber}`;
-				blockBonusScriptNumber++;
+		const fields = getBlockJsonScriptFields(blockJson);
+		if (!fields) {
+			continue;
+		}
+		for (const value of Object.values(fields).flat()) {
+			if ("string" !== typeof value || !value.startsWith("file:")) {
+				continue;
 			}
+			// Removes the `file:` prefix.
+			const filepath = join(dirname(blockJsonFile), value.replace("file:", ""));
+
+			const entryName = filepath
+				.replace(srcFolder, "")
+				.replace(extname(filepath), "")
+				.replace(/\\/g, "/")
+				.split("/")
+				.filter((string) => string !== "")
+				.join("-");
+
 			entryPoints[toCamelCase(entryName)] = {
-				import: `${srcFolder}/${block}/${blockJSFile}`,
-				filename: `${block}/${filename}${
+				import: filepath,
+				filename: `${filepath.replace(srcFolder, "").replace(extname(filepath), "")}${
 					isProduction ? `.[contenthash]` : ""
 				}.js`,
 			};
 		}
 	}
+	// Disallow imports of Typescript files via tsx.
+	await unregister();
+
 	// eslint-disable-next-line no-console
 	console.log({ entryPoints });
 	return entryPoints;
