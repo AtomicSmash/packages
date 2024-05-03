@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+import { existsSync } from "node:fs";
 import {
 	readFile,
 	writeFile,
@@ -40,6 +41,8 @@ const packageManager = new PackageManager(
 			);
 		}),
 );
+
+const hasRootTSConfig = existsSync(`${process.cwd()}/tsconfig.json`);
 
 const argv = await yargs(hideBin(process.argv))
 	.options({
@@ -93,6 +96,12 @@ for (const dirent of copyFiles) {
 			.then(async (data) => {
 				for (const [search, replace] of [
 					["%%BASE_URL%%", argv.baseUrl],
+					[
+						"%%TS_CONFIG_LOCATION%%",
+						hasRootTSConfig
+							? "../tsconfig.json"
+							: "@atomicsmash/coding-standards/typescript/base",
+					],
 				] as const) {
 					data = data.replace(search, replace);
 				}
@@ -145,15 +154,37 @@ await Promise.all([
 				type: "dev",
 			});
 		},
-	]).then((results) => {
-		if (
-			results.some((result) => {
-				return result.status === "fulfilled" && result.value === true;
-			})
-		) {
-			packageManager.runCommands();
-		}
-	}),
+		!hasRootTSConfig
+			? packageManager.ensurePackageIsInstalled("typescript", {
+					packageConstraint: "^5.4.0",
+					type: "dev",
+				})
+			: false,
+	])
+		.then((results) => {
+			if (
+				results.some((result) => {
+					return result.status === "fulfilled" && result.value === true;
+				})
+			) {
+				const installedPackages = [
+					...packageManager.commands.install,
+					...packageManager.commands.devInstall,
+				];
+				packageManager.runCommands();
+				console.log(`Packages installed: ${installedPackages.join(",")}.`);
+			}
+			return results[1].status === "fulfilled" && results[1].value === true;
+		})
+		.then((shouldInstallPlaywright) => {
+			if (shouldInstallPlaywright) {
+				console.log("Running playwright installer...");
+				// Run Playwright installer after package install
+				packageManager.commands.basic.push("npx playwright install");
+				packageManager.runCommands();
+				console.log("Playwright installer finished.");
+			}
+		}),
 	Promise.allSettled(fileCopies).then((results) => {
 		results.forEach((result) => {
 			console.log(result.status === "fulfilled" ? result.value : result.reason);
@@ -169,6 +200,7 @@ await Promise.all([
 				"/playwright-report/",
 				"/blob-report/",
 				"/playwright/.cache/",
+				"/lighthouse/",
 			];
 			const linesToAddToGitignore: string[] = [];
 			for (const line of linesToCheck) {

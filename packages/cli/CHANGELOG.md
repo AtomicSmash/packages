@@ -1,5 +1,69 @@
 # @atomicsmash/cli
 
+## 7.0.0-beta.9
+
+### Minor Changes
+
+- [`524589f`](https://github.com/AtomicSmash/packages/commit/524589f89cc653e70adeef5553624e851a044216) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Copy render php files from src to dist on build
+
+## 7.0.0-beta.8
+
+### Minor Changes
+
+- [`97a0ba9`](https://github.com/AtomicSmash/packages/commit/97a0ba967b3945944d15e7678199d9ba6550a45d) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Add sitecss alias for blocks compiler to allow importing of site scss code into blocks scss
+
+## 7.0.0-beta.7
+
+### Minor Changes
+
+- [`1c8e244`](https://github.com/AtomicSmash/packages/commit/1c8e244bcd4699d2365a2ab540f102be14371c6a) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Allow JSX for main block files
+
+## 7.0.0-beta.6
+
+### Minor Changes
+
+- [`e36158c`](https://github.com/AtomicSmash/packages/commit/e36158c38c3e5895a8dfd9564eda01efc393ce86) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Add sass file support for blocks
+
+## 7.0.0-beta.5
+
+### Patch Changes
+
+- [`42e8362`](https://github.com/AtomicSmash/packages/commit/42e83624f46c1c69206e8f6350ba940c6b83ceb6) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Clarify command message to match usage
+
+## 7.0.0-beta.4
+
+### Minor Changes
+
+- [`cfa32fe`](https://github.com/AtomicSmash/packages/commit/cfa32fe4cfacbd7bd07cc81453eb3d39aac022c4) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Add external postcss config support to blocks command
+
+## 7.0.0-beta.3
+
+### Patch Changes
+
+- [`5f6be58`](https://github.com/AtomicSmash/packages/commit/5f6be5850cea5fa591cbfe89ed25699ab9d22821) Thanks [@mikeybinns](https://github.com/mikeybinns)! - fix css file output
+
+## 7.0.0-beta.2
+
+### Patch Changes
+
+- [`829ae3b`](https://github.com/AtomicSmash/packages/commit/829ae3b8228f48657c60da545e416c1939c7f609) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Refactor CSS fingerprinting
+
+## 7.0.0-beta.1
+
+### Patch Changes
+
+- [`b91329b`](https://github.com/AtomicSmash/packages/commit/b91329b9d6837e2d4d6141d8a1adeb089958cb5f) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Ignore CSS files and block.json file for ignored blocks
+
+## 7.0.0-beta.0
+
+### Major Changes
+
+- [`d09917a`](https://github.com/AtomicSmash/packages/commit/d09917ac8ca7b09be83587f98bc068c9f0e90b61) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Delete extra CSS files after compilation
+
+### Patch Changes
+
+- [`9a84a3b`](https://github.com/AtomicSmash/packages/commit/9a84a3bdb054311702e0c4a6abf7198d7053d85d) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Fix fingerprinting of CSS files when watching for changes
+
 ## 6.0.0
 
 ### Major Changes

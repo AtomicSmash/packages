@@ -1,5 +1,65 @@
 # @atomicsmash/coding-standards
 
+## 11.0.0-beta.4
+
+### Minor Changes
+
+- [`b518b50`](https://github.com/AtomicSmash/packages/commit/b518b501e3bedc5e32ba7bdb19f64c765f0aea2a) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Add wp_kses and sprintf to allowed words
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @atomicsmash/eslint-config@11.0.0-beta.4
+  - @atomicsmash/browserslist-config@11.0.0-beta.4
+
+## 11.0.0-beta.3
+
+### Minor Changes
+
+- [`321c4e9`](https://github.com/AtomicSmash/packages/commit/321c4e9e18bd7a7e23e19b37a553249f57135138) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Add shortcode
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @atomicsmash/eslint-config@11.0.0-beta.3
+  - @atomicsmash/browserslist-config@11.0.0-beta.3
+
+## 11.0.0-beta.2
+
+### Minor Changes
+
+- [`14c4cf9`](https://github.com/AtomicSmash/packages/commit/14c4cf9de75eab9286be33821dbba8ed560631b8) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Add WPMDB to allowed words for licence key
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @atomicsmash/eslint-config@11.0.0-beta.2
+  - @atomicsmash/browserslist-config@11.0.0-beta.2
+
+## 11.0.0-beta.1
+
+### Minor Changes
+
+- [`2ec63f6`](https://github.com/AtomicSmash/packages/commit/2ec63f6893c67ce504a93633816fb3040d698c61) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Add phpmailer to allowed words
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @atomicsmash/eslint-config@11.0.0-beta.1
+  - @atomicsmash/browserslist-config@11.0.0-beta.1
+
+## 11.0.0-beta.0
+
+### Minor Changes
+
+- [`db462fe`](https://github.com/AtomicSmash/packages/commit/db462fecd0ceb0a46e5bd65748f65089fa6fc2d1) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Add more allowed words to cSpell config
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @atomicsmash/eslint-config@11.0.0-beta.0
+  - @atomicsmash/browserslist-config@11.0.0-beta.0
+
 ## 10.0.1
 
 ### Patch Changes

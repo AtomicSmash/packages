@@ -1,15 +1,19 @@
 import type { Compiler, Configuration } from "webpack";
 import crypto from "node:crypto";
-import { readFileSync, writeFileSync, renameSync } from "node:fs";
+import { readFileSync, writeFileSync } from "node:fs";
 import { readdir } from "node:fs/promises";
 import { resolve as resolvePath } from "node:path";
+import { pathToFileURL } from "node:url";
 import DependencyExtractionWebpackPlugin from "@wordpress/dependency-extraction-webpack-plugin";
 import defaultConfig from "@wordpress/scripts/config/webpack.config.js";
 import autoprefixer from "autoprefixer";
 import CopyWebpackPlugin from "copy-webpack-plugin";
 import cssnano from "cssnano";
+import { deleteAsync } from "del";
 import glob from "glob-promise";
 import postcss, { AcceptedPlugin } from "postcss";
+import postcssLoadConfig from "postcss-load-config";
+import { compileStringAsync } from "sass";
 import { TsconfigPathsPlugin } from "tsconfig-paths-webpack-plugin";
 import webpack from "webpack";
 import { hasHelpFlag, interpretFlag, toCamelCase } from "../utils.js";
@@ -25,6 +29,7 @@ export const blocksHelpMessage = `
     --in                     The directory where the WP blocks can be found. Relative to cwd.
     --out                    The directory where the WP blocks will be output. Relative to cwd.
     --tsConfigPath           (optional) The directory where the tsconfig file can be found. Relative to cwd. Defaults to the in folder.
+    --postcssConfigPath      (optional) The directory where the postcss config file can be found. Relative to cwd. Defaults to the in folder and then searches up the directory tree.
     --watch                  (optional) Watch the blocks in folder for changes and compile.
     --excludeBlocks          (optional) A comma separated list of the folder names of blocks to exclude from compilation. Defaults to "__TEMPLATE__".
     --excludeRootFiles       (optional) A comma separated list of the root file names to exclude from compilation. Nothing is excluded by default.
@@ -52,6 +57,8 @@ export default function blocks(args: string[]) {
 
 	const tsConfigLocation =
 		interpretFlag(args, "--tsConfigPath").value ?? srcFolder;
+	const postcssConfigLocation =
+		interpretFlag(args, "--postcssConfigPath").value ?? srcFolder;
 	const excludeBlocks = interpretFlag(args, "--excludeBlocks", "list")
 		.value ?? ["__TEMPLATE__"];
 	const excludeRootFiles =
@@ -61,62 +68,6 @@ export default function blocks(args: string[]) {
 		"--alwaysCompileRootFiles",
 		"boolean",
 	).value;
-
-	const postCSSPlugins: AcceptedPlugin[] = [autoprefixer];
-	if (isProduction) {
-		postCSSPlugins.push(cssnano({ preset: "default" }));
-	}
-
-	async function processCSSFiles(
-		globMatches: Awaited<ReturnType<typeof glob.promise>>,
-	) {
-		for (const match of globMatches) {
-			const fileName = match.split("/").pop();
-			if (!fileName) {
-				console.error(`Failed to get filename of ${match}`);
-				continue;
-			}
-			const css = readFileSync(match);
-			await postcss(postCSSPlugins)
-				.process(css, {
-					from: match,
-					to: match.replace(srcFolder, distFolder),
-				})
-				.then((result) => {
-					writeFileSync(match.replace(srcFolder, distFolder), result.css);
-					if (result.map) {
-						writeFileSync(
-							`${match.replace(srcFolder, distFolder)}.map`,
-							result.map.toString(),
-						);
-					}
-				});
-		}
-	}
-
-	async function fingerprintCSSFilesIfProduction() {
-		if (!isProduction) {
-			return;
-		}
-		return glob.promise(`${distFolder}/**/*.css`).then((matches) => {
-			for (const match of matches) {
-				const fileBuffer = readFileSync(match);
-				const contentHash = crypto.createHash("shake256", {
-					outputLength: 10,
-				});
-				contentHash.update(fileBuffer);
-				const fileMatchArray = match.split("/");
-				const newFileName = fileMatchArray
-					.pop()
-					?.replace(".css", `.${contentHash.digest("hex")}.css`);
-				if (!newFileName || newFileName === "") {
-					throw new Error("Error getting CSS file name.");
-				}
-				renameSync(match, `${fileMatchArray.join("/")}/${newFileName}`);
-			}
-			return;
-		});
-	}
 
 	const plugins = [
 		...((defaultConfig as Configuration).plugins?.filter((plugin) => {
@@ -131,8 +82,22 @@ export default function blocks(args: string[]) {
 		new CopyWebpackPlugin({
 			patterns: [
 				{
-					from: `**/block.json`,
+					from: `${srcFolder}/**/block.json`,
 					noErrorOnMissing: true,
+					globOptions: {
+						ignore: excludeBlocks.map(
+							(blockName) => `${srcFolder}/${blockName}/**/*`,
+						),
+					},
+				},
+				{
+					from: `${srcFolder}/**/render.php`,
+					noErrorOnMissing: true,
+					globOptions: {
+						ignore: excludeBlocks.map(
+							(blockName) => `${srcFolder}/${blockName}/**/*`,
+						),
+					},
 				},
 			],
 		}),
@@ -142,9 +107,95 @@ export default function blocks(args: string[]) {
 					"Build CSS and copy to test area",
 					async () => {
 						await glob
-							.promise(`${srcFolder}/**/*.css`)
-							.then(processCSSFiles)
-							.then(fingerprintCSSFilesIfProduction)
+							.promise(`${srcFolder}/**/*.{css,scss}`, {
+								ignore: excludeBlocks.map(
+									(blockName) => `${srcFolder}/${blockName}/**/*`,
+								),
+							})
+							.then(async (globMatches) => {
+								const currentCSSFileNames = [];
+								for (const match of globMatches) {
+									const fileNameWithExtension = match.split("/").pop();
+									if (!fileNameWithExtension) {
+										console.error(`Failed to get filename of ${match}`);
+										continue;
+									}
+									let css = readFileSync(match, "utf8");
+									if (fileNameWithExtension.split(".").pop() === "scss") {
+										css = await compileStringAsync(css, {
+											importers: [
+												{
+													findFileUrl(url) {
+														if (!url.startsWith("sitecss:")) return null;
+														const pathname = url.substring(8);
+														return pathToFileURL(
+															`${resolvePath(srcFolder, "../css")}${pathname.startsWith("/") ? pathname : `/${pathname}`}`,
+														);
+													},
+												},
+											],
+										}).then((result) => result.css);
+									}
+									let newFileNameWithExtension = fileNameWithExtension;
+									let newMatch = match.replace(srcFolder, distFolder);
+									if (isProduction) {
+										const fileBuffer = readFileSync(match);
+										const contentHash = crypto.createHash("shake256", {
+											outputLength: 10,
+										});
+										contentHash.update(fileBuffer);
+										newFileNameWithExtension = `${fileNameWithExtension.split(".")[0]}.${contentHash.digest("hex")}.css`;
+										newMatch = newMatch.replace(
+											fileNameWithExtension,
+											newFileNameWithExtension,
+										);
+										currentCSSFileNames.push(`!${newMatch}`);
+									}
+									const { plugins, options } = await postcssLoadConfig(
+										{},
+										postcssConfigLocation,
+									)
+										.then(({ plugins, options }) => {
+											options.from = match;
+											options.to = newMatch;
+											return { plugins, options };
+										})
+										.catch((error: unknown) => {
+											if (
+												error &&
+												error instanceof Error &&
+												error.message.startsWith("No PostCSS Config found")
+											) {
+												const postCSSPlugins: AcceptedPlugin[] = [autoprefixer];
+												if (isProduction) {
+													postCSSPlugins.push(cssnano({ preset: "default" }));
+												}
+												return {
+													plugins: postCSSPlugins,
+													options: {
+														from: match,
+														to: newMatch,
+													},
+												};
+											}
+											throw error;
+										});
+									await postcss(plugins)
+										.process(css, options)
+										.then((result) => {
+											writeFileSync(newMatch, result.css);
+											if (result.map) {
+												writeFileSync(`${newMatch}.map`, result.map.toString());
+											}
+										});
+								}
+								deleteAsync([
+									`${distFolder}/**/*.css`,
+									...currentCSSFileNames,
+								]).catch((error) => {
+									console.log(error);
+								});
+							})
 							.catch((error) => {
 								console.error(error);
 								throw error;
@@ -304,7 +355,13 @@ async function getAllBlocksJSEntryPoints({
 			return blockDirFiles
 				.filter((file) => !file.isDirectory())
 				.map((file) => file.name)
-				.filter((file) => file.endsWith(".js") || file.endsWith(".ts"));
+				.filter(
+					(file) =>
+						file.endsWith(".js") ||
+						file.endsWith(".ts") ||
+						file.endsWith(".jsx") ||
+						file.endsWith(".tsx"),
+				);
 		});
 		for (const blockJSFile of blockFiles) {
 			let blockBonusScriptNumber = 1;

@@ -1,5 +1,97 @@
 # @atomicsmash/blocks-helpers
 
+## 4.0.0-beta.13
+
+### Patch Changes
+
+- [`a8b72c7`](https://github.com/AtomicSmash/packages/commit/a8b72c71a7f2963f992041b86130f92282f09a3e) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Fix recursive partial array keys
+
+## 4.0.0-beta.12
+
+### Minor Changes
+
+- [`4dcbaf6`](https://github.com/AtomicSmash/packages/commit/4dcbaf6fa8e6ab87564e9d3c4a4842941e214172) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Update block supports list
+
+## 4.0.0-beta.11
+
+### Patch Changes
+
+- [`098b948`](https://github.com/AtomicSmash/packages/commit/098b948c0932f020a1385013beeb38c391c34758) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Minor fixes related to dynamic blocks
+
+## 4.0.0-beta.10
+
+### Major Changes
+
+- [`5d7b282`](https://github.com/AtomicSmash/packages/commit/5d7b2825f13c0ef0d4348b9d96f31d714ef65b5b) Thanks [@mikeybinns](https://github.com/mikeybinns)! - BlockAttributes now requires static or dynamic type.
+  Make render property optional so it can be defined in block.json instead.
+
+## 4.0.0-beta.9
+
+### Major Changes
+
+- [`86ffec9`](https://github.com/AtomicSmash/packages/commit/86ffec9e54b2c39323fe767b50a122ef374bff50) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Simplify attributes passing to other types
+  Loosen deprecated block type on registerBlockType
+  Add default block attributes where necessary, subject to supports
+  Fix block/shortcode transforms and block variations
+
+## 4.0.0-beta.8
+
+### Patch Changes
+
+- [`909ebfb`](https://github.com/AtomicSmash/packages/commit/909ebfbd693ca2795e9a61e5e0aac1bbe688024e) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Fix block variations type
+
+## 4.0.0-beta.7
+
+### Minor Changes
+
+- [`33dce8d`](https://github.com/AtomicSmash/packages/commit/33dce8d609cfa344843f10137e635972ecccfef5) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Improve variation types
+
+## 4.0.0-beta.6
+
+### Minor Changes
+
+- [`8ece549`](https://github.com/AtomicSmash/packages/commit/8ece5497bedc0e0efeb930c4b1f4846b47bf4fd3) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Improve query attribute type
+
+## 4.0.0-beta.5
+
+### Patch Changes
+
+- [`b6630c2`](https://github.com/AtomicSmash/packages/commit/b6630c271c3d3c2c401416933c4ce877e36eb958) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Allow JSX elements for icon property
+
+## 4.0.0-beta.4
+
+### Patch Changes
+
+- [`f46dbbb`](https://github.com/AtomicSmash/packages/commit/f46dbbbe58b990037ddb488b9303b2a6f17993a4) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Fix dymanic blocks on registerBlockType
+
+## 4.0.0-beta.3
+
+### Major Changes
+
+- [`c64cbcc`](https://github.com/AtomicSmash/packages/commit/c64cbccb9ed58b2d36b2a33b27a86d630710b0fc) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Adds support for static and dynamic blocks
+
+## 3.1.0-beta.2
+
+### Patch Changes
+
+- [`49e2765`](https://github.com/AtomicSmash/packages/commit/49e276549f33852b98c15f7efe1cefea642ac635) Thanks [@mikeybinns](https://github.com/mikeybinns)! - swap block def for current block def
+
+- [`22396de`](https://github.com/AtomicSmash/packages/commit/22396de50a67801ea8063db86aed69e4388e5ec3) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Clarify interpret provides context name
+
+## 3.1.0-beta.1
+
+### Minor Changes
+
+- [`5bf9c2c`](https://github.com/AtomicSmash/packages/commit/5bf9c2c2d33f1f0038ef45120e6ee1dc2950e4c4) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Add readme to help new users understand types available
+
+- [`5bf9c2c`](https://github.com/AtomicSmash/packages/commit/5bf9c2c2d33f1f0038ef45120e6ee1dc2950e4c4) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Add block def type
+
+## 3.1.0-beta.0
+
+### Minor Changes
+
+- [`5e5ecf2`](https://github.com/AtomicSmash/packages/commit/5e5ecf264e56994085364c129ad61451f969f07b) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Refine context types
+
 ## 3.0.1
 
 ### Patch Changes
