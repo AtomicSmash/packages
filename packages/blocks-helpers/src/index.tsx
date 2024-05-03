@@ -11,7 +11,9 @@ export type BlockCategory =
 	| "design"
 	| "widgets"
 	| "theme"
-	| "embed";
+	| "embed"
+	// Allow other strings, but keep autocomplete of base values.
+	| (string & NonNullable<unknown>);
 export type AttributeTypes =
 	| "null"
 	| "boolean"
@@ -276,7 +278,7 @@ export type BlockMetaData<
 	 *
 	 * See the API versions documentation at https://developer.wordpress.org/block-editor/reference-guides/block-api/block-api-versions/ for more details.
 	 */
-	apiVersion?: 1 | 2;
+	apiVersion?: 1 | 2 | 3;
 
 	/**
 	 * The name for a block is a unique string that identifies a block.
@@ -284,11 +286,6 @@ export type BlockMetaData<
 	 * Regex: ^[a-z][a-z0-9-]\*\/[a-z][a-z0-9-]\*$
 	 */
 	name: string;
-
-	/**
-	 * The name of the experiment this block is a part of, or boolean true if there is no specific experiment name.
-	 */
-	__experimental?: boolean | string;
 
 	/**
 	 * This is the display title for your block, which can be translated with our translation functions. The block inserter will show this name.
@@ -318,10 +315,18 @@ export type BlockMetaData<
 	ancestor?: string[];
 
 	/**
+	 * The allowedBlocks specifies which block types can be the direct children of the block.
+	 * For example, a ‘List’ block can allow only ‘List Item’ blocks as children.
+	 */
+	allowedBlocks?: string[];
+
+	/**
 	 * An icon property should be specified to make it easier to identify a block.
 	 * These can be any of WordPress’ Dashicons (slug serving also as a fallback in non-js contexts).
+	 *
+	 * @deprecated define in client register to allow custom SVGs.
 	 */
-	icon?: string | JSX.Element;
+	icon?: string;
 
 	/**
 	 * This is a short description for your block, which can be translated with our translation functions. This will be shown in the block inspector.
@@ -454,7 +459,7 @@ export type BlockIsDeprecationEligibleFunction<
 	innerBlocks: InnerBlocks[],
 ) => boolean;
 
-export type BlockSaveProps<
+export type CreateBlockSaveProps<
 	Supports extends BlockSupports,
 	Attributes extends AnyBlockAttributes,
 > = {
@@ -462,7 +467,7 @@ export type BlockSaveProps<
 		InterpretAttributes<DefaultAttributes<Supports>>;
 	readonly innerBlocks: Readonly<InnerBlocks[]>;
 };
-export type BlockEditProps<
+export type CreateBlockEditProps<
 	Supports extends BlockSupports,
 	Attributes extends AnyBlockAttributes,
 	Context extends Record<string, any> = Record<string, never>,
@@ -663,61 +668,20 @@ export type BlockTransforms<
 	| RawTypeTransform[]
 	| ShortCodeTypeTransform[];
 
-export type BlockSettings<
-	Supports extends BlockSupports,
-	Attributes extends AnyBlockAttributes,
-	InterpretedUsedContext extends Record<string, any> = Record<string, never>,
-> = (Attributes extends BlockAttributes<"dynamic">
-	? CurrentDynamicBlockDefinition<Supports, Attributes, InterpretedUsedContext>
-	: Attributes extends BlockAttributes<"static">
-		? CurrentStaticBlockDefinition<Supports, Attributes, InterpretedUsedContext>
-		: never) & {
-	deprecated?: unknown[];
-};
-
-export type LoosenTypeOfObject<Type extends Record<string, any>> = {
-	[Property in keyof Type]: Type[Property] extends string
-		? string
-		: Type[Property] extends boolean
-			? boolean
-			: Type[Property] extends number
-				? number
-				: Type[Property];
-};
-
-type CurrentBlockDefinitionBase<
+export type ClientOnlyRegisterOptions<
 	Supports extends BlockSupports,
 	Attributes extends AnyBlockAttributes,
 	InterpretedUsedContext extends Record<string, any> = Record<string, never>,
 > = {
 	/**
-	 * Attributes provide the structured data needs of a block. They can exist in different forms when they are serialized, but they are declared together under a common interface.
-	 * Property names must only contain letters Regex:[a-zA-Z]
-	 *
-	 * @see https://developer.wordpress.org/block-editor/reference-guides/block-api/block-attributes/
+	 * An icon property should be specified to make it easier to identify a block..
 	 */
-	attributes?: Attributes;
-	/**
-	 * It contains as set of options to control features used in the editor.
-	 *
-	 * @see https://developer.wordpress.org/block-editor/reference-guides/block-api/block-supports/
-	 */
-	supports?: Supports;
+	icon?: string | JSX.Element;
 	edit: (
-		props: BlockEditProps<Supports, Attributes, InterpretedUsedContext>,
+		props: CreateBlockEditProps<Supports, Attributes, InterpretedUsedContext>,
 	) => Element;
-	/**
-	 * Context provided for available access by descendants of blocks of this type, in the form of an object which maps a context name to one of the block’s own attribute.
-	 * Property names must only contain letters Regex:[a-zA-Z]
-	 *
-	 * @see https://developer.wordpress.org/block-editor/reference-guides/block-api/block-context/
-	 */
-	providesContext?: BlockProvidesContext<Attributes>;
-	/**
-	 * Array of the names of context values to inherit from an ancestor provider.
-	 * @see https://developer.wordpress.org/block-editor/reference-guides/block-api/block-context/
-	 */
-	usesContext?: readonly (keyof InterpretedUsedContext)[];
+	save: (props: CreateBlockSaveProps<Supports, Attributes>) => Element | null;
+	deprecated?: unknown[];
 	/**
 	 * An API that allows a block to be transformed from and to other blocks, as well as from other entities.
 	 * Existing entities that work with this API include shortcodes, files, regular expressions, and raw DOM nodes.
@@ -728,75 +692,36 @@ type CurrentBlockDefinitionBase<
 		from: BlockTransforms<Supports, Attributes>;
 		to: BlockTransforms<Supports, Attributes>;
 	};
-	/**
-	 * Block Variations is the API that allows a block to have similar versions of it, but all these versions share some common functionality.
-	 */
-	variations?: BlockVariations<Supports, Attributes>;
 };
 
-export type CurrentStaticBlockDefinition<
-	Supports extends BlockSupports,
-	Attributes extends BlockAttributes<"static">,
-	InterpretedUsedContext extends Record<string, any> = Record<string, never>,
-> = CurrentBlockDefinitionBase<Supports, Attributes, InterpretedUsedContext> & {
-	save: (props: BlockSaveProps<Supports, Attributes>) => Element;
-};
-export type CurrentDynamicBlockDefinition<
-	Supports extends BlockSupports,
-	Attributes extends BlockAttributes<"dynamic">,
-	InterpretedUsedContext extends Record<string, any> = Record<string, never>,
-> = CurrentBlockDefinitionBase<Supports, Attributes, InterpretedUsedContext> & {
-	save?: (props: BlockSaveProps<Supports, Attributes>) => Element | null;
-};
-type DeprecatedBlockBase<
+export type DeprecationAndFixture<
 	OldSupports extends BlockSupports,
 	OldAttributes extends AnyBlockAttributes,
 	NewSupports extends BlockSupports,
 	NewAttributes extends AnyBlockAttributes,
 > = {
-	migrate?: BlockMigrateDeprecationFunction<
+	fixture: string[];
+	object: Deprecation<OldSupports, OldAttributes, NewSupports, NewAttributes>;
+};
+export type Deprecation<
+	OldSupports extends BlockSupports,
+	OldAttributes extends AnyBlockAttributes,
+	NewSupports extends BlockSupports,
+	NewAttributes extends AnyBlockAttributes,
+> = {
+	attributes: OldAttributes;
+	supports: OldSupports;
+	isEligible: BlockIsDeprecationEligibleFunction<OldSupports, OldAttributes>;
+	migrate: BlockMigrateDeprecationFunction<
 		OldSupports,
 		OldAttributes,
 		NewSupports,
 		NewAttributes
 	>;
-	isEligible?: BlockIsDeprecationEligibleFunction<OldSupports, OldAttributes>;
+	save: (
+		props: CreateBlockSaveProps<OldSupports, OldAttributes>,
+	) => Element | null;
 };
-export type DeprecatedStaticBlock<
-	OldSupports extends BlockSupports,
-	OldAttributes extends BlockAttributes<"static">,
-	NewSupports extends BlockSupports,
-	NewAttributes extends AnyBlockAttributes,
-> = Omit<CurrentStaticBlockDefinition<OldSupports, OldAttributes>, "edit"> &
-	DeprecatedBlockBase<OldSupports, OldAttributes, NewSupports, NewAttributes>;
-export type DeprecatedDynamicBlock<
-	OldSupports extends BlockSupports,
-	OldAttributes extends BlockAttributes<"dynamic">,
-	NewSupports extends BlockSupports,
-	NewAttributes extends AnyBlockAttributes,
-> = Omit<CurrentStaticBlockDefinition<OldSupports, OldAttributes>, "edit"> &
-	DeprecatedBlockBase<OldSupports, OldAttributes, NewSupports, NewAttributes>;
-export type DeprecatedBlock<
-	OldSupports extends BlockSupports,
-	OldAttributes extends AnyBlockAttributes,
-	NewSupports extends BlockSupports,
-	NewAttributes extends AnyBlockAttributes,
-> =
-	OldAttributes extends BlockAttributes<"static">
-		? DeprecatedStaticBlock<
-				OldSupports,
-				OldAttributes,
-				NewSupports,
-				NewAttributes
-			>
-		: OldAttributes extends BlockAttributes<"dynamic">
-			? DeprecatedDynamicBlock<
-					OldSupports,
-					OldAttributes,
-					NewSupports,
-					NewAttributes
-				>
-			: never;
 
 export function registerBlockType<
 	Supports extends BlockSupports,
@@ -804,8 +729,7 @@ export function registerBlockType<
 	UsedContext extends Record<string, any> = Record<string, never>,
 >(
 	name: string,
-	settings: Partial<BlockMetaData<Supports, Attributes>> &
-		BlockSettings<Supports, Attributes, UsedContext>,
+	settings: ClientOnlyRegisterOptions<Supports, Attributes, UsedContext>,
 ) {
 	/* @ts-expect-error Provided types are inaccurate and will provide an error with some valid inputs */
 	return wordpressRegisterBlockType<Attributes>(name, settings);
