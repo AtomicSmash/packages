@@ -1,5 +1,11 @@
 # @atomicsmash/blocks-helpers
 
+## 4.0.0-beta.15
+
+### Patch Changes
+
+- [`9474fc9`](https://github.com/AtomicSmash/packages/commit/9474fc90cb765b8051c6d68af93ba30628d7a46f) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Add type for multiple deprecations array
+
 ## 4.0.0-beta.14
 
 ### Major Changes
