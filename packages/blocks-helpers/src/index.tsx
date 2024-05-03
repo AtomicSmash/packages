@@ -723,6 +723,30 @@ export type Deprecation<
 	) => Element | null;
 };
 
+export type AllDeprecations<
+	NewSupports extends BlockSupports,
+	NewAttributes extends AnyBlockAttributes,
+> = {
+	attributes: any;
+	supports: any;
+	isEligible: (attributes: any, innerBlocks: InnerBlocks[]) => boolean;
+	migrate: (
+		attributes: any,
+		innerBlocks: InnerBlocks[],
+	) =>
+		| (InterpretAttributes<NewAttributes> &
+				InterpretAttributes<DefaultAttributes<NewSupports>>)
+		| [
+				InterpretAttributes<NewAttributes> &
+					InterpretAttributes<DefaultAttributes<NewSupports>>,
+				InnerBlocks[],
+		  ];
+	save: (props: {
+		readonly attributes: any;
+		readonly innerBlocks: Readonly<InnerBlocks[]>;
+	}) => Element | null;
+}[];
+
 export function registerBlockType<
 	Supports extends BlockSupports,
 	Attributes extends AnyBlockAttributes = Record<string, never>,
