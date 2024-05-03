@@ -3,7 +3,7 @@ import type {
 	BlockSupports,
 	CreateBlockSaveProps,
 	DeprecationAndFixture,
-	Deprecation,
+	AllDeprecations,
 } from "@atomicsmash/blocks-helpers";
 import { useBlockProps, RichText } from "@wordpress/block-editor";
 import { createBlock } from "@wordpress/blocks";
@@ -75,9 +75,7 @@ export const v1 = {
 	Attributes
 >;
 
-export const deprecated = [v1.object] as const satisfies Deprecation<
-	V1Supports,
-	V1Attributes,
+export const deprecated = [v1.object] as const satisfies AllDeprecations<
 	Supports,
 	Attributes
->[];
+>;
