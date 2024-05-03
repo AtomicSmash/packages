@@ -1,5 +1,13 @@
 # @atomicsmash/coding-standards
 
+## 11.0.0-beta.5
+
+### Patch Changes
+
+- Updated dependencies [[`9376010`](https://github.com/AtomicSmash/packages/commit/93760109b9db51564208239f929e6261ed067d69)]:
+  - @atomicsmash/eslint-config@11.0.0-beta.5
+  - @atomicsmash/browserslist-config@11.0.0-beta.5
+
 ## 11.0.0-beta.4
 
 ### Minor Changes

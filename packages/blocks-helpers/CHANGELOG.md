@@ -1,5 +1,11 @@
 # @atomicsmash/blocks-helpers
 
+## 4.0.0-beta.14
+
+### Major Changes
+
+- [`bd143e4`](https://github.com/AtomicSmash/packages/commit/bd143e4e7447c00f36323bfe0267c1b85a32aace) Thanks [@mikeybinns](https://github.com/mikeybinns)! - BREAKING CHANGE: New structure updates
+
 ## 4.0.0-beta.13
 
 ### Patch Changes
