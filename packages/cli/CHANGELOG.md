@@ -1,5 +1,11 @@
 # @atomicsmash/cli
 
+## 7.0.0-beta.10
+
+### Major Changes
+
+- [`9de5abe`](https://github.com/AtomicSmash/packages/commit/9de5abeb3b9cde00865c11a90cbe611ece62bfa6) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Update blocks compiler to work with new structure
+
 ## 7.0.0-beta.9
 
 ### Minor Changes
