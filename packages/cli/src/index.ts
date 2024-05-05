@@ -25,8 +25,8 @@ switch (commandArg) {
 	case "blocks":
 		try {
 			await import(`./commands/${commandArg}.js`).then(
-				(module: { default(args: string[]): void }) =>
-					module.default(process.argv.slice(3)),
+				async (module: { default(args: string[]): void | Promise<void> }) =>
+					await module.default(process.argv.slice(3)),
 			);
 		} catch (error: unknown) {
 			if (error instanceof Error) {

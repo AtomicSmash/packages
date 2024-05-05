@@ -1,3 +1,7 @@
+import type { BlockMetaData } from "@atomicsmash/blocks-helpers";
+import type { ObjectPattern } from "copy-webpack-plugin";
+import type { AcceptedPlugin } from "postcss";
+import type { StringOptions } from "sass";
 import type { Compiler, Configuration } from "webpack";
 import crypto from "node:crypto";
 import { readFileSync, writeFileSync } from "node:fs";
@@ -12,13 +16,12 @@ import {
 import { pathToFileURL } from "node:url";
 import DependencyExtractionWebpackPlugin from "@wordpress/dependency-extraction-webpack-plugin";
 import defaultConfig from "@wordpress/scripts/config/webpack.config.js";
-import { getBlockJsonScriptFields } from "@wordpress/scripts/utils/index.js";
 import autoprefixer from "autoprefixer";
 import CopyWebpackPlugin from "copy-webpack-plugin";
 import cssnano from "cssnano";
 import { deleteAsync } from "del";
 import glob from "glob-promise";
-import postcss, { AcceptedPlugin } from "postcss";
+import postcss from "postcss";
 import postcssLoadConfig from "postcss-load-config";
 import { compileStringAsync } from "sass";
 import { TsconfigPathsPlugin } from "tsconfig-paths-webpack-plugin";
@@ -42,12 +45,13 @@ export const blocksHelpMessage = `
     --excludeBlocks          (optional) A comma separated list of the folder names of blocks to exclude from compilation. Defaults to "__TEMPLATE__".
     --excludeRootFiles       (optional) A comma separated list of the root file names to exclude from compilation. Nothing is excluded by default.
     --alwaysCompileRootFiles (optional) By default, we won't compile root files if no blocks are found, this allows you to override that setting. Defaults to false.
+		--watch                  (optional) Run compiler in watch mode. Default to false.
 
   Example usage:
     $ smash-cli blocks --watch --in src --out build --tsConfigPath tsconfig.json
 `;
 
-export default function blocks(args: string[]) {
+export default async function blocks(args: string[]) {
 	if (hasHelpFlag(args)) {
 		console.log(blocksHelpMessage);
 		return;
@@ -76,173 +80,81 @@ export default function blocks(args: string[]) {
 		"--alwaysCompileRootFiles",
 		"boolean",
 	).value;
+	const isWatch = interpretFlag(args, "--watch", "boolean").value;
 
-	const plugins = [
-		...((defaultConfig as Configuration).plugins?.filter((plugin) => {
-			return ![
-				"DependencyExtractionWebpackPlugin",
-				"CopyPlugin", // CopyWebpackPlugin
-			].includes(plugin?.constructor.name ?? "");
-		}) ?? []),
-		new DependencyExtractionWebpackPlugin({
-			combineAssets: true,
-		}),
-		new CopyWebpackPlugin({
-			patterns: [
-				{
-					from: `${srcFolder}/**/block.json.ts`,
-					to: "[path]block.json",
-					noErrorOnMissing: true,
-					globOptions: {
-						ignore: excludeBlocks.map(
-							(blockName) => `${srcFolder}/${blockName}/**/*`,
-						),
-					},
-					transform: {
-						async transformer(_content, path): Promise<string> {
-							const loadedFile = (await import(path)) as {
-								default: Record<string, unknown>;
-							};
-							const blockJson = loadedFile.default;
-							return JSON.stringify(blockJson, null, 2);
-						},
-						cache: true,
-					},
-				},
-				{
-					from: `${srcFolder}/**/render.php`,
-					noErrorOnMissing: true,
-					globOptions: {
-						ignore: excludeBlocks.map(
-							(blockName) => `${srcFolder}/${blockName}/**/*`,
-						),
-					},
-				},
-			],
-		}),
-		{
-			apply: (compiler: Compiler) => {
-				compiler.hooks.afterEmit.tapPromise(
-					"Build CSS and copy to test area",
-					async () => {
-						await glob
-							.promise(`${srcFolder}/**/*.{css,scss}`, {
-								ignore: excludeBlocks.map(
-									(blockName) => `${srcFolder}/${blockName}/**/*`,
-								),
-							})
-							.then(async (globMatches) => {
-								const currentCSSFileNames = [];
-								for (const match of globMatches) {
-									const fileNameWithExtension = match.split("/").pop();
-									if (!fileNameWithExtension) {
-										console.error(`Failed to get filename of ${match}`);
-										continue;
-									}
-									let css = readFileSync(match, "utf8");
-									if (fileNameWithExtension.split(".").pop() === "scss") {
-										css = await compileStringAsync(css, {
-											importers: [
-												{
-													findFileUrl(url) {
-														if (!url.startsWith("sitecss:")) return null;
-														const pathname = url.substring(8);
-														return pathToFileURL(
-															`${resolvePath(srcFolder, "../css")}${pathname.startsWith("/") ? pathname : `/${pathname}`}`,
-														);
-													},
-												},
-											],
-										}).then((result) => result.css);
-									}
-									let newFileNameWithExtension = fileNameWithExtension;
-									let newMatch = match.replace(srcFolder, distFolder);
-									if (isProduction) {
-										const fileBuffer = readFileSync(match);
-										const contentHash = crypto.createHash("shake256", {
-											outputLength: 10,
-										});
-										contentHash.update(fileBuffer);
-										newFileNameWithExtension = `${fileNameWithExtension.split(".")[0]}.${contentHash.digest("hex")}.css`;
-										newMatch = newMatch.replace(
-											fileNameWithExtension,
-											newFileNameWithExtension,
-										);
-										currentCSSFileNames.push(`!${newMatch}`);
-									}
-									const { plugins, options } = await postcssLoadConfig(
-										{},
-										postcssConfigLocation,
-									)
-										.then(({ plugins, options }) => {
-											options.from = match;
-											options.to = newMatch;
-											return { plugins, options };
-										})
-										.catch((error: unknown) => {
-											if (
-												error &&
-												error instanceof Error &&
-												error.message.startsWith("No PostCSS Config found")
-											) {
-												const postCSSPlugins: AcceptedPlugin[] = [autoprefixer];
-												if (isProduction) {
-													postCSSPlugins.push(cssnano({ preset: "default" }));
-												}
-												return {
-													plugins: postCSSPlugins,
-													options: {
-														from: match,
-														to: newMatch,
-													},
-												};
-											}
-											throw error;
-										});
-									await postcss(plugins)
-										.process(css, options)
-										.then(async (result) => {
-											await mkdir(newMatch.replace(basename(newMatch), ""), {
-												recursive: true,
-											}).then(() => {
-												writeFileSync(newMatch, result.css);
-												if (result.map) {
-													writeFileSync(
-														`${newMatch}.map`,
-														result.map.toString(),
-													);
-												}
-											});
-										});
-								}
-								deleteAsync([
-									`${distFolder}/**/*.css`,
-									...currentCSSFileNames,
-								]).catch((error) => {
-									console.log(error);
-								});
-							})
-							.catch((error) => {
-								console.error(error);
-								throw error;
-							});
-					},
-				);
-			},
-		},
-	] satisfies Configuration["plugins"];
+	await runCommand({
+		srcFolder,
+		distFolder,
+		tsConfigLocation,
+		postcssConfigLocation,
+		excludeBlocks,
+		excludeRootFiles,
+		shouldAlwaysCompileRootFiles,
+		isWatch,
+	});
+}
+
+async function runCommand({
+	srcFolder,
+	distFolder,
+	tsConfigLocation,
+	postcssConfigLocation,
+	excludeBlocks,
+	excludeRootFiles,
+	shouldAlwaysCompileRootFiles,
+	isWatch,
+}: {
+	srcFolder: string;
+	distFolder: string;
+	tsConfigLocation: string;
+	postcssConfigLocation: string;
+	excludeBlocks: string[];
+	excludeRootFiles: string[];
+	shouldAlwaysCompileRootFiles: boolean;
+	isWatch: boolean;
+}) {
+	const blocks = await getBlockJsonFiles(srcFolder, excludeBlocks);
+	const isNoBlocks = Object.keys(blocks).length === 0;
 
 	const compiler = webpack({
 		...(defaultConfig as Configuration),
-		entry: () =>
-			getAllBlocksJSEntryPoints({
-				srcFolder,
-				shouldAlwaysCompileRootFiles,
-				excludeBlocks,
-				excludeRootFiles,
-			}),
+		entry: async () => {
+			const entryPoints = {
+				...(isNoBlocks && !shouldAlwaysCompileRootFiles
+					? {}
+					: await getRootFileJSEntryPoints({ srcFolder, excludeRootFiles })),
+				...getAllBlocksJSEntryPoints({
+					srcFolder,
+					blocks,
+				}),
+			};
+			// TODO: improve this console output
+			// eslint-disable-next-line no-console
+			console.log({ entryPoints });
+			return entryPoints;
+		},
+
 		context: srcFolder,
-		plugins: plugins,
+		plugins: [
+			...((defaultConfig as Configuration).plugins?.filter((plugin) => {
+				return ![
+					"DependencyExtractionWebpackPlugin",
+					"CopyPlugin", // CopyWebpackPlugin
+				].includes(plugin?.constructor.name ?? "");
+			}) ?? []),
+			new DependencyExtractionWebpackPlugin({
+				combineAssets: true,
+			}),
+			new CopyWebpackPlugin({
+				patterns: [...getCopyPatternsForBlocks(blocks, distFolder)],
+			}),
+			new CustomBlocksCSSHandler({
+				blocks,
+				srcFolder,
+				distFolder,
+				postcssConfigLocation,
+			}),
+		],
 		output: {
 			path: distFolder,
 			clean: true,
@@ -258,7 +170,7 @@ export default function blocks(args: string[]) {
 		mode: isProduction ? "production" : "development",
 	});
 
-	if (args.find((value) => value === "--watch")) {
+	if (isWatch) {
 		const watching = compiler.watch(
 			{
 				// Example
@@ -314,15 +226,11 @@ export default function blocks(args: string[]) {
 	}
 }
 
-async function getAllBlocksJSEntryPoints({
+async function getRootFileJSEntryPoints({
 	srcFolder,
-	shouldAlwaysCompileRootFiles,
-	excludeBlocks,
 	excludeRootFiles,
 }: {
 	srcFolder: string;
-	shouldAlwaysCompileRootFiles: boolean;
-	excludeBlocks: string[];
 	excludeRootFiles: string[];
 }) {
 	const entryPoints: Configuration["entry"] = {};
@@ -358,24 +266,26 @@ async function getAllBlocksJSEntryPoints({
 			filename: `${entryName}${isProduction ? `.[contenthash]` : ""}.js`,
 		};
 	}
+	return entryPoints;
+}
 
-	const blockJsonFiles = await glob.promise(`${srcFolder}/**/block.json.ts`, {
-		ignore: excludeBlocks.map(
-			(blockName) => `${srcFolder}/**/${blockName}/block.json.ts`,
-		),
-	});
-	if (blockJsonFiles.length === 0 && !shouldAlwaysCompileRootFiles) {
-		// If there are no blocks, don't compile root files, unless the flag is present.
-		console.log({ entryPoints: {} });
-		return {};
-	}
-	// Allow imports of Typescript files via tsx.
-	const unregister = register();
-	for (const blockJsonFile of blockJsonFiles) {
-		const blockJson = await import(blockJsonFile).then((loadedFile) => {
-			// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-			return loadedFile.default as Record<string, unknown>;
-		});
+function getAllBlocksJSEntryPoints({
+	srcFolder,
+	blocks,
+}: {
+	srcFolder: string;
+	blocks: Record<
+		string,
+		{
+			blockFolder: string;
+			blockJson: BlockJson;
+		}
+	>;
+}) {
+	const entryPoints: Configuration["entry"] = {};
+	const blocksJsonObjects = Object.values(blocks);
+
+	for (const { blockFolder, blockJson } of blocksJsonObjects) {
 		const fields = getBlockJsonScriptFields(blockJson);
 		if (!fields) {
 			continue;
@@ -385,7 +295,7 @@ async function getAllBlocksJSEntryPoints({
 				continue;
 			}
 			// Removes the `file:` prefix.
-			const filepath = join(dirname(blockJsonFile), value.replace("file:", ""));
+			const filepath = join(blockFolder, value.replace("file:", ""));
 
 			const entryName = filepath
 				.replace(srcFolder, "")
@@ -403,10 +313,243 @@ async function getAllBlocksJSEntryPoints({
 			};
 		}
 	}
+
+	return entryPoints;
+}
+
+type BlockJson = BlockMetaData<any, any>;
+
+async function getBlockJsonFiles(srcFolder: string, excludeBlocks: string[]) {
+	const blockJsonFiles = await glob.promise(`${srcFolder}/**/block.json.ts`, {
+		ignore: excludeBlocks.map(
+			(blockName) => `${srcFolder}/**/${blockName}/block.json.ts`,
+		),
+	});
+	const blocks: Record<string, { blockFolder: string; blockJson: BlockJson }> =
+		{};
+	// Allow imports of Typescript files via tsx.
+	const unregister = register();
+	for (const blockJsonFile of blockJsonFiles) {
+		const blockJson = await import(blockJsonFile).then((loadedFile) => {
+			// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+			return loadedFile.default as BlockJson;
+		});
+		const blockName = blockJsonFile
+			.replace("/block.json.ts", "")
+			.split("/")
+			.pop() as string;
+		blocks[blockName] = { blockFolder: dirname(blockJsonFile), blockJson };
+	}
 	// Disallow imports of Typescript files via tsx.
 	await unregister();
 
-	// eslint-disable-next-line no-console
-	console.log({ entryPoints });
-	return entryPoints;
+	return blocks;
+}
+
+function getBlockJsonScriptFields(blockJson: BlockJson) {
+	const scriptFields = ["viewScript", "script", "editorScript"] as const;
+	let result: Partial<Pick<BlockJson, (typeof scriptFields)[number]>> | null =
+		null;
+	for (const field of scriptFields) {
+		if (Object.hasOwn(blockJson, field)) {
+			if (result === null) {
+				result = {};
+			}
+			result[field] = blockJson[field];
+		}
+	}
+	return result;
+}
+
+function getBlockJsonStyleFields(blockJson: BlockJson) {
+	const styleFields = ["viewStyle", "style", "editorStyle"] as const;
+	let result: Partial<Pick<BlockJson, (typeof styleFields)[number]>> | null =
+		null;
+	for (const field of styleFields) {
+		if (Object.hasOwn(blockJson, field)) {
+			if (result === null) {
+				result = {};
+			}
+			result[field] = blockJson[field];
+		}
+	}
+	return result;
+}
+
+function getSassOptions(srcFolder: string) {
+	return {
+		importers: [
+			{
+				findFileUrl(url) {
+					if (!url.startsWith("sitecss:")) return null;
+					const pathname = url.substring(8);
+					return pathToFileURL(
+						`${resolvePath(srcFolder, "../css")}${pathname.startsWith("/") ? pathname : `/${pathname}`}`,
+					);
+				},
+			},
+		],
+	} satisfies StringOptions<"async">;
+}
+
+function getCopyPatternsForBlocks(
+	blocks: Record<
+		string,
+		{
+			blockFolder: string;
+			blockJson: BlockJson;
+		}
+	>,
+	distFolder: string,
+) {
+	const blocksCopyPatterns: ObjectPattern[] = [];
+	const blocksEntries = Object.entries(blocks);
+	for (const [blockName, { blockFolder, blockJson }] of blocksEntries) {
+		// Generate block.json file.
+		blocksCopyPatterns.push({
+			from: `${blockFolder}/block.json.ts`,
+			to: `${distFolder}/${blockName}/block.json`,
+			noErrorOnMissing: true,
+			transform: {
+				transformer() {
+					return JSON.stringify(blockJson, null, 2);
+				},
+				cache: true,
+			},
+		});
+		// Copy render.php file
+		blocksCopyPatterns.push({
+			from: `${blockFolder}/render.php`,
+			to: `${distFolder}/${blockName}/render.php`,
+			noErrorOnMissing: true,
+		});
+	}
+
+	return blocksCopyPatterns;
+}
+
+class CustomBlocksCSSHandler {
+	blocks: Record<
+		string,
+		{
+			blockFolder: string;
+			blockJson: BlockJson;
+		}
+	>;
+	distFolder: string;
+	srcFolder: string;
+	postcssConfigLocation: string;
+
+	constructor({
+		blocks,
+		srcFolder,
+		distFolder,
+		postcssConfigLocation,
+	}: {
+		blocks: Record<
+			string,
+			{
+				blockFolder: string;
+				blockJson: BlockJson;
+			}
+		>;
+		srcFolder: string;
+		distFolder: string;
+		postcssConfigLocation: string;
+	}) {
+		this.blocks = blocks;
+		this.srcFolder = srcFolder;
+		this.distFolder = distFolder;
+		this.postcssConfigLocation = postcssConfigLocation;
+	}
+	apply(compiler: Compiler) {
+		compiler.hooks.afterEmit.tapPromise("CustomBlocksCSSHandler", async () => {
+			const blocksJsonObjects = Object.values(this.blocks);
+
+			for (const { blockFolder, blockJson } of blocksJsonObjects) {
+				const fields = getBlockJsonStyleFields(blockJson);
+				if (!fields) {
+					continue;
+				}
+				const currentCSSFileNames = [];
+				for (const value of Object.values(fields).flat()) {
+					if ("string" !== typeof value || !value.startsWith("file:")) {
+						continue;
+					}
+					// Removes the `file:` prefix.
+					const filepath = join(blockFolder, value.replace("file:", ""));
+					const fileNameWithExtension = basename(filepath);
+					let css = readFileSync(filepath, "utf8");
+					if (extname(fileNameWithExtension) === ".scss") {
+						css = await compileStringAsync(
+							css,
+							getSassOptions(this.srcFolder),
+						).then((result) => result.css);
+					}
+					let newFileNameWithExtension = fileNameWithExtension;
+					let newMatch = filepath.replace(this.srcFolder, this.distFolder);
+					if (isProduction) {
+						const fileBuffer = readFileSync(filepath);
+						const contentHash = crypto.createHash("shake256", {
+							outputLength: 10,
+						});
+						contentHash.update(fileBuffer);
+						newFileNameWithExtension = `${fileNameWithExtension.split(".")[0]}.${contentHash.digest("hex")}.css`;
+						newMatch = newMatch.replace(
+							fileNameWithExtension,
+							newFileNameWithExtension,
+						);
+						currentCSSFileNames.push(`!${newMatch}`);
+					}
+					const { plugins, options } = await postcssLoadConfig(
+						{},
+						this.postcssConfigLocation,
+					)
+						.then(({ plugins, options }) => {
+							options.from = filepath;
+							options.to = newMatch;
+							return { plugins, options };
+						})
+						.catch((error: unknown) => {
+							if (
+								error &&
+								error instanceof Error &&
+								error.message.startsWith("No PostCSS Config found")
+							) {
+								const postCSSPlugins: AcceptedPlugin[] = [autoprefixer];
+								if (isProduction) {
+									postCSSPlugins.push(cssnano({ preset: "default" }));
+								}
+								return {
+									plugins: postCSSPlugins,
+									options: {
+										from: filepath,
+										to: newMatch,
+									},
+								};
+							}
+							throw error;
+						});
+					await postcss(plugins)
+						.process(css, options)
+						.then(async (result) => {
+							await mkdir(newMatch.replace(basename(newMatch), ""), {
+								recursive: true,
+							}).then(() => {
+								writeFileSync(newMatch, result.css);
+								if (result.map) {
+									writeFileSync(`${newMatch}.map`, result.map.toString());
+								}
+							});
+						});
+				}
+				await deleteAsync([
+					`${this.distFolder}/**/*.css`,
+					...currentCSSFileNames,
+				]).catch((error) => {
+					console.log(error);
+				});
+			}
+		});
+	}
 }

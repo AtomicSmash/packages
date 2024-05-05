@@ -3,9 +3,10 @@
 	"include": ["src/**/*", "modules.d.ts", "test-setup.ts"],
 	"exclude": ["dist", "node_modules"],
 	"compilerOptions": {
-		"target": "es2021",
+		"target": "esnext",
 		"moduleResolution": "NodeNext",
 		"module": "NodeNext",
 		"sourceMap": true
-	}
+	},
+	"references": [{ "path": "../blocks-helpers/tsconfig.build.json" }]
 }
