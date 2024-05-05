@@ -25,7 +25,7 @@ import postcss from "postcss";
 import postcssLoadConfig from "postcss-load-config";
 import { compileStringAsync } from "sass";
 import { TsconfigPathsPlugin } from "tsconfig-paths-webpack-plugin";
-import { register } from "tsx/esm/api";
+import { tsImport } from "tsx/esm/api";
 import webpack from "webpack";
 import { hasHelpFlag, interpretFlag, toCamelCase } from "../utils.js";
 
@@ -327,21 +327,20 @@ async function getBlockJsonFiles(srcFolder: string, excludeBlocks: string[]) {
 	});
 	const blocks: Record<string, { blockFolder: string; blockJson: BlockJson }> =
 		{};
-	// Allow imports of Typescript files via tsx.
-	const unregister = register();
+
 	for (const blockJsonFile of blockJsonFiles) {
-		const blockJson = await import(blockJsonFile).then((loadedFile) => {
-			// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-			return loadedFile.default as BlockJson;
-		});
+		const blockJson = await tsImport(blockJsonFile, import.meta.url).then(
+			(loadedFile) => {
+				// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+				return loadedFile.default as BlockJson;
+			},
+		);
 		const blockName = blockJsonFile
 			.replace("/block.json.ts", "")
 			.split("/")
 			.pop() as string;
 		blocks[blockName] = { blockFolder: dirname(blockJsonFile), blockJson };
 	}
-	// Disallow imports of Typescript files via tsx.
-	await unregister();
 
 	return blocks;
 }
