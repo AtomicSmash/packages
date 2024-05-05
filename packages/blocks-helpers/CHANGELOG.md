@@ -1,5 +1,13 @@
 # @atomicsmash/blocks-helpers
 
+## 4.0.0-beta.16
+
+### Minor Changes
+
+- [`91dfa8b`](https://github.com/AtomicSmash/packages/commit/91dfa8bd28581bf365e18f3f30981d571a448e84) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Add viewStyle to BlockMetaData type
+
+- [`ecc7913`](https://github.com/AtomicSmash/packages/commit/ecc7913ef15a2d3a08325517836c1814eb9029a5) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Update BlockExample type to correct attributes
+
 ## 4.0.0-beta.15
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # @atomicsmash/cli
 
+## 7.0.0-beta.11
+
+### Patch Changes
+
+- [`41fae2e`](https://github.com/AtomicSmash/packages/commit/41fae2eb649bdd926abf2e3d0c2673b40ad1c867) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Refactor blocks compiler
+
 ## 7.0.0-beta.10
 
 ### Major Changes
