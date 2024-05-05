@@ -398,29 +398,34 @@ export type BlockMetaData<
 	example?: BlockExample<Attributes>;
 
 	/**
-	 * Block type editor script definition. It will only be enqueued in the context of the editor.
+	 * Block type editor scripts definition. They will only be enqueued in the context of the editor.
 	 */
 	editorScript?: WPDefinedAsset | WPDefinedAsset[];
 
 	/**
-	 * Block type frontend and editor script definition. It will be enqueued both in the editor and when viewing the content on the front of the site.
+	 * Block type frontend and editor scripts definition. They will be enqueued both in the editor and when viewing the content on the front of the site.
 	 */
 	script?: WPDefinedAsset | WPDefinedAsset[];
 
 	/**
-	 * Block type frontend script definition. It will be enqueued only when viewing the content on the front of the site.
+	 * Block type frontend scripts definition. They will be enqueued only when viewing the content on the front of the site.
 	 */
 	viewScript?: WPDefinedAsset | WPDefinedAsset[];
 
 	/**
-	 * Block type editor style definition. It will only be enqueued in the context of the editor.
+	 * Block type editor styles definition. They will only be enqueued in the context of the editor.
 	 */
 	editorStyle?: WPDefinedAsset | WPDefinedAsset[];
 
 	/**
-	 * Block type frontend style definition. It will be enqueued both in the editor and when viewing the content on the front of the site.
+	 * Block type frontend and editor styles definition. They will be enqueued both in the editor and when viewing the content on the front of the site.
 	 */
 	style?: WPDefinedAsset | WPDefinedAsset[];
+
+	/**
+	 * Block type frontend styles definition. They will be enqueued only when viewing the content on the front of the site.
+	 */
+	viewStyle?: WPDefinedAsset | WPDefinedAsset[];
 
 	/**
 	 * Block Variations is the API that allows a block to have similar versions of it, but all these versions share some common functionality.
