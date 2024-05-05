@@ -1,5 +1,11 @@
 # @atomicsmash/cli
 
+## 7.0.0-beta.12
+
+### Patch Changes
+
+- [`0c96160`](https://github.com/AtomicSmash/packages/commit/0c96160efc315d74d30e70d2fcd1fd8ce409e15c) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Use tsImport instead of register
+
 ## 7.0.0-beta.11
 
 ### Patch Changes
