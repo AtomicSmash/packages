@@ -206,9 +206,13 @@ export type InnerBlocks = {
 	attributes: BlockInstance["attributes"];
 	innerBlocks?: InnerBlocks[];
 };
-export type BlockExample<Attributes extends AnyBlockAttributes> = {
+export type BlockExample<
+	Supports extends BlockSupports,
+	Attributes extends AnyBlockAttributes,
+> = {
 	viewportWidth?: number;
-	attributes?: InterpretAttributes<Attributes>;
+	attributes?: InterpretAttributes<Attributes> &
+		InterpretAttributes<DefaultAttributes<Supports>>;
 	innerBlocks?: InnerBlocks[];
 };
 
@@ -253,7 +257,7 @@ export type BlockVariations<
 			InterpretAttributes<DefaultAttributes<Supports>>
 	>;
 	innerBlocks?: InnerBlocks[];
-	example?: BlockExample<Attributes>;
+	example?: BlockExample<Supports, Attributes>;
 	scope?: ("inserter" | "block" | "transform")[];
 	keywords?: string[];
 	isActive?:
@@ -395,7 +399,7 @@ export type BlockMetaData<
 	 * It provides structured example data for the block. This data is used to construct a preview for the block to be shown in the Inspector Help Panel when the user mouses over the block.
 	 * See the example documentation at https://developer.wordpress.org/block-editor/reference-guides/block-api/block-registration/#example-optional for more details.
 	 */
-	example?: BlockExample<Attributes>;
+	example?: BlockExample<Supports, Attributes>;
 
 	/**
 	 * Block type editor scripts definition. They will only be enqueued in the context of the editor.
