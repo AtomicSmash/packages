@@ -14,7 +14,6 @@ import {
 	resolve as resolvePath,
 } from "node:path";
 import { pathToFileURL } from "node:url";
-import DependencyExtractionWebpackPlugin from "@wordpress/dependency-extraction-webpack-plugin";
 import defaultConfig from "@wordpress/scripts/config/webpack.config.js";
 import autoprefixer from "autoprefixer";
 import CopyWebpackPlugin from "copy-webpack-plugin";
@@ -137,13 +136,10 @@ async function runCommand({
 		plugins: [
 			...((defaultConfig as Configuration).plugins?.filter((plugin) => {
 				return ![
-					"DependencyExtractionWebpackPlugin",
 					"CopyPlugin", // CopyWebpackPlugin
 				].includes(plugin?.constructor.name ?? "");
 			}) ?? []),
-			new DependencyExtractionWebpackPlugin({
-				combineAssets: true,
-			}),
+
 			new CopyWebpackPlugin({
 				patterns: [...getCopyPatternsForBlocks(blocks, distFolder)],
 			}),
@@ -568,7 +564,6 @@ class BlockJsonAssetTransformer {
 		compiler.hooks.afterEmit.tapPromise(
 			"BlockJsonAssetTransformer",
 			async (compilation) => {
-				console.log({ assets: compilation.assets });
 				const blockJsonFiles = Object.keys(compilation.assets).filter((asset) =>
 					asset.endsWith("block.json"),
 				);
