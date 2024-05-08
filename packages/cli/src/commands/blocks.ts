@@ -427,6 +427,9 @@ function getCopyPatternsForBlocks(
 	return blocksCopyPatterns;
 }
 
+/**
+ * This class handles CSS compilation for blocks.
+ */
 class CustomBlocksCSSHandler {
 	blocks: Record<
 		string,
@@ -465,12 +468,12 @@ class CustomBlocksCSSHandler {
 		compiler.hooks.afterEmit.tapPromise("CustomBlocksCSSHandler", async () => {
 			const blocksJsonObjects = Object.values(this.blocks);
 
+			const currentCSSFileNames = [];
 			for (const { blockFolder, blockJson } of blocksJsonObjects) {
 				const fields = getBlockJsonStyleFields(blockJson);
 				if (!fields) {
 					continue;
 				}
-				const currentCSSFileNames = [];
 				for (const value of Object.values(fields).flat()) {
 					if ("string" !== typeof value || !value.startsWith("file:")) {
 						continue;
@@ -542,13 +545,13 @@ class CustomBlocksCSSHandler {
 							});
 						});
 				}
-				await deleteAsync([
-					`${this.distFolder}/**/*.css`,
-					...currentCSSFileNames,
-				]).catch((error) => {
-					console.log(error);
-				});
 			}
+			await deleteAsync([
+				`${this.distFolder}/**/*.css`,
+				...currentCSSFileNames,
+			]).catch((error) => {
+				console.log(error);
+			});
 		});
 	}
 }
