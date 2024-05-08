@@ -317,7 +317,7 @@ function getAllBlocksJSEntryPoints({
 	return entryPoints;
 }
 
-type BlockJson = BlockMetaData<any, any>;
+type BlockJson = BlockMetaData<never, never>;
 
 async function getBlockJsonFiles(srcFolder: string, excludeBlocks: string[]) {
 	const blockJsonFiles = await glob.promise(`${srcFolder}/**/block.json.ts`, {
