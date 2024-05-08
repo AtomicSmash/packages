@@ -85,6 +85,7 @@ type MetaSourceAttribute = {
 	 */
 	source: "meta";
 	meta: string;
+	default?: string;
 };
 
 type NoSourceAttributeArrayType = {
@@ -93,13 +94,15 @@ type NoSourceAttributeArrayType = {
 	items?: {
 		type: AttributeTypes;
 	};
-	enum?: Record<string, unknown>[];
+	enum?: unknown[];
+	default?: unknown[];
 };
 
 type NoSourceAttributeAnyType = {
-	type: AttributeTypes | AttributeTypes[];
+	type: Exclude<AttributeTypes, "array"> | Exclude<AttributeTypes, "array">[];
 	enum?: readonly boolean[] | readonly number[] | readonly string[];
 	source?: never;
+	default?: any;
 };
 
 export type AttributesObject<BlockType extends "static" | "dynamic"> =

@@ -27,7 +27,7 @@ export const attributeTypesAndEnumsTests = {
 		type: "number",
 	},
 	multipleTypes: {
-		type: ["string", "boolean", "object", "array", "null", "integer", "number"],
+		type: ["string", "boolean", "object", "null", "integer", "number"],
 	},
 	enumBoolean: {
 		type: "boolean",
@@ -199,6 +199,20 @@ const metaSourceTests = {
 		type: "string",
 		source: "meta",
 		meta: "author",
+	},
+} as const satisfies BlockAttributes<"static">;
+
+const noSourceTests = {
+	fullValidAttribute: {
+		type: "string",
+		default: "string",
+	},
+	fullValidArrayTypeAttribute: {
+		type: "array",
+		items: {
+			type: "string",
+		},
+		default: ["string"],
 	},
 } as const satisfies BlockAttributes<"static">;
 

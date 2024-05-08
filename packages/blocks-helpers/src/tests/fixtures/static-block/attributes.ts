@@ -10,6 +10,7 @@ export const attributes = {
 		source: "html",
 	},
 	size: {
+		type: "string",
 		enum: ["small", "large"],
 		default: "small",
 	},
