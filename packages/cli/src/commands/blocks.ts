@@ -4,8 +4,8 @@ import type { AcceptedPlugin } from "postcss";
 import type { StringOptions } from "sass";
 import type { Compiler, Configuration } from "webpack";
 import crypto from "node:crypto";
-import { readFileSync, writeFileSync } from "node:fs";
-import { readdir, mkdir } from "node:fs/promises";
+import { readFileSync } from "node:fs";
+import { readdir, readFile, writeFile } from "node:fs/promises";
 import {
 	basename,
 	dirname,
@@ -19,7 +19,6 @@ import defaultConfig from "@wordpress/scripts/config/webpack.config.js";
 import autoprefixer from "autoprefixer";
 import CopyWebpackPlugin from "copy-webpack-plugin";
 import cssnano from "cssnano";
-import { deleteAsync } from "del";
 import glob from "glob-promise";
 import postcss from "postcss";
 import postcssLoadConfig from "postcss-load-config";
@@ -154,6 +153,7 @@ async function runCommand({
 				distFolder,
 				postcssConfigLocation,
 			}),
+			new BlockJsonAssetTransformer({ distFolder }),
 		],
 		output: {
 			path: distFolder,
@@ -307,7 +307,7 @@ function getAllBlocksJSEntryPoints({
 
 			entryPoints[toCamelCase(entryName)] = {
 				import: filepath,
-				filename: `${filepath.replace(srcFolder, "").replace(extname(filepath), "")}${
+				filename: `${filepath.replace(`${srcFolder}/`, "").replace(extname(filepath), "")}${
 					isProduction ? `.[contenthash]` : ""
 				}.js`,
 			};
@@ -465,93 +465,167 @@ class CustomBlocksCSSHandler {
 		this.postcssConfigLocation = postcssConfigLocation;
 	}
 	apply(compiler: Compiler) {
-		compiler.hooks.afterEmit.tapPromise("CustomBlocksCSSHandler", async () => {
-			const blocksJsonObjects = Object.values(this.blocks);
+		// RawSource is one of the "sources" classes that should be used
+		// to represent asset sources in compilation.
+		const { RawSource } = webpack.sources;
 
-			const currentCSSFileNames = [];
-			for (const { blockFolder, blockJson } of blocksJsonObjects) {
-				const fields = getBlockJsonStyleFields(blockJson);
-				if (!fields) {
-					continue;
-				}
-				for (const value of Object.values(fields).flat()) {
-					if ("string" !== typeof value || !value.startsWith("file:")) {
-						continue;
-					}
-					// Removes the `file:` prefix.
-					const filepath = join(blockFolder, value.replace("file:", ""));
-					const fileNameWithExtension = basename(filepath);
-					let css = readFileSync(filepath, "utf8");
-					if (extname(fileNameWithExtension) === ".scss") {
-						css = await compileStringAsync(
-							css,
-							getSassOptions(this.srcFolder),
-						).then((result) => result.css);
-					}
-					let newFileNameWithExtension = fileNameWithExtension;
-					let newMatch = filepath.replace(this.srcFolder, this.distFolder);
-					if (isProduction) {
-						const fileBuffer = readFileSync(filepath);
-						const contentHash = crypto.createHash("shake256", {
-							outputLength: 10,
-						});
-						contentHash.update(fileBuffer);
-						newFileNameWithExtension = `${fileNameWithExtension.split(".")[0]}.${contentHash.digest("hex")}.css`;
-						newMatch = newMatch.replace(
-							fileNameWithExtension,
-							newFileNameWithExtension,
-						);
-						currentCSSFileNames.push(`!${newMatch}`);
-					}
-					const { plugins, options } = await postcssLoadConfig(
-						{},
-						this.postcssConfigLocation,
-					)
-						.then(({ plugins, options }) => {
-							options.from = filepath;
-							options.to = newMatch;
-							return { plugins, options };
-						})
-						.catch((error: unknown) => {
-							if (
-								error &&
-								error instanceof Error &&
-								error.message.startsWith("No PostCSS Config found")
-							) {
-								const postCSSPlugins: AcceptedPlugin[] = [autoprefixer];
-								if (isProduction) {
-									postCSSPlugins.push(cssnano({ preset: "default" }));
-								}
-								return {
-									plugins: postCSSPlugins,
-									options: {
-										from: filepath,
-										to: newMatch,
-									},
-								};
+		compiler.hooks.thisCompilation.tap(
+			{
+				name: "CustomBlocksCSSHandler",
+				stage: webpack.Compilation.PROCESS_ASSETS_STAGE_ADDITIONAL,
+			},
+			(compilation) => {
+				compilation.hooks.processAssets.tapPromise(
+					"CustomBlocksCSSHandler",
+					async () => {
+						const blocksJsonObjects = Object.values(this.blocks);
+
+						for (const { blockFolder, blockJson } of blocksJsonObjects) {
+							const fields = getBlockJsonStyleFields(blockJson);
+							if (!fields) {
+								continue;
 							}
-							throw error;
-						});
-					await postcss(plugins)
-						.process(css, options)
-						.then(async (result) => {
-							await mkdir(newMatch.replace(basename(newMatch), ""), {
-								recursive: true,
-							}).then(() => {
-								writeFileSync(newMatch, result.css);
-								if (result.map) {
-									writeFileSync(`${newMatch}.map`, result.map.toString());
+							for (const value of Object.values(fields).flat()) {
+								if ("string" !== typeof value || !value.startsWith("file:")) {
+									continue;
 								}
+								// Removes the `file:` prefix.
+								const filepath = join(blockFolder, value.replace("file:", ""));
+								const fileNameWithExtension = basename(filepath);
+								let css = readFileSync(filepath, "utf8");
+								if (extname(fileNameWithExtension) === ".scss") {
+									css = await compileStringAsync(
+										css,
+										getSassOptions(this.srcFolder),
+									).then((result) => result.css);
+								}
+								let newFileNameWithExtension = fileNameWithExtension;
+								let newMatch = filepath.replace(`${this.srcFolder}/`, "");
+								if (isProduction) {
+									const fileBuffer = readFileSync(filepath);
+									const contentHash = crypto.createHash("shake256", {
+										outputLength: 10,
+									});
+									contentHash.update(fileBuffer);
+									newFileNameWithExtension = `${fileNameWithExtension.split(".")[0]}.${contentHash.digest("hex")}.css`;
+									newMatch = newMatch.replace(
+										fileNameWithExtension,
+										newFileNameWithExtension,
+									);
+								}
+								const { plugins, options } = await postcssLoadConfig(
+									{},
+									this.postcssConfigLocation,
+								)
+									.then(({ plugins, options }) => {
+										options.from = filepath;
+										options.to = newMatch;
+										return { plugins, options };
+									})
+									.catch((error: unknown) => {
+										if (
+											error &&
+											error instanceof Error &&
+											error.message.startsWith("No PostCSS Config found")
+										) {
+											const postCSSPlugins: AcceptedPlugin[] = [autoprefixer];
+											if (isProduction) {
+												postCSSPlugins.push(cssnano({ preset: "default" }));
+											}
+											return {
+												plugins: postCSSPlugins,
+												options: {
+													from: filepath,
+													to: newMatch,
+												},
+											};
+										}
+										throw error;
+									});
+								const result = await postcss(plugins).process(css, options);
+								compilation.emitAsset(newMatch, new RawSource(result.css));
+								if (result.map) {
+									compilation.emitAsset(
+										`${newMatch}.map`,
+										new RawSource(result.map.toString()),
+									);
+								}
+							}
+						}
+					},
+				);
+			},
+		);
+	}
+}
+
+class BlockJsonAssetTransformer {
+	distFolder: string;
+	constructor({ distFolder }: { distFolder: string }) {
+		this.distFolder = distFolder;
+	}
+	apply(compiler: Compiler) {
+		compiler.hooks.afterEmit.tapPromise(
+			"BlockJsonAssetTransformer",
+			async (compilation) => {
+				console.log({ assets: compilation.assets });
+				const blockJsonFiles = Object.keys(compilation.assets).filter((asset) =>
+					asset.endsWith("block.json"),
+				);
+				for (const blockJsonFile of blockJsonFiles) {
+					await readFile(`${this.distFolder}/${blockJsonFile}`, "utf-8")
+						.then((data) => {
+							return JSON.parse(data) as BlockJson;
+						})
+						.then((json) => {
+							const blockName = blockJsonFile.replace("/block.json", "");
+							[
+								getBlockJsonScriptFields(json),
+								getBlockJsonStyleFields(json),
+							].forEach((fields) => {
+								if (fields === null) {
+									return;
+								}
+								(
+									Object.entries(fields) as [
+										(
+											| "viewScript"
+											| "script"
+											| "editorScript"
+											| "viewStyle"
+											| "style"
+											| "editorStyle"
+										),
+										string | string[],
+									][]
+								).forEach(([fieldName, value]) => {
+									const values = [value].flat(1);
+									json[fieldName] = values.map((srcFilePath) => {
+										const fileName = srcFilePath
+											.replace("file:./", "")
+											.replace(extname(srcFilePath), "");
+										const hashedAsset = Object.keys(compilation.assets).find(
+											(asset) => {
+												return asset.startsWith(`${blockName}/${fileName}`);
+											},
+										);
+										return hashedAsset
+											? `file:./${hashedAsset.replace(`${blockName}/`, "")}`
+											: srcFilePath;
+									});
+								});
 							});
+							return json;
+						})
+						.then(async (transformedJson) => {
+							await writeFile(
+								`${this.distFolder}/${blockJsonFile}`,
+								JSON.stringify(transformedJson, undefined, 2),
+								"utf-8",
+							);
 						});
 				}
-			}
-			await deleteAsync([
-				`${this.distFolder}/**/*.css`,
-				...currentCSSFileNames,
-			]).catch((error) => {
-				console.log(error);
-			});
-		});
+			},
+		);
 	}
 }
