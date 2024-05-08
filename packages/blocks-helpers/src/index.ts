@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import type { Element } from "@wordpress/element";
+import type { AllHTMLAttributes } from "react";
 import {
 	createBlock,
 	registerBlockType as wordpressRegisterBlockType,
@@ -23,32 +24,96 @@ export type AttributeTypes =
 	| "integer"
 	| "number";
 
-type TypeOrEnum =
-	| {
-			type: AttributeTypes | AttributeTypes[];
-			enum?: readonly boolean[] | readonly number[] | readonly string[];
-	  }
-	| {
-			type?: AttributeTypes | AttributeTypes[];
-			enum: readonly boolean[] | readonly number[] | readonly string[];
-	  };
-type BaseAttributes = {
-	default?: any;
+type AllAttributes = AllHTMLAttributes<HTMLElement>;
+type BooleanAttributeTypes = {
+	[Property in keyof AllAttributes]-?: Required<AllAttributes>[Property] extends boolean
+		? Property
+		: never;
+}[keyof AllAttributes];
+
+type AttributeSourceBooleanAttribute = {
+	type: "boolean" | ["boolean"];
+	enum?: readonly boolean[];
+	source: "attribute";
+	selector: string;
+	attribute: BooleanAttributeTypes;
+	default?: boolean;
+};
+
+type AttributeSourceStringAttribute = {
+	type: "string" | ["string"];
+	enum?: readonly string[];
+	source: "attribute";
+	selector: string;
+	attribute: string;
+	default?: string;
+};
+
+type TextSourceAttribute = {
+	type: "string" | ["string"];
+	enum?: readonly string[];
+	source: "text";
+	selector: string;
+	default?: string;
+};
+
+type HTMLSourceAttribute = {
+	type: "string" | ["string"];
+	enum?: readonly string[];
+	source: "html";
+	selector: string;
+	default?: string;
+};
+
+type QuerySourceAttribute = {
+	type: "array" | ["array"];
+	source: "query";
+	selector: string;
+	query: Record<string, AttributesObject<"static">>;
+	default?: Record<string, unknown>[];
 	items?: {
 		type: AttributeTypes;
 	};
-} & TypeOrEnum;
+	enum?: Record<string, unknown>[];
+};
+
+type MetaSourceAttribute = {
+	type: "string" | ["string"];
+	enum?: readonly string[];
+	/**
+	 * @deprecated
+	 */
+	source: "meta";
+	meta: string;
+};
+
+type NoSourceAttributeArrayType = {
+	type: "array" | ["array"];
+	source?: never;
+	items?: {
+		type: AttributeTypes;
+	};
+	enum?: Record<string, unknown>[];
+};
+
+type NoSourceAttributeAnyType = {
+	type: AttributeTypes | AttributeTypes[];
+	enum?: readonly boolean[] | readonly number[] | readonly string[];
+	source?: never;
+};
+
 export type AttributesObject<BlockType extends "static" | "dynamic"> =
 	BlockType extends "static"
-		? BaseAttributes & {
-				source?: "attribute" | "text" | "html" | "query" | "meta";
-				selector?: string;
-				attribute?: string;
-				multiline?: string;
-				query?: Record<string, AttributesObject<"static">>;
-				meta?: string;
-			}
-		: BaseAttributes;
+		?
+				| AttributeSourceBooleanAttribute
+				| AttributeSourceStringAttribute
+				| TextSourceAttribute
+				| HTMLSourceAttribute
+				| QuerySourceAttribute
+				| MetaSourceAttribute
+				| NoSourceAttributeArrayType
+				| NoSourceAttributeAnyType
+		: NoSourceAttributeArrayType | NoSourceAttributeAnyType;
 
 type InheritType<Type extends { type: string | string[] }> = Type extends {
 	type: string[];
