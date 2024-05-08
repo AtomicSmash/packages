@@ -1,5 +1,11 @@
 # @atomicsmash/cli
 
+## 7.0.0-beta.14
+
+### Patch Changes
+
+- [`8e020b1`](https://github.com/AtomicSmash/packages/commit/8e020b170ec48dd47ffc2b65bc9e6b3b725e5878) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Use individual file asset files for WP to detect
+
 ## 7.0.0-beta.13
 
 ### Patch Changes
