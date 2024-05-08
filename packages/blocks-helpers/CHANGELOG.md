@@ -1,5 +1,11 @@
 # @atomicsmash/blocks-helpers
 
+## 4.0.0-beta.17
+
+### Minor Changes
+
+- [`9d22117`](https://github.com/AtomicSmash/packages/commit/9d221175fd6e931700fa1eb303a4a5db859f8fca) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Improve/tighten attribute types
+
 ## 4.0.0-beta.16
 
 ### Minor Changes

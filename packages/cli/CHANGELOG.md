@@ -1,5 +1,13 @@
 # @atomicsmash/cli
 
+## 7.0.0-beta.13
+
+### Patch Changes
+
+- [`c3ef1d7`](https://github.com/AtomicSmash/packages/commit/c3ef1d77854b519416c7ff7d48b8b166e8f6d7f0) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Delete extra css files outside of loop
+
+- [`c5a253e`](https://github.com/AtomicSmash/packages/commit/c5a253e3946c1fd6c982897175e1d0a8b9ef7df3) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Transform block.json with asset names after compilation
+
 ## 7.0.0-beta.12
 
 ### Patch Changes
