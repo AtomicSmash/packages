@@ -418,6 +418,12 @@ function getCopyPatternsForBlocks(
 			to: `${distFolder}/${blockName}/render.php`,
 			noErrorOnMissing: true,
 		});
+		// Copy index.php file
+		blocksCopyPatterns.push({
+			from: `${blockFolder}/index.php`,
+			to: `${distFolder}/${blockName}/index.php`,
+			noErrorOnMissing: true,
+		});
 	}
 
 	return blocksCopyPatterns;
