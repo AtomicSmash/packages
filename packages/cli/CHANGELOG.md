@@ -1,5 +1,11 @@
 # @atomicsmash/cli
 
+## 7.0.0-beta.16
+
+### Patch Changes
+
+- [`001009d`](https://github.com/AtomicSmash/packages/commit/001009d987b19a6df7ebff7d620e8ec946830dd2) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Don't interpret PHP files as hashed assets
+
 ## 7.0.0-beta.15
 
 ### Minor Changes
