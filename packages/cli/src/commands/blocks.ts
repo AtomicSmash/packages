@@ -607,7 +607,10 @@ class BlockJsonAssetTransformer {
 											.replace(extname(srcFilePath), "");
 										const hashedAsset = Object.keys(compilation.assets).find(
 											(asset) => {
-												return asset.startsWith(`${blockName}/${fileName}`);
+												return (
+													asset.startsWith(`${blockName}/${fileName}`) &&
+													!asset.endsWith(".php")
+												);
 											},
 										);
 										return hashedAsset
