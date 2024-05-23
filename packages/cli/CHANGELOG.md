@@ -1,5 +1,11 @@
 # @atomicsmash/cli
 
+## 7.0.0-beta.15
+
+### Minor Changes
+
+- [`2eee844`](https://github.com/AtomicSmash/packages/commit/2eee844a9a6e80ecc707997604e4cc86c20bcecb) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Copy index.php files with blocks to dist
+
 ## 7.0.0-beta.14
 
 ### Patch Changes
