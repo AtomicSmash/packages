@@ -8,8 +8,7 @@ export type LayoutAttribute<Supports extends BlockSupports> = {
 			// the value doesn't have a UI control, it can still be set / changed via the code editor
 			// This means every option is possible as a value and no assumptions should be made based
 			// on support settings.
-			| { type: "default" }
-				| { type: "flow" }
+			| { type: "default" } // This is "flow", "flow" is not supported as a type and will throw an error if used.
 				| ({
 						type: "flex";
 						flexWrap?: "wrap" | "nowrap";
