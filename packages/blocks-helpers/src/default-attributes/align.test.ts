@@ -3,8 +3,12 @@ import type { DefaultAttributes } from "@atomicsmash/blocks-helpers";
 
 let defaultAttributes: Record<string, unknown>;
 defaultAttributes = {
-	// Align is only present in attributes if the value is explicitly set.
+	// Align is only present in attributes if the value is explicitly set in the editor.
 } as const satisfies DefaultAttributes<{ align: true }>;
+defaultAttributes = {
+	// @ts-expect-error Align should not be present when align is unsupported.
+	align: "left",
+} as const satisfies DefaultAttributes<Record<string, never>>;
 defaultAttributes = {
 	// @ts-expect-error Align should not be present when align is unsupported.
 	align: "left",

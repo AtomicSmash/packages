@@ -1,4 +1,4 @@
-import { BlockSupports } from "..";
+import { BlockSupports } from "@atomicsmash/blocks-helpers";
 
 export type BackgroundAttribute<Supports extends BlockSupports> = {
 	style?: Supports extends {

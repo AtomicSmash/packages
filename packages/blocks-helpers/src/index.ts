@@ -143,7 +143,9 @@ type InheritType<Type extends { type: string | string[] }> = Type extends {
 								? number
 								: never;
 
-export type InterpretAttributes<Attributes extends AnyBlockAttributes> = {
+export type InterpretAttributesWithoutDefaults<
+	Attributes extends AnyBlockAttributes,
+> = {
 	[Property in keyof Attributes]: Attributes[Property] extends {
 		enum: NonNullable<Attributes[Property]["enum"]>;
 	}
@@ -152,11 +154,19 @@ export type InterpretAttributes<Attributes extends AnyBlockAttributes> = {
 					type: "array";
 					query: Record<string, AttributesObject<"static">>;
 			  }
-			? InterpretAttributes<NonNullable<Attributes[Property]["query"]>>[]
+			? InterpretAttributesWithoutDefaults<
+					NonNullable<Attributes[Property]["query"]>
+				>[]
 			: Attributes[Property] extends { type: string }
 				? InheritType<Attributes[Property]>
 				: never;
 };
+export type InterpretAttributes<
+	Supports extends BlockSupports,
+	Attributes extends AnyBlockAttributes,
+> = InterpretAttributesWithoutDefaults<Attributes> &
+	DefaultAttributes<Supports>;
+
 export type AnyBlockAttributes =
 	| BlockAttributes<"static">
 	| BlockAttributes<"dynamic">;
@@ -171,7 +181,7 @@ export type InterpretProvidesContext<
 	Context extends
 		BlockProvidesContext<UsedContextAttributes> = BlockProvidesContext<UsedContextAttributes>,
 > = {
-	[Property in keyof Context]: InterpretAttributes<UsedContextAttributes>[Context[Property]];
+	[Property in keyof Context]: InterpretAttributesWithoutDefaults<UsedContextAttributes>[Context[Property]];
 };
 
 export type BlockUsesContext<InterpretedContext extends Record<string, any>> =
@@ -195,7 +205,7 @@ export type BlockExample<
 	Attributes extends AnyBlockAttributes,
 > = {
 	viewportWidth?: number;
-	attributes?: InterpretAttributes<Attributes> & DefaultAttributes<Supports>;
+	attributes?: InterpretAttributes<Supports, Attributes>;
 	innerBlocks?: InnerBlocks[];
 };
 
@@ -235,9 +245,7 @@ export type BlockVariations<
 	category?: BlockCategory;
 	icon?: string | JSX.Element;
 	isDefault?: boolean;
-	attributes?: RecursivePartial<
-		InterpretAttributes<Attributes> & DefaultAttributes<Supports>
-	>;
+	attributes?: RecursivePartial<InterpretAttributes<Supports, Attributes>>;
 	innerBlocks?: InnerBlocks[];
 	example?: BlockExample<Supports, Attributes>;
 	scope?: ("inserter" | "block" | "transform")[];
@@ -245,11 +253,10 @@ export type BlockVariations<
 	isActive?:
 		| string[]
 		| ((
-				blockAttributes: InterpretAttributes<Attributes> &
-					DefaultAttributes<Supports>,
+				blockAttributes: InterpretAttributes<Supports, Attributes>,
 				// TODO: This should be the exact type of the variation "attributes" props, find a way to pass that value here.
 				variationAttributes: RecursivePartial<
-					InterpretAttributes<Attributes> & DefaultAttributes<Supports>
+					InterpretAttributes<Supports, Attributes>
 				>,
 		  ) => boolean);
 }[];
@@ -424,24 +431,21 @@ export type BlockMetaData<
 };
 export type BlockMigrateDeprecationFunction<
 	OldSupports extends BlockSupports,
-	Attributes extends AnyBlockAttributes,
+	OldAttributes extends AnyBlockAttributes,
 	NewSupports extends BlockSupports,
 	NewAttributes extends AnyBlockAttributes,
 > = (
-	attributes: InterpretAttributes<Attributes> & DefaultAttributes<OldSupports>,
+	attributes: InterpretAttributes<OldSupports, OldAttributes>,
 	innerBlocks: InnerBlocks[],
 ) =>
-	| (InterpretAttributes<NewAttributes> & DefaultAttributes<NewSupports>)
-	| [
-			InterpretAttributes<NewAttributes> & DefaultAttributes<NewSupports>,
-			InnerBlocks[],
-	  ];
+	| InterpretAttributes<NewSupports, NewAttributes>
+	| [InterpretAttributes<NewSupports, NewAttributes>, InnerBlocks[]];
 
 export type BlockIsDeprecationEligibleFunction<
 	Supports extends BlockSupports,
 	Attributes extends AnyBlockAttributes,
 > = (
-	attributes: InterpretAttributes<Attributes> & DefaultAttributes<Supports>,
+	attributes: InterpretAttributes<Supports, Attributes>,
 	innerBlocks: InnerBlocks[],
 ) => boolean;
 
@@ -449,8 +453,7 @@ export type CreateBlockSaveProps<
 	Supports extends BlockSupports,
 	Attributes extends AnyBlockAttributes,
 > = {
-	readonly attributes: InterpretAttributes<Attributes> &
-		DefaultAttributes<Supports>;
+	readonly attributes: InterpretAttributes<Supports, Attributes>;
 	readonly innerBlocks: Readonly<InnerBlocks[]>;
 };
 export type CreateBlockEditProps<
@@ -459,8 +462,7 @@ export type CreateBlockEditProps<
 	Context extends Record<string, any> = Record<string, never>,
 > = {
 	readonly clientId: string;
-	readonly attributes: InterpretAttributes<Attributes> &
-		DefaultAttributes<Supports>;
+	readonly attributes: InterpretAttributes<Supports, Attributes>;
 	readonly context: Context;
 	readonly insertBlocksAfter: BlockInstance[] | undefined;
 	readonly isSelected: boolean;
@@ -474,7 +476,7 @@ export type CreateBlockEditProps<
 		meta: Record<string, unknown>,
 	) => BlockInstance[] | undefined;
 	readonly setAttributes: (
-		attributes: Partial<InterpretAttributes<Attributes>>,
+		attributes: Partial<InterpretAttributes<Supports, Attributes>>,
 	) => void;
 	readonly toggleSelection: (isSelectionEnabled: boolean) => void;
 };
@@ -486,11 +488,11 @@ export type BlockTypeTransform<
 	type: "block";
 	blocks: string[];
 	transform: (
-		attributes: InterpretAttributes<Attributes> & DefaultAttributes<Supports>,
+		attributes: InterpretAttributes<Supports, Attributes>,
 		innerBlocks: InnerBlocks[],
 	) => BlockInstance | BlockInstance[];
 	isMatch?: (
-		attributes: InterpretAttributes<Attributes> & DefaultAttributes<Supports>,
+		attributes: InterpretAttributes<Supports, Attributes>,
 		block: BlockInstance,
 	) => boolean;
 	isMultiBlock?: boolean;
@@ -718,11 +720,8 @@ export type AllDeprecations<
 		attributes: any,
 		innerBlocks: InnerBlocks[],
 	) =>
-		| (InterpretAttributes<NewAttributes> & DefaultAttributes<NewSupports>)
-		| [
-				InterpretAttributes<NewAttributes> & DefaultAttributes<NewSupports>,
-				InnerBlocks[],
-		  ];
+		| InterpretAttributes<NewSupports, NewAttributes>
+		| [InterpretAttributes<NewSupports, NewAttributes>, InnerBlocks[]];
 	save: (props: {
 		readonly attributes: any;
 		readonly innerBlocks: Readonly<InnerBlocks[]>;

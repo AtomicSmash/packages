@@ -46,6 +46,7 @@ export type BlockSupports = Record<string, any> & {
 		| boolean
 		| {
 				default?:
+					| { type: "default" }
 					| { type: "flow" }
 					| ({
 							type: "flex";
@@ -68,12 +69,12 @@ export type BlockSupports = Record<string, any> & {
 							type: "grid";
 					  } & (
 							| {
-									minColumnWidth?: string;
+									minimumColumnWidth?: "12rem"; // Currently value does nothing, but eventually this will be string.
 									columnCount?: never;
 							  }
 							| {
-									minColumnWidth?: never;
-									columnCount?: number;
+									minimumColumnWidth?: never;
+									columnCount?: 3; // Currently value does nothing, but eventually this will be number.
 							  }
 					  ))
 					| {
