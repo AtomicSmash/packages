@@ -1,5 +1,11 @@
 # @atomicsmash/blocks-helpers
 
+## 4.0.0-beta.21
+
+### Patch Changes
+
+- [`3ae4eab`](https://github.com/AtomicSmash/packages/commit/3ae4eab91f9641d70be2907a173edc1ae2b74bc7) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Remove "flow" as a valid layout type
+
 ## 4.0.0-beta.20
 
 ### Patch Changes
