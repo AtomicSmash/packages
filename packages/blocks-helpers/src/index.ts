@@ -1,10 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import type { BlockSupports } from "./block-supports";
+import type { DefaultAttributes } from "./default-attributes";
 import type { Element } from "@wordpress/element";
 import type { AllHTMLAttributes } from "react";
 import {
 	createBlock,
 	registerBlockType as wordpressRegisterBlockType,
 } from "@wordpress/blocks";
+export type { BlockSupports, DefaultAttributes };
 
 export type BlockCategory =
 	| "text"
@@ -154,100 +157,13 @@ export type InterpretAttributes<Attributes extends AnyBlockAttributes> = {
 				? InheritType<Attributes[Property]>
 				: never;
 };
-export type DefaultAttributes<Supports extends BlockSupports> = {
-	className: Supports extends { customClassName: false }
-		? never
-		: { type: "string" };
-	lock: Supports extends { lock: false } ? never : { type: "object" };
-	metadata: { type: "object" };
-};
 export type AnyBlockAttributes =
 	| BlockAttributes<"static">
 	| BlockAttributes<"dynamic">;
 export type BlockAttributes<BlockType extends "static" | "dynamic"> = Readonly<
 	Record<string, AttributesObject<BlockType>>
 >;
-export type BlockSupports = Record<string, any> & {
-	anchor?: boolean;
-	align?: boolean | ("wide" | "full" | "left" | "center" | "right")[];
-	alignWide?: boolean;
-	ariaLabel?: boolean;
-	background?: {
-		backgroundImage?: boolean;
-		backgroundSize?: boolean;
-	};
-	className?: boolean;
-	color?:
-		| {
-				background?: boolean;
-				button?: boolean;
-				enableContrastChecker?: boolean;
-				gradients?: boolean;
-				heading?: boolean;
-				link?: boolean;
-				text?: boolean;
-				/**
-				 * @deprecated Use `filter.duotone` instead.
-				 *
-				 * @see https://developer.wordpress.org/block-editor/reference-guides/block-api/block-supports/#filter-duotone
-				 */
-				__experimentalDuotone?: boolean;
-		  }
-		| boolean;
-	customClassName?: boolean;
-	dimensions?: {
-		aspectRatio?: boolean;
-		minHeight?: boolean;
-	};
-	filter?: {
-		duotone?: boolean;
-	};
-	html?: boolean;
-	inserter?: boolean;
-	interactivity?:
-		| boolean
-		| {
-				clientNavigation?: boolean;
-				interactive?: boolean;
-		  };
-	layout?:
-		| boolean
-		| {
-				default?: { type: string };
-				allowSwitching?: boolean;
-				allowEditing?: boolean;
-				allowInheriting?: boolean;
-				allowSizingOnChildren?: boolean;
-				allowVerticalAlignment?: boolean;
-				allowJustification?: boolean;
-				allowOrientation?: boolean;
-				allowCustomContentAndWideSize?: boolean;
-		  };
-	lock?: boolean;
-	multiple?: boolean;
-	position?: {
-		sticky?: boolean;
-	};
-	renaming?: boolean;
-	reusable?: boolean;
-	shadow?: boolean;
-	spacing?: {
-		margin?:
-			| boolean
-			| ("top" | "right" | "left" | "bottom")[]
-			| ("vertical" | "horizontal")[];
-		padding?:
-			| boolean
-			| ("top" | "right" | "left" | "bottom")[]
-			| ("vertical" | "horizontal")[];
-		blockGap?: boolean | ("vertical" | "horizontal")[];
-	};
-	typography?: {
-		fontSize?: boolean;
-		lineHeight?: boolean;
-		textAlign?: boolean | ("left" | "center" | "right")[];
-	};
-};
+
 export type BlockProvidesContext<Attributes extends AnyBlockAttributes> =
 	Record<string, keyof Attributes>;
 export type InterpretProvidesContext<
@@ -279,8 +195,7 @@ export type BlockExample<
 	Attributes extends AnyBlockAttributes,
 > = {
 	viewportWidth?: number;
-	attributes?: InterpretAttributes<Attributes> &
-		InterpretAttributes<DefaultAttributes<Supports>>;
+	attributes?: InterpretAttributes<Attributes> & DefaultAttributes<Supports>;
 	innerBlocks?: InnerBlocks[];
 };
 
@@ -321,8 +236,7 @@ export type BlockVariations<
 	icon?: string | JSX.Element;
 	isDefault?: boolean;
 	attributes?: RecursivePartial<
-		InterpretAttributes<Attributes> &
-			InterpretAttributes<DefaultAttributes<Supports>>
+		InterpretAttributes<Attributes> & DefaultAttributes<Supports>
 	>;
 	innerBlocks?: InnerBlocks[];
 	example?: BlockExample<Supports, Attributes>;
@@ -332,11 +246,10 @@ export type BlockVariations<
 		| string[]
 		| ((
 				blockAttributes: InterpretAttributes<Attributes> &
-					InterpretAttributes<DefaultAttributes<Supports>>,
+					DefaultAttributes<Supports>,
 				// TODO: This should be the exact type of the variation "attributes" props, find a way to pass that value here.
 				variationAttributes: RecursivePartial<
-					InterpretAttributes<Attributes> &
-						InterpretAttributes<DefaultAttributes<Supports>>
+					InterpretAttributes<Attributes> & DefaultAttributes<Supports>
 				>,
 		  ) => boolean);
 }[];
@@ -515,15 +428,12 @@ export type BlockMigrateDeprecationFunction<
 	NewSupports extends BlockSupports,
 	NewAttributes extends AnyBlockAttributes,
 > = (
-	attributes: InterpretAttributes<Attributes> &
-		InterpretAttributes<DefaultAttributes<OldSupports>>,
+	attributes: InterpretAttributes<Attributes> & DefaultAttributes<OldSupports>,
 	innerBlocks: InnerBlocks[],
 ) =>
-	| (InterpretAttributes<NewAttributes> &
-			InterpretAttributes<DefaultAttributes<NewSupports>>)
+	| (InterpretAttributes<NewAttributes> & DefaultAttributes<NewSupports>)
 	| [
-			InterpretAttributes<NewAttributes> &
-				InterpretAttributes<DefaultAttributes<NewSupports>>,
+			InterpretAttributes<NewAttributes> & DefaultAttributes<NewSupports>,
 			InnerBlocks[],
 	  ];
 
@@ -531,8 +441,7 @@ export type BlockIsDeprecationEligibleFunction<
 	Supports extends BlockSupports,
 	Attributes extends AnyBlockAttributes,
 > = (
-	attributes: InterpretAttributes<Attributes> &
-		InterpretAttributes<DefaultAttributes<Supports>>,
+	attributes: InterpretAttributes<Attributes> & DefaultAttributes<Supports>,
 	innerBlocks: InnerBlocks[],
 ) => boolean;
 
@@ -541,7 +450,7 @@ export type CreateBlockSaveProps<
 	Attributes extends AnyBlockAttributes,
 > = {
 	readonly attributes: InterpretAttributes<Attributes> &
-		InterpretAttributes<DefaultAttributes<Supports>>;
+		DefaultAttributes<Supports>;
 	readonly innerBlocks: Readonly<InnerBlocks[]>;
 };
 export type CreateBlockEditProps<
@@ -551,7 +460,7 @@ export type CreateBlockEditProps<
 > = {
 	readonly clientId: string;
 	readonly attributes: InterpretAttributes<Attributes> &
-		InterpretAttributes<DefaultAttributes<Supports>>;
+		DefaultAttributes<Supports>;
 	readonly context: Context;
 	readonly insertBlocksAfter: BlockInstance[] | undefined;
 	readonly isSelected: boolean;
@@ -577,13 +486,11 @@ export type BlockTypeTransform<
 	type: "block";
 	blocks: string[];
 	transform: (
-		attributes: InterpretAttributes<Attributes> &
-			InterpretAttributes<DefaultAttributes<Supports>>,
+		attributes: InterpretAttributes<Attributes> & DefaultAttributes<Supports>,
 		innerBlocks: InnerBlocks[],
 	) => BlockInstance | BlockInstance[];
 	isMatch?: (
-		attributes: InterpretAttributes<Attributes> &
-			InterpretAttributes<DefaultAttributes<Supports>>,
+		attributes: InterpretAttributes<Attributes> & DefaultAttributes<Supports>,
 		block: BlockInstance,
 	) => boolean;
 	isMultiBlock?: boolean;
@@ -811,11 +718,9 @@ export type AllDeprecations<
 		attributes: any,
 		innerBlocks: InnerBlocks[],
 	) =>
-		| (InterpretAttributes<NewAttributes> &
-				InterpretAttributes<DefaultAttributes<NewSupports>>)
+		| (InterpretAttributes<NewAttributes> & DefaultAttributes<NewSupports>)
 		| [
-				InterpretAttributes<NewAttributes> &
-					InterpretAttributes<DefaultAttributes<NewSupports>>,
+				InterpretAttributes<NewAttributes> & DefaultAttributes<NewSupports>,
 				InnerBlocks[],
 		  ];
 	save: (props: {
