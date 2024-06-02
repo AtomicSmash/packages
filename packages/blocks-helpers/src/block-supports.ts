@@ -47,7 +47,6 @@ export type BlockSupports = Record<string, any> & {
 		| {
 				default?:
 					| { type: "default" }
-					| { type: "flow" }
 					| ({
 							type: "flex";
 							flexWrap?: "wrap" | "nowrap";
