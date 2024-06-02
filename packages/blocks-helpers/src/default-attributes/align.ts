@@ -1,4 +1,4 @@
-import { BlockSupports } from "..";
+import { BlockSupports } from "@atomicsmash/blocks-helpers";
 
 type NormalAlignment = "left" | "center" | "right";
 type WideAlignment = "wide" | "full";
