@@ -1,5 +1,11 @@
 # @atomicsmash/blocks-helpers
 
+## 4.0.0-beta.18
+
+### Minor Changes
+
+- [`a8c2d0b`](https://github.com/AtomicSmash/packages/commit/a8c2d0b4a7af521aa4225457eb88537a4bf7bd07) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Improve Block Supports and Default Attribute types
+
 ## 4.0.0-beta.17
 
 ### Minor Changes
