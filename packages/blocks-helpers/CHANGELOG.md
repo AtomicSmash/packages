@@ -1,5 +1,11 @@
 # @atomicsmash/blocks-helpers
 
+## 4.0.0-beta.19
+
+### Minor Changes
+
+- [`5948b1b`](https://github.com/AtomicSmash/packages/commit/5948b1b029f9a71d5afd15958eddf4a9b3741da7) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Further type improvements
+
 ## 4.0.0-beta.18
 
 ### Minor Changes
