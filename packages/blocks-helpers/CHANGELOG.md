@@ -1,5 +1,21 @@
 # @atomicsmash/blocks-helpers
 
+## 4.0.0-beta.22
+
+### Major Changes
+
+- [`1c57a65`](https://github.com/AtomicSmash/packages/commit/1c57a65a202b9765fabfcdd645efe66e1e409501) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Types now take interpreted attributes in as an argument to allow for project type narrowing
+
+### Minor Changes
+
+- [`1c57a65`](https://github.com/AtomicSmash/packages/commit/1c57a65a202b9765fabfcdd645efe66e1e409501) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Remove "static" and "dynamic" block types in favour of one type
+
+### Patch Changes
+
+- [`1c57a65`](https://github.com/AtomicSmash/packages/commit/1c57a65a202b9765fabfcdd645efe66e1e409501) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Remove "items" property on attribute object (invalid)
+
+- [`1c57a65`](https://github.com/AtomicSmash/packages/commit/1c57a65a202b9765fabfcdd645efe66e1e409501) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Fix variations type for BlockMetaData to remove JS only types
+
 ## 4.0.0-beta.21
 
 ### Patch Changes
