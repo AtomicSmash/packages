@@ -1,3 +1,5 @@
+import type { InterpretedAttributes } from "./attributes";
+import type { InterpretedUsedContext } from "./context";
 import type { CreateBlockEditProps } from "@atomicsmash/blocks-helpers";
 import {
 	useBlockProps,
@@ -9,13 +11,9 @@ import {
 } from "@wordpress/block-editor";
 import { SelectControl, Panel, PanelBody } from "@wordpress/components";
 import { __ } from "@wordpress/i18n";
-import { type Attributes, type InterpretedAttributes } from "./attributes";
-import { type InterpretedUsedContext } from "./context";
-import { type Supports } from "./supports";
 
 export type BlockEditProps = CreateBlockEditProps<
-	Supports,
-	Attributes,
+	InterpretedAttributes,
 	InterpretedUsedContext
 >;
 

@@ -1,3 +1,4 @@
+import type { Supports } from "./supports";
 import type {
 	BlockAttributes,
 	InterpretAttributes,
@@ -16,8 +17,8 @@ export const attributes = {
 	},
 	align: {
 		type: "string",
-		default: "none",
+		default: false,
 	},
-} as const satisfies BlockAttributes<"static">;
+} as const satisfies BlockAttributes;
 export type Attributes = typeof attributes;
-export type InterpretedAttributes = InterpretAttributes<Attributes>;
+export type InterpretedAttributes = InterpretAttributes<Supports, Attributes>;

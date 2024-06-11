@@ -1,8 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import type {
-	AnyBlockAttributes,
-	BlockAttributes,
-} from "@atomicsmash/blocks-helpers";
+import type { BlockAttributes } from "@atomicsmash/blocks-helpers";
 
 export const attributeTypesAndEnumsTests = {
 	typeString: {
@@ -43,7 +40,7 @@ export const attributeTypesAndEnumsTests = {
 	},
 	// @ts-expect-error Must specify a type to be valid
 	requireType: {},
-} as const satisfies AnyBlockAttributes;
+} as const satisfies BlockAttributes;
 
 const attributeSourceTests = {
 	fullValidAttribute: {
@@ -100,7 +97,7 @@ const attributeSourceTests = {
 		attribute: "disabled",
 		default: true,
 	},
-} as const satisfies BlockAttributes<"static">;
+} as const satisfies BlockAttributes;
 
 const textSourceTests = {
 	fullValidAttribute: {
@@ -120,7 +117,7 @@ const textSourceTests = {
 		source: "text",
 		type: "string",
 	},
-} as const satisfies BlockAttributes<"static">;
+} as const satisfies BlockAttributes;
 
 const HTMLSourceTests = {
 	fullValidAttribute: {
@@ -139,7 +136,7 @@ const HTMLSourceTests = {
 		source: "html",
 		type: "string",
 	},
-} as const satisfies BlockAttributes<"static">;
+} as const satisfies BlockAttributes;
 
 const querySourceTests = {
 	fullValidAttribute: {
@@ -187,7 +184,7 @@ const querySourceTests = {
 		type: "array",
 		selector: ".some-element",
 	},
-} as const satisfies BlockAttributes<"static">;
+} as const satisfies BlockAttributes;
 
 /**
  * Meta source was deprecated before these tests were created, so
@@ -200,7 +197,7 @@ const metaSourceTests = {
 		source: "meta",
 		meta: "author",
 	},
-} as const satisfies BlockAttributes<"static">;
+} as const satisfies BlockAttributes;
 
 const noSourceTests = {
 	fullValidAttribute: {
@@ -209,37 +206,6 @@ const noSourceTests = {
 	},
 	fullValidArrayTypeAttribute: {
 		type: "array",
-		items: {
-			type: "string",
-		},
 		default: ["string"],
 	},
-} as const satisfies BlockAttributes<"static">;
-
-const dynamicAttributes = {
-	attributeWithAttributeSource: {
-		type: "string",
-		// @ts-expect-error Dynamic blocks cannot specify a source for attributes.
-		source: "attribute",
-	},
-	attributeWithTextSource: {
-		type: "string",
-		// @ts-expect-error Dynamic blocks cannot specify a source for attributes.
-		source: "text",
-	},
-	attributeWithHTMLSource: {
-		type: "string",
-		// @ts-expect-error Dynamic blocks cannot specify a source for attributes.
-		source: "html",
-	},
-	attributeWithQuerySource: {
-		type: "string",
-		// @ts-expect-error Dynamic blocks cannot specify a source for attributes.
-		source: "query",
-	},
-	attributeWithMetaSource: {
-		type: "string",
-		// @ts-expect-error Dynamic blocks cannot specify a source for attributes.
-		source: "meta",
-	},
-} as const satisfies BlockAttributes<"dynamic">;
+} as const satisfies BlockAttributes;

@@ -1,16 +1,16 @@
+import type { InterpretedAttributes } from "./attributes";
 import type {
 	BlockProvidesContext,
 	BlockUsesContext,
 	InterpretProvidesContext,
 	InterpretUsedContext,
 } from "@atomicsmash/blocks-helpers";
-import { type Attributes } from "./attributes";
 
 export const providesContext =
-	{} as const satisfies BlockProvidesContext<Attributes>;
+	{} as const satisfies BlockProvidesContext<InterpretedAttributes>;
 export type ProvidesContext = typeof providesContext;
 export type InterpretedProvidesContext = InterpretProvidesContext<
-	Attributes,
+	InterpretedAttributes,
 	ProvidesContext
 >;
 

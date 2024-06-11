@@ -1,14 +1,16 @@
+import type { InterpretedAttributes } from "./attributes";
 import type {
 	BlockAttributes,
 	BlockSupports,
 	CreateBlockSaveProps,
 	DeprecationAndFixture,
 	AllDeprecations,
+	InterpretAttributes,
 } from "@atomicsmash/blocks-helpers";
 import { useBlockProps, RichText } from "@wordpress/block-editor";
 import { createBlock } from "@wordpress/blocks";
-import { type Attributes, attributes as currentAttributes } from "./attributes";
-import { type Supports, supports as currentSupports } from "./supports";
+import { attributes as currentAttributes } from "./attributes";
+import { supports as currentSupports } from "./supports";
 
 // edit attributes to what they were in v1
 const v1Attributes = {
@@ -19,14 +21,16 @@ const v1Attributes = {
 		selector: "img",
 		attribute: "src",
 	},
-} as const satisfies BlockAttributes<"static">;
+} as const satisfies BlockAttributes;
 type V1Attributes = typeof v1Attributes;
 
 // edit supports to what they were in v1
 const v1Supports = { ...currentSupports } as const satisfies BlockSupports;
 type V1Supports = typeof v1Supports;
 
-type BlockSaveProps = CreateBlockSaveProps<V1Supports, V1Attributes>;
+type V1InterpretedAttributes = InterpretAttributes<V1Supports, V1Attributes>;
+
+type BlockSaveProps = CreateBlockSaveProps<V1InterpretedAttributes>;
 
 export const v1 = {
 	/**
@@ -71,11 +75,9 @@ export const v1 = {
 } satisfies DeprecationAndFixture<
 	V1Supports,
 	V1Attributes,
-	Supports,
-	Attributes
+	InterpretedAttributes
 >;
 
-export const deprecated = [v1.object] as const satisfies AllDeprecations<
-	Supports,
-	Attributes
->;
+export const deprecated = [
+	v1.object,
+] as const satisfies AllDeprecations<InterpretedAttributes>;

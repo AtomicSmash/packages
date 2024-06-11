@@ -1,16 +1,15 @@
+import type { InterpretedAttributes } from "./attributes";
+import type { InterpretedUsedContext } from "./context";
 import { registerBlockType } from "@atomicsmash/blocks-helpers";
-import { type Attributes } from "./attributes";
 import blockMetaData from "./block.json";
-import { type InterpretedUsedContext } from "./context";
 import { deprecated } from "./deprecation";
 import { Edit } from "./edit";
 import { save } from "./save";
-import { type Supports } from "./supports";
 import { transforms } from "./transforms";
 
-export { type InterpretedProvidesContext } from "./context";
+export type { InterpretedProvidesContext } from "./context";
 
-registerBlockType<Supports, Attributes, InterpretedUsedContext>(
+registerBlockType<InterpretedAttributes, InterpretedUsedContext>(
 	blockMetaData.name,
 	{
 		deprecated,

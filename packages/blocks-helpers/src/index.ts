@@ -72,11 +72,8 @@ type QuerySourceAttribute = {
 	type: "array" | ["array"];
 	source: "query";
 	selector: string;
-	query: Record<string, AttributesObject<"static">>;
+	query: Record<string, AttributesObject>;
 	default?: Record<string, unknown>[];
-	items?: {
-		type: AttributeTypes;
-	};
 	enum?: Record<string, unknown>[];
 };
 
@@ -94,9 +91,6 @@ type MetaSourceAttribute = {
 type NoSourceAttributeArrayType = {
 	type: "array" | ["array"];
 	source?: never;
-	items?: {
-		type: AttributeTypes;
-	};
 	enum?: unknown[];
 	default?: unknown[];
 };
@@ -108,18 +102,15 @@ type NoSourceAttributeAnyType = {
 	default?: any;
 };
 
-export type AttributesObject<BlockType extends "static" | "dynamic"> =
-	BlockType extends "static"
-		?
-				| AttributeSourceBooleanAttribute
-				| AttributeSourceStringAttribute
-				| TextSourceAttribute
-				| HTMLSourceAttribute
-				| QuerySourceAttribute
-				| MetaSourceAttribute
-				| NoSourceAttributeArrayType
-				| NoSourceAttributeAnyType
-		: NoSourceAttributeArrayType | NoSourceAttributeAnyType;
+export type AttributesObject =
+	| AttributeSourceBooleanAttribute
+	| AttributeSourceStringAttribute
+	| TextSourceAttribute
+	| HTMLSourceAttribute
+	| QuerySourceAttribute
+	| MetaSourceAttribute
+	| NoSourceAttributeArrayType
+	| NoSourceAttributeAnyType;
 
 type InheritType<Type extends { type: string | string[] }> = Type extends {
 	type: string[];
@@ -144,7 +135,7 @@ type InheritType<Type extends { type: string | string[] }> = Type extends {
 								: never;
 
 export type InterpretAttributesWithoutDefaults<
-	Attributes extends AnyBlockAttributes,
+	Attributes extends BlockAttributes,
 > = {
 	[Property in keyof Attributes]: Attributes[Property] extends {
 		enum: NonNullable<Attributes[Property]["enum"]>;
@@ -152,7 +143,7 @@ export type InterpretAttributesWithoutDefaults<
 		? NonNullable<Attributes[Property]["enum"]>[number]
 		: Attributes[Property] extends {
 					type: "array";
-					query: Record<string, AttributesObject<"static">>;
+					query: Record<string, AttributesObject>;
 			  }
 			? InterpretAttributesWithoutDefaults<
 					NonNullable<Attributes[Property]["query"]>
@@ -163,25 +154,22 @@ export type InterpretAttributesWithoutDefaults<
 };
 export type InterpretAttributes<
 	Supports extends BlockSupports,
-	Attributes extends AnyBlockAttributes,
+	Attributes extends BlockAttributes,
 > = InterpretAttributesWithoutDefaults<Attributes> &
 	DefaultAttributes<Supports>;
 
-export type AnyBlockAttributes =
-	| BlockAttributes<"static">
-	| BlockAttributes<"dynamic">;
-export type BlockAttributes<BlockType extends "static" | "dynamic"> = Readonly<
-	Record<string, AttributesObject<BlockType>>
->;
+export type BlockAttributes = Readonly<Record<string, AttributesObject>>;
 
-export type BlockProvidesContext<Attributes extends AnyBlockAttributes> =
-	Record<string, keyof Attributes>;
+export type BlockProvidesContext<
+	InterpretedAttributes extends Record<string, unknown>,
+> = Record<string, keyof InterpretedAttributes>;
+
 export type InterpretProvidesContext<
-	UsedContextAttributes extends AnyBlockAttributes,
+	UsedContextInterpretedAttributes extends Record<string, unknown>,
 	Context extends
-		BlockProvidesContext<UsedContextAttributes> = BlockProvidesContext<UsedContextAttributes>,
+		BlockProvidesContext<UsedContextInterpretedAttributes> = BlockProvidesContext<UsedContextInterpretedAttributes>,
 > = {
-	[Property in keyof Context]: InterpretAttributesWithoutDefaults<UsedContextAttributes>[Context[Property]];
+	[Property in keyof Context]: UsedContextInterpretedAttributes[Context[Property]];
 };
 
 export type BlockUsesContext<InterpretedContext extends Record<string, any>> =
@@ -201,11 +189,10 @@ export type InnerBlocks = {
 	innerBlocks?: InnerBlocks[];
 };
 export type BlockExample<
-	Supports extends BlockSupports,
-	Attributes extends AnyBlockAttributes,
+	InterpretedAttributes extends Record<string, unknown>,
 > = {
 	viewportWidth?: number;
-	attributes?: InterpretAttributes<Supports, Attributes>;
+	attributes?: InterpretedAttributes;
 	innerBlocks?: InnerBlocks[];
 };
 
@@ -236,8 +223,7 @@ type RecursivePartial<T> =
 			: T;
 
 export type BlockVariations<
-	Supports extends BlockSupports,
-	Attributes extends AnyBlockAttributes,
+	InterpretedAttributes extends Record<string, unknown>,
 > = {
 	name: string;
 	title: string;
@@ -245,25 +231,27 @@ export type BlockVariations<
 	category?: BlockCategory;
 	icon?: string | JSX.Element;
 	isDefault?: boolean;
-	attributes?: RecursivePartial<InterpretAttributes<Supports, Attributes>>;
+	attributes?: RecursivePartial<InterpretedAttributes>;
 	innerBlocks?: InnerBlocks[];
-	example?: BlockExample<Supports, Attributes>;
+	example?: BlockExample<InterpretedAttributes>;
 	scope?: ("inserter" | "block" | "transform")[];
 	keywords?: string[];
 	isActive?:
 		| string[]
 		| ((
-				blockAttributes: InterpretAttributes<Supports, Attributes>,
+				blockAttributes: InterpretedAttributes,
 				// TODO: This should be the exact type of the variation "attributes" props, find a way to pass that value here.
-				variationAttributes: RecursivePartial<
-					InterpretAttributes<Supports, Attributes>
-				>,
+				variationAttributes: RecursivePartial<InterpretedAttributes>,
 		  ) => boolean);
 }[];
 
 export type BlockMetaData<
 	Supports extends BlockSupports,
-	Attributes extends AnyBlockAttributes,
+	Attributes extends BlockAttributes,
+	InterpretedAttributes extends InterpretAttributes<
+		Supports,
+		Attributes
+	> = InterpretAttributes<Supports, Attributes>,
 > = {
 	/**
 	 * The version of the Block API used by the block. The most recent version is 2 and it was introduced in WordPress 5.6.
@@ -387,7 +375,7 @@ export type BlockMetaData<
 	 * It provides structured example data for the block. This data is used to construct a preview for the block to be shown in the Inspector Help Panel when the user mouses over the block.
 	 * See the example documentation at https://developer.wordpress.org/block-editor/reference-guides/block-api/block-registration/#example-optional for more details.
 	 */
-	example?: BlockExample<Supports, Attributes>;
+	example?: BlockExample<InterpretedAttributes>;
 
 	/**
 	 * Block type editor scripts definition. They will only be enqueued in the context of the editor.
@@ -422,7 +410,14 @@ export type BlockMetaData<
 	/**
 	 * Block Variations is the API that allows a block to have similar versions of it, but all these versions share some common functionality.
 	 */
-	variations?: BlockVariations<Supports, Attributes>;
+	variations?: Omit<
+		BlockVariations<InterpretedAttributes>,
+		"icon" | "isActive"
+	> & {
+		// Block JSON file doesn't allow JSX or functions
+		icon?: string;
+		isActive?: string[];
+	};
 
 	/**
 	 * Template file loaded on the server when rendering a block.
@@ -430,39 +425,29 @@ export type BlockMetaData<
 	render?: WPDefinedPath;
 };
 export type BlockMigrateDeprecationFunction<
-	OldSupports extends BlockSupports,
-	OldAttributes extends AnyBlockAttributes,
-	NewSupports extends BlockSupports,
-	NewAttributes extends AnyBlockAttributes,
+	OldInterpretedAttributes extends Record<string, unknown>,
+	NewInterpretedAttributes extends Record<string, unknown>,
 > = (
-	attributes: InterpretAttributes<OldSupports, OldAttributes>,
+	attributes: OldInterpretedAttributes,
 	innerBlocks: InnerBlocks[],
-) =>
-	| InterpretAttributes<NewSupports, NewAttributes>
-	| [InterpretAttributes<NewSupports, NewAttributes>, InnerBlocks[]];
+) => NewInterpretedAttributes | [NewInterpretedAttributes, InnerBlocks[]];
 
 export type BlockIsDeprecationEligibleFunction<
-	Supports extends BlockSupports,
-	Attributes extends AnyBlockAttributes,
-> = (
-	attributes: InterpretAttributes<Supports, Attributes>,
-	innerBlocks: InnerBlocks[],
-) => boolean;
+	InterpretedAttributes extends Record<string, unknown>,
+> = (attributes: InterpretedAttributes, innerBlocks: InnerBlocks[]) => boolean;
 
 export type CreateBlockSaveProps<
-	Supports extends BlockSupports,
-	Attributes extends AnyBlockAttributes,
+	InterpretedAttributes extends Record<string, unknown>,
 > = {
-	readonly attributes: InterpretAttributes<Supports, Attributes>;
+	readonly attributes: InterpretedAttributes;
 	readonly innerBlocks: Readonly<InnerBlocks[]>;
 };
 export type CreateBlockEditProps<
-	Supports extends BlockSupports,
-	Attributes extends AnyBlockAttributes,
+	InterpretedAttributes extends Record<string, unknown>,
 	Context extends Record<string, any> = Record<string, never>,
 > = {
 	readonly clientId: string;
-	readonly attributes: InterpretAttributes<Supports, Attributes>;
+	readonly attributes: InterpretedAttributes;
 	readonly context: Context;
 	readonly insertBlocksAfter: BlockInstance[] | undefined;
 	readonly isSelected: boolean;
@@ -475,24 +460,21 @@ export type CreateBlockEditProps<
 		initialPosition: 0 | -1 | null,
 		meta: Record<string, unknown>,
 	) => BlockInstance[] | undefined;
-	readonly setAttributes: (
-		attributes: Partial<InterpretAttributes<Supports, Attributes>>,
-	) => void;
+	readonly setAttributes: (attributes: Partial<InterpretedAttributes>) => void;
 	readonly toggleSelection: (isSelectionEnabled: boolean) => void;
 };
 
 export type BlockTypeTransform<
-	Supports extends BlockSupports,
-	Attributes extends AnyBlockAttributes,
+	InterpretedAttributes extends Record<string, unknown>,
 > = {
 	type: "block";
 	blocks: string[];
 	transform: (
-		attributes: InterpretAttributes<Supports, Attributes>,
+		attributes: InterpretedAttributes,
 		innerBlocks: InnerBlocks[],
 	) => BlockInstance | BlockInstance[];
 	isMatch?: (
-		attributes: InterpretAttributes<Supports, Attributes>,
+		attributes: InterpretedAttributes,
 		block: BlockInstance,
 	) => boolean;
 	isMultiBlock?: boolean;
@@ -631,7 +613,7 @@ export type ShortCodeTypeTransform = {
 	attributes?: Readonly<
 		Record<
 			string,
-			(AttributesObject<"static"> | AttributesObject<"dynamic">) & {
+			BlockAttributes & {
 				shortcode: (
 					shortcodeAttributes: WPShortCodeAttributes,
 					shortcodeMatch: WPShortCodeMatch,
@@ -644,10 +626,9 @@ export type ShortCodeTypeTransform = {
 };
 
 export type BlockTransforms<
-	Supports extends BlockSupports,
-	Attributes extends AnyBlockAttributes,
+	InterpretedAttributes extends Record<string, unknown>,
 > =
-	| BlockTypeTransform<Supports, Attributes>[]
+	| BlockTypeTransform<InterpretedAttributes>[]
 	| EnterTypeTransform[]
 	| FilesTypeTransform[]
 	| PrefixTypeTransform[]
@@ -655,8 +636,7 @@ export type BlockTransforms<
 	| ShortCodeTypeTransform[];
 
 export type ClientOnlyRegisterOptions<
-	Supports extends BlockSupports,
-	Attributes extends AnyBlockAttributes,
+	InterpretedAttributes extends Record<string, unknown>,
 	InterpretedUsedContext extends Record<string, any> = Record<string, never>,
 > = {
 	/**
@@ -664,9 +644,9 @@ export type ClientOnlyRegisterOptions<
 	 */
 	icon?: string | JSX.Element;
 	edit: (
-		props: CreateBlockEditProps<Supports, Attributes, InterpretedUsedContext>,
+		props: CreateBlockEditProps<InterpretedAttributes, InterpretedUsedContext>,
 	) => Element;
-	save: (props: CreateBlockSaveProps<Supports, Attributes>) => Element | null;
+	save: (props: CreateBlockSaveProps<InterpretedAttributes>) => Element | null;
 	deprecated?: unknown[];
 	/**
 	 * An API that allows a block to be transformed from and to other blocks, as well as from other entities.
@@ -675,43 +655,51 @@ export type ClientOnlyRegisterOptions<
 	 * @see https://developer.wordpress.org/block-editor/reference-guides/block-api/block-transforms/
 	 */
 	transforms?: {
-		from: BlockTransforms<Supports, Attributes>;
-		to: BlockTransforms<Supports, Attributes>;
+		from: BlockTransforms<InterpretedAttributes>;
+		to: BlockTransforms<InterpretedAttributes>;
 	};
 };
 
 export type DeprecationAndFixture<
 	OldSupports extends BlockSupports,
-	OldAttributes extends AnyBlockAttributes,
-	NewSupports extends BlockSupports,
-	NewAttributes extends AnyBlockAttributes,
+	OldAttributes extends BlockAttributes,
+	NewInterpretedAttributes extends Record<string, unknown>,
+	OldInterpretedAttributes extends InterpretAttributes<
+		OldSupports,
+		OldAttributes
+	> = InterpretAttributes<OldSupports, OldAttributes>,
 > = {
 	fixture: string[];
-	object: Deprecation<OldSupports, OldAttributes, NewSupports, NewAttributes>;
+	object: Deprecation<
+		OldSupports,
+		OldAttributes,
+		NewInterpretedAttributes,
+		OldInterpretedAttributes
+	>;
 };
 export type Deprecation<
 	OldSupports extends BlockSupports,
-	OldAttributes extends AnyBlockAttributes,
-	NewSupports extends BlockSupports,
-	NewAttributes extends AnyBlockAttributes,
+	OldAttributes extends BlockAttributes,
+	NewInterpretedAttributes extends Record<string, unknown>,
+	OldInterpretedAttributes extends InterpretAttributes<
+		OldSupports,
+		OldAttributes
+	> = InterpretAttributes<OldSupports, OldAttributes>,
 > = {
 	attributes: OldAttributes;
 	supports: OldSupports;
-	isEligible: BlockIsDeprecationEligibleFunction<OldSupports, OldAttributes>;
+	isEligible: BlockIsDeprecationEligibleFunction<OldInterpretedAttributes>;
 	migrate: BlockMigrateDeprecationFunction<
-		OldSupports,
-		OldAttributes,
-		NewSupports,
-		NewAttributes
+		OldInterpretedAttributes,
+		NewInterpretedAttributes
 	>;
 	save: (
-		props: CreateBlockSaveProps<OldSupports, OldAttributes>,
+		props: CreateBlockSaveProps<OldInterpretedAttributes>,
 	) => Element | null;
 };
 
 export type AllDeprecations<
-	NewSupports extends BlockSupports,
-	NewAttributes extends AnyBlockAttributes,
+	NewInterpretedAttributes extends Record<string, unknown>,
 > = {
 	attributes: any;
 	supports: any;
@@ -719,9 +707,7 @@ export type AllDeprecations<
 	migrate: (
 		attributes: any,
 		innerBlocks: InnerBlocks[],
-	) =>
-		| InterpretAttributes<NewSupports, NewAttributes>
-		| [InterpretAttributes<NewSupports, NewAttributes>, InnerBlocks[]];
+	) => NewInterpretedAttributes | [NewInterpretedAttributes, InnerBlocks[]];
 	save: (props: {
 		readonly attributes: any;
 		readonly innerBlocks: Readonly<InnerBlocks[]>;
@@ -729,13 +715,15 @@ export type AllDeprecations<
 }[];
 
 export function registerBlockType<
-	Supports extends BlockSupports,
-	Attributes extends AnyBlockAttributes = Record<string, never>,
-	UsedContext extends Record<string, any> = Record<string, never>,
+	InterpretedAttributes extends Record<string, unknown>,
+	InterpretedUsedContext extends Record<string, any> = Record<string, never>,
 >(
 	name: string,
-	settings: ClientOnlyRegisterOptions<Supports, Attributes, UsedContext>,
+	settings: ClientOnlyRegisterOptions<
+		InterpretedAttributes,
+		InterpretedUsedContext
+	>,
 ) {
 	/* @ts-expect-error Provided types are inaccurate and will provide an error with some valid inputs */
-	return wordpressRegisterBlockType<Attributes>(name, settings);
+	return wordpressRegisterBlockType(name, settings);
 }

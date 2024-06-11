@@ -1,9 +1,8 @@
-import type { Attributes } from "./attributes";
-import type { Supports } from "./supports";
+import type { InterpretedAttributes } from "./attributes";
 import type { CreateBlockSaveProps } from "@atomicsmash/blocks-helpers";
 import { useBlockProps, RichText, InnerBlocks } from "@wordpress/block-editor";
 
-type BlockSaveProps = CreateBlockSaveProps<Supports, Attributes>;
+type BlockSaveProps = CreateBlockSaveProps<InterpretedAttributes>;
 
 export function Save({ attributes }: BlockSaveProps) {
 	const { title, align, size } = attributes;
