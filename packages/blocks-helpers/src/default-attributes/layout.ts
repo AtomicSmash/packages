@@ -16,10 +16,16 @@ export type LayoutAttribute<Supports extends BlockSupports> = {
 						| {
 								orientation?: "horizontal";
 								justifyContent?: "left" | "center" | "right" | "space-between";
+								verticalAlignment?: "top" | "center" | "bottom" | "stretch";
 						  }
 						| {
 								orientation: "vertical";
 								justifyContent?: "left" | "center" | "right" | "stretch";
+								verticalAlignment?:
+									| "top"
+									| "center"
+									| "bottom"
+									| "space-between";
 						  }
 				  ))
 				| ({
