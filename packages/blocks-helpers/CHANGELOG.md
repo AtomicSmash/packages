@@ -1,5 +1,11 @@
 # @atomicsmash/blocks-helpers
 
+## 4.0.0-beta.23
+
+### Patch Changes
+
+- [`e058aa2`](https://github.com/AtomicSmash/packages/commit/e058aa24cc01b1240b31b161c45eb3ae59d8f973) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Fix layout vertical alignment
+
 ## 4.0.0-beta.22
 
 ### Major Changes
