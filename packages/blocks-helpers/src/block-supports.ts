@@ -1,3 +1,5 @@
+import type { AllPossibleLayouts } from "./layout";
+
 /* eslint-disable @typescript-eslint/no-explicit-any */
 export type BlockSupports = Record<string, any> & {
 	anchor?: boolean;
@@ -45,43 +47,7 @@ export type BlockSupports = Record<string, any> & {
 	layout?:
 		| boolean
 		| {
-				default?:
-					| { type: "default" }
-					| ({
-							type: "flex";
-							flexWrap?: "wrap" | "nowrap";
-					  } & (
-							| {
-									orientation?: "horizontal";
-									justifyContent?:
-										| "left"
-										| "center"
-										| "right"
-										| "space-between";
-							  }
-							| {
-									orientation: "vertical";
-									justifyContent?: "left" | "center" | "right" | "stretch";
-							  }
-					  ))
-					| ({
-							type: "grid";
-					  } & (
-							| {
-									minimumColumnWidth?: "12rem"; // Currently value does nothing, but eventually this will be string.
-									columnCount?: never;
-							  }
-							| {
-									minimumColumnWidth?: never;
-									columnCount?: 3; // Currently value does nothing, but eventually this will be number.
-							  }
-					  ))
-					| {
-							type: "constrained";
-							justifyContent?: "left" | "center" | "right";
-							contentSize?: string;
-							wideSize?: string;
-					  };
+				default?: AllPossibleLayouts;
 				allowSwitching?: boolean;
 				allowEditing?: boolean;
 				allowInheriting?: boolean;

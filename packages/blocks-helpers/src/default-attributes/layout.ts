@@ -1,4 +1,5 @@
-import { BlockSupports } from "@atomicsmash/blocks-helpers";
+import type { AllPossibleLayouts } from "../layout";
+import type { BlockSupports } from "@atomicsmash/blocks-helpers";
 
 export type LayoutAttribute<Supports extends BlockSupports> = {
 	layout?: Supports extends { layout?: false | undefined }
@@ -8,42 +9,5 @@ export type LayoutAttribute<Supports extends BlockSupports> = {
 			// the value doesn't have a UI control, it can still be set / changed via the code editor
 			// This means every option is possible as a value and no assumptions should be made based
 			// on support settings.
-			| { type: "default" } // This is "flow", "flow" is not supported as a type and will throw an error if used.
-				| ({
-						type: "flex";
-						flexWrap?: "wrap" | "nowrap";
-				  } & (
-						| {
-								orientation?: "horizontal";
-								justifyContent?: "left" | "center" | "right" | "space-between";
-								verticalAlignment?: "top" | "center" | "bottom" | "stretch";
-						  }
-						| {
-								orientation: "vertical";
-								justifyContent?: "left" | "center" | "right" | "stretch";
-								verticalAlignment?:
-									| "top"
-									| "center"
-									| "bottom"
-									| "space-between";
-						  }
-				  ))
-				| ({
-						type: "grid";
-				  } & (
-						| {
-								minimumColumnWidth?: string;
-								columnCount?: never;
-						  }
-						| {
-								minimumColumnWidth?: never;
-								columnCount?: number;
-						  }
-				  ))
-				| {
-						type: "constrained";
-						justifyContent?: "left" | "center" | "right";
-						contentSize?: string;
-						wideSize?: string;
-				  };
+			AllPossibleLayouts;
 };
