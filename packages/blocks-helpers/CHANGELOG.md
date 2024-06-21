@@ -1,5 +1,11 @@
 # @atomicsmash/blocks-helpers
 
+## 4.0.0-beta.24
+
+### Patch Changes
+
+- [`e2b6b44`](https://github.com/AtomicSmash/packages/commit/e2b6b446188689c15dd54421d137994d584ad022) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Combine and fix layout types
+
 ## 4.0.0-beta.23
 
 ### Patch Changes
