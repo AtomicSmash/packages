@@ -1,5 +1,11 @@
 # @atomicsmash/blocks-helpers
 
+## 4.0.0-beta.25
+
+### Minor Changes
+
+- [`794f7ff`](https://github.com/AtomicSmash/packages/commit/794f7ff92ee70fc9762cc7a70ffd435ca9c2b40f) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Add spacing default attribute
+
 ## 4.0.0-beta.24
 
 ### Patch Changes
