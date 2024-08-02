@@ -1,6 +1,6 @@
 {
 	"name": "@atomicsmash/coding-standards",
-	"version": "11.0.0-beta.5",
+	"version": "11.0.0-beta.6",
 	"description": "A collection of coding standards configurations.",
 	"main": "index.js",
 	"types": "index.d.ts",
@@ -8,8 +8,8 @@
 		"@cspell/cspell-types": "^8.6.0"
 	},
 	"peerDependencies": {
-		"@atomicsmash/browserslist-config": "11.0.0-beta.5",
-		"@atomicsmash/eslint-config": "11.0.0-beta.5",
+		"@atomicsmash/browserslist-config": "11.0.0-beta.6",
+		"@atomicsmash/eslint-config": "11.0.0-beta.6",
 		"@commitlint/cli": "^19.0.3",
 		"@commitlint/config-conventional": "^19.0.3",
 		"prettier": "^3.2.5"

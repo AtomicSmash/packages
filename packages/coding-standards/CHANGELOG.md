@@ -1,5 +1,17 @@
 # @atomicsmash/coding-standards
 
+## 11.0.0-beta.6
+
+### Minor Changes
+
+- [`0f28480`](https://github.com/AtomicSmash/packages/commit/0f28480d58d4473404e5b2e5d7e4fd491015c031) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Add beta Stylelint config
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @atomicsmash/eslint-config@11.0.0-beta.6
+  - @atomicsmash/browserslist-config@11.0.0-beta.6
+
 ## 11.0.0-beta.5
 
 ### Patch Changes

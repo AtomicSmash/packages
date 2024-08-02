@@ -1,5 +1,7 @@
 # @atomicsmash/eslint-config
 
+## 11.0.0-beta.6
+
 ## 11.0.0-beta.5
 
 ### Minor Changes
