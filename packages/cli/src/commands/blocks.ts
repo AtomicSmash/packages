@@ -12,6 +12,7 @@ import {
 	extname,
 	join,
 	resolve as resolvePath,
+	sep as pathSeparator,
 } from "node:path";
 import { pathToFileURL } from "node:url";
 import defaultConfig from "@wordpress/scripts/config/webpack.config.js";
@@ -43,7 +44,7 @@ export const blocksHelpMessage = `
     --excludeBlocks          (optional) A comma separated list of the folder names of blocks to exclude from compilation. Defaults to "__TEMPLATE__".
     --excludeRootFiles       (optional) A comma separated list of the root file names to exclude from compilation. Nothing is excluded by default.
     --alwaysCompileRootFiles (optional) By default, we won't compile root files if no blocks are found, this allows you to override that setting. Defaults to false.
-		--watch                  (optional) Run compiler in watch mode. Default to false.
+    --watch                  (optional) Run compiler in watch mode. Default to false.
 
   Example usage:
     $ smash-cli blocks --watch --in src --out build --tsConfigPath tsconfig.json
@@ -258,7 +259,7 @@ export async function getRootFileJSEntryPoints({
 			continue;
 		}
 		entryPoints[toCamelCase(entryName)] = {
-			import: `${srcFolder}/${fileNameAndExtension}`,
+			import: [srcFolder, fileNameAndExtension].join(pathSeparator),
 			filename: `${entryName}${isProduction ? `.[contenthash]` : ""}.js`,
 		};
 	}
@@ -303,7 +304,7 @@ export function getAllBlocksJSEntryPoints({
 
 			entryPoints[toCamelCase(entryName)] = {
 				import: filepath,
-				filename: `${filepath.replace(`${srcFolder}/`, "").replace(extname(filepath), "")}${
+				filename: `${filepath.replace(`${srcFolder}${pathSeparator}`, "").replace(extname(filepath), "")}${
 					isProduction ? `.[contenthash]` : ""
 				}.js`,
 			};
@@ -319,24 +320,28 @@ export async function getBlockJsonFiles(
 	srcFolder: string,
 	excludeBlocks: string[],
 ) {
-	const blockJsonFiles = await glob.promise(`${srcFolder}/**/block.json.ts`, {
-		ignore: excludeBlocks.map(
-			(blockName) => `${srcFolder}/**/${blockName}/block.json.ts`,
-		),
-	});
+	const blockJsonFiles = await glob
+		.promise(`${srcFolder.replaceAll(pathSeparator, "/")}/**/block.json.ts`, {
+			ignore: excludeBlocks.map(
+				(blockName) =>
+					`${srcFolder.replaceAll(pathSeparator, "/")}/**/${blockName}/block.json.ts`,
+			),
+		})
+		.then((paths) => paths.map((path) => path.replaceAll("/", pathSeparator)));
 	const blocks: Record<string, { blockFolder: string; blockJson: BlockJson }> =
 		{};
 
 	for (const blockJsonFile of blockJsonFiles) {
-		const blockJson = await tsImport(blockJsonFile, import.meta.url).then(
-			(loadedFile) => {
-				// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-				return loadedFile.default as BlockJson;
-			},
-		);
+		const blockJson = await tsImport(
+			`${blockJsonFile.split(pathSeparator).shift()?.includes(":") ? `file:///` : ""}${blockJsonFile}`,
+			import.meta.url,
+		).then((loadedFile) => {
+			// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+			return loadedFile.default as BlockJson;
+		});
 		const blockName = blockJsonFile
-			.replace("/block.json.ts", "")
-			.split("/")
+			.replace(`${pathSeparator}block.json.ts`, "")
+			.split(pathSeparator)
 			.pop() as string;
 		blocks[blockName] = { blockFolder: dirname(blockJsonFile), blockJson };
 	}

@@ -1,4 +1,8 @@
-import { resolve as resolvePath, dirname as pathDirname } from "node:path";
+import {
+	resolve as resolvePath,
+	dirname as pathDirname,
+	sep as pathSeparator,
+} from "node:path";
 import { fileURLToPath } from "node:url";
 import { expect, test, describe } from "vitest";
 import { testCommand, execute } from "../utils.js";
@@ -254,7 +258,7 @@ describe("getAllBlocksJSEntryPoints", () => {
 		});
 		expect(entryPoints).toEqual({
 			fullBlockIndex: {
-				filename: "full-block/index.js",
+				filename: ["full-block", "index.js"].join(pathSeparator),
 				import: resolvePath(
 					__dirname,
 					"..",
@@ -266,7 +270,7 @@ describe("getAllBlocksJSEntryPoints", () => {
 				),
 			},
 			fullBlockView: {
-				filename: "full-block/view.js",
+				filename: ["full-block", "view.js"].join(pathSeparator),
 				import: resolvePath(
 					__dirname,
 					"..",
@@ -278,7 +282,7 @@ describe("getAllBlocksJSEntryPoints", () => {
 				),
 			},
 			minimalBlockIndex: {
-				filename: "minimal-block/index.js",
+				filename: ["minimal-block", "index.js"].join(pathSeparator),
 				import: resolvePath(
 					__dirname,
 					"..",
