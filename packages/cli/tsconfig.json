@@ -6,7 +6,8 @@
 		"target": "esnext",
 		"moduleResolution": "NodeNext",
 		"module": "NodeNext",
-		"sourceMap": true
+		"sourceMap": true,
+		"noEmit": true
 	},
 	"references": [{ "path": "../blocks-helpers/tsconfig.build.json" }]
 }

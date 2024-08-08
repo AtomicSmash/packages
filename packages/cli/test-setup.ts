@@ -44,7 +44,7 @@ export async function setup() {
 		}
 	});
 	await execute(
-		`cd ${packageDir}/src/tests && npm pkg set dependencies.@atomicsmash/cli=file:${packageDir}/src/tests/artifacts/${packName} && npm install`,
+		`cd ${packageDir}/src/tests && npm pkg set type=module && npm pkg set dependencies.@atomicsmash/cli=file:${packageDir}/src/tests/artifacts/${packName} && npm install`,
 		{ debug: true },
 	);
 }
@@ -52,7 +52,12 @@ export async function setup() {
 export async function teardown() {
 	console.log("Deleting test package...");
 	unlink(`${packageDir}/src/tests/artifacts/${packName}`, (err) => {
-		if (err) throw err;
+		if (err) {
+			if (err.code === "ENOENT") {
+				return;
+			}
+			throw err;
+		}
 	});
 	console.log("Deleting node modules...");
 	await execute(

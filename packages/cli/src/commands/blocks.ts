@@ -222,7 +222,7 @@ async function runCommand({
 	}
 }
 
-async function getRootFileJSEntryPoints({
+export async function getRootFileJSEntryPoints({
 	srcFolder,
 	excludeRootFiles,
 }: {
@@ -265,7 +265,7 @@ async function getRootFileJSEntryPoints({
 	return entryPoints;
 }
 
-function getAllBlocksJSEntryPoints({
+export function getAllBlocksJSEntryPoints({
 	srcFolder,
 	blocks,
 }: {
@@ -315,7 +315,10 @@ function getAllBlocksJSEntryPoints({
 
 type BlockJson = BlockMetaData<never, never>;
 
-async function getBlockJsonFiles(srcFolder: string, excludeBlocks: string[]) {
+export async function getBlockJsonFiles(
+	srcFolder: string,
+	excludeBlocks: string[],
+) {
 	const blockJsonFiles = await glob.promise(`${srcFolder}/**/block.json.ts`, {
 		ignore: excludeBlocks.map(
 			(blockName) => `${srcFolder}/**/${blockName}/block.json.ts`,
@@ -341,7 +344,7 @@ async function getBlockJsonFiles(srcFolder: string, excludeBlocks: string[]) {
 	return blocks;
 }
 
-function getBlockJsonScriptFields(blockJson: BlockJson) {
+export function getBlockJsonScriptFields(blockJson: BlockJson) {
 	const scriptFields = ["viewScript", "script", "editorScript"] as const;
 	let result: Partial<Pick<BlockJson, (typeof scriptFields)[number]>> | null =
 		null;
@@ -356,7 +359,7 @@ function getBlockJsonScriptFields(blockJson: BlockJson) {
 	return result;
 }
 
-function getBlockJsonStyleFields(blockJson: BlockJson) {
+export function getBlockJsonStyleFields(blockJson: BlockJson) {
 	const styleFields = ["viewStyle", "style", "editorStyle"] as const;
 	let result: Partial<Pick<BlockJson, (typeof styleFields)[number]>> | null =
 		null;
