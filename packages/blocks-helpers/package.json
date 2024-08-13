@@ -36,13 +36,13 @@
 		"lint:types": "tsc"
 	},
 	"dependencies": {
-		"@wordpress/blocks": "^12.29.0"
+		"@wordpress/blocks": "^13.5.0"
 	},
 	"devDependencies": {
-		"@types/wordpress__block-editor": "^11.5.14",
-		"@types/wordpress__blocks": "^12.5.0",
-		"@wordpress/block-editor": "^12.25.0",
-		"@wordpress/components": "^27.2.0",
-		"@wordpress/i18n": "^4.54.0"
+		"@types/wordpress__block-editor": "^11.5.15",
+		"@types/wordpress__blocks": "^12.5.14",
+		"@wordpress/block-editor": "^14.0.0",
+		"@wordpress/components": "^28.5.0",
+		"@wordpress/i18n": "^5.5.0"
 	}
 }

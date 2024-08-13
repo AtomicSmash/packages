@@ -152,7 +152,7 @@ export class PackageManager {
 					console.log(
 						`The package ${packageName} is already installed and is newer than the requested version. You may encounter issues with your testing setup.`,
 					);
-					return reject("NEWER_PACKAGE_FOUND");
+					return reject(new Error("NEWER_PACKAGE_FOUND"));
 				}
 				if (
 					lessThanRange(dependencyInfo.currentVersion, packageConstraintRange)
@@ -160,7 +160,7 @@ export class PackageManager {
 					console.log(
 						`The package ${packageName} is already installed and is older than the requested version. You should manually update the package to match the range: ${packageConstraintRange}.`,
 					);
-					return reject("OLDER_PACKAGE_FOUND");
+					return reject(new Error("OLDER_PACKAGE_FOUND"));
 				}
 				console.log(
 					`An acceptable version of ${packageName} is already installed, skipping...`,
@@ -187,7 +187,7 @@ export class PackageManager {
 							: ""
 					}`,
 				);
-				return reject("NEWER_PACKAGE_FOUND");
+				return reject(new Error("NEWER_PACKAGE_FOUND"));
 			}
 			if (
 				lessThanRange(dependencyInfo.currentVersion, packageConstraintRange)
@@ -199,7 +199,7 @@ export class PackageManager {
 							: ""
 					}`,
 				);
-				return reject("OLDER_PACKAGE_FOUND");
+				return reject(new Error("OLDER_PACKAGE_FOUND"));
 			}
 			if (isFoundAsDevDependency) {
 				console.log(

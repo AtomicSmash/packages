@@ -15,7 +15,6 @@ import {
 	sep as pathSeparator,
 } from "node:path";
 import { pathToFileURL } from "node:url";
-import defaultConfig from "@wordpress/scripts/config/webpack.config.js";
 import autoprefixer from "autoprefixer";
 import CopyWebpackPlugin from "copy-webpack-plugin";
 import cssnano from "cssnano";
@@ -26,6 +25,7 @@ import { compileStringAsync } from "sass";
 import { TsconfigPathsPlugin } from "tsconfig-paths-webpack-plugin";
 import { tsImport } from "tsx/esm/api";
 import webpack from "webpack";
+import defaultConfig from "../external/wordpress.webpack.config.cjs";
 import { hasHelpFlag, interpretFlag, toCamelCase } from "../utils.js";
 
 const isProduction = process.env.NODE_ENV === "production";
@@ -116,7 +116,7 @@ async function runCommand({
 	const isNoBlocks = Object.keys(blocks).length === 0;
 
 	const compiler = webpack({
-		...(defaultConfig as Configuration),
+		...defaultConfig,
 		entry: async () => {
 			const entryPoints = {
 				...(isNoBlocks && !shouldAlwaysCompileRootFiles
@@ -135,7 +135,7 @@ async function runCommand({
 
 		context: srcFolder,
 		plugins: [
-			...((defaultConfig as Configuration).plugins?.filter((plugin) => {
+			...(defaultConfig.plugins?.filter((plugin) => {
 				return ![
 					"CopyPlugin", // CopyWebpackPlugin
 				].includes(plugin?.constructor.name ?? "");

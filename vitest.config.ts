@@ -24,9 +24,11 @@ export default defineConfig({
 						),
 					}
 				: undefined,
+		watch: {
+			ignored: ["**/node_modules/**", "**/dist/**"],
+		},
 	},
 	test: {
-		watchExclude: ["**/node_modules/**", "**/dist/**"],
 		globalSetup: ["./packages/cli/test-setup.ts"],
 		setupFiles: ["./packages/react/test-setup.ts"],
 		reporters: [

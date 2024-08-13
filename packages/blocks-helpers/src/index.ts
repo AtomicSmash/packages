@@ -440,7 +440,7 @@ export type CreateBlockSaveProps<
 	InterpretedAttributes extends Record<string, unknown>,
 > = {
 	readonly attributes: InterpretedAttributes;
-	readonly innerBlocks: Readonly<InnerBlocks[]>;
+	readonly innerBlocks: readonly InnerBlocks[];
 };
 export type CreateBlockEditProps<
 	InterpretedAttributes extends Record<string, unknown>,
@@ -710,7 +710,7 @@ export type AllDeprecations<
 	) => NewInterpretedAttributes | [NewInterpretedAttributes, InnerBlocks[]];
 	save: (props: {
 		readonly attributes: any;
-		readonly innerBlocks: Readonly<InnerBlocks[]>;
+		readonly innerBlocks: readonly InnerBlocks[];
 	}) => Element | null;
 }[];
 

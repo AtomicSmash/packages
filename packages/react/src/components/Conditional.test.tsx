@@ -330,7 +330,7 @@ describe("Tests for the Conditional components", () => {
 					{/*
 						We're testing if condition and externalState are used together if it throws an error. 
 						Typescript will usually prevent this, but people using the component with vanilla JS wont get the same warning 
-						@ts-expect-error */}
+						@ts-expect-error -- see above */}
 					<Conditional.Root
 						condition={shouldShowConditional}
 						externalState={externalState}

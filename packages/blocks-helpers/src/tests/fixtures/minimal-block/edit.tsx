@@ -47,7 +47,7 @@ export function Edit({ attributes, setAttributes }: BlockEditProps) {
 							]}
 							onChange={(newSize) => {
 								setAttributes({
-									size: newSize as InterpretedAttributes["size"],
+									size: newSize,
 								});
 							}}
 						/>

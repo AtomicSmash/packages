@@ -40,6 +40,7 @@ export async function execute(
 				if (options.debug) {
 					console.error({ error, stdout, stderr });
 				}
+				// eslint-disable-next-line @typescript-eslint/prefer-promise-reject-errors
 				reject({ error, stdout, stderr });
 			}
 			resolve({ error, stdout, stderr });

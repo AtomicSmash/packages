@@ -5,14 +5,14 @@
 	"main": "index.js",
 	"types": "index.d.ts",
 	"devDependencies": {
-		"@cspell/cspell-types": "^8.6.0"
+		"@cspell/cspell-types": "^8.13.3"
 	},
 	"peerDependencies": {
-		"@atomicsmash/browserslist-config": "11.0.0-beta.6",
-		"@atomicsmash/eslint-config": "11.0.0-beta.6",
-		"@commitlint/cli": "^19.0.3",
-		"@commitlint/config-conventional": "^19.0.3",
-		"prettier": "^3.2.5"
+		"@atomicsmash/browserslist-config": "file:../browserslist-config",
+		"@atomicsmash/eslint-config": "file:../eslint-config",
+		"@commitlint/cli": "^19.4.0",
+		"@commitlint/config-conventional": "^19.2.2",
+		"prettier": "^3.3.3"
 	},
 	"keywords": [
 		"atomic",

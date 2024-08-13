@@ -16,6 +16,11 @@ module.exports = {
 			version: "detect",
 		},
 	},
+	rules: {
+		// Disabling prop-types rule due to false positives
+		// See https://github.com/jsx-eslint/eslint-plugin-react/issues/3796
+		"react/prop-types": [0],
+	},
 	overrides: [
 		{
 			files: ["**/?(*.)+(spec|test).[jt]s?(x)"],
