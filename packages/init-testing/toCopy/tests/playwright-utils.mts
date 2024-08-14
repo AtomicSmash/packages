@@ -5,7 +5,7 @@ import type {
 import type { Page } from "@playwright/test";
 import { getLighthouseTest } from "@atomicsmash/test-utils";
 import { test as base } from "@playwright/test";
-import { testData } from "./fixtures/testData.js";
+import { testData } from "./fixtures/testData.mjs";
 
 /**
  * Fixtures
