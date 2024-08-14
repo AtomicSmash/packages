@@ -1,5 +1,11 @@
 # @atomicsmash/blocks-helpers
 
+## 4.0.0-beta.26
+
+### Patch Changes
+
+- Update dependencies
+
 ## 4.0.0-beta.25
 
 ### Minor Changes

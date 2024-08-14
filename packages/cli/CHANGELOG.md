@@ -1,5 +1,11 @@
 # @atomicsmash/cli
 
+## 7.0.0-beta.17
+
+### Patch Changes
+
+- Update dependencies
+
 ## 7.0.0-beta.16
 
 ### Patch Changes
