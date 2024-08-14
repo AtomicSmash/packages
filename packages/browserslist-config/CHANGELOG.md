@@ -1,48 +1,20 @@
 # @atomicsmash/browserslist-config
 
-## 11.0.0-beta.8
-
-## 11.0.0-beta.7
+## 11.0.0
 
 ### Patch Changes
 
-- Update dependencies
-
-## 11.0.0-beta.6
-
-## 11.0.0-beta.5
-
-## 11.0.0-beta.4
-
-## 11.0.0-beta.3
-
-## 11.0.0-beta.2
-
-## 11.0.0-beta.1
-
-## 11.0.0-beta.0
+- [`d3e69d5`](https://github.com/AtomicSmash/packages/commit/d3e69d5bf718f48d5683180736e51b52e411cddb) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Update dependencies
 
 ## 10.0.1
 
-## 10.0.1-beta.0
-
 ## 10.0.0
-
-## 10.0.0-beta.0
 
 ## 9.0.0
 
 ### Patch Changes
 
 - [#121](https://github.com/AtomicSmash/packages/pull/121) [`98958bf`](https://github.com/AtomicSmash/packages/commit/98958bf72441f3c85e046d42f8ac13dde8ae7f89) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Fix builds
-
-## 9.0.0-beta.1
-
-### Patch Changes
-
-- Fix builds
-
-## 9.0.0-beta.0
 
 ## 8.0.0
 

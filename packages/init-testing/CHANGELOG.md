@@ -1,38 +1,6 @@
 # @atomicsmash/init-testing
 
-## 1.1.0-beta.5
-
-### Patch Changes
-
-- [`ddaf2ba`](https://github.com/AtomicSmash/packages/commit/ddaf2ba015ca34b097416238d7c9368bc0aabb51) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Use explicit file extensions
-
-## 1.1.0-beta.4
-
-### Patch Changes
-
-- Update dependencies
-
-## 1.1.0-beta.3
-
-### Patch Changes
-
-- [`cd493a3`](https://github.com/AtomicSmash/packages/commit/cd493a3eeea80e01ba1e693dcc621999ec3e55f6) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Improve logging for package install complete and initialisers
-
-## 1.1.0-beta.2
-
-### Patch Changes
-
-- [`dc6ea3b`](https://github.com/AtomicSmash/packages/commit/dc6ea3bfe8631b76d12a1eb367596f8ede7be7c4) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Add lighthouse folder to gitignore
-
-## 1.1.0-beta.1
-
-### Patch Changes
-
-- [`d384e18`](https://github.com/AtomicSmash/packages/commit/d384e182cd64886c786f36e079082a734c2e35e9) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Run playwright installer after package install
-
-- [`71d0b8b`](https://github.com/AtomicSmash/packages/commit/71d0b8b1f631f71bc2b892e3e4958eda7e983dd3) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Make ./playwright.config.ts work in commonjs projects
-
-## 1.1.0-beta.0
+## 1.1.0
 
 ### Minor Changes
 
@@ -40,7 +8,19 @@
 
 ### Patch Changes
 
+- [`dc6ea3b`](https://github.com/AtomicSmash/packages/commit/dc6ea3bfe8631b76d12a1eb367596f8ede7be7c4) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Add lighthouse folder to gitignore
+
 - [`e607650`](https://github.com/AtomicSmash/packages/commit/e607650e5e1afee161a1eeb4c026967695980be7) Thanks [@mikeybinns](https://github.com/mikeybinns)! - make files work in commonjs projects
+
+- [`d384e18`](https://github.com/AtomicSmash/packages/commit/d384e182cd64886c786f36e079082a734c2e35e9) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Run playwright installer after package install
+
+- [`ddaf2ba`](https://github.com/AtomicSmash/packages/commit/ddaf2ba015ca34b097416238d7c9368bc0aabb51) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Use explicit file extensions
+
+- [`d3e69d5`](https://github.com/AtomicSmash/packages/commit/d3e69d5bf718f48d5683180736e51b52e411cddb) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Update dependencies
+
+- [`cd493a3`](https://github.com/AtomicSmash/packages/commit/cd493a3eeea80e01ba1e693dcc621999ec3e55f6) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Improve logging for package install complete and initialisers
+
+- [`71d0b8b`](https://github.com/AtomicSmash/packages/commit/71d0b8b1f631f71bc2b892e3e4958eda7e983dd3) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Make ./playwright.config.ts work in commonjs projects
 
 ## 1.0.0
 

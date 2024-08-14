@@ -1,100 +1,30 @@
 # @atomicsmash/coding-standards
 
-## 11.0.0-beta.8
-
-### Patch Changes
-
-- [`5c3f178`](https://github.com/AtomicSmash/packages/commit/5c3f178ca0ff62eddddfa7c919e76108ea3aa3fb) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Fix local paths
-
-- Updated dependencies []:
-  - @atomicsmash/eslint-config@11.0.0-beta.8
-  - @atomicsmash/browserslist-config@11.0.0-beta.8
-
-## 11.0.0-beta.7
-
-### Patch Changes
-
-- Update dependencies
-
-## 11.0.0-beta.6
-
-### Minor Changes
-
-- [`0f28480`](https://github.com/AtomicSmash/packages/commit/0f28480d58d4473404e5b2e5d7e4fd491015c031) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Add beta Stylelint config
-
-### Patch Changes
-
-- Updated dependencies []:
-  - @atomicsmash/eslint-config@11.0.0-beta.6
-  - @atomicsmash/browserslist-config@11.0.0-beta.6
-
-## 11.0.0-beta.5
-
-### Patch Changes
-
-- Updated dependencies [[`9376010`](https://github.com/AtomicSmash/packages/commit/93760109b9db51564208239f929e6261ed067d69)]:
-  - @atomicsmash/eslint-config@11.0.0-beta.5
-  - @atomicsmash/browserslist-config@11.0.0-beta.5
-
-## 11.0.0-beta.4
-
-### Minor Changes
-
-- [`b518b50`](https://github.com/AtomicSmash/packages/commit/b518b501e3bedc5e32ba7bdb19f64c765f0aea2a) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Add wp_kses and sprintf to allowed words
-
-### Patch Changes
-
-- Updated dependencies []:
-  - @atomicsmash/eslint-config@11.0.0-beta.4
-  - @atomicsmash/browserslist-config@11.0.0-beta.4
-
-## 11.0.0-beta.3
-
-### Minor Changes
-
-- [`321c4e9`](https://github.com/AtomicSmash/packages/commit/321c4e9e18bd7a7e23e19b37a553249f57135138) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Add shortcode
-
-### Patch Changes
-
-- Updated dependencies []:
-  - @atomicsmash/eslint-config@11.0.0-beta.3
-  - @atomicsmash/browserslist-config@11.0.0-beta.3
-
-## 11.0.0-beta.2
-
-### Minor Changes
-
-- [`14c4cf9`](https://github.com/AtomicSmash/packages/commit/14c4cf9de75eab9286be33821dbba8ed560631b8) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Add WPMDB to allowed words for licence key
-
-### Patch Changes
-
-- Updated dependencies []:
-  - @atomicsmash/eslint-config@11.0.0-beta.2
-  - @atomicsmash/browserslist-config@11.0.0-beta.2
-
-## 11.0.0-beta.1
-
-### Minor Changes
-
-- [`2ec63f6`](https://github.com/AtomicSmash/packages/commit/2ec63f6893c67ce504a93633816fb3040d698c61) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Add phpmailer to allowed words
-
-### Patch Changes
-
-- Updated dependencies []:
-  - @atomicsmash/eslint-config@11.0.0-beta.1
-  - @atomicsmash/browserslist-config@11.0.0-beta.1
-
-## 11.0.0-beta.0
+## 11.0.0
 
 ### Minor Changes
 
 - [`db462fe`](https://github.com/AtomicSmash/packages/commit/db462fecd0ceb0a46e5bd65748f65089fa6fc2d1) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Add more allowed words to cSpell config
 
+- [`321c4e9`](https://github.com/AtomicSmash/packages/commit/321c4e9e18bd7a7e23e19b37a553249f57135138) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Add shortcode
+
+- [`b518b50`](https://github.com/AtomicSmash/packages/commit/b518b501e3bedc5e32ba7bdb19f64c765f0aea2a) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Add wp_kses and sprintf to allowed words
+
+- [`14c4cf9`](https://github.com/AtomicSmash/packages/commit/14c4cf9de75eab9286be33821dbba8ed560631b8) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Add WPMDB to allowed words for licence key
+
+- [`0f28480`](https://github.com/AtomicSmash/packages/commit/0f28480d58d4473404e5b2e5d7e4fd491015c031) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Add beta Stylelint config
+
+- [`2ec63f6`](https://github.com/AtomicSmash/packages/commit/2ec63f6893c67ce504a93633816fb3040d698c61) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Add phpmailer to allowed words
+
 ### Patch Changes
 
-- Updated dependencies []:
-  - @atomicsmash/eslint-config@11.0.0-beta.0
-  - @atomicsmash/browserslist-config@11.0.0-beta.0
+- [`d3e69d5`](https://github.com/AtomicSmash/packages/commit/d3e69d5bf718f48d5683180736e51b52e411cddb) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Update dependencies
+
+- [`5c3f178`](https://github.com/AtomicSmash/packages/commit/5c3f178ca0ff62eddddfa7c919e76108ea3aa3fb) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Fix local paths
+
+- Updated dependencies [[`d3e69d5`](https://github.com/AtomicSmash/packages/commit/d3e69d5bf718f48d5683180736e51b52e411cddb), [`9376010`](https://github.com/AtomicSmash/packages/commit/93760109b9db51564208239f929e6261ed067d69)]:
+  - @atomicsmash/browserslist-config@11.0.0
+  - @atomicsmash/eslint-config@11.0.0
 
 ## 10.0.1
 
@@ -105,16 +35,6 @@
 - Updated dependencies [[`9ebcd42`](https://github.com/AtomicSmash/packages/commit/9ebcd42720afe49e08bd0b3b45e21f34f9d09f22)]:
   - @atomicsmash/eslint-config@10.0.1
   - @atomicsmash/browserslist-config@10.0.1
-
-## 10.0.1-beta.0
-
-### Patch Changes
-
-- [`9ebcd42`](https://github.com/AtomicSmash/packages/commit/9ebcd42720afe49e08bd0b3b45e21f34f9d09f22) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Update dependencies
-
-- Updated dependencies [[`9ebcd42`](https://github.com/AtomicSmash/packages/commit/9ebcd42720afe49e08bd0b3b45e21f34f9d09f22)]:
-  - @atomicsmash/eslint-config@10.0.1-beta.0
-  - @atomicsmash/browserslist-config@10.0.1-beta.0
 
 ## 10.0.0
 
@@ -127,18 +47,6 @@
 - Updated dependencies []:
   - @atomicsmash/eslint-config@10.0.0
   - @atomicsmash/browserslist-config@10.0.0
-
-## 10.0.0-beta.0
-
-### Minor Changes
-
-- [`5972517`](https://github.com/AtomicSmash/packages/commit/59725170d7252d23d06e90a43d7f02fb1057e661) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Stabilise PHPCS config
-
-### Patch Changes
-
-- Updated dependencies []:
-  - @atomicsmash/eslint-config@10.0.0-beta.0
-  - @atomicsmash/browserslist-config@10.0.0-beta.0
 
 ## 9.0.0
 
@@ -155,30 +63,6 @@
 - Updated dependencies [[`98958bf`](https://github.com/AtomicSmash/packages/commit/98958bf72441f3c85e046d42f8ac13dde8ae7f89), [`98958bf`](https://github.com/AtomicSmash/packages/commit/98958bf72441f3c85e046d42f8ac13dde8ae7f89)]:
   - @atomicsmash/eslint-config@9.0.0
   - @atomicsmash/browserslist-config@9.0.0
-
-## 9.0.0-beta.1
-
-### Patch Changes
-
-- Fix builds
-
-- Updated dependencies []:
-  - @atomicsmash/browserslist-config@9.0.0-beta.1
-  - @atomicsmash/eslint-config@9.0.0-beta.1
-
-## 9.0.0-beta.0
-
-### Major Changes
-
-- [`38d8dac`](https://github.com/AtomicSmash/packages/commit/38d8dac02de80f2a0dfa673194a401e2a69aed55) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Update dependencies
-
-- [`38d8dac`](https://github.com/AtomicSmash/packages/commit/38d8dac02de80f2a0dfa673194a401e2a69aed55) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Update typescript config files
-
-### Patch Changes
-
-- Updated dependencies [[`38d8dac`](https://github.com/AtomicSmash/packages/commit/38d8dac02de80f2a0dfa673194a401e2a69aed55)]:
-  - @atomicsmash/eslint-config@9.0.0-beta.0
-  - @atomicsmash/browserslist-config@9.0.0-beta.0
 
 ## 8.0.0
 

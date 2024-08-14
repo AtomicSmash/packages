@@ -1,6 +1,6 @@
 {
 	"name": "@atomicsmash/cli",
-	"version": "7.0.0-beta.18",
+	"version": "7.0.0",
 	"description": "A collection of CLI tools by Atomic Smash.",
 	"keywords": [],
 	"homepage": "https://www.atomicsmash.co.uk/",
@@ -76,7 +76,7 @@
 		"webpack-bundle-analyzer": "^4.10.2"
 	},
 	"devDependencies": {
-		"@atomicsmash/blocks-helpers": "^4.0.0-beta.26",
+		"@atomicsmash/blocks-helpers": "^4.0.0",
 		"@types/glob": "^8.1.0",
 		"@types/svg-sprite": "^0.0.39",
 		"@types/vinyl": "^2.0.12",
