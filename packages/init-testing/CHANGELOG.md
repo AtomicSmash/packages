@@ -1,5 +1,11 @@
 # @atomicsmash/init-testing
 
+## 1.1.0-beta.5
+
+### Patch Changes
+
+- [`ddaf2ba`](https://github.com/AtomicSmash/packages/commit/ddaf2ba015ca34b097416238d7c9368bc0aabb51) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Use explicit file extensions
+
 ## 1.1.0-beta.4
 
 ### Patch Changes

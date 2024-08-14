@@ -1,5 +1,11 @@
 # @atomicsmash/cli
 
+## 7.0.0-beta.18
+
+### Patch Changes
+
+- [`5c3f178`](https://github.com/AtomicSmash/packages/commit/5c3f178ca0ff62eddddfa7c919e76108ea3aa3fb) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Fix local paths
+
 ## 7.0.0-beta.17
 
 ### Patch Changes

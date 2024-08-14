@@ -1,5 +1,15 @@
 # @atomicsmash/coding-standards
 
+## 11.0.0-beta.8
+
+### Patch Changes
+
+- [`5c3f178`](https://github.com/AtomicSmash/packages/commit/5c3f178ca0ff62eddddfa7c919e76108ea3aa3fb) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Fix local paths
+
+- Updated dependencies []:
+  - @atomicsmash/eslint-config@11.0.0-beta.8
+  - @atomicsmash/browserslist-config@11.0.0-beta.8
+
 ## 11.0.0-beta.7
 
 ### Patch Changes
