@@ -6,23 +6,11 @@
 
 - [`d3e69d5`](https://github.com/AtomicSmash/packages/commit/d3e69d5bf718f48d5683180736e51b52e411cddb) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Update dependencies
 
-## 1.3.2-beta.0
-
-### Patch Changes
-
-- Update dependencies
-
 ## 1.3.1
 
 ### Patch Changes
 
 - [#133](https://github.com/AtomicSmash/packages/pull/133) [`9ebcd42`](https://github.com/AtomicSmash/packages/commit/9ebcd42720afe49e08bd0b3b45e21f34f9d09f22) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Update dependencies
-
-## 1.3.1-beta.0
-
-### Patch Changes
-
-- [`9ebcd42`](https://github.com/AtomicSmash/packages/commit/9ebcd42720afe49e08bd0b3b45e21f34f9d09f22) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Update dependencies
 
 ## 1.3.0
 
@@ -33,18 +21,6 @@
 ### Patch Changes
 
 - [#121](https://github.com/AtomicSmash/packages/pull/121) [`98958bf`](https://github.com/AtomicSmash/packages/commit/98958bf72441f3c85e046d42f8ac13dde8ae7f89) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Fix builds
-
-## 1.3.0-beta.1
-
-### Patch Changes
-
-- Fix builds
-
-## 1.3.0-beta.0
-
-### Minor Changes
-
-- [`38d8dac`](https://github.com/AtomicSmash/packages/commit/38d8dac02de80f2a0dfa673194a401e2a69aed55) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Update dependencies
 
 ## 1.2.1
 
