@@ -94,12 +94,6 @@ provide migration guides for future breaking changes.
 
 - [#133](https://github.com/AtomicSmash/packages/pull/133) [`9ebcd42`](https://github.com/AtomicSmash/packages/commit/9ebcd42720afe49e08bd0b3b45e21f34f9d09f22) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Update dependencies
 
-## 3.0.1-beta.0
-
-### Patch Changes
-
-- [`9ebcd42`](https://github.com/AtomicSmash/packages/commit/9ebcd42720afe49e08bd0b3b45e21f34f9d09f22) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Update dependencies
-
 ## 3.0.0
 
 ### Major Changes
@@ -117,18 +111,6 @@ provide migration guides for future breaking changes.
 ### Patch Changes
 
 - [#121](https://github.com/AtomicSmash/packages/pull/121) [`98958bf`](https://github.com/AtomicSmash/packages/commit/98958bf72441f3c85e046d42f8ac13dde8ae7f89) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Fix builds
-
-## 2.1.0-beta.1
-
-### Patch Changes
-
-- Fix builds
-
-## 2.1.0-beta.0
-
-### Minor Changes
-
-- [`38d8dac`](https://github.com/AtomicSmash/packages/commit/38d8dac02de80f2a0dfa673194a401e2a69aed55) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Update dependencies
 
 ## 2.0.1
 
