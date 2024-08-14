@@ -6,23 +6,11 @@
 
 - [`d3e69d5`](https://github.com/AtomicSmash/packages/commit/d3e69d5bf718f48d5683180736e51b52e411cddb) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Update dependencies
 
-## 1.6.2-beta.0
-
-### Patch Changes
-
-- Update dependencies
-
 ## 1.6.1
 
 ### Patch Changes
 
 - [#133](https://github.com/AtomicSmash/packages/pull/133) [`9ebcd42`](https://github.com/AtomicSmash/packages/commit/9ebcd42720afe49e08bd0b3b45e21f34f9d09f22) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Update dependencies
-
-## 1.6.1-beta.0
-
-### Patch Changes
-
-- [`9ebcd42`](https://github.com/AtomicSmash/packages/commit/9ebcd42720afe49e08bd0b3b45e21f34f9d09f22) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Update dependencies
 
 ## 1.6.0
 
@@ -37,24 +25,6 @@
 - [#121](https://github.com/AtomicSmash/packages/pull/121) [`98958bf`](https://github.com/AtomicSmash/packages/commit/98958bf72441f3c85e046d42f8ac13dde8ae7f89) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Fix builds
 
 - [#121](https://github.com/AtomicSmash/packages/pull/121) [`98958bf`](https://github.com/AtomicSmash/packages/commit/98958bf72441f3c85e046d42f8ac13dde8ae7f89) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Remove classes and class merging from Conditional
-
-## 1.6.0-beta.1
-
-### Patch Changes
-
-- Fix builds
-
-## 1.6.0-beta.0
-
-### Minor Changes
-
-- [`38d8dac`](https://github.com/AtomicSmash/packages/commit/38d8dac02de80f2a0dfa673194a401e2a69aed55) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Update dependencies
-
-- [#108](https://github.com/AtomicSmash/packages/pull/108) [`96ce877`](https://github.com/AtomicSmash/packages/commit/96ce8772a9a6ddabee63596c0c50a44231e6651c) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Removed tailwind-merge dependency
-
-### Patch Changes
-
-- [#108](https://github.com/AtomicSmash/packages/pull/108) [`e7ced04`](https://github.com/AtomicSmash/packages/commit/e7ced04c0bc140112655e5fad3902255a156b970) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Remove classes and class merging from Conditional
 
 ## 1.5.0
 
