@@ -1,5 +1,11 @@
 # @atomicsmash/test-utils
 
+## 1.3.2
+
+### Patch Changes
+
+- [`d3e69d5`](https://github.com/AtomicSmash/packages/commit/d3e69d5bf718f48d5683180736e51b52e411cddb) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Update dependencies
+
 ## 1.3.2-beta.0
 
 ### Patch Changes

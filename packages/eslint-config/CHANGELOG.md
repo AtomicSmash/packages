@@ -1,5 +1,15 @@
 # @atomicsmash/eslint-config
 
+## 11.0.0
+
+### Minor Changes
+
+- [`9376010`](https://github.com/AtomicSmash/packages/commit/93760109b9db51564208239f929e6261ed067d69) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Allow reset siblings and variables starting with underscore as unused vars
+
+### Patch Changes
+
+- [`d3e69d5`](https://github.com/AtomicSmash/packages/commit/d3e69d5bf718f48d5683180736e51b52e411cddb) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Update dependencies
+
 ## 11.0.0-beta.8
 
 ## 11.0.0-beta.7

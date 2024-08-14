@@ -1,5 +1,31 @@
 # @atomicsmash/coding-standards
 
+## 11.0.0
+
+### Minor Changes
+
+- [`db462fe`](https://github.com/AtomicSmash/packages/commit/db462fecd0ceb0a46e5bd65748f65089fa6fc2d1) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Add more allowed words to cSpell config
+
+- [`321c4e9`](https://github.com/AtomicSmash/packages/commit/321c4e9e18bd7a7e23e19b37a553249f57135138) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Add shortcode
+
+- [`b518b50`](https://github.com/AtomicSmash/packages/commit/b518b501e3bedc5e32ba7bdb19f64c765f0aea2a) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Add wp_kses and sprintf to allowed words
+
+- [`14c4cf9`](https://github.com/AtomicSmash/packages/commit/14c4cf9de75eab9286be33821dbba8ed560631b8) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Add WPMDB to allowed words for licence key
+
+- [`0f28480`](https://github.com/AtomicSmash/packages/commit/0f28480d58d4473404e5b2e5d7e4fd491015c031) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Add beta Stylelint config
+
+- [`2ec63f6`](https://github.com/AtomicSmash/packages/commit/2ec63f6893c67ce504a93633816fb3040d698c61) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Add phpmailer to allowed words
+
+### Patch Changes
+
+- [`d3e69d5`](https://github.com/AtomicSmash/packages/commit/d3e69d5bf718f48d5683180736e51b52e411cddb) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Update dependencies
+
+- [`5c3f178`](https://github.com/AtomicSmash/packages/commit/5c3f178ca0ff62eddddfa7c919e76108ea3aa3fb) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Fix local paths
+
+- Updated dependencies [[`d3e69d5`](https://github.com/AtomicSmash/packages/commit/d3e69d5bf718f48d5683180736e51b52e411cddb), [`9376010`](https://github.com/AtomicSmash/packages/commit/93760109b9db51564208239f929e6261ed067d69)]:
+  - @atomicsmash/browserslist-config@11.0.0
+  - @atomicsmash/eslint-config@11.0.0
+
 ## 11.0.0-beta.8
 
 ### Patch Changes
