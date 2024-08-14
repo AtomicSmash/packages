@@ -8,8 +8,8 @@
 		"@cspell/cspell-types": "^8.13.3"
 	},
 	"peerDependencies": {
-		"@atomicsmash/browserslist-config": "file:../browserslist-config",
-		"@atomicsmash/eslint-config": "file:../eslint-config",
+		"@atomicsmash/browserslist-config": "^11.0.0-beta.7",
+		"@atomicsmash/eslint-config": "^11.0.0-beta.7",
 		"@commitlint/cli": "^19.4.0",
 		"@commitlint/config-conventional": "^19.2.2",
 		"prettier": "^3.3.3"
