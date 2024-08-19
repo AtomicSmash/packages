@@ -7,7 +7,7 @@ To publish a beta package version (recommended), follow these steps:
 3. Create a pre-release branch based off of main, and merge in your tested branch. If a pre-release branch already exists, be sure to co-ordinate with the creator of the branch to make sure there are no conflicts. Don't create a new branch if one already exists as they will overwrite and cause version release issues.
 4. On the pre-release branch, run `npx changeset pre enter beta` to enter pre-release mode with "beta" as the tag.
 5. Merge your branch into the pre-release branch.
-6. Run `npx changeset version && npm install` to version bump any updated packages and update the lockfile. Commit those files.
+6. Run `npx changeset version && npm install` to version bump any updated packages and update the lockfile. Commit those files and push them to remote or the next step won't work.
 7. Run `npm run build && npx changeset publish` to build a fresh build & release these as beta versions.
 8. Update the dependency to the beta version on at least 1 project and test thoroughly.
 9. If changes are needed, add them to your branch, along with associated changeset files, and merge them into pre-release branch. Run the version and publish commands to bump the version and release again.
