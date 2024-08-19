@@ -140,10 +140,13 @@ async function runCommand({
 					"CopyPlugin", // CopyWebpackPlugin
 				].includes(plugin?.constructor.name ?? "");
 			}) ?? []),
-
-			new CopyWebpackPlugin({
-				patterns: [...getCopyPatternsForBlocks(blocks, distFolder)],
-			}),
+			...(isNoBlocks
+				? []
+				: [
+						new CopyWebpackPlugin({
+							patterns: [...getCopyPatternsForBlocks(blocks, distFolder)],
+						}),
+					]),
 			new CustomBlocksCSSHandler({
 				blocks,
 				srcFolder,
