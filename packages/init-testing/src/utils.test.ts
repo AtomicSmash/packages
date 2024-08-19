@@ -1,6 +1,6 @@
 import type { ExecException } from "node:child_process";
 import { exec } from "node:child_process";
-import { writeFile } from "node:fs/promises";
+import { writeFile, mkdir } from "node:fs/promises";
 import { sep as pathSeparator } from "node:path";
 import { rimraf } from "rimraf";
 import { expect, test, describe, vi, afterEach, it, beforeAll } from "vitest";
@@ -33,6 +33,7 @@ describe.sequential("Init testing utils", () => {
 	let packageManager: PackageManager;
 
 	beforeAll(async () => {
+		await mkdir(`${import.meta.dirname}/tests`, { recursive: true });
 		await writeFile(
 			`${import.meta.dirname}/tests/package.json`,
 			JSON.stringify({
@@ -43,6 +44,7 @@ describe.sequential("Init testing utils", () => {
 					"@atomicsmash/eslint-config": "^10.0.0",
 				},
 			}),
+			{ flag: "w+" },
 		);
 		await execute(
 			`cd ${import.meta.dirname}${pathSeparator}tests; npm install --package-lock-only=true`,
