@@ -1,5 +1,11 @@
 # @atomicsmash/cli
 
+## 7.0.1-beta.0
+
+### Patch Changes
+
+- [`3229e66`](https://github.com/AtomicSmash/packages/commit/3229e66e938aa45b12343773de902fb387818081) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Fix error when copy patterns are empty
+
 ## 7.0.0
 
 ### Major Changes
