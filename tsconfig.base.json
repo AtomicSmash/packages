@@ -1,0 +1,14 @@
+{
+	"extends": [
+		"@atomicsmash/coding-standards/typescript/base",
+		"@atomicsmash/coding-standards/typescript/vitest"
+	],
+	"compilerOptions": {
+		"composite": true,
+		"declaration": true,
+		"declarationMap": true,
+		"noEmit": false
+	},
+	"files": [],
+	"include": []
+}
