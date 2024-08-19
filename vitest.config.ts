@@ -25,7 +25,12 @@ export default defineConfig({
 					}
 				: undefined,
 		watch: {
-			ignored: ["**/node_modules/**", "**/dist/**"],
+			ignored: [
+				"**/node_modules/**",
+				"**/dist/**",
+				`./packages/init-testing/src/tests/package.json`,
+				`./packages/init-testing/src/tests/package-lock.json`,
+			],
 		},
 	},
 	test: {
@@ -68,6 +73,12 @@ export default defineConfig({
 					await cliSetup();
 				},
 			},
+		],
+		forceRerunTriggers: [
+			"package.json",
+			"packages/*/package.json",
+			"**/vitest.config.*/**",
+			"**/vite.config.*/**",
 		],
 	},
 });

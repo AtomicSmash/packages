@@ -1,8 +1,0 @@
-{
-	"dependencies": {
-		"@atomicsmash/coding-standards": "^10.0.0"
-	},
-	"devDependencies": {
-		"@atomicsmash/eslint-config": "^10.0.0"
-	}
-}

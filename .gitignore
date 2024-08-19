@@ -28,3 +28,7 @@ packages/cli/src/tests/package-lock.json
 
 # Cache files
 .cache/
+
+# Init testing package
+packages/init-testing/src/tests/package-lock.json
+packages/init-testing/src/tests/package.json

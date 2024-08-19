@@ -23,6 +23,9 @@ export default defineProject({
 						),
 					}
 				: undefined,
+		watch: {
+			ignored: [`src/tests/package.json`, `src/tests/package-lock.json`],
+		},
 	},
 	test: {
 		include: ["src/**/*.test.{js,mjs,cjs,ts,jsx,tsx}"],
