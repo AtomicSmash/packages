@@ -1,5 +1,5 @@
 {
-	"extends": "../../tsconfig.json",
+	"extends": "../../tsconfig.base.json",
 	"include": ["src/**/*", "test-setup.ts"],
 	"exclude": ["dist", "node_modules"],
 	"compilerOptions": {
@@ -8,6 +8,5 @@
 		"module": "NodeNext",
 		"sourceMap": true,
 		"noEmit": true
-	},
-	"references": [{ "path": "../blocks-helpers/tsconfig.build.json" }]
+	}
 }

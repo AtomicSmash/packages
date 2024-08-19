@@ -5,5 +5,6 @@
 		"rootDir": "src",
 		"outDir": "dist",
 		"noEmit": false
-	}
+	},
+	"references": [{ "path": "../blocks-helpers/tsconfig.build.json" }]
 }
