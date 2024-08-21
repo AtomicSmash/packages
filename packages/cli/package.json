@@ -42,7 +42,7 @@
 	"dependencies": {
 		"@pmmmwh/react-refresh-webpack-plugin": "^0.5.15",
 		"@wordpress/babel-preset-default": "^8.5.0",
-		"@wordpress/dependency-extraction-webpack-plugin": "^6.5.0",
+		"@wordpress/dependency-extraction-webpack-plugin": "^5.0.0",
 		"@wordpress/postcss-plugins-preset": "^5.5.0",
 		"autoprefixer": "^10.4.20",
 		"babel-loader": "^8.3.0",
