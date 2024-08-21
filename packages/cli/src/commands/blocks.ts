@@ -338,10 +338,14 @@ export async function getBlockJsonFiles(
 		const blockJson = await tsImport(
 			`${blockJsonFile.split(pathSeparator).shift()?.includes(":") ? `file:///` : ""}${blockJsonFile}`,
 			import.meta.url,
-		).then((loadedFile) => {
-			// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-			return loadedFile.default as BlockJson;
-		});
+		).then(
+			(loadedFile: {
+				blockJson: BlockJson;
+				default: BlockJson | { blockJson: BlockJson; default: BlockJson };
+			}) => {
+				return loadedFile.blockJson;
+			},
+		);
 		const blockName = blockJsonFile
 			.replace(`${pathSeparator}block.json.ts`, "")
 			.split(pathSeparator)
