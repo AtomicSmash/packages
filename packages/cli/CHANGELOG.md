@@ -1,5 +1,11 @@
 # @atomicsmash/cli
 
+## 7.0.2-beta.2
+
+### Patch Changes
+
+- [`b02fc3f`](https://github.com/AtomicSmash/packages/commit/b02fc3f3920494a5d7f100098345169df274c8a9) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Revert undo of package update because older version is needed
+
 ## 7.0.2-beta.1
 
 ### Patch Changes
