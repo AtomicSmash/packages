@@ -4,8 +4,6 @@
 
 ### Patch Changes
 
-- [`b02fc3f`](https://github.com/AtomicSmash/packages/commit/b02fc3f3920494a5d7f100098345169df274c8a9) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Revert undo of package update because older version is needed
-
 - [`c5ea302`](https://github.com/AtomicSmash/packages/commit/c5ea302441b6528f87413102e571bd87bc62f1c3) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Fix compilation issues
 
 ## 7.0.2-beta.2
