@@ -1,5 +1,11 @@
 # @atomicsmash/cli
 
+## 7.0.2-beta.1
+
+### Patch Changes
+
+- [`9b4fcb3`](https://github.com/AtomicSmash/packages/commit/9b4fcb33d79e34886fd5b94d5ef5fde1c9939ab9) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Undo package rollback
+
 ## 7.0.2-beta.0
 
 ### Patch Changes
