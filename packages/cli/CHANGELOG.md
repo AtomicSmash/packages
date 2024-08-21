@@ -1,5 +1,11 @@
 # @atomicsmash/cli
 
+## 7.0.2
+
+### Patch Changes
+
+- [`c5ea302`](https://github.com/AtomicSmash/packages/commit/c5ea302441b6528f87413102e571bd87bc62f1c3) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Fix compilation issues
+
 ## 7.0.2-beta.2
 
 ### Patch Changes
