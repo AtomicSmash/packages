@@ -1,5 +1,11 @@
 # @atomicsmash/cli
 
+## 7.0.3
+
+### Patch Changes
+
+- [#158](https://github.com/AtomicSmash/packages/pull/158) [`a6cd3c8`](https://github.com/AtomicSmash/packages/commit/a6cd3c8492f0ac9c1c2236595d904bebc4477bda) Thanks [@dependabot](https://github.com/apps/dependabot)! - chore(deps): bump webpack from 5.93.0 to 5.94.0
+
 ## 7.0.2
 
 ### Patch Changes
