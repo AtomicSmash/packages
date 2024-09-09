@@ -29,7 +29,7 @@
 	"scripts": {
 		"prepare": "husky",
 		"dev": "tsc -b --watch",
-		"build": "npm run clean --workspaces --if-present && tsc --build",
+		"build": "tsc --build",
 		"test": "cross-env TZ=\"Europe/Istanbul\" vitest run",
 		"test:ui": "cross-env TZ=\"Europe/Istanbul\" vitest --ui",
 		"test:coverage": "cross-env TZ=\"Europe/Istanbul\" vitest run --coverage",
