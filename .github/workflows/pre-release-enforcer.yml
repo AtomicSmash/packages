@@ -20,4 +20,5 @@ jobs:
           cache: npm
       - name: Ensure pre-release branch is in pre-release mode
         if: github.base_ref == 'pre-release'
-        run: ! npx changeset pre enter beta || echo "Pre-release branch must be in pre-release mode, please run `npx changeset pre enter beta` and commit the changes"
+        run: |
+          ! npx changeset pre enter beta || echo "Pre-release branch must be in pre-release mode, please run `npx changeset pre enter beta` and commit the changes"
