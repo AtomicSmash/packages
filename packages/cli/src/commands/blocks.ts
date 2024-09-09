@@ -15,6 +15,7 @@ import {
 	sep as pathSeparator,
 } from "node:path";
 import { pathToFileURL } from "node:url";
+import { DatePHP } from "@atomicsmash/date-php";
 import autoprefixer from "autoprefixer";
 import CopyWebpackPlugin from "copy-webpack-plugin";
 import cssnano from "cssnano";
@@ -130,6 +131,10 @@ async function runCommand({
 			// TODO: improve this console output
 			// eslint-disable-next-line no-console
 			console.log({ entryPoints });
+			console.log(
+				`EntryPoints set at ${new DatePHP().format("jS F Y \\at H:i:s")}`,
+			);
+
 			return entryPoints;
 		},
 

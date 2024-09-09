@@ -8,5 +8,6 @@
 		"module": "NodeNext",
 		"sourceMap": true,
 		"noEmit": true
-	}
+	},
+	"references": [{ "path": "../date-php" }, { "path": "../blocks-helpers" }]
 }
