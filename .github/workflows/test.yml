@@ -1,7 +1,7 @@
 name: Test potential merges
 on:
   pull_request:
-    branches: [main]
+    branches: [main, pre-release]
   workflow_dispatch:
 
 env:
