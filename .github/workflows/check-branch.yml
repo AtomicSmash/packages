@@ -24,3 +24,7 @@ jobs:
         if: github.base_ref == 'pre-release'
         run: |
           ! npx changeset pre enter beta &>/dev/null || (echo "Pre-release branch must be in pre-release mode, please run \`npx changeset pre enter beta\` and commit the changes" && exit 1)
+      - name: Ensure main branch is not in pre-release mode
+        if: github.base_ref == 'main'
+        run: |
+          npx changeset pre enter beta &>/dev/null || (echo "Main branch must not be in pre-release mode, please run \`npx changeset pre exit\` and commit the changes" && exit 1)
