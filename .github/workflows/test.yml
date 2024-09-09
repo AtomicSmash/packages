@@ -8,7 +8,8 @@ env:
   HUSKY: 0
 
 jobs:
-  build:
+  build-and-test:
+    name: Build and test
     if: ${{ ! startsWith( github.action_repository, 'changeset-release' ) }}
     runs-on: ubuntu-latest
 
