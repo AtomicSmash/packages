@@ -14,7 +14,7 @@ jobs:
 
     steps:
       - name: Skip on changeset releases
-        if: ${{ startsWith( github.action_repository, 'changeset-release' ) }}
+        if: ${{ startsWith( github.head_ref, 'changeset-release' ) }}
         id: is-changeset-release
         run: exit 1
       - uses: actions/checkout@v4
