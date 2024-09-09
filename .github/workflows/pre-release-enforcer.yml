@@ -12,3 +12,6 @@ jobs:
         run: |
           echo "ERROR: You can only merge to main from pre-release."
           exit 1
+      - name: Ensure pre-release branch is in pre-release mode
+        if: github.base_ref == 'pre-release'
+        run: npx changeset pre enter beta
