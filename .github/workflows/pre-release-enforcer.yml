@@ -1,10 +1,11 @@
-name: "Check Branch"
+name: "Check branch rules"
 
 on:
   pull_request:
 
 jobs:
   check_branch:
+    name: Check branch rules
     runs-on: ubuntu-latest
     steps:
       - name: Throw error if wrong branch
@@ -12,3 +13,14 @@ jobs:
         run: |
           echo "ERROR: You can only merge to main from pre-release."
           exit 1
+      - uses: actions/checkout@v4
+      - name: Setup Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20.x"
+          cache: npm
+      - run: npm ci
+      - name: Ensure pre-release branch is in pre-release mode
+        if: github.base_ref == 'pre-release'
+        run: |
+          ! npx changeset pre enter beta &>/dev/null || (echo "Pre-release branch must be in pre-release mode, please run \`npx changeset pre enter beta\` and commit the changes" && exit 1)
