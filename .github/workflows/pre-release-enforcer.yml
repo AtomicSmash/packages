@@ -1,10 +1,11 @@
-name: "Check Branch"
+name: "Check branch rules"
 
 on:
   pull_request:
 
 jobs:
   check_branch:
+    name: Check branch rules
     runs-on: ubuntu-latest
     steps:
       - name: Throw error if wrong branch
@@ -18,6 +19,7 @@ jobs:
         with:
           node-version: "20.x"
           cache: npm
+      - run: npm ci
       - name: Ensure pre-release branch is in pre-release mode
         if: github.base_ref == 'pre-release'
         run: |
