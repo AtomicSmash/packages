@@ -10,10 +10,13 @@ env:
 jobs:
   build-and-test:
     name: Build and test
-    if: ${{ ! startsWith( github.action_repository, 'changeset-release' ) }}
     runs-on: ubuntu-latest
 
     steps:
+      - name: Skip on changeset releases
+        if: ${{ startsWith( github.action_repository, 'changeset-release' ) }}
+        id: is-changeset-release
+        run: exit 1
       - uses: actions/checkout@v4
       - name: Setup Node.js 20
         uses: actions/setup-node@v4
@@ -31,3 +34,6 @@ jobs:
       - run: npm run build
       - run: npm run lint
       - run: npm run test
+      - name: Is changeset release
+        if: ${{ failure() && steps.is-changeset-release.conclusion == 'failure' }}
+        run: exit 0
