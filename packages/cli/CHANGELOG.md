@@ -1,5 +1,11 @@
 # @atomicsmash/cli
 
+## 7.1.0
+
+### Minor Changes
+
+- [#164](https://github.com/AtomicSmash/packages/pull/164) [`88e9dd7`](https://github.com/AtomicSmash/packages/commit/88e9dd7b55db8d72b25e5a0331034b7637cfe942) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Improve watch command with log change
+
 ## 7.1.0-beta.1
 
 ### Patch Changes
