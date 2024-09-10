@@ -8,7 +8,7 @@ jobs:
     name: Check if changeset release
     runs-on: ubuntu-latest
     outputs:
-      status: ${{ steps.is-changeset-release.conclusion }}
+      status: ${{ steps.is-changeset-release.outcome }}
     steps:
       - name: Skip on changeset releases
         if: ${{ startsWith( github.head_ref, 'changeset-release' ) }}
