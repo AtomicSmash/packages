@@ -8,15 +8,25 @@ env:
   HUSKY: 0
 
 jobs:
-  build-and-test:
-    name: Build and test
+  check-changesets:
+    name: Check if changeset release
     runs-on: ubuntu-latest
-
+    outputs:
+      status: ${{ steps.is-changeset-release.conclusion }}
     steps:
       - name: Skip on changeset releases
         if: ${{ startsWith( github.head_ref, 'changeset-release' ) }}
         id: is-changeset-release
         run: exit 1
+        continue-on-error: true
+
+  build-and-test:
+    name: Build and test
+    runs-on: ubuntu-latest
+    needs: check-changesets
+    if: needs.check-changesets.outputs.status == 'success'
+
+    steps:
       - uses: actions/checkout@v4
       - name: Setup Node.js 20
         uses: actions/setup-node@v4
@@ -34,6 +44,3 @@ jobs:
       - run: npm run build
       - run: npm run lint
       - run: npm run test
-      - name: Is changeset release
-        if: ${{ failure() && steps.is-changeset-release.conclusion == 'failure' }}
-        run: exit 0
