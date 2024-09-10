@@ -48,6 +48,7 @@ jobs:
   conclusion:
     needs: build-and-test
     runs-on: ubuntu-latest
+    if: ${{ always() }}
     steps:
       - if: needs.build-and-test.result == 'failure' || needs.build-and-test.result == 'cancelled'
         run: exit 1
