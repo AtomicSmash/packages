@@ -44,3 +44,11 @@ jobs:
       - run: npm run build
       - run: npm run lint
       - run: npm run test
+
+  conclusion:
+    needs: build-and-test
+    runs-on: ubuntu-latest
+    steps:
+      - if: needs.build-and-test.result == 'failure' || needs.build-and-test.result == 'cancelled'
+        run: exit 1
+      - run: exit 0
