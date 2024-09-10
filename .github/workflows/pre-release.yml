@@ -1,4 +1,4 @@
-name: Release
+name: Pre-release
 
 on:
   push:
@@ -11,8 +11,8 @@ env:
 concurrency: ${{ github.workflow }}-${{ github.ref }}
 
 jobs:
-  release:
-    name: Release
+  pre-release:
+    name: Pre-release
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repo
