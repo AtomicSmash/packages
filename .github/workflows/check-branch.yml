@@ -48,6 +48,7 @@ jobs:
   conclusion:
     needs: check_branch
     runs-on: ubuntu-latest
+    if: ${{ always() }}
     steps:
       - if: needs.check_branch.result == 'failure' || needs.check_branch.result == 'cancelled'
         run: exit 1
