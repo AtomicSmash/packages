@@ -1,4 +1,4 @@
-name: Release
+name: Pre-release
 
 on:
   push:
@@ -11,8 +11,8 @@ env:
 concurrency: ${{ github.workflow }}-${{ github.ref }}
 
 jobs:
-  release:
-    name: Release
+  pre-release:
+    name: Pre-release
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repo
@@ -37,7 +37,8 @@ jobs:
 
       - name: Install Dependencies
         run: npm ci
-
+      - run: |
+          ! npx changeset pre enter beta &>/dev/null || (echo "Pre-release branch must be in pre-release mode to run a release, please run \`npx changeset pre enter beta\` and commit the changes" && exit 1)
       - name: Create Release Pull Request or Publish to npm
         id: changesets
         uses: changesets/action@v1
