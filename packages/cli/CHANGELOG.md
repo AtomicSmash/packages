@@ -1,5 +1,11 @@
 # @atomicsmash/cli
 
+## 7.1.0-beta.1
+
+### Patch Changes
+
+- [#187](https://github.com/AtomicSmash/packages/pull/187) [`d27cf61`](https://github.com/AtomicSmash/packages/commit/d27cf61c12e37c5ba04030aa2706120d1b663806) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Fix log command
+
 ## 7.1.0-beta.0
 
 ### Minor Changes
