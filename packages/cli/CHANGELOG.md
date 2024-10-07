@@ -1,5 +1,11 @@
 # @atomicsmash/cli
 
+## 7.1.1-beta.0
+
+### Patch Changes
+
+- [#198](https://github.com/AtomicSmash/packages/pull/198) [`b26b8cb`](https://github.com/AtomicSmash/packages/commit/b26b8cbf2b4214e840b6f278b9cae3dedf4cbf18) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Replace scss extension explicitly if src file is .scss
+
 ## 7.1.0
 
 ### Minor Changes
