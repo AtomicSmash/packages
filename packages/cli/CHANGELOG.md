@@ -1,5 +1,11 @@
 # @atomicsmash/cli
 
+## 7.1.1-beta.1
+
+### Patch Changes
+
+- [#201](https://github.com/AtomicSmash/packages/pull/201) [`7a9bf6f`](https://github.com/AtomicSmash/packages/commit/7a9bf6f43352375ca4b27244f9612af4655c7513) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Fix scss files in non-production mode
+
 ## 7.1.1-beta.0
 
 ### Patch Changes
