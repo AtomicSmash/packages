@@ -1,5 +1,11 @@
 # @atomicsmash/cli
 
+## 7.1.1-beta.2
+
+### Patch Changes
+
+- [#203](https://github.com/AtomicSmash/packages/pull/203) [`80b0abd`](https://github.com/AtomicSmash/packages/commit/80b0abd089bb98d5f98ddbcdcb63cbf89084e8ac) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Fix scss extension
+
 ## 7.1.1-beta.1
 
 ### Patch Changes
