@@ -74,9 +74,6 @@ export const playwrightConfig = {
 		actionTimeout: 0,
 		trace: "on-first-retry",
 	},
-	webServer: {
-		command: `cross-env NO_LOGS=true MOCKS=true npm run dev`,
-	},
 } satisfies PlaywrightTestConfig;
 
 export const getLighthouseTest = (logInUser: AuthenticatePageFunction) => {
