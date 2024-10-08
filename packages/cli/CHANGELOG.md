@@ -1,5 +1,23 @@
 # @atomicsmash/cli
 
+## 7.1.1-beta.2
+
+### Patch Changes
+
+- [#203](https://github.com/AtomicSmash/packages/pull/203) [`80b0abd`](https://github.com/AtomicSmash/packages/commit/80b0abd089bb98d5f98ddbcdcb63cbf89084e8ac) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Fix scss extension
+
+## 7.1.1-beta.1
+
+### Patch Changes
+
+- [#201](https://github.com/AtomicSmash/packages/pull/201) [`7a9bf6f`](https://github.com/AtomicSmash/packages/commit/7a9bf6f43352375ca4b27244f9612af4655c7513) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Fix scss files in non-production mode
+
+## 7.1.1-beta.0
+
+### Patch Changes
+
+- [#198](https://github.com/AtomicSmash/packages/pull/198) [`b26b8cb`](https://github.com/AtomicSmash/packages/commit/b26b8cbf2b4214e840b6f278b9cae3dedf4cbf18) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Replace scss extension explicitly if src file is .scss
+
 ## 7.1.0
 
 ### Minor Changes

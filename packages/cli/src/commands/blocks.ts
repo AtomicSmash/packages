@@ -515,13 +515,17 @@ class CustomBlocksCSSHandler {
 								const filepath = join(blockFolder, value.replace("file:", ""));
 								const fileNameWithExtension = basename(filepath);
 								let css = readFileSync(filepath, "utf8");
+								let newFileNameWithExtension = fileNameWithExtension;
 								if (extname(fileNameWithExtension) === ".scss") {
 									css = await compileStringAsync(
 										css,
 										getSassOptions(this.srcFolder),
 									).then((result) => result.css);
+									newFileNameWithExtension = newFileNameWithExtension.replace(
+										".scss",
+										".css",
+									);
 								}
-								let newFileNameWithExtension = fileNameWithExtension;
 								let newMatch = filepath.replace(`${this.srcFolder}/`, "");
 								if (isProduction) {
 									const fileBuffer = readFileSync(filepath);
@@ -530,11 +534,11 @@ class CustomBlocksCSSHandler {
 									});
 									contentHash.update(fileBuffer);
 									newFileNameWithExtension = `${fileNameWithExtension.split(".")[0]}.${contentHash.digest("hex")}.css`;
-									newMatch = newMatch.replace(
-										fileNameWithExtension,
-										newFileNameWithExtension,
-									);
 								}
+								newMatch = newMatch.replace(
+									fileNameWithExtension,
+									newFileNameWithExtension,
+								);
 								const { plugins, options } = await postcssLoadConfig(
 									{},
 									this.postcssConfigLocation,
