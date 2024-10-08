@@ -1,10 +1,10 @@
 {
-  "mode": "exit",
+  "mode": "pre",
   "tag": "beta",
   "initialVersions": {
     "@atomicsmash/blocks-helpers": "4.0.0",
     "@atomicsmash/browserslist-config": "11.0.0",
-    "@atomicsmash/cli": "7.1.0",
+    "@atomicsmash/cli": "7.1.1-beta.1",
     "@atomicsmash/coding-standards": "11.0.0",
     "@atomicsmash/date-php": "2.1.0",
     "@atomicsmash/dev-tools-helpers": "1.2.1",
