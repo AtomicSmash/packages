@@ -521,7 +521,10 @@ class CustomBlocksCSSHandler {
 										css,
 										getSassOptions(this.srcFolder),
 									).then((result) => result.css);
-									newFileNameWithExtension.replace(".scss", ".css");
+									newFileNameWithExtension = newFileNameWithExtension.replace(
+										".scss",
+										".css",
+									);
 								}
 								let newMatch = filepath.replace(`${this.srcFolder}/`, "");
 								if (isProduction) {
