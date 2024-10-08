@@ -1,5 +1,11 @@
 # @atomicsmash/test-utils
 
+## 2.0.0
+
+### Major Changes
+
+- [#206](https://github.com/AtomicSmash/packages/pull/206) [`1c825eb`](https://github.com/AtomicSmash/packages/commit/1c825ebf8ccfb7ffd5c34da3b3c7ab3d291ece5c) Thanks [@JadeSmash](https://github.com/JadeSmash)! - removed webserver command from playwright config
+
 ## 2.0.0-beta.0
 
 ### Major Changes
