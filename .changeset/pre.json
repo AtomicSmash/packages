@@ -16,6 +16,7 @@
   },
   "changesets": [
     "rude-lions-wash",
-    "stale-humans-report"
+    "stale-humans-report",
+    "strange-tools-push"
   ]
 }
