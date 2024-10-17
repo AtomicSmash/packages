@@ -15,5 +15,7 @@
     "@atomicsmash/test-utils": "2.0.0",
     "@atomicsmash/wordpress-tests-helper": "0.1.0"
   },
-  "changesets": []
+  "changesets": [
+    "dry-crabs-smile"
+  ]
 }
