@@ -37,7 +37,7 @@ jobs:
       - name: Ensure if merging directly into main from a non-pre-release branch it has no changesets
         if: github.base_ref == 'main' && github.head_ref != 'pre-release' && (startsWith(github.head_ref,'tests/') || startsWith(github.head_ref,'monorepo/'))
         run: |
-          if npx changeset status | grep "Packages to be bumped"; then echo "Found changesets. Changesets are not allowed on direct merges, you must merge into pre-release first." && exit 1; else exit 0; fi
+          if npx changeset status | grep "🦋  error"; then exit 1; elif npx changeset status | grep "Packages to be bumped"; then echo "Found changesets. Changesets are not allowed on direct merges, you must merge into pre-release first." && exit 1; else exit 0; fi
       - name: Ensure pre-release branch is in pre-release mode
         if: github.base_ref == 'pre-release' && (startsWith(github.head_ref,'release/') != true)
         run: |
