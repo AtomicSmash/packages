@@ -23,7 +23,7 @@ jobs:
     if: needs.check-changesets.outputs.status == 'success' || needs.check-changesets.outputs.status == 'skipped'
     steps:
       - name: Throw error if wrong branch
-        if: github.base_ref == 'main' && github.head_ref != 'pre-release' && (startsWith(github.head_ref,'tests/') || startsWith(github.head_ref,'monorepo/'))
+        if: ${{ github.base_ref == 'main' && github.head_ref != 'pre-release' && (!startsWith(github.head_ref,'tests/') && !startsWith(github.head_ref,'monorepo/')) }}
         run: |
           echo "ERROR: You can only merge to main from pre-release or from a branch starting with `tests/` or `monorepo/`."
           exit 1
