@@ -25,7 +25,7 @@ jobs:
       - name: Throw error if wrong branch
         if: ${{ github.base_ref == 'main' && github.head_ref != 'pre-release' && (!startsWith(github.head_ref,'tests/') && !startsWith(github.head_ref,'monorepo/')) }}
         run: |
-          echo "ERROR: You can only merge to main from pre-release or from a branch starting with `tests/` or `monorepo/`."
+          echo "ERROR: You can only merge to main from pre-release or from a branch starting with tests/ or monorepo/."
           exit 1
       - uses: actions/checkout@v4
       - name: Setup Node.js 20
