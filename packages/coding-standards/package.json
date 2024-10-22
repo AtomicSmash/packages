@@ -12,7 +12,10 @@
 		"@atomicsmash/eslint-config": "^11.0.0",
 		"@commitlint/cli": "^19.4.0",
 		"@commitlint/config-conventional": "^19.2.2",
-		"prettier": "^3.3.3"
+		"@wordpress/stylelint-config": "^23.2.0",
+		"prettier": "^3.3.3",
+		"stylelint": "^16.10.0",
+		"stylelint-order": "^6.0.4"
 	},
 	"keywords": [
 		"atomic",
