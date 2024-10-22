@@ -34,7 +34,6 @@ export function useFormValidation<SchemaType extends SomeZodObject>(
 	function reducer(prevState: ErrorState, action: ReducerAction) {
 		if (action.type === "update_field") {
 			if (!schema.keyof().safeParse(action.fieldName).success) {
-				// eslint-disable-next-line no-restricted-syntax
 				throw new Error(
 					`${action.fieldName} is not a valid field name as defined in the form schema.`,
 				);

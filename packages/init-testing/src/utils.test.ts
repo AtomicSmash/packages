@@ -20,7 +20,7 @@ async function execute(
 				if (options.debug) {
 					console.error({ error, stdout, stderr });
 				}
-				// eslint-disable-next-line @typescript-eslint/prefer-promise-reject-errors
+				// eslint-disable-next-line @typescript-eslint/prefer-promise-reject-errors -- This is preferred in this case
 				reject({ error, stdout, stderr });
 			}
 			resolve({ error, stdout, stderr });

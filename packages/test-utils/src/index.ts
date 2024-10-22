@@ -82,8 +82,7 @@ export const getLighthouseTest = (logInUser: AuthenticatePageFunction) => {
 		{ port: number }
 	>({
 		port: [
-			// eslint-disable-next-line no-empty-pattern
-			async ({}, use) => {
+			async (_unused, use) => {
 				// Assign a unique port for each playwright worker to support parallel tests
 				const port = await getPort();
 				await use(port);

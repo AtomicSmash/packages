@@ -1,9 +1,4 @@
-import {
-	resolve as resolvePath,
-	dirname as pathDirname,
-	sep as pathSeparator,
-} from "node:path";
-import { fileURLToPath } from "node:url";
+import { resolve as resolvePath, sep as pathSeparator } from "node:path";
 import { expect, test, describe } from "vitest";
 import { testCommand, execute } from "../utils.js";
 import {
@@ -14,11 +9,6 @@ import {
 	getBlockJsonScriptFields,
 	getBlockJsonStyleFields,
 } from "./blocks.js";
-
-// eslint-disable-next-line @typescript-eslint/naming-convention
-const __filename = fileURLToPath(import.meta.url);
-// eslint-disable-next-line @typescript-eslint/naming-convention
-const __dirname = pathDirname(__filename);
 
 describe("Blocks command works as intended", () => {
 	test("Blocks command correctly displays help message", async () => {
@@ -34,13 +24,19 @@ describe("getRootFileJSEntryPoints", () => {
 	test("Return all root files if non excluded", async () => {
 		await expect(
 			getRootFileJSEntryPoints({
-				srcFolder: resolvePath(__dirname, "..", "tests", "blocks", "rootFiles"),
+				srcFolder: resolvePath(
+					import.meta.dirname,
+					"..",
+					"tests",
+					"blocks",
+					"rootFiles",
+				),
 				excludeRootFiles: [],
 			}),
 		).resolves.toEqual({
 			rootFileJS: {
 				import: resolvePath(
-					__dirname,
+					import.meta.dirname,
 					"..",
 					"tests",
 					"blocks",
@@ -51,7 +47,7 @@ describe("getRootFileJSEntryPoints", () => {
 			},
 			rootFileJSX: {
 				import: resolvePath(
-					__dirname,
+					import.meta.dirname,
 					"..",
 					"tests",
 					"blocks",
@@ -62,7 +58,7 @@ describe("getRootFileJSEntryPoints", () => {
 			},
 			rootFileTS: {
 				import: resolvePath(
-					__dirname,
+					import.meta.dirname,
 					"..",
 					"tests",
 					"blocks",
@@ -73,7 +69,7 @@ describe("getRootFileJSEntryPoints", () => {
 			},
 			rootFileTSX: {
 				import: resolvePath(
-					__dirname,
+					import.meta.dirname,
 					"..",
 					"tests",
 					"blocks",
@@ -87,13 +83,19 @@ describe("getRootFileJSEntryPoints", () => {
 	test("Correctly exclude root files", async () => {
 		await expect(
 			getRootFileJSEntryPoints({
-				srcFolder: resolvePath(__dirname, "..", "tests", "blocks", "rootFiles"),
+				srcFolder: resolvePath(
+					import.meta.dirname,
+					"..",
+					"tests",
+					"blocks",
+					"rootFiles",
+				),
 				excludeRootFiles: ["rootFileJS.js", "rootFileJSX.jsx", "notAFile.ts"],
 			}),
 		).resolves.toEqual({
 			rootFileTS: {
 				import: resolvePath(
-					__dirname,
+					import.meta.dirname,
 					"..",
 					"tests",
 					"blocks",
@@ -104,7 +106,7 @@ describe("getRootFileJSEntryPoints", () => {
 			},
 			rootFileTSX: {
 				import: resolvePath(
-					__dirname,
+					import.meta.dirname,
 					"..",
 					"tests",
 					"blocks",
@@ -120,7 +122,7 @@ describe("getRootFileJSEntryPoints", () => {
 describe("getBlockJsonFiles", () => {
 	test("Return all blocks", async () => {
 		const result = await getBlockJsonFiles(
-			resolvePath(__dirname, "..", "tests", "blocks", "blockFolders"),
+			resolvePath(import.meta.dirname, "..", "tests", "blocks", "blockFolders"),
 			[],
 		);
 		expect(result).toHaveProperty("__TEMPLATE__");
@@ -128,7 +130,7 @@ describe("getBlockJsonFiles", () => {
 		expect(result).toHaveProperty("minimal-block");
 		expect(result.__TEMPLATE__).toEqual({
 			blockFolder: resolvePath(
-				__dirname,
+				import.meta.dirname,
 				"..",
 				"tests",
 				"blocks",
@@ -162,7 +164,7 @@ describe("getBlockJsonFiles", () => {
 		});
 		expect(result["full-block"]).toEqual({
 			blockFolder: resolvePath(
-				__dirname,
+				import.meta.dirname,
 				"..",
 				"tests",
 				"blocks",
@@ -203,7 +205,7 @@ describe("getBlockJsonFiles", () => {
 		});
 		expect(result["minimal-block"]).toEqual({
 			blockFolder: resolvePath(
-				__dirname,
+				import.meta.dirname,
 				"..",
 				"tests",
 				"blocks",
@@ -229,7 +231,7 @@ describe("getBlockJsonFiles", () => {
 	});
 	test("Exclude blocks", async () => {
 		const result = await getBlockJsonFiles(
-			resolvePath(__dirname, "..", "tests", "blocks", "blockFolders"),
+			resolvePath(import.meta.dirname, "..", "tests", "blocks", "blockFolders"),
 			// Note: test-block doesn't exist in blocks folder, however this shouldn't throw an error, it should just ignore it.
 			["__TEMPLATE__", "full-block", "test-block"],
 		);
@@ -243,12 +245,12 @@ describe("getBlockJsonFiles", () => {
 describe("getAllBlocksJSEntryPoints", () => {
 	test("Return correct entry points for test blocks", async () => {
 		const blocks = await getBlockJsonFiles(
-			resolvePath(__dirname, "..", "tests", "blocks", "blockFolders"),
+			resolvePath(import.meta.dirname, "..", "tests", "blocks", "blockFolders"),
 			["__TEMPLATE__"],
 		);
 		const entryPoints = getAllBlocksJSEntryPoints({
 			srcFolder: resolvePath(
-				__dirname,
+				import.meta.dirname,
 				"..",
 				"tests",
 				"blocks",
@@ -260,7 +262,7 @@ describe("getAllBlocksJSEntryPoints", () => {
 			fullBlockIndex: {
 				filename: ["full-block", "index.js"].join(pathSeparator),
 				import: resolvePath(
-					__dirname,
+					import.meta.dirname,
 					"..",
 					"tests",
 					"blocks",
@@ -272,7 +274,7 @@ describe("getAllBlocksJSEntryPoints", () => {
 			fullBlockView: {
 				filename: ["full-block", "view.js"].join(pathSeparator),
 				import: resolvePath(
-					__dirname,
+					import.meta.dirname,
 					"..",
 					"tests",
 					"blocks",
@@ -284,7 +286,7 @@ describe("getAllBlocksJSEntryPoints", () => {
 			minimalBlockIndex: {
 				filename: ["minimal-block", "index.js"].join(pathSeparator),
 				import: resolvePath(
-					__dirname,
+					import.meta.dirname,
 					"..",
 					"tests",
 					"blocks",
@@ -299,7 +301,7 @@ describe("getAllBlocksJSEntryPoints", () => {
 
 test("getBlockJsonScriptFields and getBlockJsonStyleFields", async () => {
 	const result = await getBlockJsonFiles(
-		resolvePath(__dirname, "..", "tests", "blocks", "blockFolders"),
+		resolvePath(import.meta.dirname, "..", "tests", "blocks", "blockFolders"),
 		// Note: test-block doesn't exist in blocks folder, however this shouldn't throw an error, it should just ignore it.
 		["__TEMPLATE__", "minimal-block", "test-block"],
 	);
