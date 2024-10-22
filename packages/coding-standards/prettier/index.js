@@ -21,4 +21,15 @@ module.exports = {
 
 	// Helps clean up git diffs by removing changes of a single comma on a line if adding a new line to the bottom
 	trailingComma: "all",
+
+	overrides: [
+		{
+			// yml files require specific indentation rules
+			files: ["*.yml", "*.yaml"],
+			options: {
+				useTabs: false,
+				tabWidth: 2,
+			},
+		},
+	],
 };
