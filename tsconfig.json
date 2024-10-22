@@ -9,6 +9,7 @@
 		{ "path": "./packages/dev-tools-helpers/tsconfig.build.json" },
 		{ "path": "./packages/http-response-codes/tsconfig.build.json" },
 		{ "path": "./packages/test-utils/tsconfig.build.json" },
-		{ "path": "./packages/init-testing/tsconfig.build.json" }
+		{ "path": "./packages/init-testing/tsconfig.build.json" },
+		{ "path": "./packages/wordpress-tests-helper/tsconfig.build.json" }
 	]
 }

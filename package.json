@@ -24,7 +24,8 @@
 		"packages/dev-tools-helpers",
 		"packages/http-response-codes",
 		"packages/test-utils",
-		"packages/init-testing"
+		"packages/init-testing",
+		"packages/wordpress-tests-helper"
 	],
 	"scripts": {
 		"prepare": "husky",
