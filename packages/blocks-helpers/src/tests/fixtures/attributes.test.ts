@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import type { BlockAttributes } from "@atomicsmash/blocks-helpers";
 
 export const attributeTypesAndEnumsTests = {

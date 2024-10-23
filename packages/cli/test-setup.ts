@@ -1,6 +1,5 @@
 import { unlink, writeFile } from "node:fs";
-import { dirname as pathDirname, sep as pathSeparator } from "node:path";
-import { fileURLToPath } from "node:url";
+import { sep as pathSeparator } from "node:path";
 import { rimraf } from "rimraf";
 import { execute, packageJson } from "./src/utils.js";
 
@@ -26,20 +25,15 @@ const packName = `${packageName
 	.replaceAll("@", "")
 	.replaceAll(`/`, "-")}-${packageVersion}.tgz`;
 
-// eslint-disable-next-line @typescript-eslint/naming-convention
-const __filename = fileURLToPath(import.meta.url);
-// eslint-disable-next-line @typescript-eslint/naming-convention
-const packageDir = pathDirname(__filename);
-
 export async function setup() {
 	console.log("Packing a test version...");
 	await execute(
-		`cd ${packageDir} && npm pack --pack-destination ${[packageDir, "src", "tests", "artifacts"].join(pathSeparator)}`,
+		`cd ${import.meta.dirname} && npm pack --pack-destination ${[import.meta.dirname, "src", "tests", "artifacts"].join(pathSeparator)}`,
 		{ debug: true },
 	);
 	console.log(`Install test package...`);
 	writeFile(
-		`${[packageDir, "src", "tests", "package.json"].join(pathSeparator)}`,
+		`${[import.meta.dirname, "src", "tests", "package.json"].join(pathSeparator)}`,
 		"{}",
 		(err) => {
 			if (err) {
@@ -49,7 +43,7 @@ export async function setup() {
 		},
 	);
 	await execute(
-		`cd ${[packageDir, "src", "tests"].join(pathSeparator)} && npm pkg set type=module && npm pkg set dependencies.@atomicsmash/cli=file:${[packageDir, "src", "tests", "artifacts", packName].join(pathSeparator)} && npm install`,
+		`cd ${[import.meta.dirname, "src", "tests"].join(pathSeparator)} && npm pkg set type=module && npm pkg set dependencies.@atomicsmash/cli=file:${[import.meta.dirname, "src", "tests", "artifacts", packName].join(pathSeparator)} && npm install`,
 		{ debug: true },
 	);
 }
@@ -57,7 +51,7 @@ export async function setup() {
 export async function teardown() {
 	console.log("Deleting test package...");
 	unlink(
-		`${[packageDir, "src", "tests", "artifacts", packName].join(pathSeparator)}`,
+		`${[import.meta.dirname, "src", "tests", "artifacts", packName].join(pathSeparator)}`,
 		(err) => {
 			if (err) {
 				if (err.code === "ENOENT") {
@@ -69,8 +63,10 @@ export async function teardown() {
 	);
 	console.log("Deleting node modules...");
 	await rimraf([
-		[packageDir, "src", "tests", "node_modules"].join(pathSeparator),
-		[packageDir, "src", "tests", "package.json"].join(pathSeparator),
-		[packageDir, "src", "tests", "package-lock.json"].join(pathSeparator),
+		[import.meta.dirname, "src", "tests", "node_modules"].join(pathSeparator),
+		[import.meta.dirname, "src", "tests", "package.json"].join(pathSeparator),
+		[import.meta.dirname, "src", "tests", "package-lock.json"].join(
+			pathSeparator,
+		),
 	]);
 }

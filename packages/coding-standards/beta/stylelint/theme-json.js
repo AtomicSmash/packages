@@ -135,7 +135,7 @@ const rules = {
 				return `Most values for this type of property should be defined in theme.json. (declaration-property-value-allowed-list)`;
 				// The following code is not complete, it has been left to show how this function could provide more helpful error
 				// messages once an update to stylelint is possible.
-				/* eslint-disable no-unreachable */
+				/* eslint-disable no-unreachable -- See above */
 				let message = `Invalid property provided for ${property}.`;
 				let ruleKey;
 				if (new RegExp(/color/).test(property)) {

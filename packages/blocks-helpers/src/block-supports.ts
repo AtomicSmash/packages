@@ -1,6 +1,6 @@
 import type { AllPossibleLayouts } from "./layout";
 
-/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-explicit-any -- We need to add any in some situations where unknown is too aggressive. */
 export type BlockSupports = Record<string, any> & {
 	anchor?: boolean;
 	align?: boolean | ("wide" | "full" | "left" | "center" | "right")[];
@@ -82,3 +82,4 @@ export type BlockSupports = Record<string, any> & {
 		textAlign?: boolean | ("left" | "center" | "right")[];
 	};
 };
+/* eslint-enable @typescript-eslint/no-explicit-any */
