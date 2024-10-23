@@ -21,7 +21,9 @@
 	},
 	"main": "index.js",
 	"files": [
-		"index.js"
+		"index.js",
+		"react.js",
+		"playwright.js"
 	],
 	"publishConfig": {
 		"access": "public"
