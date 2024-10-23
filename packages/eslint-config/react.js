@@ -6,9 +6,15 @@ const WARN = 1;
 const config = {
 	extends: [
 		"plugin:react/recommended",
+		"plugin:react/jsx-runtime",
 		"plugin:react-hooks/recommended",
 		"plugin:jsx-a11y/recommended",
 	],
+	settings: {
+		react: {
+			version: "detect",
+		},
+	},
 	rules: {
 		"react-hooks/exhaustive-deps": [
 			WARN,
