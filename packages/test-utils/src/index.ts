@@ -38,7 +38,7 @@ export const playwrightConfig = {
 	forbidOnly: !!process.env.CI,
 	retries: process.env.CI ? 2 : 0,
 	workers: process.env.CI ? 1 : undefined,
-	reporter: "dot",
+	reporter: process.env.CI ? "github" : "dot",
 	use: {
 		actionTimeout: 0,
 		trace: "on-first-retry",
