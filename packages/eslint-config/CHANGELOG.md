@@ -1,5 +1,15 @@
 # @atomicsmash/eslint-config
 
+## 12.0.0-beta.1
+
+### Patch Changes
+
+- [#227](https://github.com/AtomicSmash/packages/pull/227) [`80cf000`](https://github.com/AtomicSmash/packages/commit/80cf000fc04b28bb2d7830843bb4a4a06a50bf4e) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Don't strip out new config files on release
+
+- [#227](https://github.com/AtomicSmash/packages/pull/227) [`db105d6`](https://github.com/AtomicSmash/packages/commit/db105d6ff2c5a76b73c9c0c72e6af9dabf60d44a) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Use correct react and jsx version
+
+- [#227](https://github.com/AtomicSmash/packages/pull/227) [`fd2bc66`](https://github.com/AtomicSmash/packages/commit/fd2bc66e31bd3dabed540f8e5fc641c7493ce607) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Add lighthouse audit as assertion function
+
 ## 12.0.0-beta.0
 
 ### Major Changes
