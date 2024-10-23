@@ -1,5 +1,17 @@
 # @atomicsmash/eslint-config
 
+## 12.0.0-beta.0
+
+### Major Changes
+
+- [#217](https://github.com/AtomicSmash/packages/pull/217) [`5706bd5`](https://github.com/AtomicSmash/packages/commit/5706bd51a20b2f7ac540dcd2ab4bcbc8f7482129) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Add linting for ESLint comments to the config
+
+### Minor Changes
+
+- [#225](https://github.com/AtomicSmash/packages/pull/225) [`dea7593`](https://github.com/AtomicSmash/packages/commit/dea7593ef42d864fe765902887d516dfe6b0d429) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Add playwright config to eslint plugin
+
+- [#225](https://github.com/AtomicSmash/packages/pull/225) [`bddfeb3`](https://github.com/AtomicSmash/packages/commit/bddfeb3f78e82a4dc8f3bb3aea03505a2442e26c) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Add react config to eslint plugin
+
 ## 11.0.0
 
 ### Minor Changes

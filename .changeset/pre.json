@@ -16,6 +16,13 @@
     "@atomicsmash/wordpress-tests-helper": "0.1.0"
   },
   "changesets": [
-    "dry-crabs-smile"
+    "blue-pandas-crash",
+    "curly-dragons-collect",
+    "dirty-camels-dance",
+    "dry-crabs-smile",
+    "four-buckets-confess",
+    "gold-terms-breathe",
+    "little-avocados-build",
+    "pink-crabs-study"
   ]
 }
