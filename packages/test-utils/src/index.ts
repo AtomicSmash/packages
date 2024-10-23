@@ -43,6 +43,9 @@ export const playwrightConfig = {
 		actionTimeout: 0,
 		trace: "on-first-retry",
 	},
+	snapshotDir: "./screenshots",
+	snapshotPathTemplate:
+		"{snapshotDir}/{platform}/{testFileName}-snapshots/{arg}{ext}",
 } satisfies PlaywrightTestConfig;
 
 export const getLighthouseTest = (logInUser: AuthenticatePageFunction) => {
