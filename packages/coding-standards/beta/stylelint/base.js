@@ -29,6 +29,12 @@ const commonRules = {
 				"Selector should use lowercase and separate words with hyphens or underscores (selector-class-pattern)",
 		},
 	],
+	"at-rule-empty-line-before": [
+		"always",
+		{
+			ignore: ["blockless-after-blockless", "first-nested", "after-comment"],
+		},
+	],
 };
 
 /** @type {import('stylelint').Config} */
