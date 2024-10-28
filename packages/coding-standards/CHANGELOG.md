@@ -1,5 +1,15 @@
 # @atomicsmash/coding-standards
 
+## 12.0.0-beta.3
+
+### Patch Changes
+
+- [#234](https://github.com/AtomicSmash/packages/pull/234) [`c18922a`](https://github.com/AtomicSmash/packages/commit/c18922a0ac6132f8f80e8a0a682cd59ec1a96fc9) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Fix stylelint at rules
+
+- Updated dependencies []:
+  - @atomicsmash/eslint-config@12.0.0-beta.3
+  - @atomicsmash/browserslist-config@12.0.0-beta.3
+
 ## 12.0.0-beta.2
 
 ### Patch Changes
