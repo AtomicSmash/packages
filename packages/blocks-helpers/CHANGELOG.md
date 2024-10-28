@@ -1,5 +1,15 @@
 # @atomicsmash/blocks-helpers
 
+## 4.1.0-beta.0
+
+### Minor Changes
+
+- [#219](https://github.com/AtomicSmash/packages/pull/219) [`dc1df9c`](https://github.com/AtomicSmash/packages/commit/dc1df9ce638f76592867625b11959e95cf4c530c) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Improve array and object types with default value types
+
+### Patch Changes
+
+- [#230](https://github.com/AtomicSmash/packages/pull/230) [`0057e28`](https://github.com/AtomicSmash/packages/commit/0057e2891f46c318e3c7f4def31c0b520dfc11bc) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Update dependencies
+
 ## 4.0.0
 
 ### All Changes

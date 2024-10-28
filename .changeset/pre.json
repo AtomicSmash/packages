@@ -16,16 +16,21 @@
     "@atomicsmash/wordpress-tests-helper": "0.1.0"
   },
   "changesets": [
+    "afraid-needles-wink",
     "blue-pandas-crash",
     "cold-zebras-wonder",
     "curly-dragons-collect",
     "dirty-camels-dance",
     "dry-crabs-smile",
+    "fair-swans-invite",
     "few-hornets-enjoy",
     "four-buckets-confess",
     "gold-terms-breathe",
     "little-avocados-build",
+    "lovely-carpets-provide",
     "pink-crabs-study",
+    "wet-items-decide",
+    "wild-plants-poke",
     "witty-elephants-thank"
   ]
 }
