@@ -1,4 +1,4 @@
-import { Faker } from "@faker-js/faker";
+import type { Faker } from "@faker-js/faker";
 
 type DataTypeToUse = "valid" | "invalid" | boolean;
 export function handleTextInput({
@@ -72,7 +72,7 @@ export function handleTextInput({
 				// Faker is a large package, so we only want to get it dynamically as needed.
 				const { faker } = await import(
 					// @ts-expect-error - Can't get type info from CDN URL
-					"https://cdn.skypack.dev/@faker-js/faker@v8.0.2"
+					`https://cdn.skypack.dev/@faker-js/faker@v9.1.0`
 					// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access -- Can't get type info from CDN URL
 				).then((module) => ({ faker: module.fakerEN_GB as Faker }));
 				inputFieldElement.value = dataTypes.faker(faker);
