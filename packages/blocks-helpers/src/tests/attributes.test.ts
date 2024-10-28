@@ -1,4 +1,7 @@
-import type { BlockAttributes } from "@atomicsmash/blocks-helpers";
+import type {
+	BlockAttributes,
+	InterpretAttributes,
+} from "@atomicsmash/blocks-helpers";
 
 export const attributeTypesAndEnumsTests = {
 	typeString: {
@@ -208,3 +211,87 @@ const noSourceTests = {
 		default: ["string"],
 	},
 } as const satisfies BlockAttributes;
+
+function interpretAttributes<Attributes extends BlockAttributes>(
+	attributes: Attributes,
+) {
+	return attributes as InterpretAttributes<Record<string, never>, Attributes>;
+}
+
+const testValuesForInterpretAttributesTest = {
+	stringAttribute: {
+		type: "string",
+	},
+	integerAttribute: {
+		type: "integer",
+	},
+	numberAttribute: {
+		type: "number",
+	},
+	undefinedArrayAttribute: {
+		type: "array",
+	},
+	unknownArrayAttribute: {
+		type: "array",
+	},
+	oldTypeArrayWithNarrowedValue: {
+		type: "array",
+	},
+	newTypeArrayWithNarrowedValueNoDefault1: {
+		type: "array",
+		default: undefined as string[] | undefined,
+	},
+	newTypeArrayWithNarrowedValueNoDefault2: {
+		type: "array",
+		default: undefined as string[] | undefined,
+	},
+	newTypeArrayWithNarrowedValue: {
+		type: "array",
+		default: [] as string[],
+	},
+	oldTypeObjectWithNarrowedValue: {
+		type: "object",
+	},
+	newTypeObjectWithNarrowedValueNoDefault1: {
+		type: "object",
+		default: undefined as Record<string, string> | undefined,
+	},
+	newTypeObjectWithNarrowedValueNoDefault2: {
+		type: "object",
+		default: undefined as Record<string, string> | undefined,
+	},
+	newTypeObjectWithNarrowedValue: {
+		type: "object",
+		default: {} as Record<string, string>,
+	},
+} as const satisfies BlockAttributes;
+const interpretAttributesTest = {
+	stringAttribute: "string",
+	integerAttribute: 0,
+	numberAttribute: 0,
+	undefinedArrayAttribute: undefined,
+	unknownArrayAttribute: [] as unknown[],
+	oldTypeArrayWithNarrowedValue: [""],
+	newTypeArrayWithNarrowedValueNoDefault1: [""],
+	newTypeArrayWithNarrowedValueNoDefault2: undefined,
+	newTypeArrayWithNarrowedValue: [""],
+	oldTypeObjectWithNarrowedValue: {
+		test: "test",
+	},
+	newTypeObjectWithNarrowedValueNoDefault1: {
+		test: "test",
+	},
+	newTypeObjectWithNarrowedValueNoDefault2: undefined,
+	newTypeObjectWithNarrowedValue: {
+		test: "test",
+	},
+} satisfies Omit<
+	InterpretAttributes<
+		Record<string, never>,
+		typeof testValuesForInterpretAttributesTest
+	>,
+	"oldTypeArrayWithNarrowedValue" | "oldTypeObjectWithNarrowedValue"
+> & {
+	oldTypeArrayWithNarrowedValue: string[];
+	oldTypeObjectWithNarrowedValue: Record<string, string>;
+};
