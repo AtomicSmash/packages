@@ -1,5 +1,19 @@
 # @atomicsmash/test-utils
 
+## 3.0.0-beta.0
+
+### Major Changes
+
+- [#229](https://github.com/AtomicSmash/packages/pull/229) [`cc00bc1`](https://github.com/AtomicSmash/packages/commit/cc00bc1ca8b68fe09959e90ccf7f751abbbe9ff9) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Add default screenshot directories
+
+- [#229](https://github.com/AtomicSmash/packages/pull/229) [`8ab8204`](https://github.com/AtomicSmash/packages/commit/8ab82047890ce7052d60d3260c69df8199dd6516) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Use github reporter on CI by default
+
+- [#229](https://github.com/AtomicSmash/packages/pull/229) [`f95d654`](https://github.com/AtomicSmash/packages/commit/f95d6547f5868db386a3c023cc0a12c922b8e11e) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Replace projects with project generator function
+
+### Patch Changes
+
+- [#230](https://github.com/AtomicSmash/packages/pull/230) [`0057e28`](https://github.com/AtomicSmash/packages/commit/0057e2891f46c318e3c7f4def31c0b520dfc11bc) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Update dependencies
+
 ## 2.0.0
 
 ### Major Changes
