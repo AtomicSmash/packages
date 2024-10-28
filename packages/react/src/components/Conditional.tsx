@@ -14,8 +14,9 @@ const HideClassContext = createContext("hidden");
 const IsShowingContext = createContext(false);
 const SetIsShowingContext = createContext<
 	React.Dispatch<React.SetStateAction<boolean>>
-	// eslint-disable-next-line @typescript-eslint/no-empty-function
->(() => {});
+>(() => {
+	/* empty */
+});
 const IsUsingCondition = createContext(false);
 
 export type RootProps = Pretty<

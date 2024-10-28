@@ -1,7 +1,6 @@
 import type { BlockSupports } from "./block-supports";
 import type { DefaultAttributes } from "./default-attributes";
 import type { AllHTMLAttributes } from "react";
-/* eslint-disable @typescript-eslint/no-explicit-any */
 export type AttributeTypes =
 	| "null"
 	| "boolean"
@@ -83,7 +82,7 @@ type NoSourceAttributeAnyType = {
 	type: Exclude<AttributeTypes, "array"> | Exclude<AttributeTypes, "array">[];
 	enum?: readonly boolean[] | readonly number[] | readonly string[];
 	source?: never;
-	default?: any;
+	default?: unknown;
 };
 
 export type AttributesObject =
@@ -100,7 +99,7 @@ type InheritType<Type extends { type: string | string[]; default?: unknown }> =
 	Type extends {
 		type: string[];
 	}
-		? any[]
+		? unknown[]
 		: Type extends {
 					type: "string";
 			  }
@@ -108,13 +107,13 @@ type InheritType<Type extends { type: string | string[]; default?: unknown }> =
 			: Type extends { type: "boolean" }
 				? boolean
 				: Type extends { type: "object" }
-					? Type["default"] extends Record<string, any> | undefined
+					? Type["default"] extends Record<string, unknown> | undefined
 						? Type["default"]
 						: Record<string, unknown> | undefined
 					: Type extends { type: "null" }
 						? null
 						: Type extends { type: "array" }
-							? Type["default"] extends any[] | undefined
+							? Type["default"] extends unknown[] | undefined
 								? Type["default"]
 								: unknown[] | undefined
 							: Type extends { type: "integer" }

@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-explicit-any -- We need to add any in some situations where unknown is too aggressive. */
 import type {
 	AttributesObject,
 	BlockAttributes,
@@ -599,3 +599,4 @@ export function registerBlockType<
 	/* @ts-expect-error Provided types are inaccurate and will provide an error with some valid inputs */
 	return wordpressRegisterBlockType(name, settings);
 }
+/* eslint-enable @typescript-eslint/no-explicit-any */

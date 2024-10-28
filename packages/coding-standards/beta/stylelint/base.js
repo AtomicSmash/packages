@@ -41,18 +41,13 @@ module.exports = {
 	overrides: [
 		{
 			files: ["*.css", "**/*.css"],
-			extends: [
-				"stylelint-config-standard",
-				"@wordpress/stylelint-config",
-				"stylelint-config-prettier",
-			],
+			extends: ["stylelint-config-standard", "@wordpress/stylelint-config"],
 		},
 		{
 			files: ["*.scss", "**/*.scss"],
 			extends: [
 				"stylelint-config-standard-scss",
 				"@wordpress/stylelint-config/scss",
-				"stylelint-config-prettier",
 			],
 			rules: {
 				"scss/operator-no-newline-after": null,

@@ -1,5 +1,9 @@
 # @atomicsmash/browserslist-config
 
+## 12.0.0-beta.1
+
+## 12.0.0-beta.0
+
 ## 11.0.0
 
 ### Patch Changes
