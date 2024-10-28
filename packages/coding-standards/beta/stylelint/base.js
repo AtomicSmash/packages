@@ -29,6 +29,12 @@ const commonRules = {
 				"Selector should use lowercase and separate words with hyphens or underscores (selector-class-pattern)",
 		},
 	],
+	"at-rule-empty-line-before": [
+		"always",
+		{
+			ignore: ["blockless-after-blockless", "first-nested", "after-comment"],
+		},
+	],
 };
 
 /** @type {import('stylelint').Config} */
@@ -41,18 +47,13 @@ module.exports = {
 	overrides: [
 		{
 			files: ["*.css", "**/*.css"],
-			extends: [
-				"stylelint-config-standard",
-				"@wordpress/stylelint-config",
-				"stylelint-config-prettier",
-			],
+			extends: ["stylelint-config-standard", "@wordpress/stylelint-config"],
 		},
 		{
 			files: ["*.scss", "**/*.scss"],
 			extends: [
 				"stylelint-config-standard-scss",
 				"@wordpress/stylelint-config/scss",
-				"stylelint-config-prettier",
 			],
 			rules: {
 				"scss/operator-no-newline-after": null,

@@ -129,7 +129,6 @@ async function runCommand({
 				}),
 			};
 			// TODO: improve this console output
-			// eslint-disable-next-line no-console
 			console.log({ entryPoints });
 			console.log(
 				`EntryPoints set at ${new DatePHP().format("jS F Y \\a\\t H:i:s")}`,

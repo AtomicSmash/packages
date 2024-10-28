@@ -1,13 +1,26 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-explicit-any -- We need to add any in some situations where unknown is too aggressive. */
+import type {
+	AttributesObject,
+	BlockAttributes,
+	InterpretAttributesWithoutDefaults,
+	InterpretAttributes,
+} from "./block-attributes";
 import type { BlockSupports } from "./block-supports";
 import type { DefaultAttributes } from "./default-attributes";
 import type { Element } from "@wordpress/element";
-import type { AllHTMLAttributes } from "react";
+
 import {
 	createBlock,
 	registerBlockType as wordpressRegisterBlockType,
 } from "@wordpress/blocks";
-export type { BlockSupports, DefaultAttributes };
+export type {
+	AttributesObject,
+	BlockAttributes,
+	InterpretAttributesWithoutDefaults,
+	InterpretAttributes,
+	BlockSupports,
+	DefaultAttributes,
+};
 
 export type BlockCategory =
 	| "text"
@@ -18,147 +31,6 @@ export type BlockCategory =
 	| "embed"
 	// Allow other strings, but keep autocomplete of base values.
 	| (string & NonNullable<unknown>);
-export type AttributeTypes =
-	| "null"
-	| "boolean"
-	| "object"
-	| "array"
-	| "string"
-	| "integer"
-	| "number";
-
-type AllAttributes = AllHTMLAttributes<HTMLElement>;
-type BooleanAttributeTypes = {
-	[Property in keyof AllAttributes]-?: Required<AllAttributes>[Property] extends boolean
-		? Property
-		: never;
-}[keyof AllAttributes];
-
-type AttributeSourceBooleanAttribute = {
-	type: "boolean" | ["boolean"];
-	enum?: readonly boolean[];
-	source: "attribute";
-	selector: string;
-	attribute: BooleanAttributeTypes;
-	default?: boolean;
-};
-
-type AttributeSourceStringAttribute = {
-	type: "string" | ["string"];
-	enum?: readonly string[];
-	source: "attribute";
-	selector: string;
-	attribute: string;
-	default?: string;
-};
-
-type TextSourceAttribute = {
-	type: "string" | ["string"];
-	enum?: readonly string[];
-	source: "text";
-	selector: string;
-	default?: string;
-};
-
-type HTMLSourceAttribute = {
-	type: "string" | ["string"];
-	enum?: readonly string[];
-	source: "html";
-	selector: string;
-	default?: string;
-};
-
-type QuerySourceAttribute = {
-	type: "array" | ["array"];
-	source: "query";
-	selector: string;
-	query: Record<string, AttributesObject>;
-	default?: Record<string, unknown>[];
-	enum?: Record<string, unknown>[];
-};
-
-type MetaSourceAttribute = {
-	type: "string" | ["string"];
-	enum?: readonly string[];
-	/**
-	 * @deprecated
-	 */
-	source: "meta";
-	meta: string;
-	default?: string;
-};
-
-type NoSourceAttributeArrayType = {
-	type: "array" | ["array"];
-	source?: never;
-	enum?: unknown[];
-	default?: unknown[];
-};
-
-type NoSourceAttributeAnyType = {
-	type: Exclude<AttributeTypes, "array"> | Exclude<AttributeTypes, "array">[];
-	enum?: readonly boolean[] | readonly number[] | readonly string[];
-	source?: never;
-	default?: any;
-};
-
-export type AttributesObject =
-	| AttributeSourceBooleanAttribute
-	| AttributeSourceStringAttribute
-	| TextSourceAttribute
-	| HTMLSourceAttribute
-	| QuerySourceAttribute
-	| MetaSourceAttribute
-	| NoSourceAttributeArrayType
-	| NoSourceAttributeAnyType;
-
-type InheritType<Type extends { type: string | string[] }> = Type extends {
-	type: string[];
-}
-	? any[]
-	: Type extends {
-				type: "string";
-		  }
-		? string
-		: Type extends { type: "boolean" }
-			? boolean
-			: Type extends { type: "object" }
-				? Record<string, any>
-				: Type extends { type: "null" }
-					? null
-					: Type extends { type: "array" }
-						? any[]
-						: Type extends { type: "integer" }
-							? number
-							: Type extends { type: "number" }
-								? number
-								: never;
-
-export type InterpretAttributesWithoutDefaults<
-	Attributes extends BlockAttributes,
-> = {
-	[Property in keyof Attributes]: Attributes[Property] extends {
-		enum: NonNullable<Attributes[Property]["enum"]>;
-	}
-		? NonNullable<Attributes[Property]["enum"]>[number]
-		: Attributes[Property] extends {
-					type: "array";
-					query: Record<string, AttributesObject>;
-			  }
-			? InterpretAttributesWithoutDefaults<
-					NonNullable<Attributes[Property]["query"]>
-				>[]
-			: Attributes[Property] extends { type: string }
-				? InheritType<Attributes[Property]>
-				: never;
-};
-export type InterpretAttributes<
-	Supports extends BlockSupports,
-	Attributes extends BlockAttributes,
-> = InterpretAttributesWithoutDefaults<Attributes> &
-	DefaultAttributes<Supports>;
-
-export type BlockAttributes = Readonly<Record<string, AttributesObject>>;
 
 export type BlockProvidesContext<
 	InterpretedAttributes extends Record<string, unknown>,
@@ -727,3 +599,4 @@ export function registerBlockType<
 	/* @ts-expect-error Provided types are inaccurate and will provide an error with some valid inputs */
 	return wordpressRegisterBlockType(name, settings);
 }
+/* eslint-enable @typescript-eslint/no-explicit-any */

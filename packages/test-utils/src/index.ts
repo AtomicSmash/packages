@@ -28,35 +28,6 @@ export type AuthenticatePageFunction = (
 	use: (r: Page) => Promise<void>,
 ) => Promise<void>;
 
-export const playwrightProjectsConfig: PlaywrightTestConfig["projects"] = [
-	{
-		name: "chromium",
-		use: { ...devices["Desktop Chrome"] },
-		grepInvert: /@mobile @lighthouse/,
-	},
-	{
-		name: "firefox",
-		use: { ...devices["Desktop Firefox"] },
-		grepInvert: /@lighthouse/,
-	},
-	{
-		name: "webkit",
-		use: { ...devices["Desktop Safari"] },
-		grepInvert: /@lighthouse/,
-	},
-	/* Test against mobile viewports. */
-	{
-		name: "Mobile Chrome",
-		use: { ...devices["Pixel 5"] },
-		grepInvert: /@desktop @lighthouse/,
-	},
-	{
-		name: "Mobile Safari",
-		use: { ...devices["iPhone 12"] },
-		grepInvert: /@lighthouse/,
-	},
-];
-
 export const playwrightConfig = {
 	testDir: "./tests/e2e",
 	timeout: 30 * 1000,
@@ -67,13 +38,14 @@ export const playwrightConfig = {
 	forbidOnly: !!process.env.CI,
 	retries: process.env.CI ? 2 : 0,
 	workers: process.env.CI ? 1 : undefined,
-	reporter: "dot",
-	/* Configure projects for major browsers */
-	projects: playwrightProjectsConfig,
+	reporter: process.env.CI ? "github" : "dot",
 	use: {
 		actionTimeout: 0,
 		trace: "on-first-retry",
 	},
+	snapshotDir: "./screenshots",
+	snapshotPathTemplate:
+		"{snapshotDir}/{platform}/{testFileName}-snapshots/{arg}{ext}",
 } satisfies PlaywrightTestConfig;
 
 export const getLighthouseTest = (logInUser: AuthenticatePageFunction) => {
@@ -82,8 +54,7 @@ export const getLighthouseTest = (logInUser: AuthenticatePageFunction) => {
 		{ port: number }
 	>({
 		port: [
-			// eslint-disable-next-line no-empty-pattern
-			async ({}, use) => {
+			async (_unused, use) => {
 				// Assign a unique port for each playwright worker to support parallel tests
 				const port = await getPort();
 				await use(port);
@@ -217,7 +188,7 @@ export const checkForLoremIpsum =
 		}
 	};
 
-function slugify(stringToSlugify: string) {
+export function slugify(stringToSlugify: string) {
 	// REGEX_1: Match any character that isn't alphanumeric, underscore, whitespace and underscore
 	// REGEX_2: Match any character that is underscore, whitespace and underscore
 	// REGEX_3: Match any hyphens at the start or the end of the string
@@ -227,4 +198,60 @@ function slugify(stringToSlugify: string) {
 		.replace(/[^\w\s-]/g, "")
 		.replace(/[\s_-]+/g, "-")
 		.replace(/^-+|(?<!-)-+$/g, "");
+}
+
+export function generateProjectsForAllBrowsers(
+	baseProject: NonNullable<PlaywrightTestConfig["projects"]>[number],
+) {
+	const projects: NonNullable<PlaywrightTestConfig["projects"]> = [];
+	for (const browser of [
+		{
+			name: `Chrome`,
+			use: {
+				...devices["Desktop Chrome"],
+				viewport: { width: 2566, height: 1080 },
+			},
+			grepInvert: /@mobile/, // i.e. don't run tests with these tags
+		},
+		{
+			name: `Firefox`,
+			use: {
+				...devices["Desktop Firefox"],
+				viewport: { width: 1920, height: 1080 },
+			},
+			grepInvert: /@mobile|@lighthouse/,
+		},
+		{
+			name: `Safari`,
+			use: {
+				...devices["Desktop Safari"],
+				viewport: { width: 1280, height: 720 },
+			},
+			grepInvert: /@mobile|@lighthouse/,
+		},
+		{
+			name: `Chrome_mobile`,
+			use: { ...devices["Pixel 5"] },
+			grepInvert: /@desktop/,
+		},
+		{
+			name: `Safari_mobile`,
+			use: { ...devices["iPhone 12"] },
+			grepInvert: /@desktop|@lighthouse/,
+		},
+	]) {
+		projects.push({
+			...baseProject,
+			name: `${baseProject.name}__${browser.name}`,
+			use: {
+				...baseProject.use,
+				...browser.use,
+			},
+			grepInvert: [
+				...[baseProject.grepInvert].flat(1),
+				...[browser.grepInvert].flat(1),
+			].filter((value) => value !== undefined) as RegExp[],
+		});
+	}
+	return projects;
 }

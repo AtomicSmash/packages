@@ -1,7 +1,0 @@
-{
-	"$schema": "http://json.schemastore.org/tsconfig",
-	"exclude": ["./cypress", "./cypress.config.ts"],
-	"compilerOptions": {
-		"types": ["vitest/globals"]
-	}
-}

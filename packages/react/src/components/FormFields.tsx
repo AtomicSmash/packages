@@ -20,23 +20,27 @@ const RequiredContext = createContext(false);
 const HasHelpTextMessageContext = createContext(false);
 const HasHelpTextMessageDispatchContext = createContext<
 	React.Dispatch<React.SetStateAction<boolean>>
-	// eslint-disable-next-line @typescript-eslint/no-empty-function
->(() => {});
+>(() => {
+	/* empty */
+});
 const HasErrorMessageContext = createContext(false);
 const HasErrorMessageDispatchContext = createContext<
 	React.Dispatch<React.SetStateAction<boolean>>
-	// eslint-disable-next-line @typescript-eslint/no-empty-function
->(() => {});
+>(() => {
+	/* empty */
+});
 const HasHelpTextMessageInFieldsetContext = createContext(false);
 const HasHelpTextMessageInFieldsetDispatchContext = createContext<
 	React.Dispatch<React.SetStateAction<boolean>>
-	// eslint-disable-next-line @typescript-eslint/no-empty-function
->(() => {});
+>(() => {
+	/* empty */
+});
 const HasErrorMessageInFieldsetContext = createContext(false);
 const HasErrorMessageInFieldsetDispatchContext = createContext<
 	React.Dispatch<React.SetStateAction<boolean>>
-	// eslint-disable-next-line @typescript-eslint/no-empty-function
->(() => {});
+>(() => {
+	/* empty */
+});
 const ValidationStateContext = createContext<
 	ErrorStateValues | ErrorStateValues[]
 >({
@@ -46,12 +50,14 @@ const LeadingIconsCountContext = createContext<number>(0);
 const TrailingIconsCountContext = createContext<number>(0);
 const LeadingIconsCountDispatchContext = createContext<
 	React.Dispatch<React.SetStateAction<number>>
-	// eslint-disable-next-line @typescript-eslint/no-empty-function
->(() => {});
+>(() => {
+	/* empty */
+});
 const TrailingIconsCountDispatchContext = createContext<
 	React.Dispatch<React.SetStateAction<number>>
-	// eslint-disable-next-line @typescript-eslint/no-empty-function
->(() => {});
+>(() => {
+	/* empty */
+});
 
 export function RequiredState({
 	children,

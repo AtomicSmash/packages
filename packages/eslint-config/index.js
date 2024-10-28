@@ -6,7 +6,11 @@ const ERROR = 2;
 const config = {
 	ignorePatterns: [".eslintrc.cjs", "dist/**/*", "**/*.config.*"],
 	plugins: ["import"],
-	extends: ["eslint:recommended", "prettier"],
+	extends: [
+		"eslint:recommended",
+		"plugin:eslint-comments/recommended",
+		"prettier",
+	],
 	env: {
 		browser: true,
 		commonjs: true,
@@ -37,6 +41,11 @@ const config = {
 		"prefer-const": [ERROR],
 		"no-var": [ERROR],
 		"import/no-duplicates": WARN,
+		"eslint-comments/no-unused-disable": [ERROR],
+		"eslint-comments/require-description": [
+			ERROR,
+			{ ignore: ["eslint-enable"] },
+		],
 	},
 	overrides: [
 		{
@@ -82,6 +91,12 @@ const config = {
 						ignoreRestSiblings: true,
 					},
 				],
+			},
+		},
+		{
+			files: ["**/*.test.*"],
+			rules: {
+				"@typescript-eslint/no-unused-vars": [OFF],
 			},
 		},
 	],

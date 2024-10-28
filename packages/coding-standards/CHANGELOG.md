@@ -1,5 +1,51 @@
 # @atomicsmash/coding-standards
 
+## 12.0.0-beta.3
+
+### Patch Changes
+
+- [#234](https://github.com/AtomicSmash/packages/pull/234) [`c18922a`](https://github.com/AtomicSmash/packages/commit/c18922a0ac6132f8f80e8a0a682cd59ec1a96fc9) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Fix stylelint at rules
+
+- Updated dependencies []:
+  - @atomicsmash/eslint-config@12.0.0-beta.3
+  - @atomicsmash/browserslist-config@12.0.0-beta.3
+
+## 12.0.0-beta.2
+
+### Patch Changes
+
+- [#230](https://github.com/AtomicSmash/packages/pull/230) [`0057e28`](https://github.com/AtomicSmash/packages/commit/0057e2891f46c318e3c7f4def31c0b520dfc11bc) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Update dependencies
+
+- Updated dependencies [[`0057e28`](https://github.com/AtomicSmash/packages/commit/0057e2891f46c318e3c7f4def31c0b520dfc11bc)]:
+  - @atomicsmash/browserslist-config@12.0.0-beta.2
+  - @atomicsmash/eslint-config@12.0.0-beta.2
+
+## 12.0.0-beta.1
+
+### Patch Changes
+
+- Updated dependencies [[`80cf000`](https://github.com/AtomicSmash/packages/commit/80cf000fc04b28bb2d7830843bb4a4a06a50bf4e), [`db105d6`](https://github.com/AtomicSmash/packages/commit/db105d6ff2c5a76b73c9c0c72e6af9dabf60d44a), [`fd2bc66`](https://github.com/AtomicSmash/packages/commit/fd2bc66e31bd3dabed540f8e5fc641c7493ce607)]:
+  - @atomicsmash/eslint-config@12.0.0-beta.1
+  - @atomicsmash/browserslist-config@12.0.0-beta.1
+
+## 12.0.0-beta.0
+
+### Major Changes
+
+- [#221](https://github.com/AtomicSmash/packages/pull/221) [`04cc5ed`](https://github.com/AtomicSmash/packages/commit/04cc5ed6b9ecad553fcdae977034a65d4cfc0f44) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Remove vitest typescript config
+
+### Patch Changes
+
+- [#224](https://github.com/AtomicSmash/packages/pull/224) [`b87a1a7`](https://github.com/AtomicSmash/packages/commit/b87a1a72d52618e10771d78afa04900a4a3b5f28) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Remove class filename rules for lib and classes folders
+
+- [#220](https://github.com/AtomicSmash/packages/pull/220) [`04cdfd8`](https://github.com/AtomicSmash/packages/commit/04cdfd8c2f975bd0611377202f5648bad54936c9) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Fix yml files being broken by prettier
+
+- [#222](https://github.com/AtomicSmash/packages/pull/222) [`9ba7476`](https://github.com/AtomicSmash/packages/commit/9ba7476be1a544097d7143ce0f68625fbb994cf1) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Update beta stylelint config
+
+- Updated dependencies [[`5706bd5`](https://github.com/AtomicSmash/packages/commit/5706bd51a20b2f7ac540dcd2ab4bcbc8f7482129), [`dea7593`](https://github.com/AtomicSmash/packages/commit/dea7593ef42d864fe765902887d516dfe6b0d429), [`bddfeb3`](https://github.com/AtomicSmash/packages/commit/bddfeb3f78e82a4dc8f3bb3aea03505a2442e26c)]:
+  - @atomicsmash/eslint-config@12.0.0-beta.0
+  - @atomicsmash/browserslist-config@12.0.0-beta.0
+
 ## 11.0.0
 
 ### Minor Changes

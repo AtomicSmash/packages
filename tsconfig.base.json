@@ -1,8 +1,5 @@
 {
-	"extends": [
-		"@atomicsmash/coding-standards/typescript/base",
-		"@atomicsmash/coding-standards/typescript/vitest"
-	],
+	"extends": ["@atomicsmash/coding-standards/typescript/base"],
 	"compilerOptions": {
 		"composite": true,
 		"declaration": true,

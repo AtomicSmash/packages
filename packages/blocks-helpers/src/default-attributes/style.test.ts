@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import type { DefaultAttributes } from "@atomicsmash/blocks-helpers";
 
 const validBackgroundValue = {
