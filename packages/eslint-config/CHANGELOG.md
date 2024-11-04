@@ -1,5 +1,11 @@
 # @atomicsmash/eslint-config
 
+## 12.0.1-beta.1
+
+### Patch Changes
+
+- [#241](https://github.com/AtomicSmash/packages/pull/241) [`f44a162`](https://github.com/AtomicSmash/packages/commit/f44a1623c00bb4d6a14ddc95767667c9063b9160) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Set the correct patch version constraint for typescript
+
 ## 12.0.1-beta.0
 
 ### Patch Changes
