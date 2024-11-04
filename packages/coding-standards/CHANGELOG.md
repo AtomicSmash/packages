@@ -1,5 +1,13 @@
 # @atomicsmash/coding-standards
 
+## 12.0.1-beta.0
+
+### Patch Changes
+
+- Updated dependencies [[`65cdd9b`](https://github.com/AtomicSmash/packages/commit/65cdd9bafc556ecaa4e14d5054c3682fb0afb996)]:
+  - @atomicsmash/eslint-config@12.0.1-beta.0
+  - @atomicsmash/browserslist-config@12.0.1-beta.0
+
 ## 12.0.0
 
 ### Major Changes
