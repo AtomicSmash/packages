@@ -433,14 +433,16 @@ export type PhrasingContentSchema = {
 	};
 };
 
-export type TransformRawSchema = {
-	[k in keyof HTMLElementTagNameMap | "#text"]?: {
-		attributes?: string[] | undefined;
-		require?: (keyof HTMLElementTagNameMap)[] | undefined;
-		classes?: (string | RegExp)[] | undefined;
-		children?: TransformRawSchema | undefined;
-	};
-};
+export type TransformRawSchema = Record<
+	keyof HTMLElementTagNameMap | "#text",
+	| {
+			attributes?: string[] | undefined;
+			require?: (keyof HTMLElementTagNameMap)[] | undefined;
+			classes?: (string | RegExp)[] | undefined;
+			children?: TransformRawSchema | undefined;
+	  }
+	| undefined
+>;
 
 export type RawTypeTransform = {
 	type: "raw";
