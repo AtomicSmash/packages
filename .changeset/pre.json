@@ -15,5 +15,8 @@
     "@atomicsmash/test-utils": "3.0.0",
     "@atomicsmash/wordpress-tests-helper": "1.0.0"
   },
-  "changesets": []
+  "changesets": [
+    "loud-zebras-provide",
+    "selfish-eggs-raise"
+  ]
 }
