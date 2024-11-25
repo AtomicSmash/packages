@@ -2,7 +2,7 @@ import type { Page } from "@playwright/test";
 import { readFile, writeFile, unlink } from "node:fs/promises";
 import { expect } from "@playwright/test";
 
-type SupportedWPVersions = "6.6";
+type SupportedWPVersions = "6.6" | "6.7";
 
 export class WordPressAdminInteraction {
 	readonly page: Page;
@@ -28,7 +28,7 @@ export class WordPressAdminInteraction {
 	) {
 		this.page = page;
 		this.persistLocation = persistLocation;
-		this.WPVersion = WPVersion === "latest" ? "6.6" : WPVersion;
+		this.WPVersion = WPVersion === "latest" ? "6.7" : WPVersion;
 	}
 
 	static async getDataFromFile(persistLocation: string) {
@@ -243,8 +243,13 @@ export class WordPressAdminInteraction {
 				.getByRole("button", { name: "Actions", exact: true })
 				.click();
 
+			let moveToTrashText = "Move to trash";
+			if (this.WPVersion === "6.6") {
+				moveToTrashText = "Move to Trash";
+			}
+
 			await this.page
-				.getByRole("menuitem", { name: "Move to Trash", exact: true })
+				.getByRole("menuitem", { name: moveToTrashText, exact: true })
 				.click();
 
 			await this.page
