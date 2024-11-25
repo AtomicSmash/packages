@@ -1,5 +1,15 @@
 # @atomicsmash/test-utils
 
+## 4.0.0-beta.0
+
+### Major Changes
+
+- [#246](https://github.com/AtomicSmash/packages/pull/246) [`024d0a2`](https://github.com/AtomicSmash/packages/commit/024d0a2f20558e8ba6b7bd80129539e3fe8f12f9) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Refactor lighthouse testing for playwright projects
+
+### Minor Changes
+
+- [#246](https://github.com/AtomicSmash/packages/pull/246) [`024d0a2`](https://github.com/AtomicSmash/packages/commit/024d0a2f20558e8ba6b7bd80129539e3fe8f12f9) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Add function for checking WP roles for privileged pages test
+
 ## 3.0.0
 
 ### Major Changes
