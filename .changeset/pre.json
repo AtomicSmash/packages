@@ -16,6 +16,7 @@
     "@atomicsmash/wordpress-tests-helper": "1.0.0"
   },
   "changesets": [
+    "giant-readers-beg",
     "loud-zebras-provide",
     "selfish-eggs-raise"
   ]
