@@ -16,8 +16,10 @@
     "@atomicsmash/wordpress-tests-helper": "1.0.0"
   },
   "changesets": [
+    "four-colts-promise",
     "giant-readers-beg",
     "loud-zebras-provide",
-    "selfish-eggs-raise"
+    "selfish-eggs-raise",
+    "three-rabbits-change"
   ]
 }
