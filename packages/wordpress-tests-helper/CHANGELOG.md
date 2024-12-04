@@ -1,5 +1,11 @@
 # @atomicsmash/wordpress-tests-helper
 
+## 1.0.1-beta.2
+
+### Patch Changes
+
+- [#254](https://github.com/AtomicSmash/packages/pull/254) [`5d1e821`](https://github.com/AtomicSmash/packages/commit/5d1e8213a5f9ce872d2009a367c9bac3a6ea00ab) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Fix in trash check
+
 ## 1.0.1-beta.1
 
 ### Patch Changes
