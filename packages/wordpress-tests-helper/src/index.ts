@@ -239,7 +239,7 @@ export class WordPressAdminInteraction {
 		for (const post of this.posts) {
 			await this.page.goto(post.editURL);
 
-			if (this.page.getByText("it is in the Trash")) {
+			if (await this.page.getByText("it is in the Trash").isVisible()) {
 				continue;
 			}
 
