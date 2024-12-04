@@ -239,6 +239,19 @@ export class WordPressAdminInteraction {
 		for (const post of this.posts) {
 			await this.page.goto(post.editURL);
 
+			if (this.page.getByText("it is in the Trash")) {
+				continue;
+			}
+
+			const showSidebarButton = this.page.getByRole("button", {
+				name: "Settings",
+				exact: true,
+			});
+
+			if ((await showSidebarButton.getAttribute("aria-pressed")) === "false") {
+				await showSidebarButton.click();
+			}
+
 			await this.page
 				.getByRole("button", { name: "Actions", exact: true })
 				.click();
