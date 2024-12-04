@@ -239,6 +239,10 @@ export class WordPressAdminInteraction {
 		for (const post of this.posts) {
 			await this.page.goto(post.editURL);
 
+			if (this.page.getByText("it is in the Trash")) {
+				continue;
+			}
+
 			await this.page
 				.getByRole("button", { name: "Actions", exact: true })
 				.click();
