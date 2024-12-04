@@ -243,6 +243,15 @@ export class WordPressAdminInteraction {
 				continue;
 			}
 
+			const showSidebarButton = this.page.getByRole("button", {
+				name: "Settings",
+				exact: true,
+			});
+
+			if ((await showSidebarButton.getAttribute("aria-pressed")) === "false") {
+				await showSidebarButton.click();
+			}
+
 			await this.page
 				.getByRole("button", { name: "Actions", exact: true })
 				.click();
