@@ -1,6 +1,6 @@
 {
 	"name": "@atomicsmash/wordpress-tests-helper",
-	"version": "1.0.1-beta.1",
+	"version": "1.0.1-beta.2",
 	"description": "A helper class to make doing e2e tests on WordPress projects easier.",
 	"keywords": [
 		"atomic",
