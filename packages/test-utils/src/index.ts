@@ -309,7 +309,7 @@ export function generateProjectsForAllBrowsers(
 			grepInvert: [
 				...[baseProject.grepInvert].flat(1),
 				...[browser.grepInvert].flat(1),
-			].filter((value) => value !== undefined) as RegExp[],
+			].filter((value) => value !== undefined),
 		});
 	}
 	return projects;
