@@ -1,0 +1,75 @@
+{
+	"name": "@atomicsmash/compiler",
+	"type": "module",
+	"version": "0.1.0",
+	"description": "A universal compiler for all Atomic Smash projects.",
+	"keywords": [
+		"cli",
+		"compiler",
+		"webpack"
+	],
+	"homepage": "https://www.atomicsmash.co.uk/",
+	"license": "GPL-3.0-or-later",
+	"author": {
+		"name": "Atomic Smash",
+		"email": "npm@atomicsmash.co.uk",
+		"url": "https://www.atomicsmash.co.uk/"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/AtomicSmash/packages",
+		"directory": "packages/compiler"
+	},
+	"files": [
+		"./dist/**/*"
+	],
+	"main": "index",
+	"bin": {
+		"smash-compile": "./dist/index.js"
+	},
+	"types": "index",
+	"publishConfig": {
+		"access": "public"
+	},
+	"scripts": {
+		"dev": "tsc --build --watch tsconfig.build.json",
+		"build": "npm-run-all clean compile",
+		"clean": "del-cli ./dist/ *.tsbuildinfo",
+		"compile": "tsc --build tsconfig.build.json",
+		"test": "TZ=\"Europe/Istanbul\" vitest run",
+		"test:ui": "TZ=\"Europe/Istanbul\" vitest --ui",
+		"test:coverage": "TZ=\"Europe/Istanbul\" vitest run --coverage",
+		"lint": "run-p lint:*",
+		"lint:eslint": "eslint --cache --cache-location ./node_modules/.cache/eslint . --ext .js,.ts,.jsx,.tsx",
+		"lint:types": "tsc"
+	},
+	"dependencies": {
+		"@babel/preset-env": "^7.26.0",
+		"@babel/preset-typescript": "^7.26.0",
+		"@wordpress/dependency-extraction-webpack-plugin": "^6.15.0",
+		"babel-loader": "^9.2.1",
+		"copy-webpack-plugin": "^12.0.2",
+		"css-loader": "^7.1.2",
+		"cssnano": "^7.0.6",
+		"fast-glob": "^3.3.2",
+		"postcss": "^8.4.49",
+		"postcss-loader": "^8.1.1",
+		"postcss-preset-env": "^10.1.3",
+		"sass": "^1.83.1",
+		"sass-loader": "^16.0.4",
+		"style-loader": "^4.0.0",
+		"svg-spritemap-webpack-plugin": "^4.7.0",
+		"tsconfig-paths-webpack-plugin": "^4.2.0",
+		"webpack": "^5.97.1",
+		"webpack-assets-manifest": "^5.2.1",
+		"webpack-bundle-analyzer": "^4.10.2",
+		"yargs": "^17.7.2"
+	},
+	"devDependencies": {
+		"@types/svg-spritemap-webpack-plugin": "^4.4.4",
+		"@types/webpack": "^5.28.5",
+		"@types/webpack-assets-manifest": "^5.1.4",
+		"@types/webpack-bundle-analyzer": "^4.7.0",
+		"@types/yargs": "^17.0.33"
+	}
+}

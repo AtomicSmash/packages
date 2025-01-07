@@ -32,3 +32,6 @@ packages/cli/src/tests/package-lock.json
 # Init testing package
 packages/init-testing/src/tests/package-lock.json
 packages/init-testing/src/tests/package.json
+
+# Compiler package
+packages/compiler/src/tests/dist
