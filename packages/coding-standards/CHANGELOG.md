@@ -1,5 +1,15 @@
 # @atomicsmash/coding-standards
 
+## 12.0.2-beta.0
+
+### Patch Changes
+
+- [#258](https://github.com/AtomicSmash/packages/pull/258) [`0596250`](https://github.com/AtomicSmash/packages/commit/05962505f7e665bb61d7c603fa5ad2fc6f937280) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Update dependencies
+
+- Updated dependencies []:
+  - @atomicsmash/eslint-config@12.0.2-beta.0
+  - @atomicsmash/browserslist-config@12.0.2-beta.0
+
 ## 12.0.1
 
 ### Patch Changes

@@ -1,12 +1,12 @@
 import type {
 	Page,
-	BrowserContext,
+	Browser,
 	PlaywrightTestConfig,
+	PlaywrightTestArgs,
+	PlaywrightTestOptions,
 } from "@playwright/test";
 import type { SerialFrameSelector } from "axe-core";
 import type { Config } from "lighthouse";
-import os from "node:os";
-import path from "node:path";
 import { AxeBuilder } from "@axe-core/playwright";
 import { test as base, chromium, devices } from "@playwright/test";
 import getPort from "get-port";
@@ -16,12 +16,76 @@ import { playAudit } from "playwright-lighthouse";
 
 const { expect } = base;
 
+export type WordPressUserRole =
+	| "unauthenticated"
+	| "subscriber"
+	| "contributor"
+	| "author"
+	| "editor"
+	| "admin"
+	| "super-admin";
+export type WooCommerceUserRole = "customer" | "shop-manager";
+export type UserRole = WordPressUserRole | WooCommerceUserRole;
 export type PageList = {
 	url: string;
 	name: string;
 	slug?: string;
-	restrictedAccess?: boolean;
+	minimumUserPrivilege?: UserRole;
 }[];
+
+export function doesRoleHaveHighEnoughPermissions(
+	userRole: WordPressUserRole | WooCommerceUserRole,
+	minimumRolePermission: WordPressUserRole | WooCommerceUserRole,
+): boolean {
+	if (userRole === minimumRolePermission) {
+		return true;
+	}
+	switch (userRole) {
+		case "super-admin":
+			return true;
+		case "admin":
+			return minimumRolePermission !== "super-admin";
+		case "shop-manager":
+			return !["super-admin", "admin"].includes(minimumRolePermission);
+		case "editor":
+			return !["super-admin", "admin", "shop-manager"].includes(
+				minimumRolePermission,
+			);
+		case "author":
+			return !["super-admin", "admin", "shop-manager", "editor"].includes(
+				minimumRolePermission,
+			);
+		case "contributor":
+			return ![
+				"super-admin",
+				"admin",
+				"shop-manager",
+				"editor",
+				"author",
+			].includes(minimumRolePermission);
+		case "customer":
+			return ![
+				"super-admin",
+				"admin",
+				"shop-manager",
+				"editor",
+				"author",
+				"contributor",
+			].includes(minimumRolePermission);
+		case "subscriber":
+			return ![
+				"super-admin",
+				"admin",
+				"shop-manager",
+				"editor",
+				"author",
+				"contributor",
+				"customer",
+			].includes(minimumRolePermission);
+		case "unauthenticated":
+			return minimumRolePermission === "unauthenticated";
+	}
+}
 
 export type AuthenticatePageFunction = (
 	{ page }: { page: Page },
@@ -48,58 +112,57 @@ export const playwrightConfig = {
 		"{snapshotDir}/{platform}/{testFileName}-snapshots/{arg}{ext}",
 } satisfies PlaywrightTestConfig;
 
-export const getLighthouseTest = (logInUser: AuthenticatePageFunction) => {
-	const lighthouseTest = base.extend<
-		{ authenticatedPage: Page; context: BrowserContext },
-		{ port: number }
-	>({
-		port: [
-			async (_unused, use) => {
-				// Assign a unique port for each playwright worker to support parallel tests
-				const port = await getPort();
-				await use(port);
-			},
-			{ scope: "worker" },
-		],
-		context: [
-			async ({ port }, use) => {
-				const userDataDir = path.join(os.tmpdir(), "pw", String(Math.random()));
-				const context = await chromium.launchPersistentContext(userDataDir, {
-					args: [`--remote-debugging-port=${port}`],
-				});
-				await use(context);
-				await context.close();
-			},
-			{ scope: "test" },
-		],
-		authenticatedPage: [logInUser, { scope: "test" }],
-	});
-	lighthouseTest.describe.configure({ mode: "parallel", retries: 3 });
+export const lighthouseTest = base.extend<
+	PlaywrightTestArgs & PlaywrightTestOptions,
+	{ port: number; browser: Browser }
+>({
+	port: [
+		// eslint-disable-next-line no-empty-pattern -- destructure pattern is required by playwright
+		async ({}, use) => {
+			// Assign a unique port for each playwright worker to support parallel tests
+			const port = await getPort();
+			await use(port);
+		},
+		{ scope: "worker" },
+	],
 
-	return lighthouseTest;
-};
+	browser: [
+		async ({ port }, use) => {
+			const browser = await chromium.launch({
+				args: [`--remote-debugging-port=${port}`],
+			});
+			await use(browser);
+		},
+		{ scope: "worker" },
+	],
+});
 
-type LighthouseTestFunction = Parameters<
-	ReturnType<typeof getLighthouseTest>
->[2];
+type LighthouseTestFunction = Parameters<typeof lighthouseTest>[2];
 
 export const doLighthouseTest: (
-	pageToTest: PageList[number],
+	pageToTest: {
+		url: string | (() => string | Promise<string>);
+		name: string;
+		slug?: string;
+	},
 	type: "desktop" | "mobile",
 	disableAuditLogs?: boolean,
 ) => LighthouseTestFunction = (pageToTest, type, disableAuditLogs = false) =>
-	async function ({ port, authenticatedPage }) {
-		await authenticatedPage.goto(pageToTest.url);
+	async function ({ page, port }) {
+		await page.goto(
+			typeof pageToTest.url === "string"
+				? pageToTest.url
+				: await pageToTest.url(),
+		);
 		await playAudit({
-			// TODO: Wait for playwright-lighthouse to update dependency constraint, then remove this "as" declaration.
-			page: authenticatedPage as Parameters<typeof playAudit>[0]["page"],
+			page,
+			port,
 			thresholds: {
 				performance: 85,
 				accessibility: 85,
 				"best-practices": 85,
 				seo: 85,
 			},
-			port: port,
 			reports: {
 				formats: {
 					html: true,
@@ -113,7 +176,7 @@ export const doLighthouseTest: (
 			ignoreError: true,
 			disableLogs: disableAuditLogs,
 		});
-		await authenticatedPage.goto(
+		await page.goto(
 			`file://${process.cwd()}/lighthouse/latest-lighthouse-report/${
 				pageToTest.slug ?? slugify(pageToTest.name)
 			}-${type}.html`,
@@ -166,9 +229,7 @@ export async function checkAccessibility(
 export const checkPrivilegedPages =
 	(pagesToTest: PageList) =>
 	async ({ page }: { page: Page }) => {
-		for (const pageToTest of pagesToTest.filter(
-			(page) => page.restrictedAccess,
-		)) {
+		for (const pageToTest of pagesToTest) {
 			const response = await page.goto(pageToTest.url);
 			expect(response).not.toBeNull();
 			const nonNullResponse = response as NonNullable<typeof response>;
@@ -177,14 +238,12 @@ export const checkPrivilegedPages =
 	};
 export const checkForLoremIpsum =
 	(pagesToTest: PageList) =>
-	async ({ authenticatedPage }: { authenticatedPage: Page }) => {
+	async ({ page }: { page: Page }) => {
 		for (const pageToTest of pagesToTest) {
-			await authenticatedPage.goto(pageToTest.url);
-			await expect(authenticatedPage.getByText("Lorem ipsum")).not.toBeAttached(
-				{
-					timeout: 100,
-				},
-			);
+			await page.goto(pageToTest.url);
+			await expect(page.getByText("Lorem ipsum")).not.toBeAttached({
+				timeout: 100,
+			});
 		}
 	};
 
@@ -250,7 +309,7 @@ export function generateProjectsForAllBrowsers(
 			grepInvert: [
 				...[baseProject.grepInvert].flat(1),
 				...[browser.grepInvert].flat(1),
-			].filter((value) => value !== undefined) as RegExp[],
+			].filter((value) => value !== undefined),
 		});
 	}
 	return projects;

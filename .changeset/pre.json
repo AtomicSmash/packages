@@ -1,0 +1,27 @@
+{
+  "mode": "pre",
+  "tag": "beta",
+  "initialVersions": {
+    "@atomicsmash/blocks-helpers": "4.1.0",
+    "@atomicsmash/browserslist-config": "12.0.1",
+    "@atomicsmash/cli": "7.1.2",
+    "@atomicsmash/coding-standards": "12.0.1",
+    "@atomicsmash/date-php": "2.1.0",
+    "@atomicsmash/dev-tools-helpers": "1.2.1",
+    "@atomicsmash/eslint-config": "12.0.1",
+    "@atomicsmash/http-response-codes": "1.2.1",
+    "@atomicsmash/init-testing": "1.1.0",
+    "@atomicsmash/react": "1.6.3",
+    "@atomicsmash/test-utils": "3.0.0",
+    "@atomicsmash/wordpress-tests-helper": "1.0.0"
+  },
+  "changesets": [
+    "dirty-ladybugs-attack",
+    "four-colts-promise",
+    "giant-readers-beg",
+    "loud-zebras-provide",
+    "purple-eagles-smoke",
+    "selfish-eggs-raise",
+    "three-rabbits-change"
+  ]
+}
