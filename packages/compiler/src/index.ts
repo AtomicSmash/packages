@@ -62,8 +62,18 @@ const MODE =
 
 const srcFolder = resolvePath(argv.in);
 const distFolder = resolvePath(argv.out);
+// @ts-expect-error -- Module doesn't need to be installed in compiler package.
+const tailwindPostCSSPlugin = await import("@tailwindcss/postcss")
+	.then(() => ["@tailwindcss/postcss"])
+	.catch(
+		async () =>
+			// @ts-expect-error -- Module doesn't need to be installed in compiler package.
+			await import("tailwindcss").then(() => ["tailwindcss"]).catch(() => []),
+	);
+
 const postCSSConfig = [
 	[
+		...tailwindPostCSSPlugin,
 		"postcss-preset-env",
 		{
 			stage: 2,
