@@ -1,5 +1,13 @@
 # @atomicsmash/compiler
 
+## 0.2.2
+
+### Patch Changes
+
+- [`2386084`](https://github.com/AtomicSmash/packages/commit/2386084478df913818d2cdc2fff1cc8b9f66f149) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Slightly improve error and warning outputs
+
+- [`cd01293`](https://github.com/AtomicSmash/packages/commit/cd01293c9e53455d84685fe47b20134c36169e71) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Fix module resolution for loaders and postcss plugins
+
 ## 0.2.1
 
 ### Patch Changes
