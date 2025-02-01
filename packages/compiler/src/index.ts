@@ -271,10 +271,18 @@ if (argv.watch) {
 			} else if (stats) {
 				const info = stats.toJson();
 				if (stats.hasErrors()) {
-					console.error(info.errors);
+					const errors = info.errors!;
+					console.warn("The compiler produced the following errors: \n");
+					for (const error of errors) {
+						console.warn(error.message);
+					}
 				}
 				if (stats.hasWarnings()) {
-					console.warn(info.warnings);
+					const warnings = info.warnings!;
+					console.warn("The compiler produced the following warnings: \n");
+					for (const warning of warnings) {
+						console.warn(warning.message);
+					}
 				}
 			}
 		},
@@ -292,12 +300,22 @@ if (argv.watch) {
 		} else if (stats) {
 			const info = stats.toJson();
 			if (stats.hasErrors()) {
-				console.error(info.errors);
+				const errors = info.errors!;
+				console.warn("The compiler produced the following errors: \n");
+				for (const error of errors) {
+					console.warn(error.message);
+				}
 				process.exitCode = 1;
 			}
 			if (stats.hasWarnings()) {
-				console.warn(info.warnings);
-				process.exitCode = 2;
+				const warnings = info.warnings!;
+				console.warn("The compiler produced the following warnings: \n");
+				for (const warning of warnings) {
+					console.warn(warning.message);
+				}
+				if (!stats.hasErrors()) {
+					process.exitCode = 2;
+				}
 			}
 		}
 
