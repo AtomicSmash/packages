@@ -1,5 +1,11 @@
 # @atomicsmash/compiler
 
+## 0.2.1
+
+### Patch Changes
+
+- Fix built files
+
 ## 0.2.0
 
 ### Minor Changes
