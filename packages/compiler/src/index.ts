@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+import type { ConfigPlugin } from "postcss-load-config";
 import type { Configuration } from "webpack";
 import {
 	sep as pathSeparator,
@@ -7,7 +8,9 @@ import {
 } from "node:path";
 import DependencyExtractionWebpackPlugin from "@wordpress/dependency-extraction-webpack-plugin";
 import CopyPlugin from "copy-webpack-plugin";
+import cssNano from "cssnano";
 import glob from "fast-glob";
+import postCSSPresetEnv from "postcss-preset-env";
 import SVGSpritemapPlugin from "svg-spritemap-webpack-plugin";
 import { TsconfigPathsPlugin } from "tsconfig-paths-webpack-plugin";
 import webpack from "webpack";
@@ -64,28 +67,37 @@ const srcFolder = resolvePath(argv.in);
 const distFolder = resolvePath(argv.out);
 // @ts-expect-error -- Module doesn't need to be installed in compiler package.
 const tailwindPostCSSPlugin = await import("@tailwindcss/postcss")
-	.then(() => ["@tailwindcss/postcss"])
+	.then((tailwindPostCSS: { default: ConfigPlugin }) => [
+		tailwindPostCSS.default,
+	])
 	.catch(
 		async () =>
 			// @ts-expect-error -- Module doesn't need to be installed in compiler package.
-			await import("tailwindcss").then(() => ["tailwindcss"]).catch(() => []),
+			await import("tailwindcss")
+				.then((tailwindcss: { default: ConfigPlugin }) => [tailwindcss.default])
+				.catch(() => []),
 	);
 
 const postCSSConfig = [
 	[
 		...tailwindPostCSSPlugin,
-		"postcss-preset-env",
-		{
+		postCSSPresetEnv({
 			stage: 2,
 			features: {
 				"custom-media-queries": true,
 			},
-		},
+		}),
 	],
-	...(MODE === "production" ? ["cssnano"] : []),
+	...(MODE === "production" ? [cssNano] : []),
 ];
 
 const compiler = webpack({
+	resolveLoader: {
+		modules: [
+			"node_modules",
+			resolvePath(import.meta.dirname, "../", "node_modules"),
+		],
+	},
 	devtool: MODE === "development" ? "source-map" : false,
 	mode: MODE,
 	experiments: {
@@ -129,7 +141,7 @@ const compiler = webpack({
 				use: {
 					loader: "babel-loader",
 					options: {
-						presets: [["@babel/preset-typescript"], ["@babel/preset-env"]],
+						presets: ["@babel/preset-typescript", "@babel/preset-env"],
 					},
 				},
 				exclude: /node_modules/,
