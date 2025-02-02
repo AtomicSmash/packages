@@ -1,5 +1,11 @@
 # @atomicsmash/compiler
 
+## 0.2.3
+
+### Patch Changes
+
+- [`96560b5`](https://github.com/AtomicSmash/packages/commit/96560b5f669f00d06f744b6e98ec9988aad4854b) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Remove optimisation splitChunks config
+
 ## 0.2.2
 
 ### Patch Changes
