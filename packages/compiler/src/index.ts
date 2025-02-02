@@ -247,11 +247,6 @@ const compiler = webpack({
 			combineAssets: true,
 		}),
 	],
-	optimization: {
-		splitChunks: {
-			chunks: "all",
-		},
-	},
 });
 
 if (argv.watch) {
