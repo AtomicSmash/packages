@@ -51,22 +51,39 @@ export type InterpretUsedContext<
 	[Property in UsesContext[number]]: InterpretedContext[Property];
 };
 
-export type BlockInstance<
+export type BlockInstanceAsObject<
 	InterpretedAttributes extends Record<string, unknown> = Record<
 		string,
 		unknown
 	>,
+	InnerBlocks extends BlockInstanceAsObject[] | BlockInstanceAsArray[] = {
+		name: string;
+		attributes?: InterpretedAttributes;
+		innerBlocks?: BlockInstanceAsObject[];
+	}[],
 > = {
 	name: string;
 	attributes?: InterpretedAttributes;
-	innerBlocks?: BlockInstance[];
+	innerBlocks?: InnerBlocks;
 };
+export type BlockInstanceAsArray<
+	InterpretedAttributes extends Record<string, unknown> = Record<
+		string,
+		unknown
+	>,
+	InnerBlocks extends BlockInstanceAsObject[] | BlockInstanceAsArray[] = [
+		string,
+		InterpretedAttributes | undefined,
+		BlockInstanceAsArray<Record<string, unknown>, any[]>[] | undefined,
+	][],
+> = [string, InterpretedAttributes | undefined, InnerBlocks | undefined];
+
 export type BlockExample<
 	InterpretedAttributes extends Record<string, unknown>,
 > = {
 	viewportWidth?: number;
 	attributes?: InterpretedAttributes;
-	innerBlocks?: BlockInstance[];
+	innerBlocks?: BlockInstanceAsObject[];
 };
 
 /**
@@ -105,7 +122,7 @@ export type BlockVariations<
 	icon?: string | JSX.Element;
 	isDefault?: boolean;
 	attributes?: RecursivePartial<InterpretedAttributes>;
-	innerBlocks?: BlockInstance[];
+	innerBlocks?: BlockInstanceAsArray[];
 	example?: BlockExample<InterpretedAttributes>;
 	scope?: ("inserter" | "block" | "transform")[];
 	keywords?: string[];
@@ -302,21 +319,23 @@ export type BlockMigrateDeprecationFunction<
 	NewInterpretedAttributes extends Record<string, unknown>,
 > = (
 	attributes: OldInterpretedAttributes,
-	innerBlocks: BlockInstance[],
-) => NewInterpretedAttributes | [NewInterpretedAttributes, BlockInstance[]];
+	innerBlocks: BlockInstanceAsObject[],
+) =>
+	| NewInterpretedAttributes
+	| [NewInterpretedAttributes, BlockInstanceAsObject[]];
 
 export type BlockIsDeprecationEligibleFunction<
 	InterpretedAttributes extends Record<string, unknown>,
 > = (
 	attributes: InterpretedAttributes,
-	innerBlocks: BlockInstance[],
+	innerBlocks: BlockInstanceAsObject[],
 ) => boolean;
 
 export type CreateBlockSaveProps<
 	InterpretedAttributes extends Record<string, unknown>,
 > = {
 	readonly attributes: InterpretedAttributes;
-	readonly innerBlocks: readonly BlockInstance[];
+	readonly innerBlocks: readonly BlockInstanceAsObject[];
 };
 export type CreateBlockEditProps<
 	InterpretedAttributes extends Record<string, unknown>,
@@ -325,17 +344,17 @@ export type CreateBlockEditProps<
 	readonly clientId: string;
 	readonly attributes: InterpretedAttributes;
 	readonly context: Context;
-	readonly insertBlocksAfter: BlockInstance[] | undefined;
+	readonly insertBlocksAfter: BlockInstanceAsObject[] | undefined;
 	readonly isSelected: boolean;
-	readonly mergeBlocks: BlockInstance[] | undefined;
+	readonly mergeBlocks: BlockInstanceAsObject[] | undefined;
 	readonly onRemove: () => void | undefined;
 	readonly onReplace: (
 		clientIds: string | string[],
-		blocks: BlockInstance | BlockInstance[],
+		blocks: BlockInstanceAsObject | BlockInstanceAsObject[],
 		indexToSelect: number,
 		initialPosition: 0 | -1 | null,
 		meta: Record<string, unknown>,
-	) => BlockInstance[] | undefined;
+	) => BlockInstanceAsObject[] | undefined;
 	readonly setAttributes: (attributes: Partial<InterpretedAttributes>) => void;
 	readonly toggleSelection: (isSelectionEnabled: boolean) => void;
 };
@@ -347,11 +366,11 @@ export type BlockTypeTransform<
 	blocks: string[];
 	transform: (
 		attributes: InterpretedAttributes,
-		innerBlocks: BlockInstance[],
-	) => BlockInstance | BlockInstance[];
+		innerBlocks: BlockInstanceAsObject[],
+	) => BlockInstanceAsObject | BlockInstanceAsObject[];
 	isMatch?: (
 		attributes: InterpretedAttributes,
-		block: BlockInstance,
+		block: BlockInstanceAsObject,
 	) => boolean;
 	isMultiBlock?: boolean;
 	priority?: number;
@@ -360,13 +379,15 @@ export type BlockTypeTransform<
 export type EnterTypeTransform = {
 	type: "enter";
 	regExp: RegExp;
-	transform: (enteredValue: string) => BlockInstance | BlockInstance[];
+	transform: (
+		enteredValue: string,
+	) => BlockInstanceAsObject | BlockInstanceAsObject[];
 	priority?: number;
 };
 
 export type FilesTypeTransform = {
 	type: "files";
-	transform: (files: File[]) => BlockInstance | BlockInstance[];
+	transform: (files: File[]) => BlockInstanceAsObject | BlockInstanceAsObject[];
 	isMatch?: (files: File[]) => boolean;
 	priority?: number;
 };
@@ -374,7 +395,9 @@ export type FilesTypeTransform = {
 export type PrefixTypeTransform = {
 	type: "prefix";
 	prefix: string;
-	transform: (content: File[]) => BlockInstance | BlockInstance[];
+	transform: (
+		content: File[],
+	) => BlockInstanceAsObject | BlockInstanceAsObject[];
 	priority?: number;
 };
 
@@ -450,7 +473,7 @@ export type TransformRawSchema = Record<
 
 export type RawTypeTransform = {
 	type: "raw";
-	transform?: (node: Node) => BlockInstance | BlockInstance[];
+	transform?: (node: Node) => BlockInstanceAsObject | BlockInstanceAsObject[];
 	schema?:
 		| TransformRawSchema
 		| (({
@@ -487,7 +510,7 @@ export type ShortCodeTypeTransform = {
 	transform?: (
 		shortcodeAttributes: WPShortCodeAttributes,
 		shortcodeMatch: WPShortCodeMatch,
-	) => BlockInstance | BlockInstance[];
+	) => BlockInstanceAsObject | BlockInstanceAsObject[];
 	attributes?: Readonly<
 		Record<
 			string,
@@ -581,14 +604,19 @@ export type AllDeprecations<
 > = {
 	attributes: any;
 	supports: any;
-	isEligible: (attributes: any, innerBlocks: BlockInstance[]) => boolean;
+	isEligible: (
+		attributes: any,
+		innerBlocks: BlockInstanceAsObject[],
+	) => boolean;
 	migrate: (
 		attributes: any,
-		innerBlocks: BlockInstance[],
-	) => NewInterpretedAttributes | [NewInterpretedAttributes, BlockInstance[]];
+		innerBlocks: BlockInstanceAsObject[],
+	) =>
+		| NewInterpretedAttributes
+		| [NewInterpretedAttributes, BlockInstanceAsObject[]];
 	save: (props: {
 		readonly attributes: any;
-		readonly innerBlocks: readonly BlockInstance[];
+		readonly innerBlocks: readonly BlockInstanceAsObject[];
 	}) => Element | null;
 }[];
 
