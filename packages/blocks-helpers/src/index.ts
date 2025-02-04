@@ -73,10 +73,10 @@ export type BlockInstanceAsArray<
 	>,
 	InnerBlocks extends BlockInstanceAsObject[] | BlockInstanceAsArray[] = [
 		string,
-		InterpretedAttributes | undefined,
-		BlockInstanceAsArray<Record<string, unknown>, any[]>[] | undefined,
+		InterpretedAttributes?,
+		BlockInstanceAsArray<Record<string, unknown>, any[]>[]?,
 	][],
-> = [string, InterpretedAttributes | undefined, InnerBlocks | undefined];
+> = [string, InterpretedAttributes?, InnerBlocks?];
 
 export type BlockExample<
 	InterpretedAttributes extends Record<string, unknown>,
