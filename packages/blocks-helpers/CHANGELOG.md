@@ -1,5 +1,11 @@
 # @atomicsmash/blocks-helpers
 
+## 5.0.0-beta.1
+
+### Patch Changes
+
+- [#268](https://github.com/AtomicSmash/packages/pull/268) [`fb47b23`](https://github.com/AtomicSmash/packages/commit/fb47b23df2e496437d2c12c0f153beb5c8d6bfab) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Make array block instance tuple elements optional
+
 ## 5.0.0-beta.0
 
 ### Major Changes
