@@ -9,10 +9,7 @@ import type { BlockSupports } from "./block-supports";
 import type { DefaultAttributes } from "./default-attributes";
 import type { Element } from "@wordpress/element";
 
-import {
-	createBlock,
-	registerBlockType as wordpressRegisterBlockType,
-} from "@wordpress/blocks";
+import { registerBlockType as wordpressRegisterBlockType } from "@wordpress/blocks";
 export type {
 	AttributesObject,
 	BlockAttributes,
@@ -54,18 +51,22 @@ export type InterpretUsedContext<
 	[Property in UsesContext[number]]: InterpretedContext[Property];
 };
 
-type BlockInstance = ReturnType<typeof createBlock>;
-export type InnerBlocks = {
-	name: BlockInstance["name"];
-	attributes: BlockInstance["attributes"];
-	innerBlocks?: InnerBlocks[];
+export type BlockInstance<
+	InterpretedAttributes extends Record<string, unknown> = Record<
+		string,
+		unknown
+	>,
+> = {
+	name: string;
+	attributes?: InterpretedAttributes;
+	innerBlocks?: BlockInstance[];
 };
 export type BlockExample<
 	InterpretedAttributes extends Record<string, unknown>,
 > = {
 	viewportWidth?: number;
 	attributes?: InterpretedAttributes;
-	innerBlocks?: InnerBlocks[];
+	innerBlocks?: BlockInstance[];
 };
 
 /**
@@ -104,7 +105,7 @@ export type BlockVariations<
 	icon?: string | JSX.Element;
 	isDefault?: boolean;
 	attributes?: RecursivePartial<InterpretedAttributes>;
-	innerBlocks?: InnerBlocks[];
+	innerBlocks?: BlockInstance[];
 	example?: BlockExample<InterpretedAttributes>;
 	scope?: ("inserter" | "block" | "transform")[];
 	keywords?: string[];
@@ -301,18 +302,21 @@ export type BlockMigrateDeprecationFunction<
 	NewInterpretedAttributes extends Record<string, unknown>,
 > = (
 	attributes: OldInterpretedAttributes,
-	innerBlocks: InnerBlocks[],
-) => NewInterpretedAttributes | [NewInterpretedAttributes, InnerBlocks[]];
+	innerBlocks: BlockInstance[],
+) => NewInterpretedAttributes | [NewInterpretedAttributes, BlockInstance[]];
 
 export type BlockIsDeprecationEligibleFunction<
 	InterpretedAttributes extends Record<string, unknown>,
-> = (attributes: InterpretedAttributes, innerBlocks: InnerBlocks[]) => boolean;
+> = (
+	attributes: InterpretedAttributes,
+	innerBlocks: BlockInstance[],
+) => boolean;
 
 export type CreateBlockSaveProps<
 	InterpretedAttributes extends Record<string, unknown>,
 > = {
 	readonly attributes: InterpretedAttributes;
-	readonly innerBlocks: readonly InnerBlocks[];
+	readonly innerBlocks: readonly BlockInstance[];
 };
 export type CreateBlockEditProps<
 	InterpretedAttributes extends Record<string, unknown>,
@@ -343,7 +347,7 @@ export type BlockTypeTransform<
 	blocks: string[];
 	transform: (
 		attributes: InterpretedAttributes,
-		innerBlocks: InnerBlocks[],
+		innerBlocks: BlockInstance[],
 	) => BlockInstance | BlockInstance[];
 	isMatch?: (
 		attributes: InterpretedAttributes,
@@ -577,14 +581,14 @@ export type AllDeprecations<
 > = {
 	attributes: any;
 	supports: any;
-	isEligible: (attributes: any, innerBlocks: InnerBlocks[]) => boolean;
+	isEligible: (attributes: any, innerBlocks: BlockInstance[]) => boolean;
 	migrate: (
 		attributes: any,
-		innerBlocks: InnerBlocks[],
-	) => NewInterpretedAttributes | [NewInterpretedAttributes, InnerBlocks[]];
+		innerBlocks: BlockInstance[],
+	) => NewInterpretedAttributes | [NewInterpretedAttributes, BlockInstance[]];
 	save: (props: {
 		readonly attributes: any;
-		readonly innerBlocks: readonly InnerBlocks[];
+		readonly innerBlocks: readonly BlockInstance[];
 	}) => Element | null;
 }[];
 
