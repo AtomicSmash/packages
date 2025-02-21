@@ -127,6 +127,7 @@ const compiler = webpack({
 		library: {
 			type: "modern-module",
 		},
+		libraryTarget: "module",
 		module: true,
 		path: distFolder,
 	},
