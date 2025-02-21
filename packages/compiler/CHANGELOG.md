@@ -1,5 +1,11 @@
 # @atomicsmash/compiler
 
+## 0.2.4
+
+### Patch Changes
+
+- [`c94e0e2`](https://github.com/AtomicSmash/packages/commit/c94e0e23e3d47860b4f10235fdf2092a89a18829) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Fix library module issues
+
 ## 0.2.3
 
 ### Patch Changes
