@@ -1,5 +1,11 @@
 # @atomicsmash/compiler
 
+## 0.3.0
+
+### Minor Changes
+
+- Add optional Vue support to compiler
+
 ## 0.2.4
 
 ### Patch Changes

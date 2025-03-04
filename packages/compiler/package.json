@@ -1,7 +1,7 @@
 {
 	"name": "@atomicsmash/compiler",
 	"type": "module",
-	"version": "0.2.4",
+	"version": "0.3.0",
 	"description": "A universal compiler for all Atomic Smash projects.",
 	"keywords": [
 		"cli",
@@ -66,10 +66,13 @@
 		"yargs": "^17.7.2"
 	},
 	"devDependencies": {
+		"@tailwindcss/postcss": "^4.0.9",
 		"@types/svg-spritemap-webpack-plugin": "^4.4.4",
 		"@types/webpack": "^5.28.5",
 		"@types/webpack-assets-manifest": "^5.1.4",
 		"@types/webpack-bundle-analyzer": "^4.7.0",
-		"@types/yargs": "^17.0.33"
+		"@types/yargs": "^17.0.33",
+		"tailwindcss": "^4.0.9",
+		"vue-loader": "^17.4.2"
 	}
 }

@@ -1,5 +1,4 @@
 #!/usr/bin/env node
-import type { ConfigPlugin } from "postcss-load-config";
 import type { Configuration } from "webpack";
 import {
 	sep as pathSeparator,
@@ -65,18 +64,27 @@ const MODE =
 
 const srcFolder = resolvePath(argv.in);
 const distFolder = resolvePath(argv.out);
-// @ts-expect-error -- Module doesn't need to be installed in compiler package.
+// Add optional support for Tailwind if tailwind postcss plugin is installed
 const tailwindPostCSSPlugin = await import("@tailwindcss/postcss")
-	.then((tailwindPostCSS: { default: ConfigPlugin }) => [
-		tailwindPostCSS.default,
-	])
+	.then((tailwindPostCSS) => [tailwindPostCSS.default])
 	.catch(
 		async () =>
-			// @ts-expect-error -- Module doesn't need to be installed in compiler package.
 			await import("tailwindcss")
-				.then((tailwindcss: { default: ConfigPlugin }) => [tailwindcss.default])
+				.then((tailwindcss) => [tailwindcss.default])
 				.catch(() => []),
 	);
+// Add optional support for Vue if vue-loader is installed
+const vueConfig = await import("vue-loader")
+	.then((vueLoaderModule) => ({
+		loader: [
+			{
+				test: /\.vue$/,
+				loader: "vue-loader",
+			},
+		],
+		plugin: [new vueLoaderModule.VueLoaderPlugin()],
+	}))
+	.catch(() => ({ loader: [], plugin: [] }));
 
 const postCSSConfig = [
 	[
@@ -137,6 +145,7 @@ const compiler = webpack({
 	},
 	module: {
 		rules: [
+			...vueConfig.loader,
 			{
 				test: /\.[jt]sx?$/,
 				use: {
@@ -145,7 +154,12 @@ const compiler = webpack({
 						presets: ["@babel/preset-typescript", "@babel/preset-env"],
 					},
 				},
-				exclude: /node_modules/,
+				exclude: (file) => {
+					if (vueConfig.loader.length > 0) {
+						return file.includes("node_modules") && !file.includes(".vue.js");
+					}
+					return file.includes("node_modules");
+				},
 			},
 			{
 				test: /\.s[ac]ss$/i,
@@ -247,6 +261,7 @@ const compiler = webpack({
 		new DependencyExtractionWebpackPlugin({
 			combineAssets: true,
 		}),
+		...vueConfig.plugin,
 	],
 });
 
