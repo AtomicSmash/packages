@@ -35,6 +35,7 @@ const commonRules = {
 			ignore: ["blockless-after-blockless", "first-nested", "after-comment"],
 		},
 	],
+	"scss/at-rule-no-unknown": [true, { ignoreAtRules: "context" }],
 };
 
 /** @type {import('stylelint').Config} */
