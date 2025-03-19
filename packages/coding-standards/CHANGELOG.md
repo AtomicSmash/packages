@@ -1,5 +1,15 @@
 # @atomicsmash/coding-standards
 
+## 13.0.0-beta.1
+
+### Patch Changes
+
+- [#276](https://github.com/AtomicSmash/packages/pull/276) [`46698cf`](https://github.com/AtomicSmash/packages/commit/46698cf5c9ced1dfa0e7fa18adb69d8886d3d305) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Fix context at rules error
+
+- Updated dependencies []:
+  - @atomicsmash/eslint-config@13.0.0-beta.1
+  - @atomicsmash/browserslist-config@13.0.0-beta.1
+
 ## 13.0.0-beta.0
 
 ### Major Changes
