@@ -108,18 +108,14 @@ const compiler = webpack({
 	},
 	devtool: MODE === "development" ? "source-map" : false,
 	mode: MODE,
-	experiments: {
-		outputModule: true,
-	},
 	entry: await glob([
-		`${srcFolder}/js/*.{js,ts}`,
+		`${srcFolder}/js/*.{js,ts,jsx,tsx}`,
 		`${srcFolder}/css/*.css`,
-		`${srcFolder}/css/*.s[ac]ss`,
+		`${srcFolder}/css/**/[^_]*.s[ac]ss`,
 	]).then((paths) => {
 		const entryPoints: Configuration["entry"] = {};
 		paths.forEach((path) => {
 			const entryName = path.replace(srcFolder, "").replace(extname(path), "");
-
 			entryPoints[entryName] = {
 				import: path,
 				filename: `${path.replace(`${srcFolder}${pathSeparator}`, "").replace(extname(path), "")}${
@@ -133,10 +129,8 @@ const compiler = webpack({
 		filename: "js/[name].[contenthash].js",
 		clean: true,
 		library: {
-			type: "modern-module",
+			type: "umd",
 		},
-		libraryTarget: "module",
-		module: true,
 		path: distFolder,
 	},
 	resolve: {
@@ -151,7 +145,16 @@ const compiler = webpack({
 				use: {
 					loader: "babel-loader",
 					options: {
-						presets: ["@babel/preset-typescript", "@babel/preset-env"],
+						presets: [
+							"@babel/preset-typescript",
+							[
+								"@babel/preset-react",
+								{
+									runtime: "automatic",
+								},
+							],
+							"@babel/preset-env",
+						],
 					},
 				},
 				exclude: (file) => {
