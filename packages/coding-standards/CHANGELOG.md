@@ -1,5 +1,21 @@
 # @atomicsmash/coding-standards
 
+## 13.0.0-beta.0
+
+### Major Changes
+
+- [#274](https://github.com/AtomicSmash/packages/pull/274) [`5f05f69`](https://github.com/AtomicSmash/packages/commit/5f05f691b9218c00d1f340fe1b7600803b12761e) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Make stylelint config stable
+
+### Minor Changes
+
+- [#274](https://github.com/AtomicSmash/packages/pull/274) [`5f05f69`](https://github.com/AtomicSmash/packages/commit/5f05f691b9218c00d1f340fe1b7600803b12761e) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Allow @context at rule for postcss-plugin-context
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @atomicsmash/eslint-config@13.0.0-beta.0
+  - @atomicsmash/browserslist-config@13.0.0-beta.0
+
 ## 12.0.2
 
 ### Patch Changes
