@@ -15,5 +15,8 @@
     "@atomicsmash/test-utils": "4.0.0",
     "@atomicsmash/wordpress-tests-helper": "1.0.1"
   },
-  "changesets": []
+  "changesets": [
+    "neat-apricots-think",
+    "selfish-carrots-train"
+  ]
 }
