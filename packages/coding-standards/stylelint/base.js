@@ -35,7 +35,6 @@ const commonRules = {
 			ignore: ["blockless-after-blockless", "first-nested", "after-comment"],
 		},
 	],
-	"scss/at-rule-no-unknown": [true, { ignoreAtRules: "context" }],
 };
 
 /** @type {import('stylelint').Config} */
@@ -49,6 +48,9 @@ module.exports = {
 		{
 			files: ["*.css", "**/*.css"],
 			extends: ["stylelint-config-standard", "@wordpress/stylelint-config"],
+			rules: {
+				"at-rule-no-unknown": [true, { ignoreAtRules: "context" }],
+			},
 		},
 		{
 			files: ["*.scss", "**/*.scss"],
@@ -59,6 +61,7 @@ module.exports = {
 			rules: {
 				"scss/operator-no-newline-after": null,
 				"no-descending-specificity": null,
+				"scss/at-rule-no-unknown": [true, { ignoreAtRules: "context" }],
 			},
 		},
 		{
