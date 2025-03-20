@@ -1,5 +1,21 @@
 # @atomicsmash/compiler
 
+## 0.4.0
+
+### Minor Changes
+
+- [`882e0de`](https://github.com/AtomicSmash/packages/commit/882e0de1d1f9577fbbc3f3d234a57dcf67a69f22) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Add JSX and react support
+
+- [`bd37ee2`](https://github.com/AtomicSmash/packages/commit/bd37ee214323def0b40ad5d51ab8e877d4db0106) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Add postcss context code
+
+### Patch Changes
+
+- [`882e0de`](https://github.com/AtomicSmash/packages/commit/882e0de1d1f9577fbbc3f3d234a57dcf67a69f22) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Target only non-partial scss files
+
+- [`882e0de`](https://github.com/AtomicSmash/packages/commit/882e0de1d1f9577fbbc3f3d234a57dcf67a69f22) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Search subfolders of css for scss files
+
+- [`882e0de`](https://github.com/AtomicSmash/packages/commit/882e0de1d1f9577fbbc3f3d234a57dcf67a69f22) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Switch library output to umd (module was too experimental to work with WP packages)
+
 ## 0.3.0
 
 ### Minor Changes
