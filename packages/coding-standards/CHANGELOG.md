@@ -1,5 +1,17 @@
 # @atomicsmash/coding-standards
 
+## 13.0.0-beta.2
+
+### Minor Changes
+
+- [#278](https://github.com/AtomicSmash/packages/pull/278) [`0ac220e`](https://github.com/AtomicSmash/packages/commit/0ac220ec1cd1b735e790a11f68a9b5a50110588a) Thanks [@steve-brett](https://github.com/steve-brett)! - Add PHP type hinting rules
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @atomicsmash/eslint-config@13.0.0-beta.2
+  - @atomicsmash/browserslist-config@13.0.0-beta.2
+
 ## 13.0.0-beta.1
 
 ### Patch Changes

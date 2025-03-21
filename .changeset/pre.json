@@ -16,6 +16,7 @@
     "@atomicsmash/wordpress-tests-helper": "1.0.1"
   },
   "changesets": [
+    "mighty-chicken-joke",
     "neat-apricots-think",
     "selfish-carrots-train",
     "twenty-turtles-boil"
