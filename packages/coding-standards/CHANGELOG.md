@@ -1,5 +1,17 @@
 # @atomicsmash/coding-standards
 
+## 13.0.0-beta.3
+
+### Minor Changes
+
+- [#280](https://github.com/AtomicSmash/packages/pull/280) [`46e983b`](https://github.com/AtomicSmash/packages/commit/46e983bdf437f385200dfed23b2500209434416e) Thanks [@steve-brett](https://github.com/steve-brett)! - Install PHP CS rules via npm
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @atomicsmash/eslint-config@13.0.0-beta.3
+  - @atomicsmash/browserslist-config@13.0.0-beta.3
+
 ## 13.0.0-beta.2
 
 ### Minor Changes
