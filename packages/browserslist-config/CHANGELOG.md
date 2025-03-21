@@ -1,5 +1,7 @@
 # @atomicsmash/browserslist-config
 
+## 13.0.0-beta.2
+
 ## 13.0.0-beta.1
 
 ## 13.0.0-beta.0
