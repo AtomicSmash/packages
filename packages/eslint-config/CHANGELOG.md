@@ -1,5 +1,7 @@
 # @atomicsmash/eslint-config
 
+## 13.0.0-beta.3
+
 ## 13.0.0-beta.2
 
 ## 13.0.0-beta.1
