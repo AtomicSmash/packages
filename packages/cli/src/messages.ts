@@ -6,6 +6,7 @@ export const helpMessage = `
   Available commands:
     svg - generate an SVG sprite from a group of SVGs.
     blocks - compile WP blocks source code
+    setup - Run all the common setup tasks for a project.
 
   Options:
     --help, -h          Print a help message for the command and exit.
