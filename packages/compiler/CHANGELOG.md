@@ -1,5 +1,11 @@
 # @atomicsmash/compiler
 
+## 0.5.1
+
+### Patch Changes
+
+- [`4acdfe7`](https://github.com/AtomicSmash/packages/commit/4acdfe781f8d863f77860058631de96707245cbd) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Fix nested image and font folders
+
 ## 0.5.0
 
 ### Minor Changes
