@@ -11,8 +11,6 @@ import CopyPlugin from "copy-webpack-plugin";
 import cssNano from "cssnano";
 import { EsbuildPlugin } from "esbuild-loader";
 import glob from "fast-glob";
-import postCSSIncreaseSpecificity from "postcss-increase-specificity";
-import postCSSContext from "postcss-plugin-context";
 import postCSSPresetEnv from "postcss-preset-env";
 import SVGSpritemapPlugin from "svg-spritemap-webpack-plugin";
 import { TsconfigPathsPlugin } from "tsconfig-paths-webpack-plugin";
@@ -98,12 +96,6 @@ const postCSSConfig = [
 			features: {
 				"custom-media-queries": true,
 			},
-		}),
-		postCSSContext({
-			wordpressEditor: postCSSIncreaseSpecificity({
-				repeat: 1,
-				stackableRoot: ".is-root-container",
-			}),
 		}),
 	],
 	...(MODE === "production" ? [cssNano] : []),
