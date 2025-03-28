@@ -1,5 +1,13 @@
 # @atomicsmash/compiler
 
+## 0.5.0
+
+### Minor Changes
+
+- [`c1002ae`](https://github.com/AtomicSmash/packages/commit/c1002ae9b5648d2fb6595ea950ad7dd765f05f39) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Remove postcss context as it's not needed
+
+- [`7687aba`](https://github.com/AtomicSmash/packages/commit/7687abaff081622b872b70675e6e4ab8a3c7a811) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Use esbuild loader and plugin instead of babel loader
+
 ## 0.4.1
 
 ### Patch Changes
