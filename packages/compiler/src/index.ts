@@ -90,10 +90,13 @@ const vueConfig = await import("vue-loader")
 
 const postCSSConfig = [
 	[
+		// Support tailwind if package is found
 		...tailwindPostCSSPlugin,
 		postCSSPresetEnv({
+			// Support all CSS that is considered stable.
 			stage: 2,
 			features: {
+				// Polyfill support for custom media queries
 				"custom-media-queries": true,
 			},
 		}),
@@ -104,15 +107,22 @@ const postCSSConfig = [
 const compiler = webpack({
 	resolveLoader: {
 		modules: [
+			// Get modules from project node_modules folder
 			"node_modules",
+			// Get modules from this package's internal node modules folder once installed
 			resolvePath(import.meta.dirname, "../", "node_modules"),
 		],
 	},
+	// Add sourcemaps in dev mode
 	devtool: MODE === "development" ? "source-map" : false,
+	// Set the environment mode from NODE_ENV.
 	mode: MODE,
 	entry: await glob([
+		// Parse all direct children of the JS folder, as long as they are JS & TS files
 		`${srcFolder}/js/*.{js,ts,jsx,tsx}`,
+		// Parse all direct children of the CSS folder, as long as they are CSS files
 		`${srcFolder}/css/*.css`,
+		// Parse all nested children of the CSS folder, as long as they are non-partial SCSS files
 		`${srcFolder}/css/**/[^_]*.s[ac]ss`,
 	]).then((paths) => {
 		const entryPoints: Configuration["entry"] = {};
@@ -120,6 +130,7 @@ const compiler = webpack({
 			const entryName = path.replace(srcFolder, "").replace(extname(path), "");
 			entryPoints[entryName] = {
 				import: path,
+				// Output filenames with content hash for fingerprinting
 				filename: `${path.replace(`${srcFolder}${pathSeparator}`, "").replace(extname(path), "")}${
 					MODE === "production" ? `.[contenthash]` : ""
 				}.js`,
@@ -128,28 +139,38 @@ const compiler = webpack({
 		return entryPoints;
 	}),
 	output: {
+		// Output filenames with content hash for fingerprinting
 		filename: "js/[name].[contenthash].js",
+		// Clear files between runs
 		clean: true,
 		library: {
+			// Output JS files with Universal Module Definition
 			type: "umd",
 		},
+		// Set the output folder
 		path: distFolder,
 	},
 	resolve: {
+		// support TSConfig paths as aliases
 		plugins: [new TsconfigPathsPlugin()],
+		// resolve TS extensions
 		extensions: [".tsx", ".ts", ".js", ".jsx"],
 	},
 	module: {
 		rules: [
+			// Support Vue files if vue-loader is present
 			...vueConfig.loader,
+			// Use ESBuild loader to transpile JS & TS files
 			{
 				test: /\.[jt]sx?$/,
 				use: {
 					loader: "esbuild-loader",
 					options: {
+						// Set target to match the browserslist config
 						target: browserslistToEsbuild(),
 					},
 				},
+				// Exclude node_modules files from transpilation unless they are vue files and the vue-loader is present
 				exclude: (file) => {
 					if (vueConfig.loader.length > 0) {
 						return file.includes("node_modules") && !file.includes(".vue.js");
@@ -157,6 +178,7 @@ const compiler = webpack({
 					return file.includes("node_modules");
 				},
 			},
+			// Transpile SCSS files and run the result through postcss
 			{
 				test: /\.s[ac]ss$/i,
 				exclude: /node_modules/,
@@ -183,6 +205,7 @@ const compiler = webpack({
 					},
 				],
 			},
+			// Run the css files through postcss
 			{
 				test: /\.css$/i,
 				exclude: /node_modules/,
@@ -206,7 +229,9 @@ const compiler = webpack({
 		],
 	},
 	plugins: [
+		// Output progress information when compiling
 		new webpack.ProgressPlugin(),
+		// Generate a manifest file of assets to make it possible to target fingerprinted files
 		new WebpackAssetsManifest({
 			writeToDisk: true,
 			output: `${distFolder}/assets-manifest.json`,
@@ -228,6 +253,7 @@ const compiler = webpack({
 				return entry;
 			},
 		}),
+		// Create an SVG sprite from a folder of provided icons
 		new SVGSpritemapPlugin(`${srcFolder}/icons/*.svg`, {
 			output: {
 				filename: "icons/sprite.[contenthash].svg",
@@ -239,6 +265,7 @@ const compiler = webpack({
 				},
 			},
 		}),
+		// Copy fonts and images from the src folder to assets (available for backwards compatibility, not recommended)
 		new CopyPlugin({
 			patterns: [
 				{
@@ -253,14 +280,18 @@ const compiler = webpack({
 				},
 			],
 		}),
+		// Output a bundle analysis if flag was provided
 		...(argv.analyse ? [new BundleAnalyzerPlugin({})] : []),
+		// Extract wordpress dependencies from js files and output a wordpress assets file for enqueues
 		new DependencyExtractionWebpackPlugin({
 			combineAssets: true,
 		}),
+		// Support Vue files if vue-loader is present
 		...vueConfig.plugin,
 	],
 	optimization: {
 		minimizer: [
+			// Minify JS files
 			new EsbuildPlugin({
 				target: browserslistToEsbuild(),
 			}),
