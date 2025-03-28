@@ -6,8 +6,10 @@ import {
 	resolve as resolvePath,
 } from "node:path";
 import DependencyExtractionWebpackPlugin from "@wordpress/dependency-extraction-webpack-plugin";
+import browserslistToEsbuild from "browserslist-to-esbuild";
 import CopyPlugin from "copy-webpack-plugin";
 import cssNano from "cssnano";
+import { EsbuildPlugin } from "esbuild-loader";
 import glob from "fast-glob";
 import postCSSIncreaseSpecificity from "postcss-increase-specificity";
 import postCSSContext from "postcss-plugin-context";
@@ -151,18 +153,9 @@ const compiler = webpack({
 			{
 				test: /\.[jt]sx?$/,
 				use: {
-					loader: "babel-loader",
+					loader: "esbuild-loader",
 					options: {
-						presets: [
-							"@babel/preset-typescript",
-							[
-								"@babel/preset-react",
-								{
-									runtime: "automatic",
-								},
-							],
-							"@babel/preset-env",
-						],
+						target: browserslistToEsbuild(),
 					},
 				},
 				exclude: (file) => {
@@ -274,6 +267,13 @@ const compiler = webpack({
 		}),
 		...vueConfig.plugin,
 	],
+	optimization: {
+		minimizer: [
+			new EsbuildPlugin({
+				target: browserslistToEsbuild(),
+			}),
+		],
+	},
 });
 
 if (argv.watch) {

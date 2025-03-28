@@ -44,14 +44,12 @@
 		"lint:types": "tsc"
 	},
 	"dependencies": {
-		"@babel/preset-env": "^7.26.0",
-		"@babel/preset-react": "^7.26.3",
-		"@babel/preset-typescript": "^7.26.0",
 		"@wordpress/dependency-extraction-webpack-plugin": "^6.15.0",
-		"babel-loader": "^9.2.1",
+		"browserslist-to-esbuild": "^2.1.1",
 		"copy-webpack-plugin": "^12.0.2",
 		"css-loader": "^7.1.2",
 		"cssnano": "^7.0.6",
+		"esbuild-loader": "^4.3.0",
 		"fast-glob": "^3.3.2",
 		"postcss": "^8.4.49",
 		"postcss-increase-specificity": "^0.6.0",
