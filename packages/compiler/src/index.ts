@@ -4,6 +4,7 @@ import {
 	sep as pathSeparator,
 	extname,
 	resolve as resolvePath,
+	relative,
 } from "node:path";
 import DependencyExtractionWebpackPlugin from "@wordpress/dependency-extraction-webpack-plugin";
 import browserslistToEsbuild from "browserslist-to-esbuild";
@@ -269,13 +270,19 @@ const compiler = webpack({
 		new CopyPlugin({
 			patterns: [
 				{
-					from: `${srcFolder}/fonts`,
-					to: "[path]fonts/[name][ext]",
+					from: "**/*",
+					context: resolvePath(srcFolder, "fonts"),
+					to({ context, absoluteFilename }) {
+						return `fonts/${relative(context, absoluteFilename ?? "")}`;
+					},
 					noErrorOnMissing: true,
 				},
 				{
-					from: `${srcFolder}/images`,
-					to: "[path]images/[name][ext]",
+					from: "**/*",
+					context: resolvePath(srcFolder, "images"),
+					to({ context, absoluteFilename }) {
+						return `images/${relative(context, absoluteFilename ?? "")}`;
+					},
 					noErrorOnMissing: true,
 				},
 			],
