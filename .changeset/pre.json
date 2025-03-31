@@ -16,10 +16,15 @@
     "@atomicsmash/wordpress-tests-helper": "1.0.1"
   },
   "changesets": [
+    "cold-ravens-switch",
+    "common-rats-lay",
     "mighty-chicken-joke",
     "neat-apricots-think",
+    "red-roses-doubt",
     "selfish-carrots-train",
+    "soft-eggs-jump",
     "twenty-turtles-boil",
-    "wild-students-marry"
+    "wild-students-marry",
+    "young-peas-juggle"
   ]
 }
