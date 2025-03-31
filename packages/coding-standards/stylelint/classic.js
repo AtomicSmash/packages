@@ -1,3 +1,1 @@
-const baseConfig = require("./base");
-
-module.exports = baseConfig;
+module.exports = require("./classic.cjs");
