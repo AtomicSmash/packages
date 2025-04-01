@@ -1,5 +1,19 @@
 # @atomicsmash/compiler
 
+## 0.6.0
+
+### Minor Changes
+
+- [`55ab53a`](https://github.com/AtomicSmash/packages/commit/55ab53a7d7fbbfd567b3cb39034fce0b305e8c1b) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Add experimental blocks support
+
+- [`55ab53a`](https://github.com/AtomicSmash/packages/commit/55ab53a7d7fbbfd567b3cb39034fce0b305e8c1b) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Rename wordpress assets file from assets.php to wordpress-assets-info.php
+
+- [`55ab53a`](https://github.com/AtomicSmash/packages/commit/55ab53a7d7fbbfd567b3cb39034fce0b305e8c1b) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Fix nested folder output for css files
+
+### Patch Changes
+
+- [`55ab53a`](https://github.com/AtomicSmash/packages/commit/55ab53a7d7fbbfd567b3cb39034fce0b305e8c1b) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Fix ts config resolution
+
 ## 0.5.1
 
 ### Patch Changes
