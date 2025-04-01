@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-import type { Configuration } from "webpack";
+import type { PathData } from "webpack";
 import {
 	sep as pathSeparator,
 	extname,
@@ -20,6 +20,8 @@ import WebpackAssetsManifest from "webpack-assets-manifest";
 import { BundleAnalyzerPlugin } from "webpack-bundle-analyzer";
 import yargs from "yargs";
 import { hideBin } from "yargs/helpers";
+import { BlocksPlugin } from "./BlocksPlugin.js";
+import { getBlocksAssetsEntryPoints } from "./getBlocksAssetsEntryPoints.js";
 
 declare global {
 	// eslint-disable-next-line @typescript-eslint/no-namespace -- Match NodeJS def
@@ -55,6 +57,17 @@ const argv = await yargs(hideBin(process.argv))
 			boolean: true,
 			default: false,
 			describe: "See a report of the generated bundle once built.",
+		},
+		experimentalBlocksSupport: {
+			boolean: true,
+			default: false,
+			describe: "Enable experimental support for WordPress blocks compilation.",
+		},
+		excludeBlocks: {
+			array: true,
+			default: ["__TEMPLATE__"],
+			describe:
+				"A comma separated list of the folder names of blocks to exclude from compilation. Requires experimental blocks support.",
 		},
 	})
 	.showHelpOnFail(false, "Specify --help for available options")
@@ -118,17 +131,32 @@ const compiler = webpack({
 	devtool: MODE === "development" ? "source-map" : false,
 	// Set the environment mode from NODE_ENV.
 	mode: MODE,
-	entry: await glob([
-		// Parse all direct children of the JS folder, as long as they are JS & TS files
-		`${srcFolder}/js/*.{js,ts,jsx,tsx}`,
-		// Parse all direct children of the CSS folder, as long as they are CSS files
-		`${srcFolder}/css/*.css`,
-		// Parse all nested children of the CSS folder, as long as they are non-partial SCSS files
-		`${srcFolder}/css/**/[^_]*.s[ac]ss`,
-	]).then((paths) => {
-		const entryPoints: Configuration["entry"] = {};
-		paths.forEach((path) => {
-			const entryName = path.replace(srcFolder, "").replace(extname(path), "");
+	entry: await glob(
+		[
+			...(argv.experimentalBlocksSupport
+				? [`${srcFolder}/blocks/**/block.json.ts`]
+				: []),
+			// Parse all direct children of the JS folder, as long as they are JS & TS files
+			`${srcFolder}/js/*.{js,ts,jsx,tsx}`,
+			// Parse all direct children of the CSS folder, as long as they are CSS files
+			`${srcFolder}/css/*.css`,
+			// Parse all nested children of the CSS folder, as long as they are non-partial SCSS files
+			`${srcFolder}/css/**/[^_]*.s[ac]ss`,
+		],
+		{
+			ignore: argv.experimentalBlocksSupport
+				? argv.excludeBlocks.map(
+						(blockName) => `${srcFolder}/blocks/**/${blockName}/block.json.ts`,
+					)
+				: [],
+		},
+	).then(async (paths) => {
+		const { restOfPaths, entryPoints } = argv.experimentalBlocksSupport
+			? await getBlocksAssetsEntryPoints(paths, {}, srcFolder)
+			: { restOfPaths: paths, entryPoints: {} };
+
+		restOfPaths.forEach((path) => {
+			const entryName = path.replace(srcFolder, "");
 			entryPoints[entryName] = {
 				import: path,
 				// Output filenames with content hash for fingerprinting
@@ -153,7 +181,11 @@ const compiler = webpack({
 	},
 	resolve: {
 		// support TSConfig paths as aliases
-		plugins: [new TsconfigPathsPlugin()],
+		plugins: [
+			new TsconfigPathsPlugin({
+				configFile: process.cwd() + "/tsconfig.json",
+			}),
+		],
 		// resolve TS extensions
 		extensions: [".tsx", ".ts", ".js", ".jsx"],
 	},
@@ -169,16 +201,36 @@ const compiler = webpack({
 					options: {
 						// Set target to match the browserslist config
 						target: browserslistToEsbuild(),
+						tsconfig: process.cwd() + "/tsconfig.json",
 					},
 				},
-				// Exclude node_modules files from transpilation unless they are vue files and the vue-loader is present
 				exclude: (file) => {
+					// Exclude all block.json.ts files (handled by a separate loader).
+					if (argv.experimentalBlocksSupport && file.includes("block.json")) {
+						return true;
+					}
+					// Exclude node_modules files from transpilation unless they are vue files and the vue-loader is present
 					if (vueConfig.loader.length > 0) {
 						return file.includes("node_modules") && !file.includes(".vue.js");
 					}
 					return file.includes("node_modules");
 				},
 			},
+			...(argv.experimentalBlocksSupport
+				? [
+						{
+							test: /block\.json\.ts$/,
+							type: "asset/resource",
+							generator: {
+								filename: (pathData: PathData) =>
+									relative(srcFolder, pathData.filename ?? "").slice(0, -3),
+							},
+							use: {
+								loader: resolvePath(import.meta.dirname, "./BlocksLoader.js"),
+							},
+						},
+					]
+				: []),
 			// Transpile SCSS files and run the result through postcss
 			{
 				test: /\.s[ac]ss$/i,
@@ -186,7 +238,11 @@ const compiler = webpack({
 				type: "asset/resource",
 				generator: {
 					binary: false,
-					filename: "css/[name].[contenthash].css",
+					filename: (pathData: PathData) =>
+						relative(srcFolder, pathData.filename ?? "").replace(
+							".scss",
+							".[contenthash].css",
+						),
 				},
 				use: [
 					{
@@ -213,7 +269,11 @@ const compiler = webpack({
 				type: "asset/resource",
 				generator: {
 					binary: false,
-					filename: "css/[name].[contenthash].css",
+					filename: (pathData: PathData) =>
+						relative(srcFolder, pathData.filename ?? "").replace(
+							".css",
+							".[contenthash].css",
+						),
 				},
 				use: [
 					{
@@ -237,18 +297,22 @@ const compiler = webpack({
 			writeToDisk: true,
 			output: `${distFolder}/assets-manifest.json`,
 			customize(entry) {
-				if (entry.key === "spritemap.svg") {
-					return { key: "icons/sprite.svg", value: entry.value };
-				}
-				if (entry.key.startsWith("/")) {
-					return { key: entry.key.slice(1), value: entry.value };
-				}
 				if (
 					entry.key === "assets.php" ||
+					entry.key === "wordpress-assets-info.php" ||
 					entry.key.startsWith("fonts") ||
 					entry.key.startsWith("images")
 				) {
 					return false;
+				}
+				if (entry.key === "spritemap.svg") {
+					return { key: "icons/sprite.svg", value: entry.value };
+				}
+				if (entry.key.startsWith("/")) {
+					entry.key = entry.key.slice(1);
+				}
+				if (entry.key.endsWith(".js.js")) {
+					entry.key = entry.key.slice(0, -3);
 				}
 
 				return entry;
@@ -292,9 +356,20 @@ const compiler = webpack({
 		// Extract wordpress dependencies from js files and output a wordpress assets file for enqueues
 		new DependencyExtractionWebpackPlugin({
 			combineAssets: true,
+			// Blocks plugin converts this to php, but it must be output as json here.
+			...(argv.experimentalBlocksSupport
+				? {
+						outputFormat: "json",
+						combinedOutputFile: "wordpress-assets-info.json",
+					}
+				: {
+						outputFormat: "php",
+						combinedOutputFile: "wordpress-assets-info.php",
+					}),
 		}),
 		// Support Vue files if vue-loader is present
 		...vueConfig.plugin,
+		...(argv.experimentalBlocksSupport ? [new BlocksPlugin(srcFolder)] : []),
 	],
 	optimization: {
 		minimizer: [
