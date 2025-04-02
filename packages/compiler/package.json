@@ -75,5 +75,8 @@
 		"@types/yargs": "^17.0.33",
 		"tailwindcss": "^4.0.9",
 		"vue-loader": "^17.4.2"
+	},
+	"engines": {
+		"node": "^20 || >=22"
 	}
 }
