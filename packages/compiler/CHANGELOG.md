@@ -1,5 +1,13 @@
 # @atomicsmash/compiler
 
+## 0.7.0
+
+### Minor Changes
+
+- [`442987a`](https://github.com/AtomicSmash/packages/commit/442987aad54eb53c8f74b6c2ab6f7cb0453c4916) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Add explicit node version support
+
+- [`04fc4d5`](https://github.com/AtomicSmash/packages/commit/04fc4d5cf3e0f64865b84f622aa0cd1251630863) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Change src folders to better show intent
+
 ## 0.6.0
 
 ### Minor Changes
