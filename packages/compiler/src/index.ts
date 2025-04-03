@@ -137,11 +137,11 @@ const compiler = webpack({
 				? [`${srcFolder}/blocks/**/block.json.ts`]
 				: []),
 			// Parse all direct children of the JS folder, as long as they are JS & TS files
-			`${srcFolder}/js/*.{js,ts,jsx,tsx}`,
+			`${srcFolder}/scripts/*.{js,ts,jsx,tsx}`,
 			// Parse all direct children of the CSS folder, as long as they are CSS files
-			`${srcFolder}/css/*.css`,
+			`${srcFolder}/styles/*.css`,
 			// Parse all nested children of the CSS folder, as long as they are non-partial SCSS files
-			`${srcFolder}/css/**/[^_]*.s[ac]ss`,
+			`${srcFolder}/styles/**/[^_]*.s[ac]ss`,
 		],
 		{
 			ignore: argv.experimentalBlocksSupport
