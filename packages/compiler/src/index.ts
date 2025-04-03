@@ -160,7 +160,7 @@ const compiler = webpack({
 			entryPoints[entryName] = {
 				import: path,
 				// Output filenames with content hash for fingerprinting
-				filename: `${path.replace(`${srcFolder}${pathSeparator}`, "").replace(extname(path), "")}${
+				filename: `${path.replace(`${srcFolder}${pathSeparator}`, "").replace(extname(path), "").replace("scripts/", "js/")}${
 					MODE === "production" ? `.[contenthash]` : ""
 				}.js`,
 			};
@@ -239,10 +239,9 @@ const compiler = webpack({
 				generator: {
 					binary: false,
 					filename: (pathData: PathData) =>
-						relative(srcFolder, pathData.filename ?? "").replace(
-							".scss",
-							".[contenthash].css",
-						),
+						relative(srcFolder, pathData.filename ?? "")
+							.replace(".scss", ".[contenthash].css")
+							.replace("styles/", "css/"),
 				},
 				use: [
 					{
@@ -270,10 +269,9 @@ const compiler = webpack({
 				generator: {
 					binary: false,
 					filename: (pathData: PathData) =>
-						relative(srcFolder, pathData.filename ?? "").replace(
-							".css",
-							".[contenthash].css",
-						),
+						relative(srcFolder, pathData.filename ?? "")
+							.replace(".css", ".[contenthash].css")
+							.replace("styles/", "css/"),
 				},
 				use: [
 					{
