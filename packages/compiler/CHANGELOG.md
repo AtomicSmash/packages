@@ -1,5 +1,11 @@
 # @atomicsmash/compiler
 
+## 0.7.1
+
+### Patch Changes
+
+- [`d0d9572`](https://github.com/AtomicSmash/packages/commit/d0d9572adbbb4035b1b6b80e17100abd0c90efb7) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Fix css and js output folders
+
 ## 0.7.0
 
 ### Minor Changes
