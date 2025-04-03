@@ -309,6 +309,9 @@ const compiler = webpack({
 				if (entry.key.startsWith("/")) {
 					entry.key = entry.key.slice(1);
 				}
+				if (entry.key.startsWith("css/")) {
+					entry.key = entry.key.replace("css/", "styles/");
+				}
 				if (entry.key.endsWith(".js.js")) {
 					entry.key = entry.key.slice(0, -3);
 				}
