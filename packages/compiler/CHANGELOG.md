@@ -1,5 +1,11 @@
 # @atomicsmash/compiler
 
+## 0.7.2
+
+### Patch Changes
+
+- [`2707adc`](https://github.com/AtomicSmash/packages/commit/2707adc99235b1d50d25ad09c9ebe2b28e7cac53) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Fix css files in asset manifest
+
 ## 0.7.1
 
 ### Patch Changes
