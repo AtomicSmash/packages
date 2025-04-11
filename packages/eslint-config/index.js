@@ -49,6 +49,16 @@ const config = {
 	},
 	overrides: [
 		{
+			files: ["*.mjs"],
+			env: {
+				commonjs: false,
+				es6: true,
+			},
+			parserOptions: {
+				sourceType: "module",
+			},
+		},
+		{
 			files: ["*.ts", "*.tsx", "*.mts", "*.cts"],
 			parser: "@typescript-eslint/parser",
 			plugins: ["@typescript-eslint", "import"],

@@ -1,0 +1,30 @@
+{
+  "mode": "exit",
+  "tag": "beta",
+  "initialVersions": {
+    "@atomicsmash/blocks-helpers": "5.0.0",
+    "@atomicsmash/browserslist-config": "12.0.2",
+    "@atomicsmash/cli": "7.1.3",
+    "@atomicsmash/coding-standards": "12.0.2",
+    "@atomicsmash/date-php": "2.1.0",
+    "@atomicsmash/dev-tools-helpers": "1.2.2",
+    "@atomicsmash/eslint-config": "12.0.2",
+    "@atomicsmash/http-response-codes": "1.2.1",
+    "@atomicsmash/init-testing": "1.1.0",
+    "@atomicsmash/react": "1.6.4",
+    "@atomicsmash/test-utils": "4.0.0",
+    "@atomicsmash/wordpress-tests-helper": "1.0.1"
+  },
+  "changesets": [
+    "cold-ravens-switch",
+    "common-rats-lay",
+    "mighty-chicken-joke",
+    "neat-apricots-think",
+    "red-roses-doubt",
+    "selfish-carrots-train",
+    "soft-eggs-jump",
+    "twenty-turtles-boil",
+    "wild-students-marry",
+    "young-peas-juggle"
+  ]
+}

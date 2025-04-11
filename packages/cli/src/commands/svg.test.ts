@@ -17,33 +17,42 @@ describe("SVG command works as intended", () => {
 	});
 	test("svg command correctly displays --in flag missing error if no flags added", async () => {
 		const command = `${testCommand} svg`;
-		await expect(execute(command)).rejects.toEqual({
-			error: new Error(
-				`Command failed: ${command}\nError: You need to provide a value for the --in flag.\n`,
-			),
-			stdout: "",
-			stderr: "Error: You need to provide a value for the --in flag.\n",
-		});
+		await expect(execute(command)).rejects.toThrowErrorMatchingInlineSnapshot(`
+			{
+			  "error": [Error: Command failed: ${command}
+			Error: You need to provide a value for the --in flag.
+			],
+			  "stderr": "Error: You need to provide a value for the --in flag.
+			",
+			  "stdout": "",
+			}
+		`);
 	});
 	test("svg command correctly displays --in flag missing error if in flag is missing", async () => {
 		const command = `${testCommand} svg --out ${testSVGsOut}`;
-		await expect(execute(command)).rejects.toEqual({
-			error: new Error(
-				`Command failed: ${command}\nError: You need to provide a value for the --in flag.\n`,
-			),
-			stdout: "",
-			stderr: "Error: You need to provide a value for the --in flag.\n",
-		});
+		await expect(execute(command)).rejects.toThrowErrorMatchingInlineSnapshot(`
+			{
+			  "error": [Error: Command failed: ${command}
+			Error: You need to provide a value for the --in flag.
+			],
+			  "stderr": "Error: You need to provide a value for the --in flag.
+			",
+			  "stdout": "",
+			}
+		`);
 	});
 	test("svg command correctly displays --out flag missing error if out flag is missing", async () => {
 		const command = `${testCommand} svg --in ${testSVGsIn}`;
-		await expect(execute(command)).rejects.toEqual({
-			error: new Error(
-				`Command failed: ${command}\nError: You need to provide a value for the --out flag.\n`,
-			),
-			stdout: "",
-			stderr: "Error: You need to provide a value for the --out flag.\n",
-		});
+		await expect(execute(command)).rejects.toThrowErrorMatchingInlineSnapshot(`
+			{
+			  "error": [Error: Command failed: ${command}
+			Error: You need to provide a value for the --out flag.
+			],
+			  "stderr": "Error: You need to provide a value for the --out flag.
+			",
+			  "stdout": "",
+			}
+		`);
 	});
 	test("svg command produces the correct svg output", async () => {
 		await execute(`${testCommand} svg --in ${testSVGsIn} --out ${testSVGsOut}`);
