@@ -1,5 +1,11 @@
 # @atomicsmash/cli
 
+## 7.1.4
+
+### Patch Changes
+
+- [#284](https://github.com/AtomicSmash/packages/pull/284) [`451112c`](https://github.com/AtomicSmash/packages/commit/451112c2a03605f856aa04f7a681565b1d0c2c2b) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Minor linting fixes
+
 ## 7.1.4-beta.0
 
 ### Patch Changes
