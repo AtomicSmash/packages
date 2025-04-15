@@ -8,7 +8,6 @@ const handlers: RequestHandler[] = [];
 const server = setupServer(...handlers);
 
 server.listen({ onUnhandledRequest: "warn" });
-// eslint-disable-next-line no-console
 console.info("🔶 Mock server installed");
 
 closeWithGrace({ delay: 1000 }, () => {

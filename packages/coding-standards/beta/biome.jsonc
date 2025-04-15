@@ -1,0 +1,27 @@
+{
+	// This export file is inaccessible until the next major version because we can't set exports until the package type is module.
+	"$schema": "https://biomejs.dev/schemas/1.9.4/schema.json",
+	"vcs": {
+		"enabled": true,
+		"clientKind": "git",
+		"useIgnoreFile": true,
+		"defaultBranch": "main",
+	},
+	"files": { "ignoreUnknown": false, "ignore": [] },
+	"formatter": {
+		"enabled": true,
+		"indentWidth": 2,
+		"lineEnding": "lf",
+		"lineWidth": 80,
+		"indentStyle": "tab",
+	},
+	"linter": { "enabled": false },
+	"organizeImports": { "enabled": false },
+	"javascript": { "formatter": { "trailingCommas": "all" } },
+	"overrides": [
+		{
+			"include": ["*.yml", "*.yaml"],
+			"formatter": { "indentStyle": "space", "indentWidth": 2 },
+		},
+	],
+}

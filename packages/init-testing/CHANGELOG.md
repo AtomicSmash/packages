@@ -1,5 +1,38 @@
 # @atomicsmash/init-testing
 
+## 2.0.0-beta.3
+
+### Patch Changes
+
+- [#301](https://github.com/AtomicSmash/packages/pull/301) [`553c1d4`](https://github.com/AtomicSmash/packages/commit/553c1d4d8e2aed54cfa8d436d1cb504bcc87d521) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Allow overriding bot user info
+
+- [#301](https://github.com/AtomicSmash/packages/pull/301) [`4723ea2`](https://github.com/AtomicSmash/packages/commit/4723ea2eb67e684891d3ab533e6498b9b4e02b02) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Don't run lorem ipsum tests if no pages to test are set
+
+- [#301](https://github.com/AtomicSmash/packages/pull/301) [`2f7360b`](https://github.com/AtomicSmash/packages/commit/2f7360b1339b108560794d605731b201aa04f976) Thanks [@mikeybinns](https://github.com/mikeybinns)! - fix duplicated tests
+
+## 2.0.0-beta.2
+
+### Patch Changes
+
+- [#299](https://github.com/AtomicSmash/packages/pull/299) [`4464738`](https://github.com/AtomicSmash/packages/commit/446473836bf2213d1d5add098e9225d54381d6ad) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Fix linting errors in copied test files
+  Fix test issues with copied files
+
+## 2.0.0-beta.1
+
+### Major Changes
+
+- [#297](https://github.com/AtomicSmash/packages/pull/297) [`8964d78`](https://github.com/AtomicSmash/packages/commit/8964d78c7a05fd30dabc6d87cb0188e98b35280e) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Use projects in playwright tests
+
+## 2.0.0-beta.0
+
+### Major Changes
+
+- [#295](https://github.com/AtomicSmash/packages/pull/295) [`797aab3`](https://github.com/AtomicSmash/packages/commit/797aab34eebf09db9afcc80a7d2d67982a3b4e93) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Update copied playwright utils to remove old logInUser function and add WordPress Admin Helper Package
+
+### Minor Changes
+
+- [#295](https://github.com/AtomicSmash/packages/pull/295) [`797aab3`](https://github.com/AtomicSmash/packages/commit/797aab34eebf09db9afcc80a7d2d67982a3b4e93) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Update package versions
+
 ## 1.1.0
 
 ### Minor Changes

@@ -20,9 +20,7 @@ type JSONValue =
 	| JSONValue[];
 
 const packageManager = new PackageManager(
-	await import(`${process.cwd()}/package.json`, {
-		with: { type: "json" },
-	})
+	await import(`${process.cwd()}/package.json`, { with: { type: "json" } })
 		.then((module: { default: JSONValue }) => module.default)
 		.catch((error: unknown) => {
 			console.log({ error });
@@ -30,9 +28,7 @@ const packageManager = new PackageManager(
 				"Unable to find package.json in your cwd. Make sure you're running this command in the right folder.",
 			);
 		}),
-	await import(`${process.cwd()}/package-lock.json`, {
-		with: { type: "json" },
-	})
+	await import(`${process.cwd()}/package-lock.json`, { with: { type: "json" } })
 		.then((module: { default: JSONValue }) => module.default)
 		.catch((error: unknown) => {
 			console.log({ error });
@@ -85,14 +81,14 @@ for (const dirent of copyFiles) {
 	if (!dirent.isFile()) {
 		continue;
 	}
-	if (argv.noExample && dirent.name === "example.spec.ts") {
+	if (argv.noExample && dirent.name.includes("example")) {
 		continue;
 	}
-	if (argv.noUniversal && dirent.name === "universal.spec.ts") {
+	if (argv.noUniversal && dirent.name.includes("universal")) {
 		continue;
 	}
 	fileCopies.push(
-		readFile(`${dirent.path}/${dirent.name}`, "utf8")
+		readFile(`${dirent.parentPath}/${dirent.name}`, "utf8")
 			.then(async (data) => {
 				for (const [search, replace] of [
 					["%%BASE_URL%%", argv.baseUrl],
@@ -101,6 +97,26 @@ for (const dirent of copyFiles) {
 						hasRootTSConfig
 							? "../tsconfig.json"
 							: "@atomicsmash/coding-standards/typescript/base",
+					],
+					[
+						"%%EXAMPLE_TEST_IMPORT%%",
+						argv.noExample
+							? ""
+							: '\nimport { projects as exampleProjects } from "./tests/e2e/example/index.mjs";',
+					],
+					[
+						"%%EXAMPLE_TEST_PROJECTS%%",
+						argv.noExample ? "" : "\n	...exampleProjects,",
+					],
+					[
+						"%%UNIVERSAL_TEST_IMPORT%%",
+						argv.noUniversal
+							? ""
+							: '\nimport { projects as universalProjects } from "./tests/e2e/universal/index.mjs";',
+					],
+					[
+						"%%UNIVERSAL_TEST_PROJECTS%%",
+						argv.noUniversal ? "" : "\n	...universalProjects,",
 					],
 				] as const) {
 					data = data.replace(search, replace);
@@ -111,10 +127,7 @@ for (const dirent of copyFiles) {
 				await writeFile(
 					`${process.cwd()}/${relativePath}${dirent.name}`,
 					data,
-					{
-						encoding: "utf8",
-						flag: argv.overwriteFiles ? "w" : "wx",
-					},
+					{ encoding: "utf8", flag: argv.overwriteFiles ? "w" : "wx" },
 				);
 				return `${relativePath}${dirent.name} copied successfully.`;
 			})
@@ -128,9 +141,13 @@ for (const dirent of copyFiles) {
 await Promise.all([
 	Promise.allSettled([
 		packageManager.ensurePackageIsInstalled("@atomicsmash/test-utils", {
-			packageConstraint: "^1.0.0",
+			packageConstraint: "^5.0.0",
 			type: "dev",
 		}),
+		packageManager.ensurePackageIsInstalled(
+			"@atomicsmash/wordpress-tests-helper",
+			{ packageConstraint: "^1.0.0", type: "dev" },
+		),
 		packageManager.ensurePackageIsInstalled("@playwright/test", {
 			packageConstraint: "^1.0.0",
 			type: "dev",
@@ -156,7 +173,7 @@ await Promise.all([
 		},
 		!hasRootTSConfig
 			? packageManager.ensurePackageIsInstalled("typescript", {
-					packageConstraint: "^5.4.0",
+					packageConstraint: "~5.8.0",
 					type: "dev",
 				})
 			: false,
@@ -201,6 +218,7 @@ await Promise.all([
 				"/blob-report/",
 				"/playwright/.cache/",
 				"/lighthouse/",
+				"/tests/.tmp/",
 			];
 			const linesToAddToGitignore: string[] = [];
 			for (const line of linesToCheck) {
