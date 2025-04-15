@@ -218,6 +218,7 @@ await Promise.all([
 				"/blob-report/",
 				"/playwright/.cache/",
 				"/lighthouse/",
+				"/tests/.tmp/",
 			];
 			const linesToAddToGitignore: string[] = [];
 			for (const line of linesToCheck) {
