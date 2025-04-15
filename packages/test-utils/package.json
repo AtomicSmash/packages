@@ -1,6 +1,6 @@
 {
 	"name": "@atomicsmash/test-utils",
-	"version": "5.0.0",
+	"version": "5.0.1",
 	"type": "module",
 	"description": "A collection of helper functions for automated testing with Playwright.",
 	"keywords": [
