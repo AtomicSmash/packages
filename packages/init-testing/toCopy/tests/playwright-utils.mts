@@ -7,7 +7,7 @@ type CustomFixtures = { testData: typeof testData };
 
 export const test = base.extend<CustomFixtures>({
 	testData: async (
-		// eslint-disable-next-line @typescript-eslint/no-unused-vars
+		// eslint-disable-next-line @typescript-eslint/no-unused-vars -- Playwright requires destructuring of the page variable even when not used.
 		{ page },
 		use,
 	) => {

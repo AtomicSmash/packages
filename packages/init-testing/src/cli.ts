@@ -81,14 +81,14 @@ for (const dirent of copyFiles) {
 	if (!dirent.isFile()) {
 		continue;
 	}
-	if (argv.noExample && dirent.name === "example.spec.ts") {
+	if (argv.noExample && dirent.name.includes("example")) {
 		continue;
 	}
-	if (argv.noUniversal && dirent.name === "universal.spec.ts") {
+	if (argv.noUniversal && dirent.name.includes("universal")) {
 		continue;
 	}
 	fileCopies.push(
-		readFile(`${dirent.path}/${dirent.name}`, "utf8")
+		readFile(`${dirent.parentPath}/${dirent.name}`, "utf8")
 			.then(async (data) => {
 				for (const [search, replace] of [
 					["%%BASE_URL%%", argv.baseUrl],
@@ -97,6 +97,26 @@ for (const dirent of copyFiles) {
 						hasRootTSConfig
 							? "../tsconfig.json"
 							: "@atomicsmash/coding-standards/typescript/base",
+					],
+					[
+						"%%EXAMPLE_TEST_IMPORT%%",
+						argv.noExample
+							? ""
+							: '\nimport { projects as exampleProjects } from "./tests/e2e/example/index.mjs";',
+					],
+					[
+						"%%EXAMPLE_TEST_PROJECTS%%",
+						argv.noExample ? "" : "\n...exampleProjects,",
+					],
+					[
+						"%%UNIVERSAL_TEST_IMPORT%%",
+						argv.noUniversal
+							? ""
+							: '\nimport { projects as universalProjects } from "./tests/e2e/universal/index.mjs";',
+					],
+					[
+						"%%UNIVERSAL_TEST_PROJECTS%%",
+						argv.noUniversal ? "" : "\n...universalProjects,",
 					],
 				] as const) {
 					data = data.replace(search, replace);

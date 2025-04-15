@@ -95,18 +95,13 @@ export type AuthenticatePageFunction = (
 export const playwrightConfig = {
 	testDir: "./tests/e2e",
 	timeout: 30 * 1000,
-	expect: {
-		timeout: 10 * 1000,
-	},
+	expect: { timeout: 10 * 1000 },
 	fullyParallel: true,
 	forbidOnly: !!process.env.CI,
 	retries: process.env.CI ? 2 : 0,
 	workers: process.env.CI ? 1 : undefined,
 	reporter: process.env.CI ? "github" : "dot",
-	use: {
-		actionTimeout: 0,
-		trace: "on-first-retry",
-	},
+	use: { actionTimeout: 0, trace: "retain-on-failure" },
 	snapshotDir: "./screenshots",
 	snapshotPathTemplate:
 		"{snapshotDir}/{platform}/{testFileName}-snapshots/{arg}{ext}",
@@ -164,9 +159,7 @@ export const doLighthouseTest: (
 				seo: 85,
 			},
 			reports: {
-				formats: {
-					html: true,
-				},
+				formats: { html: true },
 				directory: "lighthouse/latest-lighthouse-report",
 				name: `${pageToTest.slug ?? slugify(pageToTest.name)}-${type}`,
 			},
@@ -302,10 +295,7 @@ export function generateProjectsForAllBrowsers(
 		projects.push({
 			...baseProject,
 			name: `${baseProject.name}__${browser.name}`,
-			use: {
-				...baseProject.use,
-				...browser.use,
-			},
+			use: { ...baseProject.use, ...browser.use },
 			grepInvert: [
 				...[baseProject.grepInvert].flat(1),
 				...[browser.grepInvert].flat(1),
