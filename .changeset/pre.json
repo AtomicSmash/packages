@@ -16,6 +16,7 @@
     "@atomicsmash/wordpress-tests-helper": "1.0.1"
   },
   "changesets": [
+    "angry-garlics-help",
     "fuzzy-times-tap",
     "salty-clouds-throw"
   ]
