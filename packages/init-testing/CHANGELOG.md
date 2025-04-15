@@ -1,5 +1,11 @@
 # @atomicsmash/init-testing
 
+## 2.0.0-beta.1
+
+### Major Changes
+
+- [#297](https://github.com/AtomicSmash/packages/pull/297) [`8964d78`](https://github.com/AtomicSmash/packages/commit/8964d78c7a05fd30dabc6d87cb0188e98b35280e) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Use projects in playwright tests
+
 ## 2.0.0-beta.0
 
 ### Major Changes
