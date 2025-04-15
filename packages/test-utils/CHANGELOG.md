@@ -1,5 +1,11 @@
 # @atomicsmash/test-utils
 
+## 5.0.0-beta.1
+
+### Minor Changes
+
+- [#303](https://github.com/AtomicSmash/packages/pull/303) [`1599cdd`](https://github.com/AtomicSmash/packages/commit/1599cddb442a3532dbfa31487172a499b408b66c) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Make priviledged page check work on wordpress
+
 ## 5.0.0-beta.0
 
 ### Major Changes
