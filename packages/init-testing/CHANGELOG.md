@@ -1,5 +1,12 @@
 # @atomicsmash/init-testing
 
+## 2.0.0-beta.2
+
+### Patch Changes
+
+- [#299](https://github.com/AtomicSmash/packages/pull/299) [`4464738`](https://github.com/AtomicSmash/packages/commit/446473836bf2213d1d5add098e9225d54381d6ad) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Fix linting errors in copied test files
+  Fix test issues with copied files
+
 ## 2.0.0-beta.1
 
 ### Major Changes
