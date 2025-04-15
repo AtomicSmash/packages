@@ -1,5 +1,11 @@
 # @atomicsmash/test-utils
 
+## 5.0.1
+
+### Patch Changes
+
+- [#308](https://github.com/AtomicSmash/packages/pull/308) [`5c74839`](https://github.com/AtomicSmash/packages/commit/5c74839702fbcbd0f469a49d44067a8093b19e3b) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Fix strict mode violation when multiple elements found
+
 ## 5.0.0
 
 ### Major Changes
