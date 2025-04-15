@@ -1,5 +1,15 @@
 # @atomicsmash/init-testing
 
+## 2.0.0-beta.0
+
+### Major Changes
+
+- [#295](https://github.com/AtomicSmash/packages/pull/295) [`797aab3`](https://github.com/AtomicSmash/packages/commit/797aab34eebf09db9afcc80a7d2d67982a3b4e93) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Update copied playwright utils to remove old logInUser function and add WordPress Admin Helper Package
+
+### Minor Changes
+
+- [#295](https://github.com/AtomicSmash/packages/pull/295) [`797aab3`](https://github.com/AtomicSmash/packages/commit/797aab34eebf09db9afcc80a7d2d67982a3b4e93) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Update package versions
+
 ## 1.1.0
 
 ### Minor Changes
