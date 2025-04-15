@@ -235,7 +235,8 @@ export const checkPrivilegedPages =
 			if (!hasURLChangedToLoginPage) {
 				const loginElement = page
 					.getByRole("textbox", { name: /Username|Password/ }) //Don't use email here as there may be newsletter sign ups.
-					.or(page.getByRole("button", { name: /Login|Log in|Sign in/i }));
+					.or(page.getByRole("button", { name: /Login|Log in|Sign in/i }))
+					.first();
 				await expect(loginElement).toBeVisible();
 			}
 		}
