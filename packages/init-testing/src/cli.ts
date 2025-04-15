@@ -106,7 +106,7 @@ for (const dirent of copyFiles) {
 					],
 					[
 						"%%EXAMPLE_TEST_PROJECTS%%",
-						argv.noExample ? "" : "\n...exampleProjects,",
+						argv.noExample ? "" : "\n	...exampleProjects,",
 					],
 					[
 						"%%UNIVERSAL_TEST_IMPORT%%",
@@ -116,7 +116,7 @@ for (const dirent of copyFiles) {
 					],
 					[
 						"%%UNIVERSAL_TEST_PROJECTS%%",
-						argv.noUniversal ? "" : "\n...universalProjects,",
+						argv.noUniversal ? "" : "\n	...universalProjects,",
 					],
 				] as const) {
 					data = data.replace(search, replace);
@@ -218,6 +218,7 @@ await Promise.all([
 				"/blob-report/",
 				"/playwright/.cache/",
 				"/lighthouse/",
+				"/tests/.tmp/",
 			];
 			const linesToAddToGitignore: string[] = [];
 			for (const line of linesToCheck) {
