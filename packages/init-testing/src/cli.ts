@@ -121,7 +121,7 @@ for (const dirent of copyFiles) {
 await Promise.all([
 	Promise.allSettled([
 		packageManager.ensurePackageIsInstalled("@atomicsmash/test-utils", {
-			packageConstraint: "^4.0.0",
+			packageConstraint: "^5.0.0",
 			type: "dev",
 		}),
 		packageManager.ensurePackageIsInstalled(
