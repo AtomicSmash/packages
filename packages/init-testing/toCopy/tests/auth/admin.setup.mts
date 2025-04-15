@@ -1,5 +1,5 @@
 import { test as setup } from "@playwright/test";
-import { storageState } from "./index.js";
+import { storageState } from "./index.mjs";
 
 setup("Login as admin", async ({ page }) => {
 	await page.goto("/wp/wp-admin/");
