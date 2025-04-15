@@ -226,7 +226,18 @@ export const checkPrivilegedPages =
 			const response = await page.goto(pageToTest.url);
 			expect(response).not.toBeNull();
 			const nonNullResponse = response as NonNullable<typeof response>;
-			expect(nonNullResponse.status()).toBe(401);
+			const isResponseCode401 = nonNullResponse.status() === 401;
+			if (isResponseCode401) {
+				continue;
+			}
+			const hasURLChangedToLoginPage =
+				page.url().includes("login") || page.url().includes("wp-login");
+			if (!hasURLChangedToLoginPage) {
+				const loginElement = page
+					.getByRole("textbox", { name: /Username|Password/ }) //Don't use email here as there may be newsletter sign ups.
+					.or(page.getByRole("button", { name: /Login|Log in|Sign in/i }));
+				await expect(loginElement).toBeVisible();
+			}
 		}
 	};
 export const checkForLoremIpsum =
