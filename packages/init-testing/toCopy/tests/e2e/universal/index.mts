@@ -6,12 +6,12 @@ export const projects = [
 	...generateProjectsForAllBrowsers({
 		name: "universal_tests_unauthenticated",
 		testDir: "./tests/e2e/universal",
-		testMatch: /.*unauthenticated\.test\.mts/,
+		testMatch: /.*\/unauthenticated\.test\.mts/,
 	}),
 	...generateProjectsForAllBrowsers({
 		name: "universal_tests_authenticated",
 		testDir: "./tests/e2e/universal",
-		testMatch: /.*authenticated\.test\.mts/,
+		testMatch: /.*\/authenticated\.test\.mts/,
 		dependencies: [setupName],
 		use: { storageState },
 	}),

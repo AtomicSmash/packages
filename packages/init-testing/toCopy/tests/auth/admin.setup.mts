@@ -6,8 +6,10 @@ setup("Login as admin", async ({ page }) => {
 
 	await page
 		.getByLabel("Username or Email Address", { exact: true })
-		.fill("Bot");
-	await page.getByLabel("Password", { exact: true }).fill("password");
+		.fill(process.env.WORDPRESS_AUTOMATION_USER ?? "Bot");
+	await page
+		.getByLabel("Password", { exact: true })
+		.fill(process.env.WORDPRESS_AUTOMATION_PASSWORD ?? "password");
 
 	await page.getByRole("button", { name: "Log In", exact: true }).click();
 

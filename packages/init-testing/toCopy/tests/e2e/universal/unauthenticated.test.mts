@@ -22,7 +22,10 @@ if (pagesRequiringAuthentication.length) {
 		checkPrivilegedPages(pagesRequiringAuthentication),
 	);
 }
-test("No lingering lorem ipsum on the site", checkForLoremIpsum(pagesToTest));
+
+if (pagesToTest.length) {
+	test("No lingering lorem ipsum on the site", checkForLoremIpsum(pagesToTest));
+}
 
 lighthouseTest.describe.configure({ mode: "parallel", retries: 3 });
 for (const pageToTest of pagesToTest) {
