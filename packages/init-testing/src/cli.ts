@@ -20,9 +20,7 @@ type JSONValue =
 	| JSONValue[];
 
 const packageManager = new PackageManager(
-	await import(`${process.cwd()}/package.json`, {
-		with: { type: "json" },
-	})
+	await import(`${process.cwd()}/package.json`, { with: { type: "json" } })
 		.then((module: { default: JSONValue }) => module.default)
 		.catch((error: unknown) => {
 			console.log({ error });
@@ -30,9 +28,7 @@ const packageManager = new PackageManager(
 				"Unable to find package.json in your cwd. Make sure you're running this command in the right folder.",
 			);
 		}),
-	await import(`${process.cwd()}/package-lock.json`, {
-		with: { type: "json" },
-	})
+	await import(`${process.cwd()}/package-lock.json`, { with: { type: "json" } })
 		.then((module: { default: JSONValue }) => module.default)
 		.catch((error: unknown) => {
 			console.log({ error });
@@ -111,10 +107,7 @@ for (const dirent of copyFiles) {
 				await writeFile(
 					`${process.cwd()}/${relativePath}${dirent.name}`,
 					data,
-					{
-						encoding: "utf8",
-						flag: argv.overwriteFiles ? "w" : "wx",
-					},
+					{ encoding: "utf8", flag: argv.overwriteFiles ? "w" : "wx" },
 				);
 				return `${relativePath}${dirent.name} copied successfully.`;
 			})
@@ -128,9 +121,13 @@ for (const dirent of copyFiles) {
 await Promise.all([
 	Promise.allSettled([
 		packageManager.ensurePackageIsInstalled("@atomicsmash/test-utils", {
-			packageConstraint: "^1.0.0",
+			packageConstraint: "^4.0.0",
 			type: "dev",
 		}),
+		packageManager.ensurePackageIsInstalled(
+			"@atomicsmash/wordpress-tests-helper",
+			{ packageConstraint: "^1.0.0", type: "dev" },
+		),
 		packageManager.ensurePackageIsInstalled("@playwright/test", {
 			packageConstraint: "^1.0.0",
 			type: "dev",
@@ -156,7 +153,7 @@ await Promise.all([
 		},
 		!hasRootTSConfig
 			? packageManager.ensurePackageIsInstalled("typescript", {
-					packageConstraint: "^5.4.0",
+					packageConstraint: "~5.8.0",
 					type: "dev",
 				})
 			: false,
