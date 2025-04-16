@@ -1,18 +1,15 @@
 {
 	"name": "@atomicsmash/coding-standards",
-	"version": "13.0.0-beta.3",
+	"version": "13.0.0",
 	"description": "A collection of coding standards configurations.",
 	"main": "index.js",
 	"types": "index.d.ts",
-	"scripts": {
-		"postinstall": "composer require --dev slevomat/coding-standard --no-install && composer config --no-plugins allow-plugins.dealerdirect/phpcodesniffer-composer-installer true && composer install"
-	},
 	"devDependencies": {
 		"@cspell/cspell-types": "^8.15.4"
 	},
 	"peerDependencies": {
-		"@atomicsmash/browserslist-config": "^13.0.0-beta.3",
-		"@atomicsmash/eslint-config": "^13.0.0-beta.3",
+		"@atomicsmash/browserslist-config": "^13.0.0",
+		"@atomicsmash/eslint-config": "^13.0.0",
 		"@commitlint/cli": "^19.5.0",
 		"@commitlint/config-conventional": "^19.5.0",
 		"@wordpress/stylelint-config": "^23.2.0",
