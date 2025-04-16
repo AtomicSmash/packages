@@ -1,4 +1,5 @@
 import type { ExecException } from "node:child_process";
+import type { PerformanceMeasure } from "node:perf_hooks";
 import type { PackageJson } from "type-fest";
 import { exec } from "node:child_process";
 import { createRequire } from "node:module";
@@ -160,4 +161,39 @@ export function toCamelCase(text: string) {
 			return p1.toLowerCase();
 		},
 	);
+}
+
+export function convertMeasureToPrettyString(measure: PerformanceMeasure) {
+	const duration = Number(measure.duration);
+	if (duration < 1) {
+		return `${duration * 1000}µs`;
+	}
+	if (duration < 999) {
+		return `${Math.round(duration)}ms`;
+	}
+	const timeInSeconds = Number((duration / 1000).toFixed(2));
+	if (timeInSeconds < 60) {
+		return `${timeInSeconds}s`;
+	}
+	const minutes = Math.floor(timeInSeconds / 60);
+	const seconds = Math.ceil(timeInSeconds % 60);
+	return `${minutes}m ${seconds}s`;
+}
+
+export function startRunningMessage(message: string) {
+	let $i = 3;
+	process.stdout.write(`${message}${".".repeat($i)}\r`);
+	$i++;
+	if (typeof process.stdout.clearLine !== "undefined") {
+		return setInterval(() => {
+			if ($i > 2) {
+				$i = 0;
+			}
+			$i++;
+			process.stdout.clearLine(0);
+			process.stdout.cursorTo(0);
+			process.stdout.write(`${message}${".".repeat($i)}\r`);
+		}, 200);
+	}
+	return null;
 }

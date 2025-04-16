@@ -24,6 +24,7 @@ switch (commandArg) {
 	case "svg":
 	case "blocks":
 	case "setup":
+	case "setup-database":
 		try {
 			await import(`./commands/${commandArg}.js`).then(
 				async (module: { default(args: string[]): void | Promise<void> }) =>

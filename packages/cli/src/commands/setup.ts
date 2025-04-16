@@ -1,8 +1,14 @@
 import { exec } from "node:child_process";
+import { existsSync } from "node:fs";
 import { constants, copyFile } from "node:fs/promises";
+import { resolve } from "node:path";
 import { performance } from "node:perf_hooks";
 import { promisify } from "node:util";
-import { hasHelpFlag } from "../utils.js";
+import {
+	hasHelpFlag,
+	convertMeasureToPrettyString,
+	startRunningMessage,
+} from "../utils.js";
 
 export const setupHelpMessage = `
   Atomic Smash CLI - Setup command.
@@ -12,25 +18,6 @@ export const setupHelpMessage = `
   Example usage:
     $ smash-cli setup
 `;
-
-function convertMeasureToPrettyString(
-	measure: ReturnType<typeof performance.measure>,
-) {
-	const duration = Number(measure.duration);
-	if (duration < 1) {
-		return `${duration * 1000}µs`;
-	}
-	if (duration < 999) {
-		return `${Math.round(duration)}ms`;
-	}
-	const timeInSeconds = Number((duration / 1000).toFixed(2));
-	if (timeInSeconds < 60) {
-		return `${timeInSeconds}s`;
-	}
-	const minutes = Math.floor(timeInSeconds / 60);
-	const seconds = Math.ceil(timeInSeconds % 60);
-	return `${minutes}m ${seconds}s`;
-}
 
 export default async function setup(args: string[]) {
 	if (hasHelpFlag(args)) {
@@ -47,25 +34,10 @@ export default async function setup(args: string[]) {
 		.catch(() => {
 			return false;
 		});
-
 	if (!themeName) {
 		throw new Error("Theme name is missing from package.json config object.");
 	} else {
-		let $i = 3;
-		process.stdout.write(`Running setup${".".repeat($i)}\r`);
-		$i++;
-		let interval = null;
-		if (typeof process.stdout.clearLine !== "undefined") {
-			interval = setInterval(() => {
-				if ($i > 2) {
-					$i = 0;
-				}
-				$i++;
-				process.stdout.clearLine(0);
-				process.stdout.cursorTo(0);
-				process.stdout.write(`Running setup${".".repeat($i)}\r`);
-			}, 200);
-		}
+		const interval = startRunningMessage("Running setup");
 		performance.mark("Start");
 		await Promise.allSettled([
 			...(shouldInstallAndBuildOnly
@@ -95,18 +67,48 @@ export default async function setup(args: string[]) {
 								console.error(error);
 								throw new Error("Failed to copy .env file.");
 							}),
-						execute(`valet link ${themeName} --secure --isolate`)
-							.then(() => {
+						async () => {
+							if (
+								existsSync(resolve(process.cwd(), "herd.yml")) &&
+								(await execute(`herd --version`)
+									.then(() => true)
+									.catch(() => false))
+							) {
+								await execute(`herd init`)
+									.then(() => {
+										console.log(
+											`Herd is linked, secured and isolated. (${convertMeasureToPrettyString(
+												performance.measure("herd-or-valet", "Start"),
+											)})`,
+										);
+									})
+									.catch((error) => {
+										console.error(error);
+										throw new Error("Failed to link the site using herd.");
+									});
+							} else if (
+								await execute(`herd --version`)
+									.then(() => true)
+									.catch(() => false)
+							) {
+								await execute(`valet link ${themeName} --secure --isolate`)
+									.then(() => {
+										console.log(
+											`Valet is linked, secured and isolated. (${convertMeasureToPrettyString(
+												performance.measure("herd-or-valet", "Start"),
+											)})`,
+										);
+									})
+									.catch((error) => {
+										console.error(error);
+										throw new Error("Failed to link the site using valet.");
+									});
+							} else {
 								console.log(
-									`Valet is linked, secured and isolated. (${convertMeasureToPrettyString(
-										performance.measure("valet", "Start"),
-									)})`,
+									`Neither Herd nor Valet is available. Site has not been linked.`,
 								);
-							})
-							.catch((error) => {
-								console.error(error);
-								throw new Error("Failed to link the site using valet.");
-							}),
+							}
+						},
 					]),
 			execute("composer install")
 				.then(() => {
