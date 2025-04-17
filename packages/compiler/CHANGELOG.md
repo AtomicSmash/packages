@@ -1,5 +1,13 @@
 # @atomicsmash/compiler
 
+## 0.7.3
+
+### Patch Changes
+
+- [`3c5a945`](https://github.com/AtomicSmash/packages/commit/3c5a94546a1704dbb9095728e295e3f32bdeaaa8) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Remove unused deps
+
+- [`acbc938`](https://github.com/AtomicSmash/packages/commit/acbc9380405f22f551298ec822bf141c2155e81a) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Update manifest plugin to fix error
+
 ## 0.7.2
 
 ### Patch Changes
