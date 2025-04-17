@@ -36,7 +36,7 @@
 		"test:ui": "cross-env TZ=\"Europe/Istanbul\" vitest --ui",
 		"test:coverage": "cross-env TZ=\"Europe/Istanbul\" vitest run --coverage",
 		"lint": "run-p lint:*",
-		"lint:eslint": "eslint . --cache --cache-strategy content --cache-location ./node_modules/.cache/eslint --ext .js,.ts,.jsx,.tsx,.mts,.cts",
+		"lint:eslint": "eslint . --cache --cache-location ./node_modules/.cache/eslint --ext .js,.ts,.jsx,.tsx,.mts,.cts",
 		"lint:types": "tsc",
 		"format": "run-p format:*",
 		"format:prettier": "prettier . --write",

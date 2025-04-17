@@ -16,7 +16,7 @@ import postCSSPresetEnv from "postcss-preset-env";
 import SVGSpritemapPlugin from "svg-spritemap-webpack-plugin";
 import { TsconfigPathsPlugin } from "tsconfig-paths-webpack-plugin";
 import webpack from "webpack";
-import WebpackAssetsManifest from "webpack-assets-manifest";
+import { WebpackAssetsManifest } from "webpack-assets-manifest";
 import { BundleAnalyzerPlugin } from "webpack-bundle-analyzer";
 import yargs from "yargs";
 import { hideBin } from "yargs/helpers";
@@ -295,6 +295,9 @@ const compiler = webpack({
 			writeToDisk: true,
 			output: `${distFolder}/assets-manifest.json`,
 			customize(entry) {
+				if (!entry || !entry.key || typeof entry.key === "number") {
+					return entry;
+				}
 				if (
 					entry.key === "assets.php" ||
 					entry.key === "wordpress-assets-info.php" ||
@@ -304,7 +307,7 @@ const compiler = webpack({
 					return false;
 				}
 				if (entry.key === "spritemap.svg") {
-					return { key: "icons/sprite.svg", value: entry.value };
+					return { key: "icons/sprite.svg", value: entry.value as string };
 				}
 				if (entry.key.startsWith("/")) {
 					entry.key = entry.key.slice(1);
