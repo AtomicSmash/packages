@@ -8,6 +8,7 @@ import type {
 import type { BlockSupports } from "./block-supports";
 import type { DefaultAttributes } from "./default-attributes";
 import type { Element } from "@wordpress/element";
+import "./wordpress-package-mods";
 
 import { registerBlockType as wordpressRegisterBlockType } from "@wordpress/blocks";
 export type {
