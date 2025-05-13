@@ -10,7 +10,6 @@ import type { DefaultAttributes } from "./default-attributes";
 import type { Element } from "@wordpress/element";
 import "./wordpress-package-mods";
 
-import { registerBlockType as wordpressRegisterBlockType } from "@wordpress/blocks";
 export type {
 	AttributesObject,
 	BlockAttributes,
@@ -620,18 +619,4 @@ export type AllDeprecations<
 		readonly innerBlocks: readonly BlockInstanceAsObject[];
 	}) => Element | null;
 }[];
-
-export function registerBlockType<
-	InterpretedAttributes extends Record<string, unknown>,
-	InterpretedUsedContext extends Record<string, any> = Record<string, never>,
->(
-	name: string,
-	settings: ClientOnlyRegisterOptions<
-		InterpretedAttributes,
-		InterpretedUsedContext
-	>,
-) {
-	/* @ts-expect-error Provided types are inaccurate and will provide an error with some valid inputs */
-	return wordpressRegisterBlockType(name, settings);
-}
 /* eslint-enable @typescript-eslint/no-explicit-any */

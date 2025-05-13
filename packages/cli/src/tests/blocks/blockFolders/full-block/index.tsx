@@ -1,7 +1,7 @@
-import type { InterpretedAttributes } from "./attributes";
+import type { Attributes } from "./attributes";
 import type { InterpretedUsedContext } from "./context";
-import { registerBlockType } from "@atomicsmash/blocks-helpers";
-import { registerBlockVariation } from "@wordpress/blocks";
+import type { Supports } from "./supports";
+import { registerBlockType, registerBlockVariation } from "@wordpress/blocks";
 // import { Icon } from "@blocks/svgs";
 import blockMetaData from "./block.json";
 import { deprecated } from "./deprecation";
@@ -12,7 +12,7 @@ import { variations } from "./variations";
 
 export { type InterpretedProvidesContext } from "./context";
 
-registerBlockType<InterpretedAttributes, InterpretedUsedContext>(
+registerBlockType<Supports, Attributes, InterpretedUsedContext>(
 	blockMetaData.name,
 	{
 		// icon: <Icon iconName="" />,
