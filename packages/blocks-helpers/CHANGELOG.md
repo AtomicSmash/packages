@@ -1,5 +1,21 @@
 # @atomicsmash/blocks-helpers
 
+## 6.0.0-beta.0
+
+### Major Changes
+
+- [#314](https://github.com/AtomicSmash/packages/pull/314) [`81bcc70`](https://github.com/AtomicSmash/packages/commit/81bcc70635bc577f428a5aa9447362213aee511e) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Remove re-exported registerBlockType function (use base WP one with the newly applied type)
+
+### Minor Changes
+
+- [#314](https://github.com/AtomicSmash/packages/pull/314) [`47d97be`](https://github.com/AtomicSmash/packages/commit/47d97bee37cbe81af77e4081859e2a7d8d8e4cac) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Add fixes for external WP package types
+
+- [#314](https://github.com/AtomicSmash/packages/pull/314) [`e1a50db`](https://github.com/AtomicSmash/packages/commit/e1a50db73e906ca77ab71006ef6f4f9fe68c7d94) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Add missing merge setting to client only register settings
+
+### Patch Changes
+
+- [#314](https://github.com/AtomicSmash/packages/pull/314) [`f9ad6c9`](https://github.com/AtomicSmash/packages/commit/f9ad6c922d4e5e020434ea6d3534ca4c5cdc1593) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Fix edit props
+
 ## 5.0.0
 
 ### Major Changes
