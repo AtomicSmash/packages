@@ -15,5 +15,10 @@
     "@atomicsmash/test-utils": "5.0.1",
     "@atomicsmash/wordpress-tests-helper": "1.0.1"
   },
-  "changesets": []
+  "changesets": [
+    "lovely-fishes-mate",
+    "moody-chefs-decide",
+    "two-carrots-protect",
+    "young-cats-hug"
+  ]
 }
