@@ -555,7 +555,7 @@ export type ClientOnlyRegisterOptions<
 		from: BlockTransforms<InterpretedAttributes>;
 		to: BlockTransforms<InterpretedAttributes>;
 	};
-	merge: (
+	merge?: (
 		attributes: InterpretedAttributes,
 		attributesToMerge: InterpretedAttributes,
 	) => InterpretedAttributes;
