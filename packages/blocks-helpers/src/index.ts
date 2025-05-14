@@ -346,15 +346,11 @@ export type CreateBlockEditProps<
 	readonly context: Context;
 	readonly insertBlocksAfter: BlockInstanceAsObject[] | undefined;
 	readonly isSelected: boolean;
-	readonly mergeBlocks: BlockInstanceAsObject[] | undefined;
-	readonly onRemove: () => void | undefined;
+	readonly mergeBlocks: (forward: boolean) => void;
+	readonly onRemove: (forward: boolean) => void;
 	readonly onReplace: (
-		clientIds: string | string[],
 		blocks: BlockInstanceAsObject | BlockInstanceAsObject[],
-		indexToSelect: number,
-		initialPosition: 0 | -1 | null,
-		meta: Record<string, unknown>,
-	) => BlockInstanceAsObject[] | undefined;
+	) => void;
 	readonly setAttributes: (attributes: Partial<InterpretedAttributes>) => void;
 	readonly toggleSelection: (isSelectionEnabled: boolean) => void;
 };
