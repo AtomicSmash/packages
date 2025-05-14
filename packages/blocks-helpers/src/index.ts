@@ -8,8 +8,8 @@ import type {
 import type { BlockSupports } from "./block-supports";
 import type { DefaultAttributes } from "./default-attributes";
 import type { Element } from "@wordpress/element";
+import "./wordpress-package-mods";
 
-import { registerBlockType as wordpressRegisterBlockType } from "@wordpress/blocks";
 export type {
 	AttributesObject,
 	BlockAttributes,
@@ -346,15 +346,11 @@ export type CreateBlockEditProps<
 	readonly context: Context;
 	readonly insertBlocksAfter: BlockInstanceAsObject[] | undefined;
 	readonly isSelected: boolean;
-	readonly mergeBlocks: BlockInstanceAsObject[] | undefined;
-	readonly onRemove: () => void | undefined;
+	readonly mergeBlocks: (forward: boolean) => void;
+	readonly onRemove: (forward: boolean) => void;
 	readonly onReplace: (
-		clientIds: string | string[],
 		blocks: BlockInstanceAsObject | BlockInstanceAsObject[],
-		indexToSelect: number,
-		initialPosition: 0 | -1 | null,
-		meta: Record<string, unknown>,
-	) => BlockInstanceAsObject[] | undefined;
+	) => void;
 	readonly setAttributes: (attributes: Partial<InterpretedAttributes>) => void;
 	readonly toggleSelection: (isSelectionEnabled: boolean) => void;
 };
@@ -559,6 +555,10 @@ export type ClientOnlyRegisterOptions<
 		from: BlockTransforms<InterpretedAttributes>;
 		to: BlockTransforms<InterpretedAttributes>;
 	};
+	merge: (
+		attributes: InterpretedAttributes,
+		attributesToMerge: InterpretedAttributes,
+	) => InterpretedAttributes;
 };
 
 export type DeprecationAndFixture<
@@ -619,18 +619,4 @@ export type AllDeprecations<
 		readonly innerBlocks: readonly BlockInstanceAsObject[];
 	}) => Element | null;
 }[];
-
-export function registerBlockType<
-	InterpretedAttributes extends Record<string, unknown>,
-	InterpretedUsedContext extends Record<string, any> = Record<string, never>,
->(
-	name: string,
-	settings: ClientOnlyRegisterOptions<
-		InterpretedAttributes,
-		InterpretedUsedContext
-	>,
-) {
-	/* @ts-expect-error Provided types are inaccurate and will provide an error with some valid inputs */
-	return wordpressRegisterBlockType(name, settings);
-}
 /* eslint-enable @typescript-eslint/no-explicit-any */
