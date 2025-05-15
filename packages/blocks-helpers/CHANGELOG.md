@@ -1,5 +1,11 @@
 # @atomicsmash/blocks-helpers
 
+## 6.0.0-beta.3
+
+### Patch Changes
+
+- [#321](https://github.com/AtomicSmash/packages/pull/321) [`fbe2c2c`](https://github.com/AtomicSmash/packages/commit/fbe2c2c3c12cfbc0ce34fdfe2f973c14c8774d85) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Fix metadata default attribute
+
 ## 6.0.0-beta.2
 
 ### Minor Changes
