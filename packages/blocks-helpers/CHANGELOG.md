@@ -1,5 +1,11 @@
 # @atomicsmash/blocks-helpers
 
+## 6.0.0-beta.1
+
+### Patch Changes
+
+- [#316](https://github.com/AtomicSmash/packages/pull/316) [`0d4bae8`](https://github.com/AtomicSmash/packages/commit/0d4bae807cfa9c148120a7fc85f4824d7d40b914) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Make merge prop optional
+
 ## 6.0.0-beta.0
 
 ### Major Changes
