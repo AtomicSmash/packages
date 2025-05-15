@@ -1,5 +1,15 @@
 # @atomicsmash/blocks-helpers
 
+## 6.0.0-beta.2
+
+### Minor Changes
+
+- [#319](https://github.com/AtomicSmash/packages/pull/319) [`51db33f`](https://github.com/AtomicSmash/packages/commit/51db33f6b662c40cb916ed785fcbefdc8f830161) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Add metadata default attribute
+
+### Patch Changes
+
+- [#318](https://github.com/AtomicSmash/packages/pull/318) [`053a885`](https://github.com/AtomicSmash/packages/commit/053a88589b90accf35ed47f3772dadc7b1e41e44) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Loosen example types attributes property to partial
+
 ## 6.0.0-beta.1
 
 ### Patch Changes

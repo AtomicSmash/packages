@@ -16,6 +16,8 @@
     "@atomicsmash/wordpress-tests-helper": "1.0.1"
   },
   "changesets": [
+    "eager-cameras-rest",
+    "grumpy-doodles-glow",
     "lovely-fishes-mate",
     "moody-chefs-decide",
     "smooth-moles-grin",
