@@ -82,7 +82,7 @@ export type BlockExample<
 	InterpretedAttributes extends Record<string, unknown>,
 > = {
 	viewportWidth?: number;
-	attributes?: InterpretedAttributes;
+	attributes?: Partial<InterpretedAttributes>;
 	innerBlocks?: BlockInstanceAsObject[];
 };
 
