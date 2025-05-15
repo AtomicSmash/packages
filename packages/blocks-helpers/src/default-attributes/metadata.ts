@@ -7,8 +7,8 @@ export type MetaDataAttribute<Supports extends BlockSupports> = {
 };
 
 type MetaDataNameAttribute<Renaming extends BlockSupports["renaming"]> =
-	Renaming extends true | undefined
-		? {
+	Renaming extends false
+		? never
+		: {
 				name?: string;
-			}
-		: never;
+			};
