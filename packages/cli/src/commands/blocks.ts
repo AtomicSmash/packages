@@ -180,6 +180,7 @@ async function runCommand({
 			extensions: [".ts", ".js", ".tsx", ".jsx"],
 		},
 		mode: isProduction ? "production" : "development",
+		node: { global: false },
 	});
 
 	if (isWatch) {
