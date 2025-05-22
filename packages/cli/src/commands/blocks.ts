@@ -41,11 +41,11 @@ export const blocksHelpMessage = `
     --out                    The directory where the WP blocks will be output. Relative to cwd.
     --tsConfigPath           (optional) The directory where the tsconfig file can be found. Relative to cwd. Defaults to the in folder.
     --postcssConfigPath      (optional) The directory where the postcss config file can be found. Relative to cwd. Defaults to the in folder and then searches up the directory tree.
-    --watch                  (optional) Watch the blocks in folder for changes and compile.
+    --watch                  (optional) Watch the blocks in folder for changes and compile. Default to false.
     --excludeBlocks          (optional) A comma separated list of the folder names of blocks to exclude from compilation. Defaults to "__TEMPLATE__".
     --excludeRootFiles       (optional) A comma separated list of the root file names to exclude from compilation. Nothing is excluded by default.
     --alwaysCompileRootFiles (optional) By default, we won't compile root files if no blocks are found, this allows you to override that setting. Defaults to false.
-    --watch                  (optional) Run compiler in watch mode. Default to false.
+    --ignoreWarnings         (optional) If webpack has warnings, don't output them or change error code. Defaults to false.
 
   Example usage:
     $ smash-cli blocks --watch --in src --out build --tsConfigPath tsconfig.json
@@ -81,6 +81,11 @@ export default async function blocks(args: string[]) {
 		"boolean",
 	).value;
 	const isWatch = interpretFlag(args, "--watch", "boolean").value;
+	const shouldIgnoreWarnings = interpretFlag(
+		args,
+		"--ignoreWarnings",
+		"boolean",
+	).value;
 
 	await runCommand({
 		srcFolder,
@@ -91,6 +96,7 @@ export default async function blocks(args: string[]) {
 		excludeRootFiles,
 		shouldAlwaysCompileRootFiles,
 		isWatch,
+		shouldIgnoreWarnings,
 	});
 }
 
@@ -103,6 +109,7 @@ async function runCommand({
 	excludeRootFiles,
 	shouldAlwaysCompileRootFiles,
 	isWatch,
+	shouldIgnoreWarnings,
 }: {
 	srcFolder: string;
 	distFolder: string;
@@ -112,6 +119,7 @@ async function runCommand({
 	excludeRootFiles: string[];
 	shouldAlwaysCompileRootFiles: boolean;
 	isWatch: boolean;
+	shouldIgnoreWarnings: boolean;
 }) {
 	const blocks = await getBlockJsonFiles(srcFolder, excludeBlocks);
 	const isNoBlocks = Object.keys(blocks).length === 0;
@@ -193,7 +201,7 @@ async function runCommand({
 					if (stats.hasErrors()) {
 						console.error(info.errors);
 					}
-					if (stats.hasWarnings()) {
+					if (stats.hasWarnings() && !shouldIgnoreWarnings) {
 						console.warn(info.warnings);
 					}
 				}
@@ -215,9 +223,12 @@ async function runCommand({
 					console.error(info.errors);
 					process.exitCode = 1;
 				}
-				if (stats.hasWarnings()) {
+				if (stats.hasWarnings() && !shouldIgnoreWarnings) {
 					console.warn(info.warnings);
-					process.exitCode = 2;
+					if (!stats.hasErrors()) {
+						// Only change exit code if there's no errors.
+						process.exitCode = 2;
+					}
 				}
 			}
 
