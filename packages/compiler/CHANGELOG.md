@@ -1,5 +1,11 @@
 # @atomicsmash/compiler
 
+## 0.7.4
+
+### Patch Changes
+
+- [`ce5efe5`](https://github.com/AtomicSmash/packages/commit/ce5efe514a0fbb4b37be97bc33f48603d805546b) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Fix Vue support
+
 ## 0.7.3
 
 ### Patch Changes
