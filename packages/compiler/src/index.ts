@@ -118,6 +118,31 @@ const postCSSConfig = [
 	...(MODE === "production" ? [cssNano] : []),
 ];
 
+function getEsBuildLoaderSetup(loader: "ts" | "default") {
+	return {
+		use: {
+			loader: "esbuild-loader",
+			options: {
+				loader: loader,
+				// Set target to match the browserslist config
+				target: browserslistToEsbuild(),
+				tsconfig: process.cwd() + "/tsconfig.json",
+			},
+		},
+		exclude: (file) => {
+			// Exclude all block.json.ts files (handled by a separate loader).
+			if (argv.experimentalBlocksSupport && file.includes("block.json")) {
+				return true;
+			}
+			// Exclude node_modules files from transpilation unless they are vue files and the vue-loader is present
+			if (vueConfig.loader.length > 0) {
+				return file.includes("node_modules") && !file.includes(".vue.js");
+			}
+			return file.includes("node_modules");
+		},
+	} satisfies webpack.RuleSetRule;
+}
+
 const compiler = webpack({
 	resolveLoader: {
 		modules: [
@@ -187,7 +212,7 @@ const compiler = webpack({
 			}),
 		],
 		// resolve TS extensions
-		extensions: [".tsx", ".ts", ".js", ".jsx"],
+		extensions: [".tsx", ".ts", ".js", ".jsx", ".vue"],
 	},
 	module: {
 		rules: [
@@ -196,25 +221,14 @@ const compiler = webpack({
 			// Use ESBuild loader to transpile JS & TS files
 			{
 				test: /\.[jt]sx?$/,
-				use: {
-					loader: "esbuild-loader",
-					options: {
-						// Set target to match the browserslist config
-						target: browserslistToEsbuild(),
-						tsconfig: process.cwd() + "/tsconfig.json",
-					},
-				},
-				exclude: (file) => {
-					// Exclude all block.json.ts files (handled by a separate loader).
-					if (argv.experimentalBlocksSupport && file.includes("block.json")) {
-						return true;
-					}
-					// Exclude node_modules files from transpilation unless they are vue files and the vue-loader is present
-					if (vueConfig.loader.length > 0) {
-						return file.includes("node_modules") && !file.includes(".vue.js");
-					}
-					return file.includes("node_modules");
-				},
+				resourceQuery: (value) => value.includes("vue"),
+				// Vue files require explicitly informing ESBuild of the type of loader to use.
+				...getEsBuildLoaderSetup("ts"),
+			},
+			{
+				test: /\.[jt]sx?$/,
+				resourceQuery: (value) => !value.includes("vue"),
+				...getEsBuildLoaderSetup("default"),
 			},
 			...(argv.experimentalBlocksSupport
 				? [
@@ -234,7 +248,6 @@ const compiler = webpack({
 			// Transpile SCSS files and run the result through postcss
 			{
 				test: /\.s[ac]ss$/i,
-				exclude: /node_modules/,
 				type: "asset/resource",
 				generator: {
 					binary: false,
@@ -264,7 +277,6 @@ const compiler = webpack({
 			// Run the css files through postcss
 			{
 				test: /\.css$/i,
-				exclude: /node_modules/,
 				type: "asset/resource",
 				generator: {
 					binary: false,
