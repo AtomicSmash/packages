@@ -1,5 +1,99 @@
 # @atomicsmash/coding-standards
 
+## 13.0.0
+
+### Major Changes
+
+- [#274](https://github.com/AtomicSmash/packages/pull/274) [`5f05f69`](https://github.com/AtomicSmash/packages/commit/5f05f691b9218c00d1f340fe1b7600803b12761e) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Make stylelint config stable
+
+### Minor Changes
+
+- [#284](https://github.com/AtomicSmash/packages/pull/284) [`32b0b32`](https://github.com/AtomicSmash/packages/commit/32b0b327c8accfc5e4974d81218580ac1bc9b773) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Add ESM versions of all coding standards js files, deprecate CJS versions
+
+- [#278](https://github.com/AtomicSmash/packages/pull/278) [`0ac220e`](https://github.com/AtomicSmash/packages/commit/0ac220ec1cd1b735e790a11f68a9b5a50110588a) Thanks [@steve-brett](https://github.com/steve-brett)! - Add PHP type hinting rules
+
+- [#274](https://github.com/AtomicSmash/packages/pull/274) [`5f05f69`](https://github.com/AtomicSmash/packages/commit/5f05f691b9218c00d1f340fe1b7600803b12761e) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Allow @context at rule for postcss-plugin-context
+
+- [#284](https://github.com/AtomicSmash/packages/pull/284) [`9aba864`](https://github.com/AtomicSmash/packages/commit/9aba864489becfcc1c43d0a25bc414d19350dc96) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Revert "Install PHP CS rules via npm" in favour of composer package, deprecate PHP config.
+
+- [#280](https://github.com/AtomicSmash/packages/pull/280) [`46e983b`](https://github.com/AtomicSmash/packages/commit/46e983bdf437f385200dfed23b2500209434416e) Thanks [@steve-brett](https://github.com/steve-brett)! - Install PHP CS rules via npm
+
+- [#284](https://github.com/AtomicSmash/packages/pull/284) [`8a0d915`](https://github.com/AtomicSmash/packages/commit/8a0d9153b4fab6f4fc3aa2b10e7ad301706c4578) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Deprecate commitlint config
+
+### Patch Changes
+
+- [#276](https://github.com/AtomicSmash/packages/pull/276) [`46698cf`](https://github.com/AtomicSmash/packages/commit/46698cf5c9ced1dfa0e7fa18adb69d8886d3d305) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Fix context at rules error
+
+- Updated dependencies [[`451112c`](https://github.com/AtomicSmash/packages/commit/451112c2a03605f856aa04f7a681565b1d0c2c2b)]:
+  - @atomicsmash/eslint-config@13.0.0
+  - @atomicsmash/browserslist-config@13.0.0
+
+## 13.0.0-beta.4
+
+### Minor Changes
+
+- [#284](https://github.com/AtomicSmash/packages/pull/284) [`32b0b32`](https://github.com/AtomicSmash/packages/commit/32b0b327c8accfc5e4974d81218580ac1bc9b773) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Add ESM versions of all coding standards js files, deprecate CJS versions
+
+- [#284](https://github.com/AtomicSmash/packages/pull/284) [`9aba864`](https://github.com/AtomicSmash/packages/commit/9aba864489becfcc1c43d0a25bc414d19350dc96) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Revert "Install PHP CS rules via npm" in favour of composer package, deprecate PHP config.
+
+- [#284](https://github.com/AtomicSmash/packages/pull/284) [`8a0d915`](https://github.com/AtomicSmash/packages/commit/8a0d9153b4fab6f4fc3aa2b10e7ad301706c4578) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Deprecate commitlint config
+
+### Patch Changes
+
+- Updated dependencies [[`451112c`](https://github.com/AtomicSmash/packages/commit/451112c2a03605f856aa04f7a681565b1d0c2c2b)]:
+  - @atomicsmash/eslint-config@13.0.0-beta.4
+  - @atomicsmash/browserslist-config@13.0.0-beta.4
+
+## 13.0.0-beta.3
+
+### Minor Changes
+
+- [#280](https://github.com/AtomicSmash/packages/pull/280) [`46e983b`](https://github.com/AtomicSmash/packages/commit/46e983bdf437f385200dfed23b2500209434416e) Thanks [@steve-brett](https://github.com/steve-brett)! - Install PHP CS rules via npm
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @atomicsmash/eslint-config@13.0.0-beta.3
+  - @atomicsmash/browserslist-config@13.0.0-beta.3
+
+## 13.0.0-beta.2
+
+### Minor Changes
+
+- [#278](https://github.com/AtomicSmash/packages/pull/278) [`0ac220e`](https://github.com/AtomicSmash/packages/commit/0ac220ec1cd1b735e790a11f68a9b5a50110588a) Thanks [@steve-brett](https://github.com/steve-brett)! - Add PHP type hinting rules
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @atomicsmash/eslint-config@13.0.0-beta.2
+  - @atomicsmash/browserslist-config@13.0.0-beta.2
+
+## 13.0.0-beta.1
+
+### Patch Changes
+
+- [#276](https://github.com/AtomicSmash/packages/pull/276) [`46698cf`](https://github.com/AtomicSmash/packages/commit/46698cf5c9ced1dfa0e7fa18adb69d8886d3d305) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Fix context at rules error
+
+- Updated dependencies []:
+  - @atomicsmash/eslint-config@13.0.0-beta.1
+  - @atomicsmash/browserslist-config@13.0.0-beta.1
+
+## 13.0.0-beta.0
+
+### Major Changes
+
+- [#274](https://github.com/AtomicSmash/packages/pull/274) [`5f05f69`](https://github.com/AtomicSmash/packages/commit/5f05f691b9218c00d1f340fe1b7600803b12761e) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Make stylelint config stable
+
+### Minor Changes
+
+- [#274](https://github.com/AtomicSmash/packages/pull/274) [`5f05f69`](https://github.com/AtomicSmash/packages/commit/5f05f691b9218c00d1f340fe1b7600803b12761e) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Allow @context at rule for postcss-plugin-context
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @atomicsmash/eslint-config@13.0.0-beta.0
+  - @atomicsmash/browserslist-config@13.0.0-beta.0
+
 ## 12.0.2
 
 ### Patch Changes

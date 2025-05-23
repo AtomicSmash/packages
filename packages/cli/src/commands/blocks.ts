@@ -366,9 +366,7 @@ export function getBlockJsonScriptFields(blockJson: BlockJson) {
 		null;
 	for (const field of scriptFields) {
 		if (Object.hasOwn(blockJson, field)) {
-			if (result === null) {
-				result = {};
-			}
+			result ??= {};
 			result[field] = blockJson[field];
 		}
 	}
@@ -381,9 +379,7 @@ export function getBlockJsonStyleFields(blockJson: BlockJson) {
 		null;
 	for (const field of styleFields) {
 		if (Object.hasOwn(blockJson, field)) {
-			if (result === null) {
-				result = {};
-			}
+			result ??= {};
 			result[field] = blockJson[field];
 		}
 	}

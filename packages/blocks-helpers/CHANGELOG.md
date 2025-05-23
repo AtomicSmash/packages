@@ -1,5 +1,31 @@
 # @atomicsmash/blocks-helpers
 
+## 5.0.0
+
+### Major Changes
+
+- [#266](https://github.com/AtomicSmash/packages/pull/266) [`904cab2`](https://github.com/AtomicSmash/packages/commit/904cab236b48952e0287dc17aca1d36842999aab) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Add object and array block instance types
+
+- [#266](https://github.com/AtomicSmash/packages/pull/266) [`0c8d829`](https://github.com/AtomicSmash/packages/commit/0c8d82983784b58a5853325bf7823a92014056a3) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Fix and improve the block instance type
+
+### Patch Changes
+
+- [#268](https://github.com/AtomicSmash/packages/pull/268) [`fb47b23`](https://github.com/AtomicSmash/packages/commit/fb47b23df2e496437d2c12c0f153beb5c8d6bfab) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Make array block instance tuple elements optional
+
+## 5.0.0-beta.1
+
+### Patch Changes
+
+- [#268](https://github.com/AtomicSmash/packages/pull/268) [`fb47b23`](https://github.com/AtomicSmash/packages/commit/fb47b23df2e496437d2c12c0f153beb5c8d6bfab) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Make array block instance tuple elements optional
+
+## 5.0.0-beta.0
+
+### Major Changes
+
+- [#266](https://github.com/AtomicSmash/packages/pull/266) [`904cab2`](https://github.com/AtomicSmash/packages/commit/904cab236b48952e0287dc17aca1d36842999aab) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Add object and array block instance types
+
+- [#266](https://github.com/AtomicSmash/packages/pull/266) [`0c8d829`](https://github.com/AtomicSmash/packages/commit/0c8d82983784b58a5853325bf7823a92014056a3) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Fix and improve the block instance type
+
 ## 4.1.1
 
 ### Patch Changes

@@ -1,5 +1,33 @@
 # @atomicsmash/test-utils
 
+## 5.0.1
+
+### Patch Changes
+
+- [#308](https://github.com/AtomicSmash/packages/pull/308) [`5c74839`](https://github.com/AtomicSmash/packages/commit/5c74839702fbcbd0f469a49d44067a8093b19e3b) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Fix strict mode violation when multiple elements found
+
+## 5.0.0
+
+### Major Changes
+
+- [#297](https://github.com/AtomicSmash/packages/pull/297) [`8964d78`](https://github.com/AtomicSmash/packages/commit/8964d78c7a05fd30dabc6d87cb0188e98b35280e) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Use projects in playwright tests
+
+### Minor Changes
+
+- [#303](https://github.com/AtomicSmash/packages/pull/303) [`1599cdd`](https://github.com/AtomicSmash/packages/commit/1599cddb442a3532dbfa31487172a499b408b66c) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Make priviledged page check work on wordpress
+
+## 5.0.0-beta.1
+
+### Minor Changes
+
+- [#303](https://github.com/AtomicSmash/packages/pull/303) [`1599cdd`](https://github.com/AtomicSmash/packages/commit/1599cddb442a3532dbfa31487172a499b408b66c) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Make priviledged page check work on wordpress
+
+## 5.0.0-beta.0
+
+### Major Changes
+
+- [#297](https://github.com/AtomicSmash/packages/pull/297) [`8964d78`](https://github.com/AtomicSmash/packages/commit/8964d78c7a05fd30dabc6d87cb0188e98b35280e) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Use projects in playwright tests
+
 ## 4.0.0
 
 ### Major Changes

@@ -1,5 +1,25 @@
 # @atomicsmash/eslint-config
 
+## 13.0.0
+
+### Minor Changes
+
+- [#284](https://github.com/AtomicSmash/packages/pull/284) [`451112c`](https://github.com/AtomicSmash/packages/commit/451112c2a03605f856aa04f7a681565b1d0c2c2b) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Support mjs files as esm files
+
+## 13.0.0-beta.4
+
+### Minor Changes
+
+- [#284](https://github.com/AtomicSmash/packages/pull/284) [`451112c`](https://github.com/AtomicSmash/packages/commit/451112c2a03605f856aa04f7a681565b1d0c2c2b) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Support mjs files as esm files
+
+## 13.0.0-beta.3
+
+## 13.0.0-beta.2
+
+## 13.0.0-beta.1
+
+## 13.0.0-beta.0
+
 ## 12.0.2
 
 ## 12.0.2-beta.0

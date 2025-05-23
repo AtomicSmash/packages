@@ -1,4 +1,4 @@
-const baseConfig = require("./base");
+import baseConfig from "./base.mjs";
 
 /**
  *
@@ -180,7 +180,7 @@ const rules = {
 	],
 };
 
-module.exports = {
+export default {
 	...baseConfig,
 	rules: {
 		...baseConfig.rules,
