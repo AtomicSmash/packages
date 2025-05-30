@@ -1,19 +1,30 @@
 {
-  "mode": "pre",
-  "tag": "beta",
-  "initialVersions": {
-    "@atomicsmash/blocks-helpers": "5.0.0",
-    "@atomicsmash/browserslist-config": "13.0.0",
-    "@atomicsmash/cli": "7.1.4",
-    "@atomicsmash/coding-standards": "13.0.0",
-    "@atomicsmash/date-php": "2.1.0",
-    "@atomicsmash/dev-tools-helpers": "1.2.2",
-    "@atomicsmash/eslint-config": "13.0.0",
-    "@atomicsmash/http-response-codes": "1.2.1",
-    "@atomicsmash/init-testing": "2.0.0",
-    "@atomicsmash/react": "1.6.4",
-    "@atomicsmash/test-utils": "5.0.1",
-    "@atomicsmash/wordpress-tests-helper": "1.0.1"
-  },
-  "changesets": []
+	"mode": "pre",
+	"tag": "beta",
+	"initialVersions": {
+		"@atomicsmash/blocks-helpers": "5.0.0",
+		"@atomicsmash/browserslist-config": "13.0.0",
+		"@atomicsmash/cli": "7.1.4",
+		"@atomicsmash/coding-standards": "13.0.0",
+		"@atomicsmash/date-php": "2.1.0",
+		"@atomicsmash/dev-tools-helpers": "1.2.2",
+		"@atomicsmash/eslint-config": "13.0.0",
+		"@atomicsmash/http-response-codes": "1.2.1",
+		"@atomicsmash/init-testing": "2.0.0",
+		"@atomicsmash/react": "1.6.4",
+		"@atomicsmash/test-utils": "5.0.1",
+		"@atomicsmash/wordpress-tests-helper": "1.0.1"
+	},
+	"changesets": [
+		"common-rivers-start",
+		"eager-cameras-rest",
+		"grumpy-doodles-glow",
+		"lovely-fishes-mate",
+		"moody-chefs-decide",
+		"smooth-moles-grin",
+		"tiny-garlics-joke",
+		"two-carrots-protect",
+		"warm-wings-talk",
+		"young-cats-hug"
+	]
 }

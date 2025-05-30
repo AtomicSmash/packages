@@ -164,6 +164,10 @@ await Promise.all([
 			packageConstraint: "^7.0.0",
 			type: "dev",
 		}),
+		packageManager.ensurePackageIsInstalled("npm-run-all", {
+			packageConstraint: "^4.0.0",
+			type: "dev",
+		}),
 		async () => {
 			const [major, minor] = process.versions.node.split(".");
 			return packageManager.ensurePackageIsInstalled("@types/node", {

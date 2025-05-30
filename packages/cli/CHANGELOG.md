@@ -1,5 +1,17 @@
 # @atomicsmash/cli
 
+## 7.2.0-beta.1
+
+### Patch Changes
+
+- [#325](https://github.com/AtomicSmash/packages/pull/325) [`33cb525`](https://github.com/AtomicSmash/packages/commit/33cb52500240a0cc6d9ccf181190317f50208f46) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Don't polyfill node global variable so Here maps works
+
+## 7.2.0-beta.0
+
+### Minor Changes
+
+- [#323](https://github.com/AtomicSmash/packages/pull/323) [`3a1919a`](https://github.com/AtomicSmash/packages/commit/3a1919a0c79e482b64c821217c88cc9bf469cc20) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Add ignore warnings flag to blocks command
+
 ## 7.1.4
 
 ### Patch Changes
