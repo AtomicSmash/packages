@@ -1,6 +1,7 @@
-import type { InterpretedAttributes } from "./attributes";
+import type { Attributes } from "./attributes";
 import type { InterpretedUsedContext } from "./context";
-import { registerBlockType } from "@atomicsmash/blocks-helpers";
+import type { Supports } from "./supports";
+import { registerBlockType } from "@wordpress/blocks";
 import blockMetaData from "./block.json";
 import { deprecated } from "./deprecation";
 import { Edit } from "./edit";
@@ -9,7 +10,7 @@ import { transforms } from "./transforms";
 
 export { type InterpretedProvidesContext } from "./context";
 
-registerBlockType<InterpretedAttributes, InterpretedUsedContext>(
+registerBlockType<Supports, Attributes, InterpretedUsedContext>(
 	blockMetaData.name,
 	{
 		deprecated,
