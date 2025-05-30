@@ -1,5 +1,15 @@
 # @atomicsmash/init-testing
 
+## 2.1.0-beta.0
+
+### Minor Changes
+
+- [#329](https://github.com/AtomicSmash/packages/pull/329) [`c16bea3`](https://github.com/AtomicSmash/packages/commit/c16bea3dbc591a32ba1bc3e3c09ae3e539fe818a) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Install npm run all if not present
+
+### Patch Changes
+
+- [#327](https://github.com/AtomicSmash/packages/pull/327) [`8bafc09`](https://github.com/AtomicSmash/packages/commit/8bafc09bf4359c9eb25152fd849d8959f3d0da09) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Update deps
+
 ## 2.0.0
 
 ### Major Changes

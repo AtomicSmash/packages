@@ -1,5 +1,17 @@
 # @atomicsmash/cli
 
+## 7.2.0-beta.2
+
+### Minor Changes
+
+- [#330](https://github.com/AtomicSmash/packages/pull/330) [`c9b6f16`](https://github.com/AtomicSmash/packages/commit/c9b6f1606e003cecba82e5e292451a65097bbb50) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Add setup database command
+
+- [#330](https://github.com/AtomicSmash/packages/pull/330) [`0eaaf2c`](https://github.com/AtomicSmash/packages/commit/0eaaf2c0f342774be7656996cc3093f32e419e0a) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Add setup command
+
+### Patch Changes
+
+- [#327](https://github.com/AtomicSmash/packages/pull/327) [`8bafc09`](https://github.com/AtomicSmash/packages/commit/8bafc09bf4359c9eb25152fd849d8959f3d0da09) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Update deps
+
 ## 7.2.0-beta.1
 
 ### Patch Changes
