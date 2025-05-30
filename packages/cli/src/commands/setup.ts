@@ -87,7 +87,7 @@ export default async function setup(args: string[]) {
 										throw new Error("Failed to link the site using herd.");
 									});
 							} else if (
-								await execute(`herd --version`)
+								await execute(`valet --version`)
 									.then(() => true)
 									.catch(() => false)
 							) {
