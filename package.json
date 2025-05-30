@@ -20,9 +20,6 @@
 		"packages/browserslist-config",
 		"packages/eslint-config",
 		"packages/blocks-helpers",
-		"packages/react",
-		"packages/dev-tools-helpers",
-		"packages/http-response-codes",
 		"packages/test-utils",
 		"packages/init-testing",
 		"packages/wordpress-tests-helper"
