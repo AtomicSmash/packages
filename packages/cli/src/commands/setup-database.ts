@@ -6,6 +6,7 @@ import {
 	convertMeasureToPrettyString,
 	startRunningMessage,
 } from "../utils.js";
+import "dotenv/config";
 
 export const setupHelpMessage = `
   Atomic Smash CLI - Setup database command.
@@ -40,6 +41,7 @@ export default async function setupDatabase(args: string[]) {
 				);
 			})
 			.then(() => {
+				performance.mark("wordpress-tables");
 				console.log(
 					`Wordpress database tables installed. (${convertMeasureToPrettyString(
 						performance.measure("wordpress-tables", "Start"),
@@ -53,8 +55,9 @@ export default async function setupDatabase(args: string[]) {
 			})
 			.then(() => {
 				if (addCustomUser) {
+					performance.mark("add-custom-user");
 					console.log(
-						`Wordpress database tables installed. (${convertMeasureToPrettyString(
+						`Custom user ${process.env.WORDPRESS_USER} added. (${convertMeasureToPrettyString(
 							performance.measure("add-custom-user", "wordpress-tables"),
 						)})`,
 					);
@@ -64,6 +67,7 @@ export default async function setupDatabase(args: string[]) {
 				);
 			})
 			.then(() => {
+				performance.mark("plugins");
 				console.log(
 					`Plugins activated. (${convertMeasureToPrettyString(
 						performance.measure(
@@ -72,10 +76,10 @@ export default async function setupDatabase(args: string[]) {
 						),
 					)})`,
 				);
-				console.log("Activating theme...");
 				return execute(`wp theme activate host-students`);
 			})
 			.then(() => {
+				performance.mark("theme");
 				console.log(
 					`Theme activated. (${convertMeasureToPrettyString(
 						performance.measure("theme", "plugins"),
@@ -94,7 +98,7 @@ export default async function setupDatabase(args: string[]) {
 				if (interval !== null) {
 					clearInterval(interval);
 				}
-				if (error.stderr.startsWith("ERROR 1007")) {
+				if (error.stderr?.startsWith("ERROR 1007")) {
 					console.error(
 						"Database already exists with the name in the wp-config. Please delete that database first with `wp db drop --yes`",
 					);
