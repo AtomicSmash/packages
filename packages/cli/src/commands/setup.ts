@@ -67,7 +67,7 @@ export default async function setup(args: string[]) {
 								console.error(error);
 								throw new Error("Failed to copy .env file.");
 							}),
-						async () => {
+						(async () => {
 							if (
 								existsSync(resolve(process.cwd(), "herd.yml")) &&
 								(await execute(`herd --version`)
@@ -108,7 +108,7 @@ export default async function setup(args: string[]) {
 									`Neither Herd nor Valet is available. Site has not been linked.`,
 								);
 							}
-						},
+						})(),
 					]),
 			execute("composer install")
 				.then(() => {
