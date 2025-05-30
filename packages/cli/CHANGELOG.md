@@ -1,5 +1,11 @@
 # @atomicsmash/cli
 
+## 7.2.0-beta.3
+
+### Patch Changes
+
+- [#331](https://github.com/AtomicSmash/packages/pull/331) [`11c9e9a`](https://github.com/AtomicSmash/packages/commit/11c9e9ab8bdd891ea8d6b20211668a513888e47d) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Fix herd/valet commands not running
+
 ## 7.2.0-beta.2
 
 ### Minor Changes
