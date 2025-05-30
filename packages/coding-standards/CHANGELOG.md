@@ -1,5 +1,15 @@
 # @atomicsmash/coding-standards
 
+## 13.0.1-beta.0
+
+### Patch Changes
+
+- [#327](https://github.com/AtomicSmash/packages/pull/327) [`8bafc09`](https://github.com/AtomicSmash/packages/commit/8bafc09bf4359c9eb25152fd849d8959f3d0da09) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Update deps
+
+- Updated dependencies [[`8bafc09`](https://github.com/AtomicSmash/packages/commit/8bafc09bf4359c9eb25152fd849d8959f3d0da09)]:
+  - @atomicsmash/browserslist-config@13.0.1-beta.0
+  - @atomicsmash/eslint-config@13.0.1-beta.0
+
 ## 13.0.0
 
 ### Major Changes
