@@ -311,6 +311,7 @@ const compiler = webpack({
 				if (
 					entry.key === "assets.php" ||
 					entry.key === "wordpress-assets-info.php" ||
+					entry.key.endsWith(".map") ||
 					entry.key.startsWith("fonts") ||
 					entry.key.startsWith("images")
 				) {
