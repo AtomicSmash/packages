@@ -1,5 +1,15 @@
 # @atomicsmash/compiler
 
+## 0.7.5
+
+### Patch Changes
+
+- [`5e20ef1`](https://github.com/AtomicSmash/packages/commit/5e20ef1bc71bb0f695981602c4e95681ec338fab) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Fix Vue compilation
+
+- [`be6e7d7`](https://github.com/AtomicSmash/packages/commit/be6e7d7aa6b228e3328906b4560150e29d8dacda) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Extract node modules styles into dist css
+
+- [`63366d2`](https://github.com/AtomicSmash/packages/commit/63366d2acee1e5f1c2b60c45d19f14dccf79c1a9) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Remove sourcemaps from manifest file
+
 ## 0.7.4
 
 ### Patch Changes
