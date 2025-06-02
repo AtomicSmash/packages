@@ -92,15 +92,16 @@ const tailwindPostCSSPlugin = await import("@tailwindcss/postcss")
 // Add optional support for Vue if vue-loader is installed
 const vueConfig = await import("vue-loader")
 	.then((vueLoaderModule) => ({
-		loader: [
-			{
-				test: /\.vue$/,
-				loader: "vue-loader",
-			},
-		],
+		loader: [{ test: /\.vue$/, loader: "vue-loader" }],
 		plugin: [new vueLoaderModule.VueLoaderPlugin()],
+		globals: {
+			__VUE_OPTIONS_API__: "true",
+			__VUE_PROD_DEVTOOLS__: "false",
+			__VUE_PROD_HYDRATION_MISMATCH_DETAILS__: "false",
+		},
+		aliases: { vue: "vue/dist/vue.esm-bundler.js" },
 	}))
-	.catch(() => ({ loader: [], plugin: [] }));
+	.catch(() => ({ loader: [], plugin: [], globals: {}, aliases: {} }));
 
 const postCSSConfig = [
 	[
@@ -205,11 +206,10 @@ const compiler = webpack({
 		path: distFolder,
 	},
 	resolve: {
+		alias: { ...vueConfig.aliases },
 		// support TSConfig paths as aliases
 		plugins: [
-			new TsconfigPathsPlugin({
-				configFile: process.cwd() + "/tsconfig.json",
-			}),
+			new TsconfigPathsPlugin({ configFile: process.cwd() + "/tsconfig.json" }),
 		],
 		// resolve TS extensions
 		extensions: [".tsx", ".ts", ".js", ".jsx", ".vue"],
@@ -268,9 +268,7 @@ const compiler = webpack({
 					},
 					{
 						loader: "sass-loader",
-						options: {
-							sourceMap: MODE === "development",
-						},
+						options: { sourceMap: MODE === "development" },
 					},
 				],
 			},
@@ -336,15 +334,8 @@ const compiler = webpack({
 		}),
 		// Create an SVG sprite from a folder of provided icons
 		new SVGSpritemapPlugin(`${srcFolder}/icons/*.svg`, {
-			output: {
-				filename: "icons/sprite.[contenthash].svg",
-			},
-			sprite: {
-				prefix: "",
-				generate: {
-					title: false,
-				},
-			},
+			output: { filename: "icons/sprite.[contenthash].svg" },
+			sprite: { prefix: "", generate: { title: false } },
 		}),
 		// Copy fonts and images from the src folder to assets (available for backwards compatibility, not recommended)
 		new CopyPlugin({
@@ -386,13 +377,12 @@ const compiler = webpack({
 		// Support Vue files if vue-loader is present
 		...vueConfig.plugin,
 		...(argv.experimentalBlocksSupport ? [new BlocksPlugin(srcFolder)] : []),
+		new webpack.DefinePlugin({ ...vueConfig.globals }),
 	],
 	optimization: {
 		minimizer: [
 			// Minify JS files
-			new EsbuildPlugin({
-				target: browserslistToEsbuild(),
-			}),
+			new EsbuildPlugin({ target: browserslistToEsbuild() }),
 		],
 	},
 });
