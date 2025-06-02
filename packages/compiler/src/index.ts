@@ -251,10 +251,35 @@ const compiler = webpack({
 				type: "asset/resource",
 				generator: {
 					binary: false,
-					filename: (pathData: PathData) =>
-						relative(srcFolder, pathData.filename ?? "")
+					filename: (pathData: PathData) => {
+						const fileName = pathData.filename;
+						if (!fileName) {
+							return;
+						}
+						const isVendorFile = fileName.includes("node_modules");
+						if (isVendorFile) {
+							const vendorPathData = fileName.split(pathSeparator);
+							const nodeModulesPosition = vendorPathData.findIndex((value) =>
+								value.includes("node_modules"),
+							);
+							const vendorArray = vendorPathData.slice(
+								nodeModulesPosition + 1,
+								nodeModulesPosition + 3,
+							);
+							let vendor;
+							if (vendorArray[0]?.startsWith("@")) {
+								vendor = vendorArray.join(pathSeparator);
+							} else {
+								vendor = vendorArray[0] ?? "";
+							}
+							return ["css", "vendor", vendor, vendorPathData.at(-1)]
+								.join(pathSeparator)
+								.replace(".scss", ".[contenthash].css");
+						}
+						return relative(srcFolder, pathData.filename ?? "")
 							.replace(".scss", ".[contenthash].css")
-							.replace("styles/", "css/"),
+							.replace("styles/", "css/");
+					},
 				},
 				use: [
 					{
@@ -278,10 +303,35 @@ const compiler = webpack({
 				type: "asset/resource",
 				generator: {
 					binary: false,
-					filename: (pathData: PathData) =>
-						relative(srcFolder, pathData.filename ?? "")
+					filename: (pathData: PathData) => {
+						const fileName = pathData.filename;
+						if (!fileName) {
+							return;
+						}
+						const isVendorFile = fileName.includes("node_modules");
+						if (isVendorFile) {
+							const vendorPathData = fileName.split(pathSeparator);
+							const nodeModulesPosition = vendorPathData.findIndex((value) =>
+								value.includes("node_modules"),
+							);
+							const vendorArray = vendorPathData.slice(
+								nodeModulesPosition + 1,
+								nodeModulesPosition + 3,
+							);
+							let vendor;
+							if (vendorArray[0]?.startsWith("@")) {
+								vendor = vendorArray.join(pathSeparator);
+							} else {
+								vendor = vendorArray[0] ?? "";
+							}
+							return ["css", "vendor", vendor, vendorPathData.at(-1)]
+								.join(pathSeparator)
+								.replace(".css", ".[contenthash].css");
+						}
+						return relative(srcFolder, pathData.filename ?? "")
 							.replace(".css", ".[contenthash].css")
-							.replace("styles/", "css/"),
+							.replace("styles/", "css/");
+					},
 				},
 				use: [
 					{
