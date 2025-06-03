@@ -76,7 +76,7 @@ export default async function setupDatabase(args: string[]) {
 						),
 					)})`,
 				);
-				return execute(`wp theme activate host-students`);
+				return execute(`wp theme activate ${themeName}`);
 			})
 			.then(() => {
 				performance.mark("theme");
