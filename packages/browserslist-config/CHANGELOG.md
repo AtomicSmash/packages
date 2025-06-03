@@ -1,5 +1,11 @@
 # @atomicsmash/browserslist-config
 
+## 13.0.1
+
+### Patch Changes
+
+- [#327](https://github.com/AtomicSmash/packages/pull/327) [`8bafc09`](https://github.com/AtomicSmash/packages/commit/8bafc09bf4359c9eb25152fd849d8959f3d0da09) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Update deps
+
 ## 13.0.1-beta.0
 
 ### Patch Changes
