@@ -1,5 +1,11 @@
 # @atomicsmash/cli
 
+## 7.2.1
+
+### Patch Changes
+
+- [#336](https://github.com/AtomicSmash/packages/pull/336) [`4cb7638`](https://github.com/AtomicSmash/packages/commit/4cb7638ab43546dce3b555f9b89ed593f94bf57f) Thanks [@mikeybinns](https://github.com/mikeybinns)! - fix setup database command theme name
+
 ## 7.2.0
 
 ### Minor Changes
