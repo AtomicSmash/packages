@@ -12,5 +12,7 @@
     "@atomicsmash/test-utils": "5.0.2",
     "@atomicsmash/wordpress-tests-helper": "1.0.1"
   },
-  "changesets": []
+  "changesets": [
+    "cruel-kiwis-throw"
+  ]
 }
