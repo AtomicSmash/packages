@@ -1,5 +1,49 @@
 # @atomicsmash/blocks-helpers
 
+## 6.0.0-beta.4
+
+### Patch Changes
+
+- [#327](https://github.com/AtomicSmash/packages/pull/327) [`8bafc09`](https://github.com/AtomicSmash/packages/commit/8bafc09bf4359c9eb25152fd849d8959f3d0da09) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Update deps
+
+## 6.0.0-beta.3
+
+### Patch Changes
+
+- [#321](https://github.com/AtomicSmash/packages/pull/321) [`fbe2c2c`](https://github.com/AtomicSmash/packages/commit/fbe2c2c3c12cfbc0ce34fdfe2f973c14c8774d85) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Fix metadata default attribute
+
+## 6.0.0-beta.2
+
+### Minor Changes
+
+- [#319](https://github.com/AtomicSmash/packages/pull/319) [`51db33f`](https://github.com/AtomicSmash/packages/commit/51db33f6b662c40cb916ed785fcbefdc8f830161) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Add metadata default attribute
+
+### Patch Changes
+
+- [#318](https://github.com/AtomicSmash/packages/pull/318) [`053a885`](https://github.com/AtomicSmash/packages/commit/053a88589b90accf35ed47f3772dadc7b1e41e44) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Loosen example types attributes property to partial
+
+## 6.0.0-beta.1
+
+### Patch Changes
+
+- [#316](https://github.com/AtomicSmash/packages/pull/316) [`0d4bae8`](https://github.com/AtomicSmash/packages/commit/0d4bae807cfa9c148120a7fc85f4824d7d40b914) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Make merge prop optional
+
+## 6.0.0-beta.0
+
+### Major Changes
+
+- [#314](https://github.com/AtomicSmash/packages/pull/314) [`81bcc70`](https://github.com/AtomicSmash/packages/commit/81bcc70635bc577f428a5aa9447362213aee511e) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Remove re-exported registerBlockType function (use base WP one with the newly applied type)
+
+### Minor Changes
+
+- [#314](https://github.com/AtomicSmash/packages/pull/314) [`47d97be`](https://github.com/AtomicSmash/packages/commit/47d97bee37cbe81af77e4081859e2a7d8d8e4cac) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Add fixes for external WP package types
+
+- [#314](https://github.com/AtomicSmash/packages/pull/314) [`e1a50db`](https://github.com/AtomicSmash/packages/commit/e1a50db73e906ca77ab71006ef6f4f9fe68c7d94) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Add missing merge setting to client only register settings
+
+### Patch Changes
+
+- [#314](https://github.com/AtomicSmash/packages/pull/314) [`f9ad6c9`](https://github.com/AtomicSmash/packages/commit/f9ad6c922d4e5e020434ea6d3534ca4c5cdc1593) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Fix edit props
+
 ## 5.0.0
 
 ### Major Changes
