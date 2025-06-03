@@ -1,5 +1,23 @@
 # @atomicsmash/cli
 
+## 7.2.0
+
+### Minor Changes
+
+- [#323](https://github.com/AtomicSmash/packages/pull/323) [`3a1919a`](https://github.com/AtomicSmash/packages/commit/3a1919a0c79e482b64c821217c88cc9bf469cc20) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Add ignore warnings flag to blocks command
+
+- [#330](https://github.com/AtomicSmash/packages/pull/330) [`c9b6f16`](https://github.com/AtomicSmash/packages/commit/c9b6f1606e003cecba82e5e292451a65097bbb50) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Add setup database command
+
+- [#330](https://github.com/AtomicSmash/packages/pull/330) [`0eaaf2c`](https://github.com/AtomicSmash/packages/commit/0eaaf2c0f342774be7656996cc3093f32e419e0a) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Add setup command
+
+### Patch Changes
+
+- [#331](https://github.com/AtomicSmash/packages/pull/331) [`11c9e9a`](https://github.com/AtomicSmash/packages/commit/11c9e9ab8bdd891ea8d6b20211668a513888e47d) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Fix herd/valet commands not running
+
+- [#327](https://github.com/AtomicSmash/packages/pull/327) [`8bafc09`](https://github.com/AtomicSmash/packages/commit/8bafc09bf4359c9eb25152fd849d8959f3d0da09) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Update deps
+
+- [#325](https://github.com/AtomicSmash/packages/pull/325) [`33cb525`](https://github.com/AtomicSmash/packages/commit/33cb52500240a0cc6d9ccf181190317f50208f46) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Don't polyfill node global variable so Here maps works
+
 ## 7.2.0-beta.3
 
 ### Patch Changes
