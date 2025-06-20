@@ -4,7 +4,7 @@ import { cosmiconfig } from "cosmiconfig";
 import webpack from "webpack";
 import yargs from "yargs";
 import { hideBin } from "yargs/helpers";
-import { config as defaultConfig } from "./config";
+import { config as defaultConfig } from "./config.js";
 
 declare global {
 	// eslint-disable-next-line @typescript-eslint/no-namespace -- Match NodeJS def
