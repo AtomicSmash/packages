@@ -103,7 +103,7 @@ export const builder = function (yargs: YargsInstance) {
 		);
 };
 
-export default async function blocks(
+export async function handler(
 	args: ArgumentsCamelCase<Awaited<ReturnType<typeof builder>["argv"]>>,
 ) {
 	const srcFolder = resolvePath(args.in);
