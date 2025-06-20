@@ -19,8 +19,8 @@ const commonRules = {
 		"custom-properties",
 		"dollar-variables",
 		"declarations",
-		"rules",
 		"at-rules",
+		"rules",
 	],
 	"selector-class-pattern": [
 		"^([a-z][a-z0-9]*)([_-]+[a-z0-9]+)*$",
