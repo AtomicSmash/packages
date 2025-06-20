@@ -1,5 +1,11 @@
 # @atomicsmash/compiler
 
+## 0.8.1
+
+### Patch Changes
+
+- [`5669cfe`](https://github.com/AtomicSmash/packages/commit/5669cfefea98506af923d9d659a50c34e49cb17b) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Fix missing config error
+
 ## 0.8.0
 
 ### Minor Changes
