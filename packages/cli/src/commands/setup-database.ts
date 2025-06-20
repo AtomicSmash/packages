@@ -1,27 +1,13 @@
 import { exec } from "node:child_process";
 import { performance } from "node:perf_hooks";
 import { promisify } from "node:util";
-import {
-	hasHelpFlag,
-	convertMeasureToPrettyString,
-	startRunningMessage,
-} from "../utils.js";
+import { convertMeasureToPrettyString, startRunningMessage } from "../utils.js";
 import "dotenv/config";
 
-export const setupHelpMessage = `
-  Atomic Smash CLI - Setup database command.
-
-  Create a new database and initialise the site with no content.
-
-  Example usage:
-    $ smash-cli setup-database
-`;
-
-export default async function setupDatabase(args: string[]) {
-	if (hasHelpFlag(args)) {
-		console.log(setupHelpMessage);
-		return;
-	}
+export const command = "setup-database";
+export const describe =
+	"Create a new database and initialise the site with no content.";
+export default async function setupDatabase() {
 	const execute = promisify(exec);
 	const themeName = process.env.npm_package_config_theme_name;
 	const addCustomUser =

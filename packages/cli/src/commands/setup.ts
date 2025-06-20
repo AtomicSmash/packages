@@ -4,26 +4,11 @@ import { constants, copyFile } from "node:fs/promises";
 import { resolve } from "node:path";
 import { performance } from "node:perf_hooks";
 import { promisify } from "node:util";
-import {
-	hasHelpFlag,
-	convertMeasureToPrettyString,
-	startRunningMessage,
-} from "../utils.js";
+import { convertMeasureToPrettyString, startRunningMessage } from "../utils.js";
 
-export const setupHelpMessage = `
-  Atomic Smash CLI - Setup command.
-
-  Run all the common setup tasks for a project.
-
-  Example usage:
-    $ smash-cli setup
-`;
-
-export default async function setup(args: string[]) {
-	if (hasHelpFlag(args)) {
-		console.log(setupHelpMessage);
-		return;
-	}
+export const command = "setup";
+export const describe = "Run all the common setup tasks for a project.";
+export async function handler() {
 	const execute = promisify(exec);
 	const themeName = process.env.npm_package_config_theme_name;
 	const shouldInstallAndBuildOnly = await import("dotenv")

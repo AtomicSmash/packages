@@ -2,27 +2,45 @@ import { existsSync, unlink, readFileSync } from "node:fs";
 import { resolve as resolvePath } from "node:path";
 import { expect, test, describe, afterAll } from "vitest";
 import { testCommand, execute } from "../utils.js";
-import { svgHelpMessage } from "./svg.js";
 
 const testSVGsIn = resolvePath(import.meta.dirname, "../tests/svg/in");
 const testSVGsOut = resolvePath(import.meta.dirname, "../tests/svg/out");
 
 describe("SVG command works as intended", () => {
 	test("svg command correctly displays help message", async () => {
-		await expect(execute(`${testCommand} svg --help`)).resolves.toEqual({
-			error: null,
-			stdout: `${svgHelpMessage}\n`,
-			stderr: "",
-		});
+		await expect(execute(`${testCommand} svg --help`)).resolves
+			.toMatchInlineSnapshot(`
+			{
+			  "error": null,
+			  "stderr": "",
+			  "stdout": "smash-cli svg
+
+			Generate an SVG sprite from a group of SVGs.
+
+			Options:
+			      --in       The directory where the SVGs can be found.  [string] [required]
+			      --out      The directory where the SVG sprite will be output.  [string] [required]
+			  -h, --help     Show help  [boolean]
+			  -v, --version  Show version number  [boolean]
+
+			Examples:
+			  smash-cli svg --in icons --out public/assets
+			",
+			}
+		`);
 	});
 	test("svg command correctly displays --in flag missing error if no flags added", async () => {
 		const command = `${testCommand} svg`;
 		await expect(execute(command)).rejects.toThrowErrorMatchingInlineSnapshot(`
 			{
-			  "error": [Error: Command failed: ${command}
-			Error: You need to provide a value for the --in flag.
+			  "error": [Error: Command failed: ${testCommand} svg
+			Missing required arguments: in, out
+
+			Specify --help to see the available commands.
 			],
-			  "stderr": "Error: You need to provide a value for the --in flag.
+			  "stderr": "Missing required arguments: in, out
+
+			Specify --help to see the available commands.
 			",
 			  "stdout": "",
 			}
@@ -32,10 +50,14 @@ describe("SVG command works as intended", () => {
 		const command = `${testCommand} svg --out ${testSVGsOut}`;
 		await expect(execute(command)).rejects.toThrowErrorMatchingInlineSnapshot(`
 			{
-			  "error": [Error: Command failed: ${command}
-			Error: You need to provide a value for the --in flag.
+			  "error": [Error: Command failed: ${testCommand} svg --out ${testSVGsOut}
+			Missing required argument: in
+
+			Specify --help to see the available commands.
 			],
-			  "stderr": "Error: You need to provide a value for the --in flag.
+			  "stderr": "Missing required argument: in
+
+			Specify --help to see the available commands.
 			",
 			  "stdout": "",
 			}
@@ -45,10 +67,14 @@ describe("SVG command works as intended", () => {
 		const command = `${testCommand} svg --in ${testSVGsIn}`;
 		await expect(execute(command)).rejects.toThrowErrorMatchingInlineSnapshot(`
 			{
-			  "error": [Error: Command failed: ${command}
-			Error: You need to provide a value for the --out flag.
+			  "error": [Error: Command failed: ${testCommand} svg --in ${testSVGsIn}
+			Missing required argument: out
+
+			Specify --help to see the available commands.
 			],
-			  "stderr": "Error: You need to provide a value for the --out flag.
+			  "stderr": "Missing required argument: out
+
+			Specify --help to see the available commands.
 			",
 			  "stdout": "",
 			}

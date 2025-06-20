@@ -2,7 +2,6 @@ import { resolve as resolvePath, sep as pathSeparator } from "node:path";
 import { expect, test, describe } from "vitest";
 import { testCommand, execute } from "../utils.js";
 import {
-	blocksHelpMessage,
 	getRootFileJSEntryPoints,
 	getBlockJsonFiles,
 	getAllBlocksJSEntryPoints,
@@ -12,11 +11,34 @@ import {
 
 describe("Blocks command works as intended", () => {
 	test("Blocks command correctly displays help message", async () => {
-		await expect(execute(`${testCommand} blocks --help`)).resolves.toEqual({
-			error: null,
-			stdout: `${blocksHelpMessage}\n`,
-			stderr: "",
-		});
+		await expect(
+			execute(`${testCommand} blocks --help`),
+		).resolves.toMatchInlineSnapshot(`
+			{
+			  "error": null,
+			  "stderr": "",
+			  "stdout": "smash-cli blocks
+
+			A command to generate WordPress blocks from a src folder.
+
+			Options:
+			      --in                      The directory where the WP blocks can be found. Relative to cwd.  [string] [required]
+			      --out                     The directory where the WP blocks will be output. Relative to cwd.  [string] [required]
+			      --tsConfigPath            The directory where the tsconfig file can be found. Relative to cwd. Defaults to the in folder.  [string]
+			      --postcssConfigPath       The directory where the postcss config file can be found. Relative to cwd. Defaults to the in folder and then searches up the directory tree.  [string]
+			      --watch                   Watch the blocks in folder for changes and compile.  [boolean] [default: false]
+			      --excludeBlocks           A list of the folder names of blocks to exclude from compilation.  [array] [default: ["__TEMPLATE__"]]
+			      --excludeRootFiles        A list of the root file names to exclude from compilation.  [array] [default: []]
+			      --alwaysCompileRootFiles  By default, we won't compile root files if no blocks are found, this allows you to override that setting.  [boolean] [default: false]
+			      --ignoreWarnings          If webpack has warnings, don't output them or change error code.  [boolean] [default: false]
+			  -h, --help                    Show help  [boolean]
+			  -v, --version                 Show version number  [boolean]
+
+			Examples:
+			  smash-cli blocks --watch --in src --out build --tsConfigPath tsconfig.json
+			",
+			}
+		`);
 	});
 });
 
