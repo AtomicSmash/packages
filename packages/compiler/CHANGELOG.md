@@ -1,5 +1,11 @@
 # @atomicsmash/compiler
 
+## 0.8.2
+
+### Patch Changes
+
+- Fix build error
+
 ## 0.8.1
 
 ### Patch Changes
