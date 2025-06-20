@@ -1,5 +1,11 @@
 # @atomicsmash/cli
 
+## 8.0.0-beta.0
+
+### Major Changes
+
+- [#342](https://github.com/AtomicSmash/packages/pull/342) [`23b2eb1`](https://github.com/AtomicSmash/packages/commit/23b2eb161650b8c2e118a6780af5c86a4c3037b5) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Migrate CLI to use yargs package
+
 ## 7.2.1
 
 ### Patch Changes
