@@ -30,7 +30,6 @@ export default defineConfig({
 		},
 	},
 	test: {
-		setupFiles: ["./packages/react/test-setup.ts"],
 		reporters: [
 			"default",
 			{
