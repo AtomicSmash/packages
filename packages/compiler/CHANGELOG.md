@@ -1,5 +1,11 @@
 # @atomicsmash/compiler
 
+## 0.8.0
+
+### Minor Changes
+
+- [`4bb2f29`](https://github.com/AtomicSmash/packages/commit/4bb2f296d97de5f7614f1d43b24caa560d374c41) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Export config as shared config
+
 ## 0.7.5
 
 ### Patch Changes
