@@ -13,6 +13,7 @@
     "@atomicsmash/wordpress-tests-helper": "1.0.1"
   },
   "changesets": [
-    "chatty-hands-lie"
+    "chatty-hands-lie",
+    "hip-rings-press"
   ]
 }

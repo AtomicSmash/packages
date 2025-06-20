@@ -1,5 +1,11 @@
 # @atomicsmash/cli
 
+## 8.0.0-beta.1
+
+### Patch Changes
+
+- [#344](https://github.com/AtomicSmash/packages/pull/344) [`4b7bc67`](https://github.com/AtomicSmash/packages/commit/4b7bc670f1a7148e77cb011466e573e514086256) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Fix blocks command
+
 ## 8.0.0-beta.0
 
 ### Major Changes
