@@ -1,39 +1,37 @@
+import type { ArgumentsCamelCase } from "yargs";
 import { readFileSync, mkdirSync, writeFileSync } from "node:fs";
 import { resolve as resolvePath, join as joinPath, dirname } from "path";
 import glob from "glob-promise";
 import SVGSpriter from "svg-sprite";
 import File from "vinyl";
-import { hasHelpFlag, interpretFlag } from "../utils.js";
+import { YargsInstance } from "../index.js";
 
-export const svgHelpMessage = `
-  Atomic Smash CLI - SVG command.
+export const command = "svg";
+export const describe = "Generate an SVG sprite from a group of SVGs.";
+export const builder = function (yargs: YargsInstance) {
+	return yargs
+		.options({
+			in: {
+				demandOption: true,
+				string: true,
+				normalize: true,
+				description: "The directory where the SVGs can be found.",
+			},
+			out: {
+				demandOption: true,
+				string: true,
+				normalize: true,
+				description: "The directory where the SVG sprite will be output.",
+			},
+		})
+		.example("$0 svg --in icons --out public/assets", "");
+};
 
-  Generate an SVG sprite from a group of SVGs.
-
-  Options:
-    --in         The directory where the SVGs can be found.
-    --out        The directory where the SVG sprite will be output.
-
-  Example usage:
-    $ smash-cli svg --in icons --out public/assets
-`;
-
-export default function svg(args: string[]) {
-	if (hasHelpFlag(args)) {
-		console.log(svgHelpMessage);
-		return;
-	}
-	const inFlag = interpretFlag(args, "--in");
-	if (!inFlag.isPresent || inFlag.value === null) {
-		throw new Error("You need to provide a value for the --in flag.");
-	}
-	const outFlag = interpretFlag(args, "--out");
-	if (!outFlag.isPresent || outFlag.value === null) {
-		throw new Error("You need to provide a value for the --out flag.");
-	}
-
+export function handler(
+	args: ArgumentsCamelCase<Awaited<ReturnType<typeof builder>["argv"]>>,
+) {
 	const config = {
-		dest: outFlag.value,
+		dest: args.out,
 		shape: {
 			dimension: {
 				attributes: false,
@@ -53,7 +51,7 @@ export default function svg(args: string[]) {
 	};
 	const spriter = new SVGSpriter(config);
 
-	const cwd = resolvePath(inFlag.value);
+	const cwd = resolvePath(args.in);
 	// Find SVG files recursively via `glob`
 	glob("**/*.svg", { cwd })
 		.then(async (files) => {
@@ -90,9 +88,7 @@ export default function svg(args: string[]) {
 						);
 				})
 				.then(() => {
-					console.log(
-						`SVG sprite was successfully generated in ${outFlag.value}.`,
-					);
+					console.log(`SVG sprite was successfully generated in ${args.out}.`);
 				});
 		})
 		.catch((error: unknown) => {

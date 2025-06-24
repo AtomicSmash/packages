@@ -1,5 +1,9 @@
 # @atomicsmash/eslint-config
 
+## 14.0.0
+
+## 14.0.0-beta.0
+
 ## 13.0.1
 
 ### Patch Changes

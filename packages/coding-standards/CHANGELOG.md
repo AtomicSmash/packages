@@ -1,5 +1,37 @@
 # @atomicsmash/coding-standards
 
+## 14.0.0
+
+### Minor Changes
+
+- [#346](https://github.com/AtomicSmash/packages/pull/346) [`b2e42a2`](https://github.com/AtomicSmash/packages/commit/b2e42a2364bd2abb427ae707de8f1f7c1a734f4d) Thanks [@cmg8ball](https://github.com/cmg8ball)! - Add tailwind rules for stylelint.
+
+### Patch Changes
+
+- [#346](https://github.com/AtomicSmash/packages/pull/346) [`b2e42a2`](https://github.com/AtomicSmash/packages/commit/b2e42a2364bd2abb427ae707de8f1f7c1a734f4d) Thanks [@cmg8ball](https://github.com/cmg8ball)! - Fix mjs index export.
+
+- [#346](https://github.com/AtomicSmash/packages/pull/346) [`b2e42a2`](https://github.com/AtomicSmash/packages/commit/b2e42a2364bd2abb427ae707de8f1f7c1a734f4d) Thanks [@cmg8ball](https://github.com/cmg8ball)! - Update @rule order stylelint.
+
+- Updated dependencies []:
+  - @atomicsmash/eslint-config@14.0.0
+  - @atomicsmash/browserslist-config@14.0.0
+
+## 14.0.0-beta.0
+
+### Minor Changes
+
+- [#346](https://github.com/AtomicSmash/packages/pull/346) [`b2e42a2`](https://github.com/AtomicSmash/packages/commit/b2e42a2364bd2abb427ae707de8f1f7c1a734f4d) Thanks [@cmg8ball](https://github.com/cmg8ball)! - Add tailwind rules for stylelint.
+
+### Patch Changes
+
+- [#346](https://github.com/AtomicSmash/packages/pull/346) [`b2e42a2`](https://github.com/AtomicSmash/packages/commit/b2e42a2364bd2abb427ae707de8f1f7c1a734f4d) Thanks [@cmg8ball](https://github.com/cmg8ball)! - Fix mjs index export.
+
+- [#346](https://github.com/AtomicSmash/packages/pull/346) [`b2e42a2`](https://github.com/AtomicSmash/packages/commit/b2e42a2364bd2abb427ae707de8f1f7c1a734f4d) Thanks [@cmg8ball](https://github.com/cmg8ball)! - Update @rule order stylelint.
+
+- Updated dependencies []:
+  - @atomicsmash/eslint-config@14.0.0-beta.0
+  - @atomicsmash/browserslist-config@14.0.0-beta.0
+
 ## 13.0.1
 
 ### Patch Changes
