@@ -46,7 +46,7 @@ jobs:
         id: changesets
         uses: changesets/action@v1
         with:
-          version: changeset version && npm install
+          version: npx changeset version && npm install
           publish: npm run release
           setupGitUser: true
         env:
