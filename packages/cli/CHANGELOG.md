@@ -1,5 +1,17 @@
 # @atomicsmash/cli
 
+## 8.0.0-beta.1
+
+### Patch Changes
+
+- [#344](https://github.com/AtomicSmash/packages/pull/344) [`4b7bc67`](https://github.com/AtomicSmash/packages/commit/4b7bc670f1a7148e77cb011466e573e514086256) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Fix blocks command
+
+## 8.0.0-beta.0
+
+### Major Changes
+
+- [#342](https://github.com/AtomicSmash/packages/pull/342) [`23b2eb1`](https://github.com/AtomicSmash/packages/commit/23b2eb161650b8c2e118a6780af5c86a4c3037b5) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Migrate CLI to use yargs package
+
 ## 7.2.1
 
 ### Patch Changes

@@ -1,8 +1,10 @@
+import type { YargsInstance } from "../index.js";
 import type { BlockMetaData } from "@atomicsmash/blocks-helpers";
 import type { ObjectPattern } from "copy-webpack-plugin";
 import type { AcceptedPlugin } from "postcss";
 import type { StringOptions } from "sass";
 import type { Compiler, Configuration } from "webpack";
+import type { ArgumentsCamelCase } from "yargs";
 import crypto from "node:crypto";
 import { readFileSync } from "node:fs";
 import { readdir, readFile, writeFile } from "node:fs/promises";
@@ -27,65 +29,93 @@ import { TsconfigPathsPlugin } from "tsconfig-paths-webpack-plugin";
 import { tsImport } from "tsx/esm/api";
 import webpack from "webpack";
 import defaultConfig from "../external/wordpress.webpack.config.cjs";
-import { hasHelpFlag, interpretFlag, toCamelCase } from "../utils.js";
+import { toCamelCase } from "../utils.js";
 
 const isProduction = process.env.NODE_ENV === "production";
 
-export const blocksHelpMessage = `
-  Atomic Smash CLI - Blocks command.
+export const command = "blocks";
+export const describe =
+	"A command to generate WordPress blocks from a src folder.";
+export const builder = function (yargs: YargsInstance) {
+	return yargs
+		.options({
+			in: {
+				demandOption: true,
+				string: true,
+				normalize: true,
+				description:
+					"The directory where the WP blocks can be found. Relative to cwd.",
+			},
+			out: {
+				demandOption: true,
+				string: true,
+				normalize: true,
+				description:
+					"The directory where the WP blocks will be output. Relative to cwd.",
+			},
+			tsConfigPath: {
+				string: true,
+				normalize: true,
+				description:
+					"The directory where the tsconfig file can be found. Relative to cwd. Defaults to the in folder.",
+			},
+			postcssConfigPath: {
+				string: true,
+				normalize: true,
+				description:
+					"The directory where the postcss config file can be found. Relative to cwd. Defaults to the in folder and then searches up the directory tree.",
+			},
+			watch: {
+				boolean: true,
+				default: false,
+				description: "Watch the blocks in folder for changes and compile.",
+			},
+			excludeBlocks: {
+				array: true,
+				string: true,
+				default: ["__TEMPLATE__"],
+				description:
+					"A list of the folder names of blocks to exclude from compilation.",
+			},
+			excludeRootFiles: {
+				array: true,
+				string: true,
+				default: [] as string[],
+				description:
+					"A list of the root file names to exclude from compilation.",
+			},
+			alwaysCompileRootFiles: {
+				boolean: true,
+				default: false,
+				description:
+					"By default, we won't compile root files if no blocks are found, this allows you to override that setting.",
+			},
+			ignoreWarnings: {
+				boolean: true,
+				default: false,
+				description:
+					"If webpack has warnings, don't output them or change error code.",
+			},
+		})
+		.example(
+			"$0 blocks --watch --in src --out build --tsConfigPath tsconfig.json",
+			"",
+		);
+};
 
-  A command to generate WordPress blocks from a src folder.
+export async function handler(
+	args: ArgumentsCamelCase<Awaited<ReturnType<typeof builder>["argv"]>>,
+) {
+	const srcFolder = resolvePath(args.in);
+	const distFolder = resolvePath(args.out);
 
-  Options:
-    --in                     The directory where the WP blocks can be found. Relative to cwd.
-    --out                    The directory where the WP blocks will be output. Relative to cwd.
-    --tsConfigPath           (optional) The directory where the tsconfig file can be found. Relative to cwd. Defaults to the in folder.
-    --postcssConfigPath      (optional) The directory where the postcss config file can be found. Relative to cwd. Defaults to the in folder and then searches up the directory tree.
-    --watch                  (optional) Watch the blocks in folder for changes and compile. Default to false.
-    --excludeBlocks          (optional) A comma separated list of the folder names of blocks to exclude from compilation. Defaults to "__TEMPLATE__".
-    --excludeRootFiles       (optional) A comma separated list of the root file names to exclude from compilation. Nothing is excluded by default.
-    --alwaysCompileRootFiles (optional) By default, we won't compile root files if no blocks are found, this allows you to override that setting. Defaults to false.
-    --ignoreWarnings         (optional) If webpack has warnings, don't output them or change error code. Defaults to false.
-
-  Example usage:
-    $ smash-cli blocks --watch --in src --out build --tsConfigPath tsconfig.json
-`;
-
-export default async function blocks(args: string[]) {
-	if (hasHelpFlag(args)) {
-		console.log(blocksHelpMessage);
-		return;
-	}
-	const inFlag = interpretFlag(args, "--in");
-	if (!inFlag.isPresent || inFlag.value === null) {
-		throw new Error("You need to provide a value for the --in flag.");
-	}
-	const outFlag = interpretFlag(args, "--out");
-	if (!outFlag.isPresent || outFlag.value === null) {
-		throw new Error("You need to provide a value for the --out flag.");
-	}
-	const srcFolder = resolvePath(inFlag.value);
-	const distFolder = resolvePath(outFlag.value);
-
-	const tsConfigLocation =
-		interpretFlag(args, "--tsConfigPath").value ?? srcFolder;
-	const postcssConfigLocation =
-		interpretFlag(args, "--postcssConfigPath").value ?? srcFolder;
-	const excludeBlocks = interpretFlag(args, "--excludeBlocks", "list")
-		.value ?? ["__TEMPLATE__"];
-	const excludeRootFiles =
-		interpretFlag(args, "--excludeRootFiles", "list").value ?? [];
-	const shouldAlwaysCompileRootFiles = interpretFlag(
-		args,
-		"--alwaysCompileRootFiles",
-		"boolean",
-	).value;
-	const isWatch = interpretFlag(args, "--watch", "boolean").value;
-	const shouldIgnoreWarnings = interpretFlag(
-		args,
-		"--ignoreWarnings",
-		"boolean",
-	).value;
+	const tsConfigLocation = args.tsConfigPath ?? srcFolder;
+	const postcssConfigLocation = args.postcssConfigPath ?? srcFolder;
+	const excludeBlocks = args.excludeBlocks;
+	const excludeRootFiles = args.excludeRootFiles;
+	const shouldAlwaysCompileRootFiles = args.alwaysCompileRootFiles;
+	const isWatch = args.watch;
+	const shouldIgnoreWarnings = args.ignoreWarnings;
 
 	await runCommand({
 		srcFolder,
