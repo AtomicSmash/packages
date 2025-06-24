@@ -36,6 +36,7 @@
 		"lint:types": "tsc",
 		"format": "run-p format:*",
 		"format:prettier": "prettier . --write",
+		"version": "changeset version && npm install",
 		"release": "npm-run-all build lint test publish",
 		"publish": "changeset publish"
 	},
