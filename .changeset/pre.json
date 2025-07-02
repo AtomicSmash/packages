@@ -1,0 +1,16 @@
+{
+  "mode": "pre",
+  "tag": "beta",
+  "initialVersions": {
+    "@atomicsmash/blocks-helpers": "6.0.0",
+    "@atomicsmash/browserslist-config": "14.0.0",
+    "@atomicsmash/cli": "8.0.0",
+    "@atomicsmash/coding-standards": "14.0.0",
+    "@atomicsmash/date-php": "2.1.0",
+    "@atomicsmash/eslint-config": "14.0.0",
+    "@atomicsmash/init-testing": "2.1.0",
+    "@atomicsmash/test-utils": "5.0.2",
+    "@atomicsmash/wordpress-tests-helper": "1.0.1"
+  },
+  "changesets": []
+}
