@@ -22,6 +22,14 @@ const commonRules = {
 		"at-rules",
 		"rules",
 	],
+	"plugin/no-restricted-syntax": [
+		[
+			{
+				selector: "atrule rule",
+				message: "Unexpected rule inside of at-rule",
+			},
+		],
+	],
 	"selector-class-pattern": [
 		"^([a-z][a-z0-9]*)([_-]+[a-z0-9]+)*$",
 		{
@@ -42,7 +50,7 @@ module.exports = {
 	reportDescriptionlessDisables: true,
 	reportInvalidScopeDisables: true,
 	reportNeedlessDisables: true,
-	plugins: ["stylelint-order"],
+	plugins: ["stylelint-order", "stylelint-no-restricted-syntax"],
 	rules: commonRules,
 	overrides: [
 		{
