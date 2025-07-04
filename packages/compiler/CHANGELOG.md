@@ -1,5 +1,11 @@
 # @atomicsmash/compiler
 
+## 0.9.1
+
+### Patch Changes
+
+- [`832ff9b`](https://github.com/AtomicSmash/packages/commit/832ff9bb5951b29bf900b2bc5df4d119fc47d76d) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Fix extra js extension in manifest
+
 ## 0.9.0
 
 ### Minor Changes
