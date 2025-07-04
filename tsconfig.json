@@ -3,6 +3,7 @@
 	"include": [],
 	"references": [
 		{ "path": "./packages/cli/tsconfig.build.json" },
+		{ "path": "./packages/compiler/tsconfig.build.json" },
 		{ "path": "./packages/date-php/tsconfig.build.json" },
 		{ "path": "./packages/blocks-helpers/tsconfig.build.json" },
 		{ "path": "./packages/test-utils/tsconfig.build.json" },

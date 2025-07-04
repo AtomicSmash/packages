@@ -17,6 +17,7 @@
 		"packages/cli",
 		"packages/date-php",
 		"packages/coding-standards",
+		"packages/compiler",
 		"packages/browserslist-config",
 		"packages/eslint-config",
 		"packages/blocks-helpers",
