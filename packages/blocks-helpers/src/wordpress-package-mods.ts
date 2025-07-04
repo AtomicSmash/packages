@@ -29,6 +29,26 @@ type LayoutTypes = {
 	type: "constrained";
 };
 
+type SelectedImage = {
+	url: string;
+	alt: string;
+	id: number;
+	link: string;
+	caption: string;
+	sizes: Record<
+		string,
+		{
+			height: number;
+			width: number;
+			orientation: "portrait" | "landscape";
+			url: string;
+		}
+	>;
+	mime: string;
+	subtype: string;
+	type: string;
+};
+
 // type LinkSettings = {
 // 	url: string;
 // 	title?: string;
@@ -131,27 +151,6 @@ declare module "@wordpress/block-editor" {
 			mediaURL?: string;
 			allowedTypes: string[];
 			accept?: string;
-			onSelect: (
-				selectedImages: {
-					url: string;
-					alt: string;
-					id: number;
-					link: string;
-					caption: string;
-					sizes: Record<
-						string,
-						{
-							height: number;
-							width: number;
-							orientation: "portrait" | "landscape";
-							url: string;
-						}
-					>;
-					mime: string;
-					subtype: string;
-					type: string;
-				}[],
-			) => void;
 			onError?: (message: string) => void;
 			onSelectURL?: () => void;
 			onReset?: () => void;
@@ -174,8 +173,14 @@ declare module "@wordpress/block-editor" {
 				children: ReactNode;
 			}) => void;
 		} & (Multiple extends true
-			? { mediaIds?: number[] }
-			: { mediaId?: number }),
+			? {
+					mediaIds?: number[];
+					onSelect: (selectedImages: SelectedImage[]) => void;
+				}
+			: {
+					mediaId?: number;
+					onSelect: (selectedImage: SelectedImage) => void;
+				}),
 	) => JSX.Element;
 }
 
