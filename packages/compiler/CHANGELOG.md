@@ -1,5 +1,11 @@
 # @atomicsmash/compiler
 
+## 1.0.0
+
+### Major Changes
+
+- [#357](https://github.com/AtomicSmash/packages/pull/357) [`b3c1533`](https://github.com/AtomicSmash/packages/commit/b3c1533b62e9faa6a3537e73a73c9848fd6a52cf) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Stable release
+
 ## 1.0.0-beta.0
 
 ### Major Changes
