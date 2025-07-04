@@ -1,6 +1,6 @@
 #!/usr/bin/env node
-import type { Configuration } from "webpack";
-import { cosmiconfig } from "cosmiconfig";
+// import type { Configuration } from "webpack";
+// import { cosmiconfig } from "cosmiconfig";
 import webpack from "webpack";
 import yargs from "yargs";
 import { hideBin } from "yargs/helpers";
@@ -57,14 +57,14 @@ const argv = await yargs(hideBin(process.argv))
 	.showHelpOnFail(false, "Specify --help for available options")
 	.parse();
 
-const explorer = cosmiconfig("smash-compiler");
-const config = await explorer.search().then(async (config) => {
-	if (!config) {
-		return await defaultConfig({ ...argv });
-	}
-	return config.config as Configuration;
-});
-const compiler = webpack(config);
+// const explorer = cosmiconfig("smash-compiler");
+// const config = await explorer.search().then(async (config) => {
+// 	if (!config) {
+// 		return await defaultConfig({ ...argv });
+// 	}
+// 	return config.config as Configuration;
+// });
+const compiler = webpack(await defaultConfig({ ...argv }));
 
 if (argv.watch) {
 	const watching = compiler.watch(

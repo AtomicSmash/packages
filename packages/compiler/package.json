@@ -23,7 +23,9 @@
 	"files": [
 		"./dist/**/*"
 	],
-	"main": "index",
+	"exports": {
+		".": "./dist/index.js"
+	},
 	"bin": {
 		"smash-compile": "./dist/cli.js"
 	},
