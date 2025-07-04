@@ -10,9 +10,11 @@
     "@atomicsmash/eslint-config": "14.0.0",
     "@atomicsmash/init-testing": "2.1.0",
     "@atomicsmash/test-utils": "5.0.2",
-    "@atomicsmash/wordpress-tests-helper": "1.0.1"
+    "@atomicsmash/wordpress-tests-helper": "1.0.1",
+    "@atomicsmash/compiler": "0.9.1"
   },
   "changesets": [
-    "bumpy-aliens-cheat"
+    "bumpy-aliens-cheat",
+    "khaki-hats-buy"
   ]
 }
