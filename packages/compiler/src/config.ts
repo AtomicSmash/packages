@@ -374,7 +374,7 @@ export async function config(options: {
 					if (entry.key.startsWith("css/")) {
 						entry.key = entry.key.replace("css/", "styles/");
 					}
-					if (entry.key.endsWith(".js.js")) {
+					if (entry.key.endsWith(".js")) {
 						entry.key = entry.key.slice(0, -3);
 					}
 
