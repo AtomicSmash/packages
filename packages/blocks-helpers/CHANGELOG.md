@@ -1,5 +1,11 @@
 # @atomicsmash/blocks-helpers
 
+## 7.0.0
+
+### Major Changes
+
+- [#353](https://github.com/AtomicSmash/packages/pull/353) [`1f04046`](https://github.com/AtomicSmash/packages/commit/1f040466e913c0666af1c7afc61f9fa9ef892ec1) Thanks [@steve-brett](https://github.com/steve-brett)! - fix onSelect property of MediaReplaceFlow to allow for a single image when multiple property is not used. This will be a breaking change anywhere the multiple property is not used – you will need to handle a single image instead of an array.
+
 ## 7.0.0-beta.0
 
 ### Major Changes
