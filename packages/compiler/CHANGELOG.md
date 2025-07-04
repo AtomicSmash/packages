@@ -1,5 +1,13 @@
 # @atomicsmash/compiler
 
+## 0.9.0
+
+### Minor Changes
+
+- [`33d5be6`](https://github.com/AtomicSmash/packages/commit/33d5be6643d2bcbdbc9418233bcb73a268a1fd15) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Add sitecss scss alias/file importer
+
+- [`6093119`](https://github.com/AtomicSmash/packages/commit/6093119827f8640fdf6d142382b9672a2bc1f2d3) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Remove config file support
+
 ## 0.8.2
 
 ### Patch Changes
