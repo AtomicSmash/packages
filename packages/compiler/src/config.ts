@@ -5,6 +5,7 @@ import {
 	resolve as resolvePath,
 	relative,
 } from "node:path";
+import { pathToFileURL } from "node:url";
 import DependencyExtractionWebpackPlugin from "@wordpress/dependency-extraction-webpack-plugin";
 import browserslistToEsbuild from "browserslist-to-esbuild";
 import CopyPlugin from "copy-webpack-plugin";
@@ -20,7 +21,6 @@ import { BundleAnalyzerPlugin } from "webpack-bundle-analyzer";
 import { BlocksPlugin } from "./BlocksPlugin.js";
 import { getBlocksAssetsEntryPoints } from "./getBlocksAssetsEntryPoints.js";
 
-// ArgumentsCamelCase<Awaited<ReturnType<typeof builder>["argv"]>>
 export async function config(options: {
 	/**
 	 * The directory where the source files can be found. Relative to cwd.
@@ -276,7 +276,22 @@ export async function config(options: {
 						},
 						{
 							loader: "sass-loader",
-							options: { sourceMap: MODE === "development" },
+							options: {
+								sourceMap: MODE === "development",
+								sassOptions: {
+									importers: [
+										{
+											findFileUrl(url: string) {
+												if (!url.startsWith("sitecss:")) return null;
+												const pathname = url.substring(8);
+												return pathToFileURL(
+													`${srcFolder}/styles${pathname.startsWith("/") ? pathname : `/${pathname}`}`,
+												);
+											},
+										},
+									],
+								},
+							},
 						},
 					],
 				},
