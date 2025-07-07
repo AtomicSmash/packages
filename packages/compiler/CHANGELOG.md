@@ -1,5 +1,11 @@
 # @atomicsmash/compiler
 
+## 1.0.1-beta.0
+
+### Patch Changes
+
+- [#362](https://github.com/AtomicSmash/packages/pull/362) [`b2c1585`](https://github.com/AtomicSmash/packages/commit/b2c158561c6fa9c12fb641c66e929d624c62049d) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Remove contenthash from svg sprite to avoid dev compiler loop
+
 ## 1.0.0
 
 ### Major Changes
