@@ -361,12 +361,10 @@ export async function config(options: {
 						entry.key === "wordpress-assets-info.php" ||
 						entry.key.endsWith(".map") ||
 						entry.key.startsWith("fonts") ||
-						entry.key.startsWith("images")
+						entry.key.startsWith("images") ||
+						entry.key === "spritemap.svg"
 					) {
 						return false;
-					}
-					if (entry.key === "spritemap.svg") {
-						return { key: "icons/sprite.svg", value: entry.value as string };
 					}
 					if (entry.key.startsWith("/")) {
 						entry.key = entry.key.slice(1);
@@ -383,7 +381,7 @@ export async function config(options: {
 			}),
 			// Create an SVG sprite from a folder of provided icons
 			new SVGSpritemapPlugin(`${srcFolder}/icons/*.svg`, {
-				output: { filename: "icons/sprite.[contenthash].svg" },
+				output: { filename: "icons/sprite.svg" },
 				sprite: { prefix: "", generate: { title: false } },
 			}),
 			// Copy fonts and images from the src folder to assets (available for backwards compatibility, not recommended)
