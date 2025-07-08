@@ -2,7 +2,7 @@ import type { Page } from "@playwright/test";
 import { readFile, writeFile, unlink } from "node:fs/promises";
 import { expect } from "@playwright/test";
 
-type SupportedWPVersions = "6.6" | "6.7";
+type SupportedWPVersions = "6.6" | "6.7" | "6.8";
 
 export class WordPressAdminInteraction {
 	readonly page: Page;
@@ -28,7 +28,50 @@ export class WordPressAdminInteraction {
 	) {
 		this.page = page;
 		this.persistLocation = persistLocation;
-		this.WPVersion = WPVersion === "latest" ? "6.7" : WPVersion;
+		this.WPVersion = WPVersion === "latest" ? "6.8" : WPVersion;
+	}
+
+	/**
+	 * Compare WP versions for compatibility.
+	 *
+	 * @param versionToCompare The version to compare the set WP version with.
+	 *
+	 * @returns -1 if current wp version is older, 0 if the versions match, 1 if the current wp version is newer.
+	 */
+	compareVersion(versionToCompare: SupportedWPVersions) {
+		const [currentMajor, currentMinor] = this.WPVersion.split(".").map(Number);
+		const [compareMajor, compareMinor] = versionToCompare
+			.split(".")
+			.map(Number);
+
+		if (currentMajor === undefined || currentMinor === undefined) {
+			throw new Error("Invalid current WP version.");
+		}
+		if (compareMajor === undefined || compareMinor === undefined) {
+			throw new Error("Invalid compared WP version.");
+		}
+
+		if (
+			compareMajor > currentMajor ||
+			(compareMajor === currentMajor && compareMinor > currentMinor)
+		) {
+			return -1;
+		}
+		if (
+			compareMajor < currentMajor ||
+			(compareMajor === currentMajor && compareMinor < currentMinor)
+		) {
+			return 1;
+		}
+		return 0;
+	}
+
+	versionIsHigherThan(versionToCompare: SupportedWPVersions) {
+		return this.compareVersion(versionToCompare) === 1;
+	}
+
+	versionIsLowerThan(versionToCompare: SupportedWPVersions) {
+		return this.compareVersion(versionToCompare) === -1;
 	}
 
 	static async getDataFromFile(persistLocation: string) {
@@ -75,13 +118,16 @@ export class WordPressAdminInteraction {
 		if (!this.blockEditorWelcomeDismissed) {
 			await this.page.goto("/wp/wp-admin/post-new.php?post_type=page");
 			const welcomeDialog = this.page.getByRole("dialog", {
-				name: "Welcome to the block editor",
+				name: this.versionIsHigherThan("6.7")
+					? "Welcome to the editor"
+					: "Welcome to the block editor",
 				exact: true,
 			});
 			if (await welcomeDialog.isVisible()) {
 				await welcomeDialog
 					.getByRole("button", { name: "Close", exact: true })
 					.click();
+				await expect(welcomeDialog).toHaveCount(0);
 			}
 			this.blockEditorWelcomeDismissed = true;
 		}
@@ -256,10 +302,9 @@ export class WordPressAdminInteraction {
 				.getByRole("button", { name: "Actions", exact: true })
 				.click();
 
-			let moveToTrashText = "Move to trash";
-			if (this.WPVersion === "6.6") {
-				moveToTrashText = "Move to Trash";
-			}
+			const moveToTrashText = this.versionIsLowerThan("6.7")
+				? "Move to Trash"
+				: "Move to trash";
 
 			await this.page
 				.getByRole("menuitem", { name: moveToTrashText, exact: true })
