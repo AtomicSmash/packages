@@ -128,6 +128,29 @@ export class WordPressAdminInteraction {
 					.getByRole("button", { name: "Close", exact: true })
 					.click();
 				await expect(welcomeDialog).toHaveCount(0);
+				// Check user prefs have been updated before moving on.
+				const localStorage = await this.page.evaluate(
+					() => window.localStorage,
+				);
+				let WPPreferencesKey: string | null = null;
+				for (let i = 0; i < localStorage.length; i++) {
+					if (localStorage.key(i)?.startsWith("WP_PREFERENCES_USER_")) {
+						WPPreferencesKey = localStorage.key(i);
+						break;
+					}
+				}
+				if (!WPPreferencesKey || !localStorage.getItem(WPPreferencesKey)) {
+					throw new Error(
+						"Failed to get WP user preferences key from local storage.",
+					);
+				}
+				expect(
+					(
+						JSON.parse(localStorage.getItem(WPPreferencesKey)!) as {
+							"core/edit-post"?: { welcomeGuide?: boolean };
+						}
+					)?.["core/edit-post"]?.welcomeGuide,
+				).toBe(false);
 			}
 			this.blockEditorWelcomeDismissed = true;
 		}
