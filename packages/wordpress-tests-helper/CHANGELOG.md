@@ -1,5 +1,11 @@
 # @atomicsmash/wordpress-tests-helper
 
+## 1.1.0-beta.0
+
+### Minor Changes
+
+- [#365](https://github.com/AtomicSmash/packages/pull/365) [`3533f52`](https://github.com/AtomicSmash/packages/commit/3533f5251e8f464d6e858001c83395712f7b4629) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Add WP 6.8 compatibility
+
 ## 1.0.1
 
 ### Patch Changes
