@@ -1,5 +1,11 @@
 # @atomicsmash/wordpress-tests-helper
 
+## 1.1.0-beta.3
+
+### Patch Changes
+
+- [#371](https://github.com/AtomicSmash/packages/pull/371) [`14ec903`](https://github.com/AtomicSmash/packages/commit/14ec903e6dc6e4ce02d0e518310a981ec440d741) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Remove user prefs check because it's flaky. Instead just check each time if is dismissed, and when it is already dismissed on page load, stop checking.
+
 ## 1.1.0-beta.2
 
 ### Patch Changes
