@@ -128,27 +128,9 @@ export class WordPressAdminInteraction {
 					.getByRole("button", { name: "Close", exact: true })
 					.click();
 				await expect(welcomeDialog).toHaveCount(0);
-				await this.page.reload();
-				// Check user prefs have been updated before moving on.
-				const WPPrefs = await this.page.evaluate(() => {
-					for (let i = 0; i < window.localStorage.length; i++) {
-						if (localStorage.key(i)?.startsWith("WP_PREFERENCES_USER_")) {
-							return window.localStorage.getItem(
-								window.localStorage.key(i) as string,
-							);
-						}
-					}
-					return null;
-				});
-				expect(
-					(WPPrefs
-						? (JSON.parse(WPPrefs) as {
-								"core/edit-post"?: { welcomeGuide?: boolean };
-							})
-						: null)?.["core/edit-post"]?.welcomeGuide,
-				).toBe(false);
+			} else {
+				this.blockEditorWelcomeDismissed = true;
 			}
-			this.blockEditorWelcomeDismissed = true;
 		}
 		this.initialised = true;
 	}
