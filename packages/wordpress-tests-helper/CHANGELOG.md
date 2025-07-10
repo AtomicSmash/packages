@@ -1,5 +1,11 @@
 # @atomicsmash/wordpress-tests-helper
 
+## 1.1.0-beta.4
+
+### Minor Changes
+
+- [#373](https://github.com/AtomicSmash/packages/pull/373) [`63d5b92`](https://github.com/AtomicSmash/packages/commit/63d5b923e2f171c6e1faf3a50213a21fe7e0bd29) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Add page open checks
+
 ## 1.1.0-beta.3
 
 ### Patch Changes
