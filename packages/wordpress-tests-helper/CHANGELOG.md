@@ -1,5 +1,11 @@
 # @atomicsmash/wordpress-tests-helper
 
+## 1.1.0-beta.2
+
+### Patch Changes
+
+- [#369](https://github.com/AtomicSmash/packages/pull/369) [`b0ff4f5`](https://github.com/AtomicSmash/packages/commit/b0ff4f5f6e7cbb77b9ae03324ccd9a6f4b217462) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Check user prefs fixes
+
 ## 1.1.0-beta.1
 
 ### Patch Changes
