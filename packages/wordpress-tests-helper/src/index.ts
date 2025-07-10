@@ -128,28 +128,24 @@ export class WordPressAdminInteraction {
 					.getByRole("button", { name: "Close", exact: true })
 					.click();
 				await expect(welcomeDialog).toHaveCount(0);
+				await this.page.reload();
 				// Check user prefs have been updated before moving on.
-				const localStorage = await this.page.evaluate(
-					() => window.localStorage,
-				);
-				let WPPreferencesKey: string | null = null;
-				for (let i = 0; i < localStorage.length; i++) {
-					if (localStorage.key(i)?.startsWith("WP_PREFERENCES_USER_")) {
-						WPPreferencesKey = localStorage.key(i);
-						break;
-					}
-				}
-				if (!WPPreferencesKey || !localStorage.getItem(WPPreferencesKey)) {
-					throw new Error(
-						"Failed to get WP user preferences key from local storage.",
-					);
-				}
-				expect(
-					(
-						JSON.parse(localStorage.getItem(WPPreferencesKey)!) as {
-							"core/edit-post"?: { welcomeGuide?: boolean };
+				const WPPrefs = await this.page.evaluate(() => {
+					for (let i = 0; i < window.localStorage.length; i++) {
+						if (localStorage.key(i)?.startsWith("WP_PREFERENCES_USER_")) {
+							return window.localStorage.getItem(
+								window.localStorage.key(i) as string,
+							);
 						}
-					)?.["core/edit-post"]?.welcomeGuide,
+					}
+					return null;
+				});
+				expect(
+					(WPPrefs
+						? (JSON.parse(WPPrefs) as {
+								"core/edit-post"?: { welcomeGuide?: boolean };
+							})
+						: null)?.["core/edit-post"]?.welcomeGuide,
 				).toBe(false);
 			}
 			this.blockEditorWelcomeDismissed = true;
