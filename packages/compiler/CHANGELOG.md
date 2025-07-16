@@ -1,5 +1,11 @@
 # @atomicsmash/compiler
 
+## 1.0.1-beta.1
+
+### Patch Changes
+
+- [#375](https://github.com/AtomicSmash/packages/pull/375) [`bafad9d`](https://github.com/AtomicSmash/packages/commit/bafad9d0a01e9181d0679d53a82d7f0c88bb9c5c) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Don't load svg sprite plugin if there are no icons
+
 ## 1.0.1-beta.0
 
 ### Patch Changes
