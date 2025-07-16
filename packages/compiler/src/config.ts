@@ -380,10 +380,14 @@ export async function config(options: {
 				},
 			}),
 			// Create an SVG sprite from a folder of provided icons
-			new SVGSpritemapPlugin(`${srcFolder}/icons/*.svg`, {
-				output: { filename: "icons/sprite.svg" },
-				sprite: { prefix: "", generate: { title: false } },
-			}),
+			...((await glob(`${srcFolder}/icons/*.svg`)).length
+				? [
+						new SVGSpritemapPlugin(`${srcFolder}/icons/*.svg`, {
+							output: { filename: "icons/sprite.svg" },
+							sprite: { prefix: "", generate: { title: false } },
+						}),
+					]
+				: []),
 			// Copy fonts and images from the src folder to assets (available for backwards compatibility, not recommended)
 			new CopyPlugin({
 				patterns: [
