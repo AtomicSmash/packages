@@ -1,4 +1,6 @@
 import type { BlockMetaData } from "@atomicsmash/blocks-helpers";
+import type { ExecException } from "node:child_process";
+import { exec } from "node:child_process";
 
 export type BlockJson = BlockMetaData<never, never>;
 
@@ -26,4 +28,26 @@ export function getBlockJsonStyleFields(blockJson: BlockJson) {
 		}
 	}
 	return result;
+}
+
+export async function execute(
+	command: string,
+	options: { debug: boolean } = { debug: false },
+) {
+	return new Promise<{
+		error: ExecException | null;
+		stdout: string;
+		stderr: string;
+	}>((resolve, reject) => {
+		exec(command, (error, stdout, stderr) => {
+			if (error) {
+				if (options.debug) {
+					console.error({ error, stdout, stderr });
+				}
+				// eslint-disable-next-line @typescript-eslint/prefer-promise-reject-errors -- This is preferred in this instance
+				reject({ error, stdout, stderr });
+			}
+			resolve({ error, stdout, stderr });
+		});
+	});
 }
