@@ -16,10 +16,17 @@ const commonRules = {
 		},
 	],
 	"order/order": [
+		{
+			type: "at-rule",
+			hasBlock: false,
+		},
 		"custom-properties",
 		"dollar-variables",
 		"declarations",
-		"at-rules",
+		{
+			type: "at-rule",
+			hasBlock: true,
+		},
 		"rules",
 	],
 	"plugin/no-restricted-syntax": [

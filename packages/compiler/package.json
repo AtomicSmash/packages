@@ -1,0 +1,83 @@
+{
+	"name": "@atomicsmash/compiler",
+	"type": "module",
+	"version": "1.0.1-beta.1",
+	"description": "A universal compiler for all Atomic Smash projects.",
+	"keywords": [
+		"cli",
+		"compiler",
+		"webpack"
+	],
+	"homepage": "https://www.atomicsmash.co.uk/",
+	"license": "GPL-3.0-or-later",
+	"author": {
+		"name": "Atomic Smash",
+		"email": "npm@atomicsmash.co.uk",
+		"url": "https://www.atomicsmash.co.uk/"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/AtomicSmash/packages",
+		"directory": "packages/compiler"
+	},
+	"files": [
+		"./dist/**/*"
+	],
+	"exports": {
+		".": "./dist/index.js"
+	},
+	"bin": {
+		"smash-compile": "./dist/cli.js"
+	},
+	"types": "index",
+	"publishConfig": {
+		"access": "public"
+	},
+	"scripts": {
+		"dev": "tsc --build --watch tsconfig.build.json",
+		"build": "npm-run-all clean compile",
+		"clean": "del-cli ./dist/ *.tsbuildinfo",
+		"compile": "tsc --build tsconfig.build.json",
+		"test": "TZ=\"Europe/Istanbul\" vitest run",
+		"test:ui": "TZ=\"Europe/Istanbul\" vitest --ui",
+		"test:coverage": "TZ=\"Europe/Istanbul\" vitest run --coverage",
+		"lint": "run-p lint:*",
+		"lint:eslint": "eslint --cache --cache-location ./node_modules/.cache/eslint . --ext .js,.ts,.jsx,.tsx",
+		"lint:types": "tsc"
+	},
+	"dependencies": {
+		"@wordpress/dependency-extraction-webpack-plugin": "^6.15.0",
+		"browserslist-to-esbuild": "^2.1.1",
+		"copy-webpack-plugin": "^12.0.2",
+		"cosmiconfig": "^9.0.0",
+		"cssnano": "^7.0.6",
+		"esbuild-loader": "^4.3.0",
+		"fast-glob": "^3.3.2",
+		"json2php": "^0.0.12",
+		"postcss": "^8.4.49",
+		"postcss-loader": "^8.1.1",
+		"postcss-preset-env": "^10.1.5",
+		"sass": "^1.83.1",
+		"sass-loader": "^16.0.4",
+		"svg-spritemap-webpack-plugin": "^4.7.0",
+		"tsconfig-paths-webpack-plugin": "^4.2.0",
+		"tsx": "^4.19.3",
+		"webpack": "^5.97.1",
+		"webpack-assets-manifest": "^6.0.2",
+		"webpack-bundle-analyzer": "^4.10.2",
+		"yargs": "^17.7.2"
+	},
+	"devDependencies": {
+		"@tailwindcss/postcss": "^4.0.9",
+		"@types/svg-spritemap-webpack-plugin": "^4.4.4",
+		"@types/webpack": "^5.28.5",
+		"@types/webpack-assets-manifest": "^5.1.4",
+		"@types/webpack-bundle-analyzer": "^4.7.0",
+		"@types/yargs": "^17.0.33",
+		"tailwindcss": "^4.0.9",
+		"vue-loader": "^17.4.2"
+	},
+	"engines": {
+		"node": "^20 || >=22"
+	}
+}
