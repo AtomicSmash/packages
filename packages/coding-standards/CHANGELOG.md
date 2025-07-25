@@ -1,5 +1,15 @@
 # @atomicsmash/coding-standards
 
+## 14.0.1-beta.0
+
+### Patch Changes
+
+- [#378](https://github.com/AtomicSmash/packages/pull/378) [`46af602`](https://github.com/AtomicSmash/packages/commit/46af602c7a9b80fb5091fb943453cdd9f380d98f) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Fix at rule order so non-block at rules are first in order
+
+- Updated dependencies []:
+  - @atomicsmash/eslint-config@14.0.1-beta.0
+  - @atomicsmash/browserslist-config@14.0.1-beta.0
+
 ## 14.0.0
 
 ### Minor Changes
