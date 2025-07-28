@@ -32,8 +32,9 @@ const commonRules = {
 	"plugin/no-restricted-syntax": [
 		[
 			{
-				selector: "atrule rule",
-				message: "Unexpected rule inside of at-rule",
+				selector: ":matches(atrule[name=media], atrule[name=container]) rule",
+				message:
+					"Don't nest rules inside of media/container blocks. Instead, nest the rule and use the at rule within that.",
 			},
 		],
 	],
