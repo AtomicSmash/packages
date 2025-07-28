@@ -42,11 +42,11 @@
 		"lint:types": "tsc"
 	},
 	"peerDependencies": {
-		"@playwright/test": "^1.52.0",
+		"@playwright/test": "^1.54.1",
 		"cross-env": "^7.0.3"
 	},
 	"dependencies": {
-		"@axe-core/playwright": "^4.10.1",
+		"@axe-core/playwright": "^4.10.2",
 		"get-port": "^7.1.0",
 		"playwright-lighthouse": "^4.0.0"
 	}
