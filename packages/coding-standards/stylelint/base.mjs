@@ -59,7 +59,7 @@ export default {
 	reportDescriptionlessDisables: true,
 	reportInvalidScopeDisables: true,
 	reportNeedlessDisables: true,
-	plugins: ["stylelint-order"],
+	plugins: ["stylelint-order", "stylelint-no-restricted-syntax"],
 	rules: commonRules,
 	overrides: [
 		{
