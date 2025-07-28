@@ -29,6 +29,15 @@ const commonRules = {
 		},
 		"rules",
 	],
+	"plugin/no-restricted-syntax": [
+		[
+			{
+				selector: ":matches(atrule[name=media], atrule[name=container]) rule",
+				message:
+					"Don't nest rules inside of media/container blocks. Instead, nest the rule and use the at rule within that.",
+			},
+		],
+	],
 	"selector-class-pattern": [
 		"^([a-z][a-z0-9]*)([_-]+[a-z0-9]+)*$",
 		{
@@ -49,7 +58,7 @@ module.exports = {
 	reportDescriptionlessDisables: true,
 	reportInvalidScopeDisables: true,
 	reportNeedlessDisables: true,
-	plugins: ["stylelint-order"],
+	plugins: ["stylelint-order", "stylelint-no-restricted-syntax"],
 	rules: commonRules,
 	overrides: [
 		{
