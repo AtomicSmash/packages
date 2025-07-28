@@ -1,5 +1,7 @@
 # @atomicsmash/browserslist-config
 
+## 15.0.0-beta.2
+
 ## 15.0.0-beta.1
 
 ### Patch Changes

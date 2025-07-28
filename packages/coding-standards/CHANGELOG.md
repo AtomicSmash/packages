@@ -1,5 +1,17 @@
 # @atomicsmash/coding-standards
 
+## 15.0.0-beta.2
+
+### Patch Changes
+
+- [#386](https://github.com/AtomicSmash/packages/pull/386) [`31b78e8`](https://github.com/AtomicSmash/packages/commit/31b78e83c9e1fba334e0bb357324e51a2fea3adf) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Don't lint root media queries for nested classes
+
+- [#386](https://github.com/AtomicSmash/packages/pull/386) [`31b78e8`](https://github.com/AtomicSmash/packages/commit/31b78e83c9e1fba334e0bb357324e51a2fea3adf) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Add missing plugin for mjs stylelint config
+
+- Updated dependencies []:
+  - @atomicsmash/eslint-config@15.0.0-beta.2
+  - @atomicsmash/browserslist-config@15.0.0-beta.2
+
 ## 15.0.0-beta.1
 
 ### Minor Changes
