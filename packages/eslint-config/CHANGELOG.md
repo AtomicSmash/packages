@@ -1,5 +1,15 @@
 # @atomicsmash/eslint-config
 
+## 15.0.0
+
+### Minor Changes
+
+- [#383](https://github.com/AtomicSmash/packages/pull/383) [`bdf6201`](https://github.com/AtomicSmash/packages/commit/bdf62013941a052b4168ddd75a4850904ae69570) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Add "are" as an option for boolean variable names
+
+### Patch Changes
+
+- [#385](https://github.com/AtomicSmash/packages/pull/385) [`d767d3d`](https://github.com/AtomicSmash/packages/commit/d767d3d0db1dfa54f8b777a54486b8ff42a2e756) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Update deps
+
 ## 15.0.0-beta.2
 
 ## 15.0.0-beta.1

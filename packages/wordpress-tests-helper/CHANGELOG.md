@@ -1,5 +1,21 @@
 # @atomicsmash/wordpress-tests-helper
 
+## 1.1.0
+
+### Minor Changes
+
+- [#365](https://github.com/AtomicSmash/packages/pull/365) [`3533f52`](https://github.com/AtomicSmash/packages/commit/3533f5251e8f464d6e858001c83395712f7b4629) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Add WP 6.8 compatibility
+
+- [#373](https://github.com/AtomicSmash/packages/pull/373) [`63d5b92`](https://github.com/AtomicSmash/packages/commit/63d5b923e2f171c6e1faf3a50213a21fe7e0bd29) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Add page open checks
+
+### Patch Changes
+
+- [#371](https://github.com/AtomicSmash/packages/pull/371) [`14ec903`](https://github.com/AtomicSmash/packages/commit/14ec903e6dc6e4ce02d0e518310a981ec440d741) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Remove user prefs check because it's flaky. Instead just check each time if is dismissed, and when it is already dismissed on page load, stop checking.
+
+- [#367](https://github.com/AtomicSmash/packages/pull/367) [`fb4ddff`](https://github.com/AtomicSmash/packages/commit/fb4ddfffc6fdc471a9f8108a48a9a4f05978cdee) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Check user prefs have been updated before moving on
+
+- [#369](https://github.com/AtomicSmash/packages/pull/369) [`b0ff4f5`](https://github.com/AtomicSmash/packages/commit/b0ff4f5f6e7cbb77b9ae03324ccd9a6f4b217462) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Check user prefs fixes
+
 ## 1.1.0-beta.4
 
 ### Minor Changes
