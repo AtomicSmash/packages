@@ -1,8 +1,7 @@
-import type { YargsInstance } from "../index.js";
+import type { SCSSAliases, YargsInstance } from "../index.js";
 import type { BlockMetaData } from "@atomicsmash/blocks-helpers";
 import type { ObjectPattern } from "copy-webpack-plugin";
 import type { AcceptedPlugin } from "postcss";
-import type { StringOptions } from "sass";
 import type { Compiler, Configuration } from "webpack";
 import type { ArgumentsCamelCase } from "yargs";
 import crypto from "node:crypto";
@@ -20,6 +19,7 @@ import { pathToFileURL } from "node:url";
 import { DatePHP } from "@atomicsmash/date-php";
 import autoprefixer from "autoprefixer";
 import CopyWebpackPlugin from "copy-webpack-plugin";
+import { cosmiconfig } from "cosmiconfig";
 import cssnano from "cssnano";
 import glob from "glob-promise";
 import postcss from "postcss";
@@ -428,20 +428,62 @@ export function getBlockJsonStyleFields(blockJson: BlockJson) {
 	return result;
 }
 
-function getSassOptions(srcFolder: string) {
-	return {
-		importers: [
-			{
-				findFileUrl(url) {
-					if (!url.startsWith("sitecss:")) return null;
-					const pathname = url.substring(8);
-					return pathToFileURL(
-						`${resolvePath(srcFolder, "../css")}${pathname.startsWith("/") ? pathname : `/${pathname}`}`,
-					);
-				},
-			},
-		],
-	} satisfies StringOptions<"async">;
+async function getSassOptions(srcFolder: string) {
+	const explorer = cosmiconfig("scssAliases");
+	const config = await explorer
+		.load(resolvePath(process.cwd(), "scssAliases.config.ts"))
+		.then((result) => {
+			if (!result || result.isEmpty) {
+				throw new Error("Return default config.");
+			}
+			const config = result.config as unknown;
+			if (
+				typeof config === "object" &&
+				config !== null &&
+				Object.keys(config).length <= 2
+			) {
+				if (
+					Object.keys(config).length === 2 &&
+					"importers" in config &&
+					"loadPaths" in config
+				) {
+					return config as SCSSAliases;
+				}
+				if (
+					Object.keys(config).length === 1 &&
+					("importers" in config || "loadPaths" in config)
+				) {
+					return config as SCSSAliases;
+				}
+			}
+			throw new Error("Return default config.");
+		})
+		.catch(() => {
+			const defaultConfig: SCSSAliases = {
+				importers: [
+					{
+						findFileUrl(url) {
+							if (!url.startsWith("sitecss:")) return null;
+							const pathname = url.substring(8);
+							return pathToFileURL(
+								`${resolvePath(srcFolder, "../css")}${pathname.startsWith("/") ? pathname : `/${pathname}`}`,
+							);
+						},
+					},
+					{
+						findFileUrl(url) {
+							if (!url.startsWith("launchpad:")) return null;
+							const pathname = url.substring(10);
+							return pathToFileURL(
+								`${resolvePath(process.cwd(), "public/wp-content/themes/launchpad/src/styles")}${pathname.startsWith("/") ? pathname : `/${pathname}`}`,
+							);
+						},
+					},
+				],
+			};
+			return defaultConfig;
+		});
+	return config;
 }
 
 function getCopyPatternsForBlocks(
@@ -556,7 +598,7 @@ class CustomBlocksCSSHandler {
 								if (extname(fileNameWithExtension) === ".scss") {
 									css = await compileStringAsync(
 										css,
-										getSassOptions(this.srcFolder),
+										await getSassOptions(this.srcFolder),
 									).then((result) => result.css);
 									newFileNameWithExtension = newFileNameWithExtension.replace(
 										".scss",

@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+import { Options } from "sass";
 import yargs from "yargs";
 import { hideBin } from "yargs/helpers";
 
@@ -18,3 +19,8 @@ await yargsInstance
 	.alias("v", "version")
 	.strict(true)
 	.parse();
+
+export type SCSSAliases = {
+	loadPaths?: Options<"async">["loadPaths"];
+	importers?: Options<"async">["importers"];
+};

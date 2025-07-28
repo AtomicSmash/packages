@@ -1,6 +1,6 @@
 {
 	"name": "@atomicsmash/browserslist-config",
-	"version": "14.0.0",
+	"version": "14.0.1-beta.0",
 	"description": "Our shared browserslist config.",
 	"main": "index.js",
 	"types": "index.d.ts",
