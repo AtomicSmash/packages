@@ -1,5 +1,19 @@
 # @atomicsmash/coding-standards
 
+## 15.0.0-beta.1
+
+### Minor Changes
+
+- [#355](https://github.com/AtomicSmash/packages/pull/355) [`4b84661`](https://github.com/AtomicSmash/packages/commit/4b84661f893e68a3b5b58f6beccb87672d9c8c7d) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Prevent rules nested within media queries for consistency
+
+### Patch Changes
+
+- [#385](https://github.com/AtomicSmash/packages/pull/385) [`d767d3d`](https://github.com/AtomicSmash/packages/commit/d767d3d0db1dfa54f8b777a54486b8ff42a2e756) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Update deps
+
+- Updated dependencies [[`bdf6201`](https://github.com/AtomicSmash/packages/commit/bdf62013941a052b4168ddd75a4850904ae69570), [`d767d3d`](https://github.com/AtomicSmash/packages/commit/d767d3d0db1dfa54f8b777a54486b8ff42a2e756)]:
+  - @atomicsmash/eslint-config@15.0.0-beta.1
+  - @atomicsmash/browserslist-config@15.0.0-beta.1
+
 ## 14.0.1-beta.0
 
 ### Patch Changes
