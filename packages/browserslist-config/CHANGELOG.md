@@ -1,5 +1,11 @@
 # @atomicsmash/browserslist-config
 
+## 15.0.0
+
+### Patch Changes
+
+- [#385](https://github.com/AtomicSmash/packages/pull/385) [`d767d3d`](https://github.com/AtomicSmash/packages/commit/d767d3d0db1dfa54f8b777a54486b8ff42a2e756) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Update deps
+
 ## 15.0.0-beta.2
 
 ## 15.0.0-beta.1
