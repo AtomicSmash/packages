@@ -9,6 +9,7 @@ import { pathToFileURL } from "node:url";
 import DependencyExtractionWebpackPlugin from "@wordpress/dependency-extraction-webpack-plugin";
 import browserslistToEsbuild from "browserslist-to-esbuild";
 import CopyPlugin from "copy-webpack-plugin";
+import { cosmiconfig } from "cosmiconfig";
 import cssNano from "cssnano";
 import { EsbuildPlugin } from "esbuild-loader";
 import glob from "fast-glob";
@@ -20,6 +21,7 @@ import { WebpackAssetsManifest } from "webpack-assets-manifest";
 import { BundleAnalyzerPlugin } from "webpack-bundle-analyzer";
 import { BlocksPlugin } from "./BlocksPlugin.js";
 import { getBlocksAssetsEntryPoints } from "./getBlocksAssetsEntryPoints.js";
+import { SCSSAliases } from "./index.js";
 
 export async function config(options: {
 	/**
@@ -278,19 +280,7 @@ export async function config(options: {
 							loader: "sass-loader",
 							options: {
 								sourceMap: MODE === "development",
-								sassOptions: {
-									importers: [
-										{
-											findFileUrl(url: string) {
-												if (!url.startsWith("sitecss:")) return null;
-												const pathname = url.substring(8);
-												return pathToFileURL(
-													`${srcFolder}/styles${pathname.startsWith("/") ? pathname : `/${pathname}`}`,
-												);
-											},
-										},
-									],
-								},
+								sassOptions: await getSassOptions(srcFolder),
 							},
 						},
 					],
@@ -361,12 +351,10 @@ export async function config(options: {
 						entry.key === "wordpress-assets-info.php" ||
 						entry.key.endsWith(".map") ||
 						entry.key.startsWith("fonts") ||
-						entry.key.startsWith("images")
+						entry.key.startsWith("images") ||
+						entry.key === "spritemap.svg"
 					) {
 						return false;
-					}
-					if (entry.key === "spritemap.svg") {
-						return { key: "icons/sprite.svg", value: entry.value as string };
 					}
 					if (entry.key.startsWith("/")) {
 						entry.key = entry.key.slice(1);
@@ -382,10 +370,14 @@ export async function config(options: {
 				},
 			}),
 			// Create an SVG sprite from a folder of provided icons
-			new SVGSpritemapPlugin(`${srcFolder}/icons/*.svg`, {
-				output: { filename: "icons/sprite.[contenthash].svg" },
-				sprite: { prefix: "", generate: { title: false } },
-			}),
+			...((await glob(`${srcFolder}/icons/*.svg`)).length
+				? [
+						new SVGSpritemapPlugin(`${srcFolder}/icons/*.svg`, {
+							output: { filename: "icons/sprite.svg" },
+							sprite: { prefix: "", generate: { title: false } },
+						}),
+					]
+				: []),
 			// Copy fonts and images from the src folder to assets (available for backwards compatibility, not recommended)
 			new CopyPlugin({
 				patterns: [
@@ -435,4 +427,62 @@ export async function config(options: {
 			],
 		},
 	} satisfies Configuration;
+}
+
+async function getSassOptions(srcFolder: string) {
+	const explorer = cosmiconfig("scssAliases");
+	const config = await explorer
+		.load(resolvePath(process.cwd(), "scssAliases.config.ts"))
+		.then((result) => {
+			if (!result || result.isEmpty) {
+				throw new Error("Return default config.");
+			}
+			const config = result.config as unknown;
+			if (
+				typeof config === "object" &&
+				config !== null &&
+				Object.keys(config).length <= 2
+			) {
+				if (
+					Object.keys(config).length === 2 &&
+					"importers" in config &&
+					"loadPaths" in config
+				) {
+					return config as SCSSAliases;
+				}
+				if (
+					Object.keys(config).length === 1 &&
+					("importers" in config || "loadPaths" in config)
+				) {
+					return config as SCSSAliases;
+				}
+			}
+			throw new Error("Return default config.");
+		})
+		.catch(() => {
+			const defaultConfig: SCSSAliases = {
+				importers: [
+					{
+						findFileUrl(url) {
+							if (!url.startsWith("sitecss:")) return null;
+							const pathname = url.substring(8);
+							return pathToFileURL(
+								`${resolvePath(srcFolder, "../css")}${pathname.startsWith("/") ? pathname : `/${pathname}`}`,
+							);
+						},
+					},
+					{
+						findFileUrl(url) {
+							if (!url.startsWith("launchpad:")) return null;
+							const pathname = url.substring(10);
+							return pathToFileURL(
+								`${resolvePath(process.cwd(), "public/wp-content/themes/launchpad/src/styles")}${pathname.startsWith("/") ? pathname : `/${pathname}`}`,
+							);
+						},
+					},
+				],
+			};
+			return defaultConfig;
+		});
+	return config;
 }

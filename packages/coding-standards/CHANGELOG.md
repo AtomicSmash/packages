@@ -1,5 +1,61 @@
 # @atomicsmash/coding-standards
 
+## 15.0.0
+
+### Minor Changes
+
+- [#355](https://github.com/AtomicSmash/packages/pull/355) [`4b84661`](https://github.com/AtomicSmash/packages/commit/4b84661f893e68a3b5b58f6beccb87672d9c8c7d) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Prevent rules nested within media queries for consistency
+
+### Patch Changes
+
+- [#378](https://github.com/AtomicSmash/packages/pull/378) [`46af602`](https://github.com/AtomicSmash/packages/commit/46af602c7a9b80fb5091fb943453cdd9f380d98f) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Fix at rule order so non-block at rules are first in order
+
+- [#386](https://github.com/AtomicSmash/packages/pull/386) [`31b78e8`](https://github.com/AtomicSmash/packages/commit/31b78e83c9e1fba334e0bb357324e51a2fea3adf) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Don't lint root media queries for nested classes
+
+- [#385](https://github.com/AtomicSmash/packages/pull/385) [`d767d3d`](https://github.com/AtomicSmash/packages/commit/d767d3d0db1dfa54f8b777a54486b8ff42a2e756) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Update deps
+
+- [#386](https://github.com/AtomicSmash/packages/pull/386) [`31b78e8`](https://github.com/AtomicSmash/packages/commit/31b78e83c9e1fba334e0bb357324e51a2fea3adf) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Add missing plugin for mjs stylelint config
+
+- Updated dependencies [[`bdf6201`](https://github.com/AtomicSmash/packages/commit/bdf62013941a052b4168ddd75a4850904ae69570), [`d767d3d`](https://github.com/AtomicSmash/packages/commit/d767d3d0db1dfa54f8b777a54486b8ff42a2e756)]:
+  - @atomicsmash/eslint-config@15.0.0
+  - @atomicsmash/browserslist-config@15.0.0
+
+## 15.0.0-beta.2
+
+### Patch Changes
+
+- [#386](https://github.com/AtomicSmash/packages/pull/386) [`31b78e8`](https://github.com/AtomicSmash/packages/commit/31b78e83c9e1fba334e0bb357324e51a2fea3adf) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Don't lint root media queries for nested classes
+
+- [#386](https://github.com/AtomicSmash/packages/pull/386) [`31b78e8`](https://github.com/AtomicSmash/packages/commit/31b78e83c9e1fba334e0bb357324e51a2fea3adf) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Add missing plugin for mjs stylelint config
+
+- Updated dependencies []:
+  - @atomicsmash/eslint-config@15.0.0-beta.2
+  - @atomicsmash/browserslist-config@15.0.0-beta.2
+
+## 15.0.0-beta.1
+
+### Minor Changes
+
+- [#355](https://github.com/AtomicSmash/packages/pull/355) [`4b84661`](https://github.com/AtomicSmash/packages/commit/4b84661f893e68a3b5b58f6beccb87672d9c8c7d) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Prevent rules nested within media queries for consistency
+
+### Patch Changes
+
+- [#385](https://github.com/AtomicSmash/packages/pull/385) [`d767d3d`](https://github.com/AtomicSmash/packages/commit/d767d3d0db1dfa54f8b777a54486b8ff42a2e756) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Update deps
+
+- Updated dependencies [[`bdf6201`](https://github.com/AtomicSmash/packages/commit/bdf62013941a052b4168ddd75a4850904ae69570), [`d767d3d`](https://github.com/AtomicSmash/packages/commit/d767d3d0db1dfa54f8b777a54486b8ff42a2e756)]:
+  - @atomicsmash/eslint-config@15.0.0-beta.1
+  - @atomicsmash/browserslist-config@15.0.0-beta.1
+
+## 14.0.1-beta.0
+
+### Patch Changes
+
+- [#378](https://github.com/AtomicSmash/packages/pull/378) [`46af602`](https://github.com/AtomicSmash/packages/commit/46af602c7a9b80fb5091fb943453cdd9f380d98f) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Fix at rule order so non-block at rules are first in order
+
+- Updated dependencies []:
+  - @atomicsmash/eslint-config@14.0.1-beta.0
+  - @atomicsmash/browserslist-config@14.0.1-beta.0
+
 ## 14.0.0
 
 ### Minor Changes
