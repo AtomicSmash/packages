@@ -69,5 +69,6 @@ export default defineConfig({
 			"**/vitest.config.*/**",
 			"**/vite.config.*/**",
 		],
+		projects: ["packages/*/vitest.config.ts"],
 	},
 });
