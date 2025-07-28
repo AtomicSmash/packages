@@ -2,7 +2,7 @@ import type { Page } from "@playwright/test";
 import { readFile, writeFile, unlink } from "node:fs/promises";
 import { expect } from "@playwright/test";
 
-type SupportedWPVersions = "6.6" | "6.7";
+type SupportedWPVersions = "6.6" | "6.7" | "6.8";
 
 export class WordPressAdminInteraction {
 	readonly page: Page;
@@ -28,7 +28,50 @@ export class WordPressAdminInteraction {
 	) {
 		this.page = page;
 		this.persistLocation = persistLocation;
-		this.WPVersion = WPVersion === "latest" ? "6.7" : WPVersion;
+		this.WPVersion = WPVersion === "latest" ? "6.8" : WPVersion;
+	}
+
+	/**
+	 * Compare WP versions for compatibility.
+	 *
+	 * @param versionToCompare The version to compare the set WP version with.
+	 *
+	 * @returns -1 if current wp version is older, 0 if the versions match, 1 if the current wp version is newer.
+	 */
+	compareVersion(versionToCompare: SupportedWPVersions) {
+		const [currentMajor, currentMinor] = this.WPVersion.split(".").map(Number);
+		const [compareMajor, compareMinor] = versionToCompare
+			.split(".")
+			.map(Number);
+
+		if (currentMajor === undefined || currentMinor === undefined) {
+			throw new Error("Invalid current WP version.");
+		}
+		if (compareMajor === undefined || compareMinor === undefined) {
+			throw new Error("Invalid compared WP version.");
+		}
+
+		if (
+			compareMajor > currentMajor ||
+			(compareMajor === currentMajor && compareMinor > currentMinor)
+		) {
+			return -1;
+		}
+		if (
+			compareMajor < currentMajor ||
+			(compareMajor === currentMajor && compareMinor < currentMinor)
+		) {
+			return 1;
+		}
+		return 0;
+	}
+
+	versionIsHigherThan(versionToCompare: SupportedWPVersions) {
+		return this.compareVersion(versionToCompare) === 1;
+	}
+
+	versionIsLowerThan(versionToCompare: SupportedWPVersions) {
+		return this.compareVersion(versionToCompare) === -1;
 	}
 
 	static async getDataFromFile(persistLocation: string) {
@@ -74,18 +117,71 @@ export class WordPressAdminInteraction {
 		}
 		if (!this.blockEditorWelcomeDismissed) {
 			await this.page.goto("/wp/wp-admin/post-new.php?post_type=page");
-			const welcomeDialog = this.page.getByRole("dialog", {
-				name: "Welcome to the block editor",
-				exact: true,
-			});
-			if (await welcomeDialog.isVisible()) {
-				await welcomeDialog
-					.getByRole("button", { name: "Close", exact: true })
-					.click();
-			}
-			this.blockEditorWelcomeDismissed = true;
+			await this.dismissWelcomeGuide();
 		}
 		this.initialised = true;
+	}
+
+	async dismissWelcomeGuide() {
+		const welcomeDialog = this.page.getByRole("dialog", {
+			name: this.versionIsHigherThan("6.7")
+				? "Welcome to the editor"
+				: "Welcome to the block editor",
+			exact: true,
+		});
+		if (await welcomeDialog.isVisible()) {
+			await welcomeDialog
+				.getByRole("button", { name: "Close", exact: true })
+				.click();
+			await expect(welcomeDialog).toHaveCount(0);
+		} else {
+			this.blockEditorWelcomeDismissed = true;
+		}
+	}
+
+	async switchEditorMode(mode: "visual" | "code") {
+		if (!this.initialised) {
+			throw new Error("You must initialise the helper first with init()");
+		}
+		// Don't try to set this ahead of time. This class can be called multiple times, so reloading the page
+		// may be the mode switches due to another untraceable action. Always do a check to establish what the
+		// correct editor mode is, or switch the mode explicitly.
+		const isVisualEditorMode = !(await this.page
+			.getByRole("button", { name: "Exit code editor", exact: true })
+			.isVisible());
+
+		await this.page
+			.getByRole("button", { name: "Options", exact: true })
+			.click();
+
+		const modeSwitchKeyboardShortcut =
+			process.platform === "darwin" ? "⇧⌥⌘M" : "Ctrl+Shift+Alt+M";
+		if (mode === "visual" && !isVisualEditorMode) {
+			await this.page
+				.getByRole("menuitemradio", {
+					name: `Visual editor ${modeSwitchKeyboardShortcut}`,
+					exact: true,
+				})
+				.click();
+		} else if (mode === "code" && isVisualEditorMode) {
+			await this.page
+				.getByRole("menuitemradio", {
+					name: `Code editor ${modeSwitchKeyboardShortcut}`,
+					exact: true,
+				})
+				.click();
+		}
+
+		await this.page
+			.getByRole("button", { name: "Options", exact: true })
+			.click();
+	}
+
+	async doPageOpenChecks() {
+		if (!this.blockEditorWelcomeDismissed) {
+			await this.dismissWelcomeGuide();
+		}
+		await this.switchEditorMode("code");
 	}
 
 	async createPostsViaBlocksEditor(
@@ -122,8 +218,7 @@ export class WordPressAdminInteraction {
 				type: postType,
 			};
 			await this.page.goto(`/wp/wp-admin/post-new.php?post_type=${postType}`);
-
-			await this.switchEditorMode("code");
+			await this.doPageOpenChecks();
 
 			await this.page
 				.getByLabel("Add title")
@@ -199,7 +294,7 @@ export class WordPressAdminInteraction {
 			throw new Error("Can't find the post with the post identifier");
 		}
 		await this.page.goto(post.editURL);
-		await this.switchEditorMode("code");
+		await this.doPageOpenChecks();
 		const contentTextBox = this.page.getByPlaceholder(
 			"Start writing with text or HTML",
 		);
@@ -238,6 +333,7 @@ export class WordPressAdminInteraction {
 		}
 		for (const post of this.posts) {
 			await this.page.goto(post.editURL);
+			await this.doPageOpenChecks();
 
 			if (await this.page.getByText("it is in the Trash").isVisible()) {
 				continue;
@@ -256,10 +352,9 @@ export class WordPressAdminInteraction {
 				.getByRole("button", { name: "Actions", exact: true })
 				.click();
 
-			let moveToTrashText = "Move to trash";
-			if (this.WPVersion === "6.6") {
-				moveToTrashText = "Move to Trash";
-			}
+			const moveToTrashText = this.versionIsLowerThan("6.7")
+				? "Move to Trash"
+				: "Move to trash";
 
 			await this.page
 				.getByRole("menuitem", { name: moveToTrashText, exact: true })
@@ -273,44 +368,6 @@ export class WordPressAdminInteraction {
 		}
 
 		await unlink(this.persistLocation);
-	}
-
-	async switchEditorMode(mode: "visual" | "code") {
-		if (!this.initialised) {
-			throw new Error("You must initialise the helper first with init()");
-		}
-		// Don't try to set this ahead of time. This class can be called multiple times, so reloading the page
-		// may be the mode switches due to another untraceable action. Always do a check to establish what the
-		// correct editor mode is, or switch the mode explicitly.
-		const isVisualEditorMode = !(await this.page
-			.getByRole("button", { name: "Exit code editor", exact: true })
-			.isVisible());
-
-		await this.page
-			.getByRole("button", { name: "Options", exact: true })
-			.click();
-
-		const modeSwitchKeyboardShortcut =
-			process.platform === "darwin" ? "⇧⌥⌘M" : "Ctrl+Shift+Alt+M";
-		if (mode === "visual" && !isVisualEditorMode) {
-			await this.page
-				.getByRole("menuitemradio", {
-					name: `Visual editor ${modeSwitchKeyboardShortcut}`,
-					exact: true,
-				})
-				.click();
-		} else if (mode === "code" && isVisualEditorMode) {
-			await this.page
-				.getByRole("menuitemradio", {
-					name: `Code editor ${modeSwitchKeyboardShortcut}`,
-					exact: true,
-				})
-				.click();
-		}
-
-		await this.page
-			.getByRole("button", { name: "Options", exact: true })
-			.click();
 	}
 
 	getPosts() {

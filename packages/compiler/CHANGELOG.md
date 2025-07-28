@@ -1,5 +1,31 @@
 # @atomicsmash/compiler
 
+## 1.1.0-beta.3
+
+### Patch Changes
+
+- [#385](https://github.com/AtomicSmash/packages/pull/385) [`d767d3d`](https://github.com/AtomicSmash/packages/commit/d767d3d0db1dfa54f8b777a54486b8ff42a2e756) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Update deps
+
+## 1.1.0-beta.2
+
+### Minor Changes
+
+- [#382](https://github.com/AtomicSmash/packages/pull/382) [`33a7304`](https://github.com/AtomicSmash/packages/commit/33a73044bf3dcc9f3d745bef4c0c1f6387f01432) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Allow customising of scss aliases with scssAliases.config.ts file
+
+- [#382](https://github.com/AtomicSmash/packages/pull/382) [`33a7304`](https://github.com/AtomicSmash/packages/commit/33a73044bf3dcc9f3d745bef4c0c1f6387f01432) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Add Launchpad alias to default scss aliases
+
+## 1.0.1-beta.1
+
+### Patch Changes
+
+- [#375](https://github.com/AtomicSmash/packages/pull/375) [`bafad9d`](https://github.com/AtomicSmash/packages/commit/bafad9d0a01e9181d0679d53a82d7f0c88bb9c5c) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Don't load svg sprite plugin if there are no icons
+
+## 1.0.1-beta.0
+
+### Patch Changes
+
+- [#362](https://github.com/AtomicSmash/packages/pull/362) [`b2c1585`](https://github.com/AtomicSmash/packages/commit/b2c158561c6fa9c12fb641c66e929d624c62049d) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Remove contenthash from svg sprite to avoid dev compiler loop
+
 ## 1.0.0
 
 ### Major Changes

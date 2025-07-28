@@ -1,5 +1,19 @@
 # @atomicsmash/cli
 
+## 8.1.0-beta.1
+
+### Patch Changes
+
+- [#385](https://github.com/AtomicSmash/packages/pull/385) [`d767d3d`](https://github.com/AtomicSmash/packages/commit/d767d3d0db1dfa54f8b777a54486b8ff42a2e756) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Update deps
+
+## 8.1.0-beta.0
+
+### Minor Changes
+
+- [#382](https://github.com/AtomicSmash/packages/pull/382) [`33a7304`](https://github.com/AtomicSmash/packages/commit/33a73044bf3dcc9f3d745bef4c0c1f6387f01432) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Allow customising of scss aliases with scssAliases.config.ts file
+
+- [#382](https://github.com/AtomicSmash/packages/pull/382) [`33a7304`](https://github.com/AtomicSmash/packages/commit/33a73044bf3dcc9f3d745bef4c0c1f6387f01432) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Add Launchpad alias to default scss aliases
+
 ## 8.0.0
 
 ### Major Changes

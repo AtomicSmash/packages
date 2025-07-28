@@ -1,6 +1,6 @@
 {
 	"name": "@atomicsmash/eslint-config",
-	"version": "14.0.0",
+	"version": "15.0.0-beta.2",
 	"description": "An ESLint config made by Atomic Smash.",
 	"keywords": [
 		"atomic",
@@ -29,13 +29,13 @@
 		"access": "public"
 	},
 	"peerDependencies": {
-		"@typescript-eslint/eslint-plugin": "^8.33.0",
-		"@typescript-eslint/parser": "^8.33.0",
+		"@typescript-eslint/eslint-plugin": "^8.38.0",
+		"@typescript-eslint/parser": "^8.38.0",
 		"eslint": "^8.57.1",
-		"eslint-config-prettier": "^8.10.0",
+		"eslint-config-prettier": "^8.10.2",
 		"eslint-import-resolver-typescript": "^3.10.1",
 		"eslint-plugin-eslint-comments": "^3.2.0",
-		"eslint-plugin-import": "^2.31.0",
+		"eslint-plugin-import": "^2.32.0",
 		"eslint-plugin-jsx-a11y": "^6.10.2",
 		"eslint-plugin-playwright": "^1.8.3",
 		"eslint-plugin-react": "^7.37.5",

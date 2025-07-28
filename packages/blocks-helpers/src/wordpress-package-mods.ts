@@ -144,7 +144,9 @@ declare module "@wordpress/block-editor" {
 		}
 	}
 
-	const useSettings: <Paths extends string[]>(...paths: Paths) => unknown[];
+	export function useSettings<Paths extends string[]>(
+		...paths: Paths
+	): unknown[];
 
 	const MediaReplaceFlow: <Multiple extends boolean>(
 		props: {
