@@ -1,5 +1,11 @@
 # @atomicsmash/blocks-helpers
 
+## 7.0.2-beta.0
+
+### Patch Changes
+
+- [#391](https://github.com/AtomicSmash/packages/pull/391) [`e3143d7`](https://github.com/AtomicSmash/packages/commit/e3143d797ac0cd0c1ceb04cc26b0828e4521d5f7) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Update link control component type
+
 ## 7.0.1
 
 ### Patch Changes
