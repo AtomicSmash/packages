@@ -71,7 +71,9 @@ declare module "@wordpress/block-editor" {
 	}) => JSX.Element;
 
 	// eslint-disable-next-line @typescript-eslint/naming-convention -- Wordpress Provided Function
-	const __experimentalLinkControl: (props: {
+	const __experimentalLinkControl: typeof LinkControl;
+
+	const LinkControl: (props: {
 		value?: {
 			url: string;
 			title?: string;
@@ -83,8 +85,11 @@ declare module "@wordpress/block-editor" {
 		}[];
 		onChange: (newValue: {
 			url: string;
-			title?: string;
-			opensInNewTab?: boolean;
+			title: string;
+			opensInNewTab: boolean;
+			id?: number;
+			kind?: string;
+			type?: string;
 		}) => void;
 		showSuggestions?: boolean;
 		showInitialSuggestions?: boolean;
@@ -103,6 +108,8 @@ declare module "@wordpress/block-editor" {
 			  }>;
 		onRemove?: () => void;
 		renderControlBottom?: () => void;
+		searchInputPlaceholder?: string;
+		noDirectEntry?: boolean;
 	}) => JSX.Element;
 
 	// eslint-disable-next-line @typescript-eslint/no-namespace -- Namespace must be used to match types package
