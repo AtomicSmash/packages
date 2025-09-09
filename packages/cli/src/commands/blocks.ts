@@ -29,7 +29,7 @@ import { TsconfigPathsPlugin } from "tsconfig-paths-webpack-plugin";
 import { tsImport } from "tsx/esm/api";
 import webpack from "webpack";
 import defaultConfig from "../external/wordpress.webpack.config.cjs";
-import { toCamelCase } from "../utils.js";
+import { getSmashConfig, toCamelCase } from "../utils.js";
 
 const isProduction = process.env.NODE_ENV === "production";
 
@@ -429,6 +429,12 @@ export function getBlockJsonStyleFields(blockJson: BlockJson) {
 }
 
 async function getSassOptions(srcFolder: string) {
+	const smashConfig = await getSmashConfig();
+	if (smashConfig) {
+		return smashConfig.scssAliases;
+	}
+
+	// Legacy fallback.
 	const explorer = cosmiconfig("scssAliases");
 	const config = await explorer
 		.load(resolvePath(process.cwd(), "scssAliases.config.ts"))

@@ -1,9 +1,12 @@
+import type { SCSSAliases, SmashConfig } from "./index.js";
 import type { ExecException } from "node:child_process";
 import type { PerformanceMeasure } from "node:perf_hooks";
 import type { PackageJson } from "type-fest";
 import { exec } from "node:child_process";
 import { createRequire } from "node:module";
-import { resolve } from "node:path";
+import { normalize, resolve } from "node:path";
+import { pathToFileURL } from "node:url";
+import { cosmiconfig } from "cosmiconfig";
 
 const require = createRequire(import.meta.url);
 export const packageJson = require("../package.json") as PackageJson;
@@ -81,4 +84,98 @@ export function startRunningMessage(message: string) {
 		}, 200);
 	}
 	return null;
+}
+
+const getDefaultSCSSAliases = (themePath: string): SCSSAliases => ({
+	importers: [
+		{
+			findFileUrl(url) {
+				if (!url.startsWith("sitecss:")) return null;
+				const pathname = url.substring(8);
+				return pathToFileURL(
+					`${resolve(process.cwd(), themePath, "/src/styles")}${pathname.startsWith("/") ? pathname : `/${pathname}`}`,
+				);
+			},
+		},
+		{
+			findFileUrl(url) {
+				if (!url.startsWith("launchpad:")) return null;
+				const pathname = url.substring(10);
+				return pathToFileURL(
+					`${resolve(process.cwd(), themePath, "../launchpad/src/styles")}${pathname.startsWith("/") ? pathname : `/${pathname}`}`,
+				);
+			},
+		},
+	],
+});
+
+export async function getSmashConfig() {
+	const explorer = cosmiconfig("smash");
+	const config = await explorer
+		.load(resolve(process.cwd(), "smash.config.ts"))
+		.then((result) => {
+			if (!result || result.isEmpty) {
+				throw new Error("Return default config.");
+			}
+			const config = result.config as unknown;
+			if (isValidSmashConfig(config)) {
+				return {
+					scssAliases: getDefaultSCSSAliases(config.themePath),
+					...config,
+					// Normalize and resolve paths to cwd.
+					npmInstallPaths:
+						config.npmInstallPaths?.map((path) => {
+							return normalize(resolve(process.cwd(), path));
+						}) ?? [],
+					composerInstallPaths:
+						config.composerInstallPaths?.map((path) => {
+							return normalize(resolve(process.cwd(), path));
+						}) ?? [],
+				};
+			}
+			throw new Error("Return default config.");
+		})
+		.catch(async () => {
+			const { themeName, themePath } = await import("dotenv")
+				.then((dotenv) => {
+					dotenv.config();
+					const themeName =
+						process.env.THEME_NAME ?? process.env.npm_package_config_theme_name;
+					const themePath =
+						process.env.THEME_PATH ?? process.env.npm_package_config_theme_path;
+					return {
+						themeName,
+						themePath,
+					};
+				})
+				.catch(() => {
+					return {
+						themeName: false as const,
+						themePath: false as const,
+					};
+				});
+			if (!themeName || !themePath) {
+				return null;
+			}
+			const defaultConfig: SmashConfig = {
+				themeName,
+				themePath,
+				npmInstallPaths: [],
+				composerInstallPaths: [],
+				scssAliases: getDefaultSCSSAliases(themePath),
+			};
+			return defaultConfig;
+		});
+	return config;
+}
+
+function isValidSmashConfig(config: unknown): config is SmashConfig {
+	return (
+		typeof config === "object" &&
+		config !== null &&
+		"themeName" in config &&
+		typeof config.themeName === "string" &&
+		"themePath" in config &&
+		typeof config.themePath === "string"
+	);
 }

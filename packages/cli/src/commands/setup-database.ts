@@ -1,7 +1,11 @@
 import { exec } from "node:child_process";
 import { performance } from "node:perf_hooks";
 import { promisify } from "node:util";
-import { convertMeasureToPrettyString, startRunningMessage } from "../utils.js";
+import {
+	convertMeasureToPrettyString,
+	getSmashConfig,
+	startRunningMessage,
+} from "../utils.js";
 import "dotenv/config";
 
 export const command = "setup-database";
@@ -9,15 +13,19 @@ export const describe =
 	"Create a new database and initialise the site with no content.";
 export default async function setupDatabase() {
 	const execute = promisify(exec);
-	const themeName = process.env.npm_package_config_theme_name;
+	const smashConfig = await getSmashConfig();
+	// These must remain env vars because they differ for each dev.
 	const addCustomUser =
 		process.env.WORDPRESS_USER &&
 		process.env.WORDPRESS_USER_EMAIL &&
 		process.env.WORDPRESS_PASSWORD;
 
-	if (!themeName) {
-		throw new Error("Theme name is missing from package.json config object.");
+	if (!smashConfig) {
+		throw new Error(
+			"Unable to determine project setup information. Please add a smash.config.ts file with the required info.",
+		);
 	} else {
+		const { themeName } = smashConfig;
 		const interval = startRunningMessage("Initialising database");
 		performance.mark("Start");
 		await execute("wp db create")

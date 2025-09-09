@@ -4,13 +4,16 @@ import { constants, copyFile } from "node:fs/promises";
 import { resolve } from "node:path";
 import { performance } from "node:perf_hooks";
 import { promisify } from "node:util";
-import { convertMeasureToPrettyString, startRunningMessage } from "../utils.js";
+import {
+	convertMeasureToPrettyString,
+	getSmashConfig,
+	startRunningMessage,
+} from "../utils.js";
 
 export const command = "setup";
 export const describe = "Run all the common setup tasks for a project.";
 export async function handler() {
 	const execute = promisify(exec);
-	const themeName = process.env.npm_package_config_theme_name;
 	const shouldInstallAndBuildOnly = await import("dotenv")
 		.then((dotenv) => {
 			dotenv.config();
@@ -19,9 +22,13 @@ export async function handler() {
 		.catch(() => {
 			return false;
 		});
-	if (!themeName) {
-		throw new Error("Theme name is missing from package.json config object.");
+	const smashConfig = await getSmashConfig();
+	if (!smashConfig) {
+		throw new Error(
+			"Unable to determine project setup information. Please add a smash.config.ts file with the required info.",
+		);
 	} else {
+		const { themeName, composerInstallPaths, npmInstallPaths } = smashConfig;
 		const interval = startRunningMessage("Running setup");
 		performance.mark("Start");
 		await Promise.allSettled([
@@ -109,6 +116,25 @@ export async function handler() {
 						"Failed to run composer install in the root directory.",
 					);
 				}),
+			...(composerInstallPaths?.map((path, index) => {
+				return execute(`cd "${resolve(process.cwd(), path)}"; composer install`)
+					.then(() => {
+						console.log(
+							`Additional composer install ${index + 1} done. (${convertMeasureToPrettyString(
+								performance.measure(
+									`additional composer install ${index + 1}`,
+									"Start",
+								),
+							)})`,
+						);
+					})
+					.catch((error) => {
+						console.error(error);
+						throw new Error(
+							`Failed to run additional composer install ${index + 1}.`,
+						);
+					});
+			}) ?? []),
 			(async () => {
 				await execute("npm install")
 					.then(() => {
@@ -138,6 +164,25 @@ export async function handler() {
 			})().catch((reason: string) => {
 				throw new Error(reason);
 			}),
+			...(npmInstallPaths?.map((path, index) => {
+				return execute(`cd "${resolve(process.cwd(), path)}"; npm install`)
+					.then(() => {
+						console.log(
+							`Additional npm install ${index + 1} done. (${convertMeasureToPrettyString(
+								performance.measure(
+									`additional npm install ${index + 1}`,
+									"Start",
+								),
+							)})`,
+						);
+					})
+					.catch((error) => {
+						console.error(error);
+						throw new Error(
+							`Failed to run additional npm install ${index + 1}.`,
+						);
+					});
+			}) ?? []),
 		]).then((results) => {
 			if (interval !== null) {
 				clearInterval(interval);
