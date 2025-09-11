@@ -1,5 +1,16 @@
 # @atomicsmash/compiler
 
+## 2.0.0-beta.0
+
+### Minor Changes
+
+- [#405](https://github.com/AtomicSmash/packages/pull/405) [`74bbfca`](https://github.com/AtomicSmash/packages/commit/74bbfcac320c8f763411ebc6f1e4421b826338af) Thanks [@mikeybinns](https://github.com/mikeybinns)! - let smash config handle in out folders
+
+### Patch Changes
+
+- Updated dependencies [[`74bbfca`](https://github.com/AtomicSmash/packages/commit/74bbfcac320c8f763411ebc6f1e4421b826338af)]:
+  - @atomicsmash/cli@8.2.0-beta.1
+
 ## 1.1.0
 
 ### Minor Changes
