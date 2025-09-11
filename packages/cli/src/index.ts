@@ -24,3 +24,11 @@ export type SCSSAliases = {
 	loadPaths?: Options<"async">["loadPaths"];
 	importers?: Options<"async">["importers"];
 };
+
+export type SmashConfig = {
+	themeName: string;
+	themePath: string;
+	npmInstallPaths?: string[];
+	composerInstallPaths?: string[];
+	scssAliases?: SCSSAliases;
+};
