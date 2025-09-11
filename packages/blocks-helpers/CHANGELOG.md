@@ -1,5 +1,15 @@
 # @atomicsmash/blocks-helpers
 
+## 7.1.0
+
+### Minor Changes
+
+- [#393](https://github.com/AtomicSmash/packages/pull/393) [`0fa86a3`](https://github.com/AtomicSmash/packages/commit/0fa86a3f7c4a36d9f10f1dbb9dfcae03275f7665) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Add role to attribute type
+
+### Patch Changes
+
+- [#391](https://github.com/AtomicSmash/packages/pull/391) [`e3143d7`](https://github.com/AtomicSmash/packages/commit/e3143d797ac0cd0c1ceb04cc26b0828e4521d5f7) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Update link control component type
+
 ## 7.1.0-beta.1
 
 ### Minor Changes
