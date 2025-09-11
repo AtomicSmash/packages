@@ -1,5 +1,15 @@
 # @atomicsmash/cli
 
+## 8.2.0-beta.3
+
+### Minor Changes
+
+- [#409](https://github.com/AtomicSmash/packages/pull/409) [`20bbe3c`](https://github.com/AtomicSmash/packages/commit/20bbe3c7516a7b8735d95ee9e3cd26389227c147) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Improve running messages for cli commands
+
+### Patch Changes
+
+- [#409](https://github.com/AtomicSmash/packages/pull/409) [`d4e4dd9`](https://github.com/AtomicSmash/packages/commit/d4e4dd96f788920ff5adf125fd224aa5bfb96d75) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Fix setup database command
+
 ## 8.2.0-beta.2
 
 ### Patch Changes

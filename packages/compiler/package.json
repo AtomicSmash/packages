@@ -1,7 +1,7 @@
 {
 	"name": "@atomicsmash/compiler",
 	"type": "module",
-	"version": "2.0.0-beta.1",
+	"version": "2.0.0-beta.2",
 	"description": "A universal compiler for all Atomic Smash projects.",
 	"keywords": [
 		"cli",
@@ -81,6 +81,6 @@
 		"node": "^20 || >=22"
 	},
 	"peerDependencies": {
-		"@atomicsmash/cli": "^8.2.0-beta.2"
+		"@atomicsmash/cli": "^8.2.0-beta.3"
 	}
 }
