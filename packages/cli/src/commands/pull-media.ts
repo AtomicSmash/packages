@@ -34,7 +34,7 @@ async function downloadFiles(
 }
 
 export const command = "pull-media";
-export const describe = "Pull the media items from the .";
+export const describe = "Pull the media items from the staging site.";
 export async function handler() {
 	const stagingSSHUsername = process.env.STAGING_SSH_USERNAME;
 	const stagingSSHHost = process.env.STAGING_SSH_HOST;

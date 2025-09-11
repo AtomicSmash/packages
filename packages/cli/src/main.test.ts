@@ -30,6 +30,8 @@ describe.concurrent("Base CLI helpers work as intended", () => {
 
 			Commands:
 			  smash-cli blocks          A command to generate WordPress blocks from a src folder.
+			  smash-cli pull-database   Pull the database down from staging and replace local database.
+			  smash-cli pull-media      Pull the media items from the staging site.
 			  smash-cli setup-database  Create a new database and initialise the site with no content.
 			  smash-cli setup           Run all the common setup tasks for a project.
 			  smash-cli svg             Generate an SVG sprite from a group of SVGs.
@@ -51,6 +53,8 @@ describe.concurrent("Base CLI helpers work as intended", () => {
 
 			Commands:
 			  smash-cli blocks          A command to generate WordPress blocks from a src folder.
+			  smash-cli pull-database   Pull the database down from staging and replace local database.
+			  smash-cli pull-media      Pull the media items from the staging site.
 			  smash-cli setup-database  Create a new database and initialise the site with no content.
 			  smash-cli setup           Run all the common setup tasks for a project.
 			  smash-cli svg             Generate an SVG sprite from a group of SVGs.
