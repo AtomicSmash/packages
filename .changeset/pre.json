@@ -1,0 +1,21 @@
+{
+  "mode": "exit",
+  "tag": "beta",
+  "initialVersions": {
+    "@atomicsmash/blocks-helpers": "7.0.1",
+    "@atomicsmash/browserslist-config": "15.0.0",
+    "@atomicsmash/cli": "8.1.0",
+    "@atomicsmash/coding-standards": "15.0.0",
+    "@atomicsmash/compiler": "1.1.0",
+    "@atomicsmash/date-php": "2.1.0",
+    "@atomicsmash/eslint-config": "15.0.0",
+    "@atomicsmash/init-testing": "2.1.0",
+    "@atomicsmash/test-utils": "5.0.3",
+    "@atomicsmash/wordpress-tests-helper": "1.1.0"
+  },
+  "changesets": [
+    "tall-doors-tan",
+    "tired-geese-rule",
+    "wide-bottles-search"
+  ]
+}
