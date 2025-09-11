@@ -14,7 +14,9 @@
     "@atomicsmash/wordpress-tests-helper": "1.1.0"
   },
   "changesets": [
+    "loose-carpets-act",
     "neat-parks-turn",
+    "new-cases-fold",
     "nine-kings-know",
     "rude-tigers-sleep"
   ]

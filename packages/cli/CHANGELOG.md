@@ -1,5 +1,13 @@
 # @atomicsmash/cli
 
+## 8.2.0-beta.2
+
+### Patch Changes
+
+- [#407](https://github.com/AtomicSmash/packages/pull/407) [`f2fa89e`](https://github.com/AtomicSmash/packages/commit/f2fa89e94438d274a6463a543b8f1e63ca3715dd) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Fix src and dist folder resolution
+
+- [#407](https://github.com/AtomicSmash/packages/pull/407) [`e9941b6`](https://github.com/AtomicSmash/packages/commit/e9941b603dc18f1fda2df43d53608a8eaa0663f1) Thanks [@mikeybinns](https://github.com/mikeybinns)! - fix sitecss alias in smash config defaults
+
 ## 8.2.0-beta.1
 
 ### Minor Changes
