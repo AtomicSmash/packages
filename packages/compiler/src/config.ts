@@ -67,12 +67,14 @@ export async function config(options: {
 	const srcFolder = argv.in
 		? resolvePath(argv.in)
 		: smashConfig?.themePath
-			? join(smashConfig?.themePath, "src", "blocks")
+			? resolvePath(join(smashConfig?.themePath, "src"))
 			: null;
 	const distFolder = argv.out
 		? resolvePath(argv.out)
 		: smashConfig?.themePath
-			? join(smashConfig?.themePath, smashConfig.assetsOutputFolder, "blocks")
+			? resolvePath(
+					join(smashConfig?.themePath, smashConfig.assetsOutputFolder),
+				)
 			: null;
 	if (!srcFolder || !distFolder) {
 		throw new Error(
