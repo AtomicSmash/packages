@@ -1,5 +1,14 @@
 # @atomicsmash/compiler
 
+## 2.0.0-beta.1
+
+### Patch Changes
+
+- [#407](https://github.com/AtomicSmash/packages/pull/407) [`f2fa89e`](https://github.com/AtomicSmash/packages/commit/f2fa89e94438d274a6463a543b8f1e63ca3715dd) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Fix src and dist folder resolution
+
+- Updated dependencies [[`f2fa89e`](https://github.com/AtomicSmash/packages/commit/f2fa89e94438d274a6463a543b8f1e63ca3715dd), [`e9941b6`](https://github.com/AtomicSmash/packages/commit/e9941b603dc18f1fda2df43d53608a8eaa0663f1)]:
+  - @atomicsmash/cli@8.2.0-beta.2
+
 ## 2.0.0-beta.0
 
 ### Minor Changes
