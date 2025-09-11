@@ -85,7 +85,7 @@ type NoSourceAttributeAnyType = {
 	default?: unknown;
 };
 
-export type AttributesObject =
+export type AttributesObject = (
 	| AttributeSourceBooleanAttribute
 	| AttributeSourceStringAttribute
 	| TextSourceAttribute
@@ -93,7 +93,8 @@ export type AttributesObject =
 	| QuerySourceAttribute
 	| MetaSourceAttribute
 	| NoSourceAttributeArrayType
-	| NoSourceAttributeAnyType;
+	| NoSourceAttributeAnyType
+) & { role?: "content" | "local" };
 
 type InheritType<Type extends { type: string | string[]; default?: unknown }> =
 	Type extends {
