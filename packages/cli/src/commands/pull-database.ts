@@ -36,7 +36,9 @@ export async function handler() {
 		throw new Error("STAGING_URL is missing from .env file.");
 	} else {
 		const { themeName } = smashConfig;
-		const interval = startRunningMessage("Pulling database from staging");
+		const stopRunningMessage = startRunningMessage(
+			"Pulling database from staging",
+		);
 		performance.mark("Start");
 		await (async () => {
 			const tmpFile = "/tmp/staging-database.sql";
@@ -76,9 +78,7 @@ export async function handler() {
 					await deleteFile(tmpFile);
 					await deleteFile(tmpFileProcessed);
 
-					if (interval !== null) {
-						clearInterval(interval);
-					}
+					stopRunningMessage();
 
 					console.log(
 						`Database import complete! ${convertMeasureToPrettyString(
@@ -90,9 +90,7 @@ export async function handler() {
 					);
 				})
 				.catch(async (error) => {
-					if (interval !== null) {
-						clearInterval(interval);
-					}
+					stopRunningMessage();
 					console.error("Error during database pull:", error);
 
 					const cleanupResults = await Promise.allSettled([

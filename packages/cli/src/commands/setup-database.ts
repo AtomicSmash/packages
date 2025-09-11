@@ -11,7 +11,7 @@ import "dotenv/config";
 export const command = "setup-database";
 export const describe =
 	"Create a new database and initialise the site with no content.";
-export default async function setupDatabase() {
+export async function handler() {
 	const execute = promisify(exec);
 	const smashConfig = await getSmashConfig();
 	// These must remain env vars because they differ for each dev.
@@ -26,7 +26,7 @@ export default async function setupDatabase() {
 		);
 	} else {
 		const { themeName } = smashConfig;
-		const interval = startRunningMessage("Initialising database");
+		const stopRunningMessage = startRunningMessage("Initialising database");
 		performance.mark("Start");
 		await execute("wp db create")
 			.then(() => {
@@ -79,9 +79,7 @@ export default async function setupDatabase() {
 						performance.measure("theme", "plugins"),
 					)})`,
 				);
-				if (interval !== null) {
-					clearInterval(interval);
-				}
+				stopRunningMessage();
 				console.log(
 					`Database set up${addCustomUser ? ` and ${process.env.WORDPRESS_USER} user added` : !process.env.CI ? ". To set up a user, run the `wp user create` command." : ""}. (${convertMeasureToPrettyString(
 						performance.measure("everything", "Start"),
@@ -89,9 +87,7 @@ export default async function setupDatabase() {
 				);
 			})
 			.catch((error: { stderr: string }) => {
-				if (interval !== null) {
-					clearInterval(interval);
-				}
+				stopRunningMessage();
 				if (error.stderr?.startsWith("ERROR 1007")) {
 					console.error(
 						"Database already exists with the name in the wp-config. Please delete that database first with `wp db drop --yes`",

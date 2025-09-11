@@ -73,7 +73,7 @@ export function startRunningMessage(message: string) {
 	process.stdout.write(`${message}${".".repeat($i)}\r`);
 	$i++;
 	if (typeof process.stdout.clearLine !== "undefined") {
-		return setInterval(() => {
+		const interval = setInterval(() => {
 			if ($i > 2) {
 				$i = 0;
 			}
@@ -82,8 +82,17 @@ export function startRunningMessage(message: string) {
 			process.stdout.cursorTo(0);
 			process.stdout.write(`${message}${".".repeat($i)}\r`);
 		}, 200);
+		return () => {
+			if (interval) {
+				clearInterval(interval);
+				process.stdout.clearLine(0);
+				process.stdout.cursorTo(0);
+			}
+		};
 	}
-	return null;
+	return () => {
+		/* do nothing */
+	};
 }
 
 const getDefaultSCSSAliases = (themePath: string): SCSSAliases => ({
