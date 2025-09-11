@@ -4,8 +4,10 @@ import {
 	extname,
 	resolve as resolvePath,
 	relative,
+	join,
 } from "node:path";
 import { pathToFileURL } from "node:url";
+import { getSmashConfig } from "@atomicsmash/cli";
 import DependencyExtractionWebpackPlugin from "@wordpress/dependency-extraction-webpack-plugin";
 import browserslistToEsbuild from "browserslist-to-esbuild";
 import CopyPlugin from "copy-webpack-plugin";
@@ -27,11 +29,11 @@ export async function config(options: {
 	/**
 	 * The directory where the source files can be found. Relative to cwd.
 	 */
-	in: string;
+	in?: string;
 	/**
 	 * The directory where the compiled files will out output. Relative to cwd.
 	 */
-	out: string;
+	out?: string;
 	/**
 	 * Whether to watch the files in the source folder for changes and compile.
 	 */
@@ -49,6 +51,7 @@ export async function config(options: {
 	 */
 	excludeBlocks?: string[] | undefined;
 }) {
+	const smashConfig = await getSmashConfig();
 	const argv = {
 		watch: false,
 		analyse: false,
@@ -61,8 +64,22 @@ export async function config(options: {
 			? "development"
 			: "production";
 
-	const srcFolder = resolvePath(argv.in);
-	const distFolder = resolvePath(argv.out);
+	const srcFolder = argv.in
+		? resolvePath(argv.in)
+		: smashConfig?.themePath
+			? join(smashConfig?.themePath, "src", "blocks")
+			: null;
+	const distFolder = argv.out
+		? resolvePath(argv.out)
+		: smashConfig?.themePath
+			? join(smashConfig?.themePath, smashConfig.assetsOutputFolder, "blocks")
+			: null;
+	if (!srcFolder || !distFolder) {
+		throw new Error(
+			"Failed to get the in or out folders for the blocks. Please add a smash.config.ts file to your project with a themeName and a themePath.",
+		);
+	}
+
 	// Add optional support for Tailwind if tailwind postcss plugin is installed
 	const tailwindPostCSSPlugin = await import("@tailwindcss/postcss")
 		.then((tailwindPostCSS) => [tailwindPostCSS.default])
@@ -430,6 +447,12 @@ export async function config(options: {
 }
 
 async function getSassOptions(srcFolder: string) {
+	const smashConfig = await getSmashConfig();
+	if (smashConfig) {
+		return smashConfig.scssAliases;
+	}
+
+	// Legacy fallback.
 	const explorer = cosmiconfig("scssAliases");
 	const config = await explorer
 		.load(resolvePath(process.cwd(), "scssAliases.config.ts"))

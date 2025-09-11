@@ -19,13 +19,11 @@ declare global {
 const argv = await yargs(hideBin(process.argv))
 	.options({
 		in: {
-			demandOption: true,
 			describe:
 				"The directory where the source files can be found. Relative to cwd.",
 			type: "string",
 		},
 		out: {
-			demandOption: true,
 			describe:
 				"The directory where the compiled files will out output. Relative to cwd.",
 			type: "string",
@@ -57,13 +55,6 @@ const argv = await yargs(hideBin(process.argv))
 	.showHelpOnFail(false, "Specify --help for available options")
 	.parse();
 
-// const explorer = cosmiconfig("smash-compiler");
-// const config = await explorer.search().then(async (config) => {
-// 	if (!config) {
-// 		return await defaultConfig({ ...argv });
-// 	}
-// 	return config.config as Configuration;
-// });
 const compiler = webpack(await defaultConfig({ ...argv }));
 
 if (argv.watch) {

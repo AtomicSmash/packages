@@ -40,14 +40,12 @@ export const builder = function (yargs: YargsInstance) {
 	return yargs
 		.options({
 			in: {
-				demandOption: true,
 				string: true,
 				normalize: true,
 				description:
 					"The directory where the WP blocks can be found. Relative to cwd.",
 			},
 			out: {
-				demandOption: true,
 				string: true,
 				normalize: true,
 				description:
@@ -106,8 +104,22 @@ export const builder = function (yargs: YargsInstance) {
 export async function handler(
 	args: ArgumentsCamelCase<Awaited<ReturnType<typeof builder>["argv"]>>,
 ) {
-	const srcFolder = resolvePath(args.in);
-	const distFolder = resolvePath(args.out);
+	const smashConfig = await getSmashConfig();
+	const srcFolder = args.in
+		? resolvePath(args.in)
+		: smashConfig?.themePath
+			? join(smashConfig?.themePath, "src", "blocks")
+			: null;
+	const distFolder = args.out
+		? resolvePath(args.out)
+		: smashConfig?.themePath
+			? join(smashConfig?.themePath, smashConfig.assetsOutputFolder, "blocks")
+			: null;
+	if (!srcFolder || !distFolder) {
+		throw new Error(
+			"Failed to get the in or out folders for the blocks. Please add a smash.config.ts file to your project with a themeName and a themePath.",
+		);
+	}
 
 	const tsConfigLocation = args.tsConfigPath ?? srcFolder;
 	const postcssConfigLocation = args.postcssConfigPath ?? srcFolder;

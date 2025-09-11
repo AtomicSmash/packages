@@ -131,7 +131,10 @@ export async function getSmashConfig() {
 						config.composerInstallPaths?.map((path) => {
 							return normalize(resolve(process.cwd(), path));
 						}) ?? [],
-				};
+					assetsOutputFolder: config.assetsOutputFolder
+						? normalize(config.assetsOutputFolder)
+						: "dist",
+				} satisfies Required<SmashConfig>;
 			}
 			throw new Error("Return default config.");
 		})
@@ -157,9 +160,13 @@ export async function getSmashConfig() {
 			if (!themeName || !themePath) {
 				return null;
 			}
-			const defaultConfig: SmashConfig = {
+			console.warn(
+				"Using env vars for theme name and path is deprecated and will be removed in a future version. Create a smash.config.ts file with the relevant properties in it instead.",
+			);
+			const defaultConfig: Required<SmashConfig> = {
 				themeName,
 				themePath,
+				assetsOutputFolder: "dist",
 				npmInstallPaths: [],
 				composerInstallPaths: [],
 				scssAliases: getDefaultSCSSAliases(themePath),

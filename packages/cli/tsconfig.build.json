@@ -1,11 +1,6 @@
 {
 	"extends": "./tsconfig.json",
 	"exclude": ["src/tests/**/*", "src/**/*.test.*", "test-setup.ts"],
-	"compilerOptions": {
-		"rootDir": "src",
-		"outDir": "dist",
-		"noEmit": false
-	},
 	"references": [
 		{ "path": "../blocks-helpers/tsconfig.build.json" },
 		{ "path": "../date-php/tsconfig.build.json" }
