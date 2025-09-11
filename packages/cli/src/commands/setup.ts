@@ -183,8 +183,8 @@ export async function handler() {
 						);
 					});
 			}) ?? []),
-		]).then((results) => {
-			stopRunningMessage();
+		]).then(async (results) => {
+			await stopRunningMessage();
 			if (results.some((result) => result.status === "rejected")) {
 				process.exitCode = 1;
 				console.error("Setup failed with the following errors:\n");

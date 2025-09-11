@@ -264,8 +264,8 @@ async function runCommand({
 		});
 	} else {
 		const stopRunningMessage = startRunningMessage("Building blocks");
-		compiler.run((error, stats) => {
-			stopRunningMessage();
+		compiler.run(async (error, stats) => {
+			await stopRunningMessage();
 			if (error) {
 				console.error(error);
 				process.exitCode = 1;
