@@ -1,5 +1,13 @@
 # @atomicsmash/cli
 
+## 8.2.0-beta.0
+
+### Minor Changes
+
+- [#402](https://github.com/AtomicSmash/packages/pull/402) [`70eab70`](https://github.com/AtomicSmash/packages/commit/70eab70d70a8559d1a2b60d94a6814e761d6f807) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Update commands to use smash.config.ts if present
+
+- [#402](https://github.com/AtomicSmash/packages/pull/402) [`f8dc9f7`](https://github.com/AtomicSmash/packages/commit/f8dc9f7ec301af23aab19c82e2623e8db6c16466) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Add pull database and pull media commands
+
 ## 8.1.0
 
 ### Minor Changes
