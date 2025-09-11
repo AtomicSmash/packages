@@ -11,7 +11,7 @@ import "dotenv/config";
 export const command = "setup-database";
 export const describe =
 	"Create a new database and initialise the site with no content.";
-export default async function setupDatabase() {
+export async function handler() {
 	const execute = promisify(exec);
 	const smashConfig = await getSmashConfig();
 	// These must remain env vars because they differ for each dev.
