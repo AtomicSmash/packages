@@ -100,12 +100,12 @@ export async function handler() {
 				console.log("Finished attempting to download all requested months");
 			}
 		})()
-			.then(() => {
-				stopRunningMessage();
+			.then(async () => {
+				await stopRunningMessage();
 				console.log("Media download complete!");
 			})
-			.catch(() => {
-				stopRunningMessage();
+			.catch(async () => {
+				await stopRunningMessage();
 				console.log(
 					"There was an error downloading the media, see the message above.",
 				);

@@ -82,15 +82,23 @@ export function startRunningMessage(message: string) {
 			process.stdout.cursorTo(0);
 			process.stdout.write(`${message}${".".repeat($i)}\r`);
 		}, 200);
-		return () => {
+		return async () => {
 			if (interval) {
 				clearInterval(interval);
-				process.stdout.clearLine(0);
-				process.stdout.cursorTo(0);
+				await new Promise<void>((resolve) => {
+					process.stdout.clearLine(0, () => {
+						resolve();
+					});
+				});
+				await new Promise<void>((resolve) => {
+					process.stdout.cursorTo(0, () => {
+						resolve();
+					});
+				});
 			}
 		};
 	}
-	return () => {
+	return async () => {
 		/* do nothing */
 	};
 }

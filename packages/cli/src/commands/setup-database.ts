@@ -72,22 +72,22 @@ export async function handler() {
 				);
 				return execute(`wp theme activate ${themeName}`);
 			})
-			.then(() => {
+			.then(async () => {
 				performance.mark("theme");
 				console.log(
 					`Theme activated. (${convertMeasureToPrettyString(
 						performance.measure("theme", "plugins"),
 					)})`,
 				);
-				stopRunningMessage();
+				await stopRunningMessage();
 				console.log(
 					`Database set up${addCustomUser ? ` and ${process.env.WORDPRESS_USER} user added` : !process.env.CI ? ". To set up a user, run the `wp user create` command." : ""}. (${convertMeasureToPrettyString(
 						performance.measure("everything", "Start"),
 					)})`,
 				);
 			})
-			.catch((error: { stderr: string }) => {
-				stopRunningMessage();
+			.catch(async (error: { stderr: string }) => {
+				await stopRunningMessage();
 				if (error.stderr?.startsWith("ERROR 1007")) {
 					console.error(
 						"Database already exists with the name in the wp-config. Please delete that database first with `wp db drop --yes`",

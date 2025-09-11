@@ -46,9 +46,13 @@ export async function handler() {
 			await execute(
 				`ssh ${stagingSSHUsername}@${stagingSSHHost} -p ${stagingSSHPort} "cd public/current && wp db export - --add-drop-table" > ${tmpFile}`,
 			)
-				.then(() => {
-					console.log("Database downloaded. Updating URLs in database SQL...");
-					return new Promise<void>((resolve, reject) => {
+				.then(async () => {
+					await stopRunningMessage();
+					console.log("Database downloaded.");
+					const stopRunningMessage2 = startRunningMessage(
+						"Updating URLs in database SQL",
+					);
+					await new Promise<void>((resolve, reject) => {
 						const readStream = createReadStream(tmpFile, { encoding: "utf8" });
 						const writeStream = createWriteStream(tmpFileProcessed, {
 							encoding: "utf8",
@@ -69,16 +73,33 @@ export async function handler() {
 						writeStream.on("finish", resolve);
 						writeStream.on("error", reject);
 						readStream.on("error", reject);
-					});
+					})
+						.then(async () => {
+							await stopRunningMessage2();
+							console.log("URLs updated.");
+						})
+						.catch(async (error) => {
+							await stopRunningMessage2();
+							throw error;
+						});
 				})
 				.then(async () => {
-					console.log("Importing database...");
-					await execute(`wp db query < ${tmpFileProcessed}`);
-
-					await deleteFile(tmpFile);
-					await deleteFile(tmpFileProcessed);
-
-					stopRunningMessage();
+					const stopRunningMessage3 = startRunningMessage("Importing database");
+					await execute(`wp db query < ${tmpFileProcessed}`)
+						.then(async () => {
+							await stopRunningMessage3();
+						})
+						.catch(async (error) => {
+							await stopRunningMessage3();
+							throw error;
+						});
+					const stopRunningMessage4 = startRunningMessage("Cleaning up");
+					await Promise.allSettled([
+						deleteFile(tmpFile),
+						deleteFile(tmpFileProcessed),
+					]).then(async () => {
+						await stopRunningMessage4();
+					});
 
 					console.log(
 						`Database import complete! ${convertMeasureToPrettyString(
@@ -90,7 +111,7 @@ export async function handler() {
 					);
 				})
 				.catch(async (error) => {
-					stopRunningMessage();
+					await stopRunningMessage();
 					console.error("Error during database pull:", error);
 
 					const cleanupResults = await Promise.allSettled([
