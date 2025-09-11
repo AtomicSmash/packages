@@ -20,8 +20,8 @@
 	],
 	"main": "./dist/index.js",
 	"bin": {
-		"smash-cli": "./dist/index.js",
-		"@atomicsmash/cli": "./dist/index.js"
+		"smash-cli": "./dist/cli.js",
+		"@atomicsmash/cli": "./dist/cli.js"
 	},
 	"type": "module",
 	"publishConfig": {

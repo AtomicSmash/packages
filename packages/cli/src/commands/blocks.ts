@@ -1,4 +1,5 @@
-import type { SCSSAliases, YargsInstance } from "../index.js";
+import type { YargsInstance } from "../cli.js";
+import type { SCSSAliases } from "../index.js";
 import type { BlockMetaData } from "@atomicsmash/blocks-helpers";
 import type { ObjectPattern } from "copy-webpack-plugin";
 import type { AcceptedPlugin } from "postcss";

@@ -11,9 +11,8 @@ import {
 
 describe("Blocks command works as intended", () => {
 	test("Blocks command correctly displays help message", async () => {
-		await expect(
-			execute(`${testCommand} blocks --help`),
-		).resolves.toMatchInlineSnapshot(`
+		await expect(execute(`${testCommand} blocks --help`)).resolves
+			.toMatchInlineSnapshot(`
 			{
 			  "error": null,
 			  "stderr": "",

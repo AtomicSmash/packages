@@ -13,7 +13,7 @@ export const packageJson = require("../package.json") as PackageJson;
 if (packageJson.bin === undefined) {
 	throw new Error("Script name is not defined.");
 }
-export const testCommand = `node ${resolve(`${import.meta.dirname}/../dist/index.js`)}`;
+export const testCommand = `node ${resolve(`${import.meta.dirname}/../dist/cli.js`)}`;
 if (!packageJson.version) {
 	throw new Error("Package has no version number set.");
 }
