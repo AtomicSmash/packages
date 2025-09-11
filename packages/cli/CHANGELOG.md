@@ -1,5 +1,11 @@
 # @atomicsmash/cli
 
+## 8.2.0-beta.4
+
+### Patch Changes
+
+- [#412](https://github.com/AtomicSmash/packages/pull/412) [`b03c8dd`](https://github.com/AtomicSmash/packages/commit/b03c8ddb0d97d72174a0dad37be0a822ccba63f1) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Fix running messages not clearing the line properly
+
 ## 8.2.0-beta.3
 
 ### Minor Changes

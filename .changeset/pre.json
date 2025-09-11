@@ -14,6 +14,7 @@
     "@atomicsmash/wordpress-tests-helper": "1.1.0"
   },
   "changesets": [
+    "fluffy-toes-bake",
     "loose-carpets-act",
     "neat-parks-turn",
     "neat-peaches-decide",
