@@ -93,7 +93,7 @@ const getDefaultSCSSAliases = (themePath: string): SCSSAliases => ({
 				if (!url.startsWith("sitecss:")) return null;
 				const pathname = url.substring(8);
 				return pathToFileURL(
-					`${resolve(process.cwd(), themePath, "/src/styles")}${pathname.startsWith("/") ? pathname : `/${pathname}`}`,
+					`${resolve(process.cwd(), themePath, "src/styles")}${pathname.startsWith("/") ? pathname : `/${pathname}`}`,
 				);
 			},
 		},

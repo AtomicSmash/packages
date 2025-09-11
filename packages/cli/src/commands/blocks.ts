@@ -109,12 +109,18 @@ export async function handler(
 	const srcFolder = args.in
 		? resolvePath(args.in)
 		: smashConfig?.themePath
-			? join(smashConfig?.themePath, "src", "blocks")
+			? resolvePath(join(smashConfig?.themePath, "src", "blocks"))
 			: null;
 	const distFolder = args.out
 		? resolvePath(args.out)
 		: smashConfig?.themePath
-			? join(smashConfig?.themePath, smashConfig.assetsOutputFolder, "blocks")
+			? resolvePath(
+					join(
+						smashConfig?.themePath,
+						smashConfig.assetsOutputFolder,
+						"blocks",
+					),
+				)
 			: null;
 	if (!srcFolder || !distFolder) {
 		throw new Error(
