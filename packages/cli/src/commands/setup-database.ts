@@ -26,7 +26,7 @@ export async function handler() {
 		);
 	} else {
 		const { themeName } = smashConfig;
-		const interval = startRunningMessage("Initialising database");
+		const stopRunningMessage = startRunningMessage("Initialising database");
 		performance.mark("Start");
 		await execute("wp db create")
 			.then(() => {
@@ -79,9 +79,7 @@ export async function handler() {
 						performance.measure("theme", "plugins"),
 					)})`,
 				);
-				if (interval !== null) {
-					clearInterval(interval);
-				}
+				stopRunningMessage();
 				console.log(
 					`Database set up${addCustomUser ? ` and ${process.env.WORDPRESS_USER} user added` : !process.env.CI ? ". To set up a user, run the `wp user create` command." : ""}. (${convertMeasureToPrettyString(
 						performance.measure("everything", "Start"),
@@ -89,9 +87,7 @@ export async function handler() {
 				);
 			})
 			.catch((error: { stderr: string }) => {
-				if (interval !== null) {
-					clearInterval(interval);
-				}
+				stopRunningMessage();
 				if (error.stderr?.startsWith("ERROR 1007")) {
 					console.error(
 						"Database already exists with the name in the wp-config. Please delete that database first with `wp db drop --yes`",

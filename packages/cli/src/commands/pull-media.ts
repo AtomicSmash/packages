@@ -63,7 +63,9 @@ export async function handler() {
 			host: stagingSSHHost,
 			username: stagingSSHUsername,
 		};
-		const interval = startRunningMessage("Pulling database from staging");
+		const stopRunningMessage = startRunningMessage(
+			"Pulling media from staging",
+		);
 		performance.mark("Start");
 		await (async () => {
 			if (mediaMonths === -1) {
@@ -99,15 +101,11 @@ export async function handler() {
 			}
 		})()
 			.then(() => {
-				if (interval !== null) {
-					clearInterval(interval);
-				}
+				stopRunningMessage();
 				console.log("Media download complete!");
 			})
 			.catch(() => {
-				if (interval !== null) {
-					clearInterval(interval);
-				}
+				stopRunningMessage();
 				console.log(
 					"There was an error downloading the media, see the message above.",
 				);

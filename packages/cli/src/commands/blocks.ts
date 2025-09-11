@@ -30,7 +30,7 @@ import { TsconfigPathsPlugin } from "tsconfig-paths-webpack-plugin";
 import { tsImport } from "tsx/esm/api";
 import webpack from "webpack";
 import defaultConfig from "../external/wordpress.webpack.config.cjs";
-import { getSmashConfig, toCamelCase } from "../utils.js";
+import { getSmashConfig, startRunningMessage, toCamelCase } from "../utils.js";
 
 const isProduction = process.env.NODE_ENV === "production";
 
@@ -263,7 +263,9 @@ async function runCommand({
 			});
 		});
 	} else {
+		const stopRunningMessage = startRunningMessage("Building blocks");
 		compiler.run((error, stats) => {
+			stopRunningMessage();
 			if (error) {
 				console.error(error);
 				process.exitCode = 1;

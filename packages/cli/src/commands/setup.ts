@@ -29,7 +29,7 @@ export async function handler() {
 		);
 	} else {
 		const { themeName, composerInstallPaths, npmInstallPaths } = smashConfig;
-		const interval = startRunningMessage("Running setup");
+		const stopRunningMessage = startRunningMessage("Running setup");
 		performance.mark("Start");
 		await Promise.allSettled([
 			...(shouldInstallAndBuildOnly
@@ -184,9 +184,7 @@ export async function handler() {
 					});
 			}) ?? []),
 		]).then((results) => {
-			if (interval !== null) {
-				clearInterval(interval);
-			}
+			stopRunningMessage();
 			if (results.some((result) => result.status === "rejected")) {
 				process.exitCode = 1;
 				console.error("Setup failed with the following errors:\n");
