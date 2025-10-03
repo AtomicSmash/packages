@@ -43,6 +43,8 @@ const argv = await yargs(hideBin(process.argv))
 			boolean: true,
 			default: false,
 			describe: "Enable experimental support for WordPress blocks compilation.",
+			deprecate:
+				"Blocks support is enabled by default now. You can remove this option from your command.",
 		},
 		excludeBlocks: {
 			array: true,
@@ -54,8 +56,9 @@ const argv = await yargs(hideBin(process.argv))
 	})
 	.showHelpOnFail(false, "Specify --help for available options")
 	.parse();
-
-const compiler = webpack(await defaultConfig({ ...argv }));
+// eslint-disable-next-line @typescript-eslint/naming-convention -- Experimental option.
+const { experimentalBlocksSupport, ...compilerOptions } = argv;
+const compiler = webpack(await defaultConfig({ ...compilerOptions }));
 
 if (argv.watch) {
 	const watching = compiler.watch(
