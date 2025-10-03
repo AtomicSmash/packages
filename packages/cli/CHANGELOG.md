@@ -1,5 +1,11 @@
 # @atomicsmash/cli
 
+## 9.0.0-beta.5
+
+### Major Changes
+
+- [#415](https://github.com/AtomicSmash/packages/pull/415) [`f330f8f`](https://github.com/AtomicSmash/packages/commit/f330f8f786db53172669a02ce228eabdb058d860) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Update sass-loader version to avoid conflict with compiler
+
 ## 8.2.0-beta.4
 
 ### Patch Changes
