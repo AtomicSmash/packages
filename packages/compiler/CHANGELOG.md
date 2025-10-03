@@ -1,5 +1,12 @@
 # @atomicsmash/compiler
 
+## 2.0.0-beta.3
+
+### Patch Changes
+
+- Updated dependencies [[`f330f8f`](https://github.com/AtomicSmash/packages/commit/f330f8f786db53172669a02ce228eabdb058d860)]:
+  - @atomicsmash/cli@9.0.0-beta.5
+
 ## 2.0.0-beta.2
 
 ### Patch Changes
