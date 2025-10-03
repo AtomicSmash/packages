@@ -1,6 +1,6 @@
 {
 	"name": "@atomicsmash/cli",
-	"version": "8.2.0-beta.4",
+	"version": "9.0.0-beta.5",
 	"description": "A collection of CLI tools by Atomic Smash.",
 	"keywords": [],
 	"homepage": "https://www.atomicsmash.co.uk/",
@@ -64,7 +64,7 @@
 		"read-pkg-up": "^7.0.1",
 		"rtlcss-webpack-plugin": "^4.0.7",
 		"sass": "^1.89.2",
-		"sass-loader": "^12.6.0",
+		"sass-loader": "^16.0.5",
 		"schema-utils": "^4.3.2",
 		"source-map-loader": "^3.0.2",
 		"svg-sprite": "^2.0.4",

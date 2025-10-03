@@ -244,6 +244,9 @@ const baseConfig = {
 						loader: require.resolve("sass-loader"),
 						options: {
 							sourceMap: !isProduction,
+							warnRuleAsWarning: false,
+							implementation: require("sass"),
+							api: "legacy",
 						},
 					},
 				],
