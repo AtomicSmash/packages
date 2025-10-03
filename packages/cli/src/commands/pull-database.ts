@@ -35,7 +35,7 @@ export async function handler() {
 	} else if (!stagingUrl) {
 		throw new Error("STAGING_URL is missing from .env file.");
 	} else {
-		const { themeName } = smashConfig;
+		const { projectName } = smashConfig;
 		const stopRunningMessage = startRunningMessage(
 			"Pulling database from staging",
 		);
@@ -62,7 +62,7 @@ export async function handler() {
 
 						rl.on("line", (line) => {
 							writeStream.write(
-								line.replaceAll(stagingUrl, `//${themeName}.test`) + "\n",
+								line.replaceAll(stagingUrl, `//${projectName}.test`) + "\n",
 							);
 						});
 

@@ -25,13 +25,13 @@ export async function handler() {
 			"Unable to determine project setup information. Please add a smash.config.ts file with the required info.",
 		);
 	} else {
-		const { themeName } = smashConfig;
+		const { projectName, themeFolderName } = smashConfig;
 		const stopRunningMessage = startRunningMessage("Initialising database");
 		performance.mark("Start");
 		await execute("wp db create")
 			.then(() => {
 				return execute(
-					`wp core install --url=http://${process.env.CI ? "127.0.0.1" : `${themeName}.test`}/ --title=Temp --admin_user=Bot --admin_email=fake@fake.com --admin_password=password`,
+					`wp core install --url=http://${process.env.CI ? "127.0.0.1" : `${projectName}.test`}/ --title=Temp --admin_user=Bot --admin_email=fake@fake.com --admin_password=password`,
 				);
 			})
 			.then(() => {
@@ -70,7 +70,7 @@ export async function handler() {
 						),
 					)})`,
 				);
-				return execute(`wp theme activate ${themeName}`);
+				return execute(`wp theme activate ${themeFolderName}`);
 			})
 			.then(async () => {
 				performance.mark("theme");
