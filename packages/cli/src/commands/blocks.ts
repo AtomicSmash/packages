@@ -37,6 +37,8 @@ const isProduction = process.env.NODE_ENV === "production";
 export const command = "blocks";
 export const describe =
 	"A command to generate WordPress blocks from a src folder.";
+export const deprecated =
+	"Please migrate to using the @atomicsmash/compiler package. This command will be removed in the next major version.";
 export const builder = function (yargs: YargsInstance) {
 	return yargs
 		.options({
@@ -233,6 +235,7 @@ async function runCommand({
 	});
 
 	if (isWatch) {
+		console.log("The blocks command is now deprecated. " + deprecated);
 		const watching = compiler.watch(
 			{
 				// Example
@@ -259,6 +262,7 @@ async function runCommand({
 		);
 		process.on("SIGINT", function () {
 			watching.close((closeError) => {
+				console.log("The blocks command is now deprecated. " + deprecated);
 				console.error(closeError);
 			});
 		});
@@ -285,6 +289,7 @@ async function runCommand({
 			}
 
 			compiler.close((closeError) => {
+				console.log("The blocks command is now deprecated. " + deprecated);
 				if (closeError) {
 					process.exitCode = 1;
 				}
