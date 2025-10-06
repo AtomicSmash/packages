@@ -44,7 +44,7 @@ export async function handler() {
 			const tmpFile = "/tmp/staging-database.sql";
 			const tmpFileProcessed = "/tmp/staging-database.processed.sql";
 			await execute(
-				`ssh ${stagingSSHUsername}@${stagingSSHHost} -p ${stagingSSHPort} "cd public/current && wp db export - --add-drop-table" > ${tmpFile}`,
+				`ssh -o "StrictHostKeyChecking no" ${stagingSSHUsername}@${stagingSSHHost} -p ${stagingSSHPort} "cd public/current && wp db export - --add-drop-table" > ${tmpFile}`,
 			)
 				.then(async () => {
 					await stopRunningMessage();
