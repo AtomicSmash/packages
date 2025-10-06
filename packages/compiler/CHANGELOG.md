@@ -1,5 +1,16 @@
 # @atomicsmash/compiler
 
+## 2.0.0-beta.4
+
+### Minor Changes
+
+- [#418](https://github.com/AtomicSmash/packages/pull/418) [`aaacb61`](https://github.com/AtomicSmash/packages/commit/aaacb617d7cd01f1c0f6eb775d48984c9136c3bd) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Stabilise the blocks command in the compiler package
+
+### Patch Changes
+
+- Updated dependencies [[`082a6e5`](https://github.com/AtomicSmash/packages/commit/082a6e560bca9a7f053428f2946c2200e5e0abb4), [`cbc29c9`](https://github.com/AtomicSmash/packages/commit/cbc29c9c6972e41126d6ef6503553d61e48c60d9)]:
+  - @atomicsmash/cli@9.0.0-beta.6
+
 ## 2.0.0-beta.3
 
 ### Patch Changes
