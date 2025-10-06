@@ -1,5 +1,11 @@
 # @atomicsmash/cli
 
+## 9.0.0-beta.8
+
+### Patch Changes
+
+- [#422](https://github.com/AtomicSmash/packages/pull/422) [`9dfc7a0`](https://github.com/AtomicSmash/packages/commit/9dfc7a0cc1f0461cc6b198ce2425cec50414609b) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Disable strict host check for ssh
+
 ## 9.0.0-beta.7
 
 ### Patch Changes
