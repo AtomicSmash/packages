@@ -1,5 +1,13 @@
 # @atomicsmash/cli
 
+## 9.0.0-beta.7
+
+### Patch Changes
+
+- [#420](https://github.com/AtomicSmash/packages/pull/420) [`fb7fa5f`](https://github.com/AtomicSmash/packages/commit/fb7fa5f83817ab1d471a3bb72740fa77e98b6d1d) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Search for both yml instances
+
+- [#420](https://github.com/AtomicSmash/packages/pull/420) [`7ae7bdf`](https://github.com/AtomicSmash/packages/commit/7ae7bdf09bad2617b2faa667dc1947ab74c436e5) Thanks [@mikeybinns](https://github.com/mikeybinns)! - fix project name in valid config function
+
 ## 9.0.0-beta.6
 
 ### Minor Changes

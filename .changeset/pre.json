@@ -14,6 +14,7 @@
     "@atomicsmash/wordpress-tests-helper": "1.1.0"
   },
   "changesets": [
+    "cold-carpets-fly",
     "fluffy-toes-bake",
     "loose-carpets-act",
     "neat-parks-turn",
@@ -21,6 +22,7 @@
     "new-cases-fold",
     "nine-kings-know",
     "ninety-lands-decide",
+    "old-rats-find",
     "rude-tigers-sleep",
     "tasty-toes-beg",
     "thick-lamps-go",
