@@ -22,7 +22,7 @@ async function downloadFiles(
 
 		// Download files using scp
 		await execute(
-			`scp -r -p -O -P ${ssh.port} "${ssh.username}@${ssh.host}:${remotePath}" "${localPath}"`,
+			`scp -r -p -O -P -o "StrictHostKeyChecking no" ${ssh.port} "${ssh.username}@${ssh.host}:${remotePath}" "${localPath}"`,
 		);
 	} catch (error) {
 		console.log(`Failed to download ${remotePath}`);
