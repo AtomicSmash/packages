@@ -61,7 +61,8 @@ export async function handler() {
 							}),
 						(async () => {
 							if (
-								existsSync(resolve(process.cwd(), "herd.yml")) &&
+								(existsSync(resolve(process.cwd(), "herd.yaml")) ||
+									existsSync(resolve(process.cwd(), "herd.yml"))) &&
 								(await execute(`herd --version`)
 									.then(() => true)
 									.catch(() => false))
