@@ -6,8 +6,9 @@ export type SCSSAliases = {
 };
 
 export type SmashConfig = {
-	themeName: string;
+	projectName: string;
 	themePath: string;
+	themeFolderName?: string;
 	assetsOutputFolder?: string;
 	npmInstallPaths?: string[];
 	composerInstallPaths?: string[];

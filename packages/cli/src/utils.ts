@@ -138,6 +138,7 @@ export async function getSmashConfig() {
 			if (isValidSmashConfig(config)) {
 				return {
 					scssAliases: getDefaultSCSSAliases(config.themePath),
+					themeFolderName: config.projectName,
 					...config,
 					// Normalize and resolve paths to cwd.
 					npmInstallPaths:
@@ -181,8 +182,9 @@ export async function getSmashConfig() {
 				"Using env vars for theme name and path is deprecated and will be removed in a future version. Create a smash.config.ts file with the relevant properties in it instead.",
 			);
 			const defaultConfig: Required<SmashConfig> = {
-				themeName,
+				projectName: themeName,
 				themePath,
+				themeFolderName: themeName,
 				assetsOutputFolder: "dist",
 				npmInstallPaths: [],
 				composerInstallPaths: [],

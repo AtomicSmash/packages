@@ -28,7 +28,7 @@ export async function handler() {
 			"Unable to determine project setup information. Please add a smash.config.ts file with the required info.",
 		);
 	} else {
-		const { themeName, composerInstallPaths, npmInstallPaths } = smashConfig;
+		const { projectName, composerInstallPaths, npmInstallPaths } = smashConfig;
 		const stopRunningMessage = startRunningMessage("Running setup");
 		performance.mark("Start");
 		await Promise.allSettled([
@@ -83,7 +83,7 @@ export async function handler() {
 									.then(() => true)
 									.catch(() => false)
 							) {
-								await execute(`valet link ${themeName} --secure --isolate`)
+								await execute(`valet link ${projectName} --secure --isolate`)
 									.then(() => {
 										console.log(
 											`Valet is linked, secured and isolated. (${convertMeasureToPrettyString(
