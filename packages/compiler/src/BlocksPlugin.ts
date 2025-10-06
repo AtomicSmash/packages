@@ -156,14 +156,16 @@ export class BlocksPlugin implements WebpackPluginInstance {
 							blocksManifest[blockName] = newBlockJson;
 						});
 				}
-				const phpContent = `<?php
-// This file is generated. Do not modify it manually.
-return ${printer(blocksManifest)};
-`;
-				await writeFile(
-					`${compilation.outputOptions.path}${pathSeparator}blocks${pathSeparator}blocks-manifest.php`,
-					phpContent,
-				);
+				if (Object.keys(blocksManifest).length > 0) {
+					const phpContent = `<?php
+	// This file is generated. Do not modify it manually.
+	return ${printer(blocksManifest)};
+	`;
+					await writeFile(
+						`${compilation.outputOptions.path}${pathSeparator}blocks${pathSeparator}blocks-manifest.php`,
+						phpContent,
+					);
+				}
 				await writeFile(
 					`${compilation.outputOptions.path}${pathSeparator}wordpress-assets-info.php`,
 					`<?php return ${json2php(wordpressAssets)};\n`,

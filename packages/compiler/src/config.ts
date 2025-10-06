@@ -43,10 +43,6 @@ export async function config(options: {
 	 */
 	analyse?: boolean | undefined;
 	/**
-	 * Enable experimental support for WordPress blocks compilation.
-	 */
-	experimentalBlocksSupport?: boolean | undefined;
-	/**
 	 * A comma separated list of the folder names of blocks to exclude from compilation. Requires experimental blocks support.
 	 */
 	excludeBlocks?: string[] | undefined;
@@ -55,7 +51,6 @@ export async function config(options: {
 	const argv = {
 		watch: false,
 		analyse: false,
-		experimentalBlocksSupport: false,
 		excludeBlocks: ["__TEMPLATE__"],
 		...options,
 	};
@@ -134,7 +129,7 @@ export async function config(options: {
 			},
 			exclude: (file) => {
 				// Exclude all block.json.ts files (handled by a separate loader).
-				if (argv.experimentalBlocksSupport && file.includes("block.json")) {
+				if (file.includes("block.json")) {
 					return true;
 				}
 				// Exclude node_modules files from transpilation unless they are vue files and the vue-loader is present
@@ -160,9 +155,8 @@ export async function config(options: {
 		mode: MODE,
 		entry: await glob(
 			[
-				...(argv.experimentalBlocksSupport
-					? [`${srcFolder}/blocks/**/block.json.ts`]
-					: []),
+				// Parse all block json typescript files in the blocks folder.
+				`${srcFolder}/blocks/**/block.json.ts`,
 				// Parse all direct children of the JS folder, as long as they are JS & TS files
 				`${srcFolder}/scripts/*.{js,ts,jsx,tsx}`,
 				// Parse all direct children of the CSS folder, as long as they are CSS files
@@ -171,17 +165,16 @@ export async function config(options: {
 				`${srcFolder}/styles/**/[^_]*.s[ac]ss`,
 			],
 			{
-				ignore: argv.experimentalBlocksSupport
-					? argv.excludeBlocks.map(
-							(blockName) =>
-								`${srcFolder}/blocks/**/${blockName}/block.json.ts`,
-						)
-					: [],
+				ignore: argv.excludeBlocks.map(
+					(blockName) => `${srcFolder}/blocks/**/${blockName}/block.json.ts`,
+				),
 			},
 		).then(async (paths) => {
-			const { restOfPaths, entryPoints } = argv.experimentalBlocksSupport
-				? await getBlocksAssetsEntryPoints(paths, {}, srcFolder)
-				: { restOfPaths: paths, entryPoints: {} };
+			const { restOfPaths, entryPoints } = await getBlocksAssetsEntryPoints(
+				paths,
+				{},
+				srcFolder,
+			);
 
 			restOfPaths.forEach((path) => {
 				const entryName = path.replace(srcFolder, "");
@@ -234,21 +227,17 @@ export async function config(options: {
 					resourceQuery: (value) => !value.includes("vue"),
 					...getEsBuildLoaderSetup("default"),
 				},
-				...(argv.experimentalBlocksSupport
-					? [
-							{
-								test: /block\.json\.ts$/,
-								type: "asset/resource",
-								generator: {
-									filename: (pathData: PathData) =>
-										relative(srcFolder, pathData.filename ?? "").slice(0, -3),
-								},
-								use: {
-									loader: resolvePath(import.meta.dirname, "./BlocksLoader.js"),
-								},
-							},
-						]
-					: []),
+				{
+					test: /block\.json\.ts$/,
+					type: "asset/resource",
+					generator: {
+						filename: (pathData: PathData) =>
+							relative(srcFolder, pathData.filename ?? "").slice(0, -3),
+					},
+					use: {
+						loader: resolvePath(import.meta.dirname, "./BlocksLoader.js"),
+					},
+				},
 				// Transpile SCSS files and run the result through postcss
 				{
 					test: /\.s[ac]ss$/i,
@@ -356,7 +345,7 @@ export async function config(options: {
 		},
 		plugins: [
 			// Output progress information when compiling
-			new webpack.ProgressPlugin(),
+			// new webpack.ProgressPlugin(),
 			// Generate a manifest file of assets to make it possible to target fingerprinted files
 			new WebpackAssetsManifest({
 				writeToDisk: true,
@@ -424,19 +413,12 @@ export async function config(options: {
 			new DependencyExtractionWebpackPlugin({
 				combineAssets: true,
 				// Blocks plugin converts this to php, but it must be output as json here.
-				...(argv.experimentalBlocksSupport
-					? {
-							outputFormat: "json",
-							combinedOutputFile: "wordpress-assets-info.json",
-						}
-					: {
-							outputFormat: "php",
-							combinedOutputFile: "wordpress-assets-info.php",
-						}),
+				outputFormat: "json",
+				combinedOutputFile: "wordpress-assets-info.json",
 			}),
 			// Support Vue files if vue-loader is present
 			...vueConfig.plugin,
-			...(argv.experimentalBlocksSupport ? [new BlocksPlugin(srcFolder)] : []),
+			new BlocksPlugin(srcFolder),
 			new webpack.DefinePlugin({ ...vueConfig.globals }),
 		],
 		optimization: {
