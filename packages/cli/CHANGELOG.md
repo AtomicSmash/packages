@@ -1,5 +1,15 @@
 # @atomicsmash/cli
 
+## 9.0.0-beta.6
+
+### Minor Changes
+
+- [#418](https://github.com/AtomicSmash/packages/pull/418) [`cbc29c9`](https://github.com/AtomicSmash/packages/commit/cbc29c9c6972e41126d6ef6503553d61e48c60d9) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Deprecate cli package blocks command
+
+### Patch Changes
+
+- [#414](https://github.com/AtomicSmash/packages/pull/414) [`082a6e5`](https://github.com/AtomicSmash/packages/commit/082a6e560bca9a7f053428f2946c2200e5e0abb4) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Better handle projects with fixed theme names
+
 ## 9.0.0-beta.5
 
 ### Major Changes
