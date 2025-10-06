@@ -199,8 +199,8 @@ function isValidSmashConfig(config: unknown): config is SmashConfig {
 	return (
 		typeof config === "object" &&
 		config !== null &&
-		"themeName" in config &&
-		typeof config.themeName === "string" &&
+		"projectName" in config &&
+		typeof config.projectName === "string" &&
 		"themePath" in config &&
 		typeof config.themePath === "string"
 	);
