@@ -19,6 +19,7 @@ export async function handler() {
 	const stagingSSHUsername = process.env.STAGING_SSH_USERNAME;
 	const stagingSSHHost = process.env.STAGING_SSH_HOST;
 	const stagingSSHPort = process.env.STAGING_SSH_PORT;
+	const stagingDBPrefix = process.env.STAGING_DB_PREFIX ?? "wp_";
 	const stagingUrl = process.env.STAGING_URL?.endsWith("/")
 		? process.env.STAGING_URL.slice(0, -1)
 		: process.env.STAGING_URL;
@@ -42,9 +43,46 @@ export async function handler() {
 		performance.mark("Start");
 		await (async () => {
 			const tmpFile = "/tmp/staging-database.sql";
+			const dbPrefixFile = "/tmp/db-prefix.txt";
 			const tmpFileProcessed = "/tmp/staging-database.processed.sql";
+			const tablesToExclude = [
+				// WordFence
+				"wfauditevents",
+				"wfblockediplog",
+				"wfblocks7",
+				"wfconfig",
+				"wfcrawlers",
+				"wffilemods",
+				"wfhits",
+				"wfhoover",
+				"wfissues",
+				"wfknownfilelist",
+				"wflivetraffichuman",
+				"wflocs",
+				"wflogins",
+				"wfls_2fa_secrets",
+				"wfls_role_counts",
+				"wfls_settings",
+				"wfnotifications",
+				"wfpendingissues",
+				"wfreversecache",
+				"wfsecurityevents",
+				"wfsnipcache",
+				"wfstatus",
+				"wftrafficrates",
+				"wfwaffailures",
+				// WP All Import/Export
+				"pmxi_files",
+				"pmxi_geocoding",
+				"pmxi_hash",
+				"pmxi_history",
+				"pmxi_images",
+				"pmxi_imports",
+				"pmxi_posts",
+				"pmxi_templates",
+			].map((tableName) => stagingDBPrefix + tableName);
 			await execute(
-				`ssh -o "StrictHostKeyChecking no" ${stagingSSHUsername}@${stagingSSHHost} -p ${stagingSSHPort} "cd public/current && wp db export - --add-drop-table" > ${tmpFile}`,
+				`ssh -o "StrictHostKeyChecking no" ${stagingSSHUsername}@${stagingSSHHost} -p ${stagingSSHPort} "cd public/current && wp db export - --add-drop-table --exclude_tables=${tablesToExclude.join(",")}" > ${tmpFile}`,
 			)
 				.then(async () => {
 					await stopRunningMessage();
@@ -96,6 +134,7 @@ export async function handler() {
 					const stopRunningMessage4 = startRunningMessage("Cleaning up");
 					await Promise.allSettled([
 						deleteFile(tmpFile),
+						deleteFile(dbPrefixFile),
 						deleteFile(tmpFileProcessed),
 					]).then(async () => {
 						await stopRunningMessage4();
@@ -116,6 +155,7 @@ export async function handler() {
 
 					const cleanupResults = await Promise.allSettled([
 						deleteFile(tmpFile),
+						deleteFile(dbPrefixFile),
 						deleteFile(tmpFileProcessed),
 					]);
 
