@@ -1,6 +1,11 @@
 import { exec } from "node:child_process";
 import { existsSync } from "node:fs";
-import { constants, copyFile } from "node:fs/promises";
+import {
+	constants,
+	copyFile,
+	unlink as deleteFile,
+	mkdir,
+} from "node:fs/promises";
 import { resolve } from "node:path";
 import { performance } from "node:perf_hooks";
 import { promisify } from "node:util";
@@ -35,30 +40,56 @@ export async function handler() {
 			...(shouldInstallAndBuildOnly
 				? []
 				: [
-						copyFile(".env.example", ".env", constants.COPYFILE_EXCL)
-							.then(() => {
-								console.log(
-									`.env.example file copied to .env. (${convertMeasureToPrettyString(
-										performance.measure("Copy env file", "Start"),
-									)})`,
-								);
-							})
-							.catch((error) => {
-								if (
-									error instanceof Error &&
-									"code" in error &&
-									error.code === "EEXIST"
-								) {
+						(async () => {
+							if (existsSync(".env.example")) {
+								if (existsSync(".config/environments/.env.dev")) {
+									throw new Error(
+										"Both .env.example and .config/environments/.env.dev files found. Please copy values from the .env.example to the .config/environments/.env.dev file and then delete the .env.example file.",
+									);
+								} else {
 									console.log(
-										`Didn't copy .env file because one already exists. (${convertMeasureToPrettyString(
+										"Moving .env.example to .config/environments/.env.dev",
+									);
+									if (!existsSync(".config/environments")) {
+										await mkdir(".config/environments", { recursive: true });
+									}
+									await copyFile(
+										".env.example",
+										".config/environments/.env.dev",
+										constants.COPYFILE_EXCL,
+									);
+									await deleteFile(".env.example");
+								}
+							}
+							await copyFile(
+								".config/environments/.env.dev",
+								".env",
+								constants.COPYFILE_EXCL,
+							)
+								.then(() => {
+									console.log(
+										`.config/environments/.env.dev file copied to .env. (${convertMeasureToPrettyString(
 											performance.measure("Copy env file", "Start"),
 										)})`,
 									);
-									return;
-								}
-								console.error(error);
-								throw new Error("Failed to copy .env file.");
-							}),
+								})
+								.catch((error) => {
+									if (
+										error instanceof Error &&
+										"code" in error &&
+										error.code === "EEXIST"
+									) {
+										console.log(
+											`Didn't copy .env file because one already exists. (${convertMeasureToPrettyString(
+												performance.measure("Copy env file", "Start"),
+											)})`,
+										);
+										return;
+									}
+									console.error(error);
+									throw new Error("Failed to copy .env file.");
+								});
+						})(),
 						(async () => {
 							if (
 								await execute(`herd --version`)
