@@ -61,12 +61,18 @@ export async function handler() {
 							}),
 						(async () => {
 							if (
-								(existsSync(resolve(process.cwd(), "herd.yaml")) ||
-									existsSync(resolve(process.cwd(), "herd.yml"))) &&
-								(await execute(`herd --version`)
+								await execute(`herd --version`)
 									.then(() => true)
-									.catch(() => false))
+									.catch(() => false)
 							) {
+								if (
+									!existsSync(resolve(process.cwd(), "herd.yaml")) &&
+									!existsSync(resolve(process.cwd(), "herd.yml"))
+								) {
+									throw new Error(
+										"Herd is present on your machine, but the project is missing a herd.yaml file. Please do the initial setup by running herd init.",
+									);
+								}
 								await execute(`herd init`)
 									.then(() => {
 										console.log(
@@ -97,8 +103,8 @@ export async function handler() {
 										throw new Error("Failed to link the site using valet.");
 									});
 							} else {
-								console.log(
-									`Neither Herd nor Valet is available. Site has not been linked.`,
+								throw new Error(
+									`Neither Herd nor Valet is present on your machine, check everything is installed correctly.`,
 								);
 							}
 						})(),
