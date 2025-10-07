@@ -1,5 +1,11 @@
 # @atomicsmash/cli
 
+## 9.0.0-beta.10
+
+### Patch Changes
+
+- [#426](https://github.com/AtomicSmash/packages/pull/426) [`5871057`](https://github.com/AtomicSmash/packages/commit/5871057c21bbb52ec9ac2c4151a7f15595a1216e) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Migrate .env.example files to .config/environments/.env.dev
+
 ## 9.0.0-beta.9
 
 ### Patch Changes
