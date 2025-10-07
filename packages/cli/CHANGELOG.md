@@ -1,5 +1,13 @@
 # @atomicsmash/cli
 
+## 9.0.0-beta.9
+
+### Patch Changes
+
+- [#424](https://github.com/AtomicSmash/packages/pull/424) [`c3a911d`](https://github.com/AtomicSmash/packages/commit/c3a911da72c4688ffcce91199bdc988960716cf5) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Add missing deps
+
+- [#424](https://github.com/AtomicSmash/packages/pull/424) [`c0eb710`](https://github.com/AtomicSmash/packages/commit/c0eb71018646524f66e3054ecb2fcca686d8e041) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Add missing herd.yaml message
+
 ## 9.0.0-beta.8
 
 ### Patch Changes
