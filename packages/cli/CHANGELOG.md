@@ -1,5 +1,13 @@
 # @atomicsmash/cli
 
+## 9.0.0-beta.11
+
+### Patch Changes
+
+- [#428](https://github.com/AtomicSmash/packages/pull/428) [`6cc9e82`](https://github.com/AtomicSmash/packages/commit/6cc9e823e64caca45ca20d6a258319a63960bb1e) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Exclude tables from db import
+
+- [#428](https://github.com/AtomicSmash/packages/pull/428) [`6fac42d`](https://github.com/AtomicSmash/packages/commit/6fac42df68d6fcc026e5ab5e7eae28b4ccb2e20e) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Fix port bug in pull media
+
 ## 9.0.0-beta.10
 
 ### Patch Changes
