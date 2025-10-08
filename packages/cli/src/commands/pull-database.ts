@@ -20,6 +20,7 @@ export async function handler() {
 	const stagingSSHHost = process.env.STAGING_SSH_HOST;
 	const stagingSSHPort = process.env.STAGING_SSH_PORT;
 	const stagingDBPrefix = process.env.STAGING_DB_PREFIX ?? "wp_";
+	const stagingWebRoot = process.env.STAGING_WEB_ROOT ?? "public/current";
 	const stagingUrl = process.env.STAGING_URL?.endsWith("/")
 		? process.env.STAGING_URL.slice(0, -1)
 		: process.env.STAGING_URL;
@@ -82,7 +83,7 @@ export async function handler() {
 				"pmxi_templates",
 			].map((tableName) => stagingDBPrefix + tableName);
 			await execute(
-				`ssh -o "StrictHostKeyChecking no" ${stagingSSHUsername}@${stagingSSHHost} -p ${stagingSSHPort} "cd public/current && wp db export - --add-drop-table --exclude_tables=${tablesToExclude.join(",")}" > ${tmpFile}`,
+				`ssh -o "StrictHostKeyChecking no" ${stagingSSHUsername}@${stagingSSHHost} -p ${stagingSSHPort} "${stagingWebRoot !== "" ? `cd ${stagingWebRoot} && ` : ""}wp db export - --add-drop-table --exclude_tables=${tablesToExclude.join(",")}" > ${tmpFile}`,
 			)
 				.then(async () => {
 					await stopRunningMessage();
