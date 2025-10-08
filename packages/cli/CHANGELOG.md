@@ -1,5 +1,11 @@
 # @atomicsmash/cli
 
+## 9.0.0-beta.12
+
+### Patch Changes
+
+- [#430](https://github.com/AtomicSmash/packages/pull/430) [`40051f4`](https://github.com/AtomicSmash/packages/commit/40051f4ddd89311f08d4db3de6fc22a03c202b7a) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Support non-capistrano web roots for pull database
+
 ## 9.0.0-beta.11
 
 ### Patch Changes
