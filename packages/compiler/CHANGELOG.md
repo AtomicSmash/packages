@@ -1,5 +1,11 @@
 # @atomicsmash/compiler
 
+## 2.0.0-beta.5
+
+### Major Changes
+
+- [#432](https://github.com/AtomicSmash/packages/pull/432) [`7dcb0ae`](https://github.com/AtomicSmash/packages/commit/7dcb0ae9b8cc0019f589950b19f2d52fd4d5d655) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Add content hash to svg sprite filename for cache busting.
+
 ## 2.0.0-beta.4
 
 ### Minor Changes
