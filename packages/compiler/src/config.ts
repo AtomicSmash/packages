@@ -359,10 +359,13 @@ export async function config(options: {
 						entry.key === "wordpress-assets-info.php" ||
 						entry.key.endsWith(".map") ||
 						entry.key.startsWith("fonts") ||
-						entry.key.startsWith("images") ||
-						entry.key === "spritemap.svg"
+						entry.key.startsWith("images")
 					) {
 						return false;
+					}
+					if (entry.key === "spritemap.svg") {
+						entry.key = "icons/sprite.svg";
+						return entry;
 					}
 					if (entry.key.startsWith("/")) {
 						entry.key = entry.key.slice(1);
@@ -381,7 +384,7 @@ export async function config(options: {
 			...((await glob(`${srcFolder}/icons/*.svg`)).length
 				? [
 						new SVGSpritemapPlugin(`${srcFolder}/icons/*.svg`, {
-							output: { filename: "icons/sprite.svg" },
+							output: { filename: "icons/sprite.[contenthash].svg" },
 							sprite: { prefix: "", generate: { title: false } },
 						}),
 					]
