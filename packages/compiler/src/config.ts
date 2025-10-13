@@ -229,6 +229,35 @@ export async function config(options: {
 				},
 				{
 					test: /block\.json\.ts$/,
+					oneOf: [
+						{
+							issuer: [
+								(issuer) => {
+									// Return JSON for all imports in other files, but exclude entry points for which we emit json files.
+									return !!issuer;
+								},
+							],
+							use: [
+								"json-loader",
+								{
+									loader: resolvePath(import.meta.dirname, "./BlocksLoader.js"),
+								},
+							],
+						},
+						{
+							type: "asset/resource",
+							generator: {
+								filename: (pathData: PathData) =>
+									relative(srcFolder, pathData.filename ?? "").slice(0, -3),
+							},
+							use: {
+								loader: resolvePath(import.meta.dirname, "./BlocksLoader.js"),
+							},
+						},
+					],
+				},
+				{
+					test: /block\.json\.ts$/,
 					type: "asset/resource",
 					generator: {
 						filename: (pathData: PathData) =>
