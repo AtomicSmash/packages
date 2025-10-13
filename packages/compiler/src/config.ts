@@ -256,17 +256,6 @@ export async function config(options: {
 						},
 					],
 				},
-				{
-					test: /block\.json\.ts$/,
-					type: "asset/resource",
-					generator: {
-						filename: (pathData: PathData) =>
-							relative(srcFolder, pathData.filename ?? "").slice(0, -3),
-					},
-					use: {
-						loader: resolvePath(import.meta.dirname, "./BlocksLoader.js"),
-					},
-				},
 				// Transpile SCSS files and run the result through postcss
 				{
 					test: /\.s[ac]ss$/i,
