@@ -1,5 +1,11 @@
 # @atomicsmash/compiler
 
+## 2.0.0-beta.7
+
+### Patch Changes
+
+- [#437](https://github.com/AtomicSmash/packages/pull/437) [`8ea4008`](https://github.com/AtomicSmash/packages/commit/8ea4008e35406445da1ee31a1291f73f18fef534) Thanks [@mikeybinns](https://github.com/mikeybinns)! - remove duplicate of block json loader
+
 ## 2.0.0-beta.6
 
 ### Patch Changes
