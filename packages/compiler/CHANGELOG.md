@@ -1,5 +1,11 @@
 # @atomicsmash/compiler
 
+## 2.0.0-beta.6
+
+### Patch Changes
+
+- [#435](https://github.com/AtomicSmash/packages/pull/435) [`86dfc99`](https://github.com/AtomicSmash/packages/commit/86dfc991a54280bbfb5030821bef1f1f82100c3e) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Import of block json returns json while still outputting file to directory
+
 ## 2.0.0-beta.5
 
 ### Major Changes
