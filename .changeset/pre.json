@@ -14,6 +14,7 @@
     "@atomicsmash/wordpress-tests-helper": "1.1.0"
   },
   "changesets": [
+    "better-insects-mix",
     "chubby-turkeys-trade",
     "cold-carpets-fly",
     "cool-jokes-tease",
@@ -31,6 +32,7 @@
     "orange-mails-smile",
     "quiet-donkeys-knock",
     "rude-tigers-sleep",
+    "smart-snails-float",
     "tasty-toes-beg",
     "thick-lamps-go",
     "tiny-goats-look",

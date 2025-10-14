@@ -1,5 +1,15 @@
 # @atomicsmash/compiler
 
+## 2.0.0-beta.8
+
+### Minor Changes
+
+- [#439](https://github.com/AtomicSmash/packages/pull/439) [`1e6f4d8`](https://github.com/AtomicSmash/packages/commit/1e6f4d8becc7339ba8c53427ea3676e85d4c246e) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Improve watch mode terminal output
+
+### Patch Changes
+
+- [#439](https://github.com/AtomicSmash/packages/pull/439) [`cd3e78d`](https://github.com/AtomicSmash/packages/commit/cd3e78d1323ee3469c35833bf627c31d45b9cd48) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Update asset filenames on dev/watch rebuilds
+
 ## 2.0.0-beta.7
 
 ### Patch Changes
