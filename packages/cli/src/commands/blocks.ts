@@ -1,4 +1,5 @@
-import type { SCSSAliases, YargsInstance } from "../index.js";
+import type { YargsInstance } from "../cli.js";
+import type { SCSSAliases } from "../index.js";
 import type { BlockMetaData } from "@atomicsmash/blocks-helpers";
 import type { ObjectPattern } from "copy-webpack-plugin";
 import type { AcceptedPlugin } from "postcss";
@@ -29,25 +30,25 @@ import { TsconfigPathsPlugin } from "tsconfig-paths-webpack-plugin";
 import { tsImport } from "tsx/esm/api";
 import webpack from "webpack";
 import defaultConfig from "../external/wordpress.webpack.config.cjs";
-import { toCamelCase } from "../utils.js";
+import { getSmashConfig, startRunningMessage, toCamelCase } from "../utils.js";
 
 const isProduction = process.env.NODE_ENV === "production";
 
 export const command = "blocks";
 export const describe =
 	"A command to generate WordPress blocks from a src folder.";
+export const deprecated =
+	"Please migrate to using the @atomicsmash/compiler package. This command will be removed in the next major version.";
 export const builder = function (yargs: YargsInstance) {
 	return yargs
 		.options({
 			in: {
-				demandOption: true,
 				string: true,
 				normalize: true,
 				description:
 					"The directory where the WP blocks can be found. Relative to cwd.",
 			},
 			out: {
-				demandOption: true,
 				string: true,
 				normalize: true,
 				description:
@@ -106,8 +107,28 @@ export const builder = function (yargs: YargsInstance) {
 export async function handler(
 	args: ArgumentsCamelCase<Awaited<ReturnType<typeof builder>["argv"]>>,
 ) {
-	const srcFolder = resolvePath(args.in);
-	const distFolder = resolvePath(args.out);
+	const smashConfig = await getSmashConfig();
+	const srcFolder = args.in
+		? resolvePath(args.in)
+		: smashConfig?.themePath
+			? resolvePath(join(smashConfig?.themePath, "src", "blocks"))
+			: null;
+	const distFolder = args.out
+		? resolvePath(args.out)
+		: smashConfig?.themePath
+			? resolvePath(
+					join(
+						smashConfig?.themePath,
+						smashConfig.assetsOutputFolder,
+						"blocks",
+					),
+				)
+			: null;
+	if (!srcFolder || !distFolder) {
+		throw new Error(
+			"Failed to get the in or out folders for the blocks. Please add a smash.config.ts file to your project with a themeName and a themePath.",
+		);
+	}
 
 	const tsConfigLocation = args.tsConfigPath ?? srcFolder;
 	const postcssConfigLocation = args.postcssConfigPath ?? srcFolder;
@@ -214,6 +235,7 @@ async function runCommand({
 	});
 
 	if (isWatch) {
+		console.log("The blocks command is now deprecated. " + deprecated);
 		const watching = compiler.watch(
 			{
 				// Example
@@ -240,11 +262,14 @@ async function runCommand({
 		);
 		process.on("SIGINT", function () {
 			watching.close((closeError) => {
+				console.log("The blocks command is now deprecated. " + deprecated);
 				console.error(closeError);
 			});
 		});
 	} else {
-		compiler.run((error, stats) => {
+		const stopRunningMessage = startRunningMessage("Building blocks");
+		compiler.run(async (error, stats) => {
+			await stopRunningMessage();
 			if (error) {
 				console.error(error);
 				process.exitCode = 1;
@@ -264,6 +289,7 @@ async function runCommand({
 			}
 
 			compiler.close((closeError) => {
+				console.log("The blocks command is now deprecated. " + deprecated);
 				if (closeError) {
 					process.exitCode = 1;
 				}
@@ -429,6 +455,12 @@ export function getBlockJsonStyleFields(blockJson: BlockJson) {
 }
 
 async function getSassOptions(srcFolder: string) {
+	const smashConfig = await getSmashConfig();
+	if (smashConfig) {
+		return smashConfig.scssAliases;
+	}
+
+	// Legacy fallback.
 	const explorer = cosmiconfig("scssAliases");
 	const config = await explorer
 		.load(resolvePath(process.cwd(), "scssAliases.config.ts"))

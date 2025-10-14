@@ -119,7 +119,9 @@ describe("Compiler tests", () => {
 
 	test("Test icons", () => {
 		expect(
-			existsSync(resolve(import.meta.dirname, "dist/icons/sprite.svg")),
+			existsSync(
+				resolve(import.meta.dirname, `dist/${manifest["icons/sprite.svg"]}`),
+			),
 		).toBe(true);
 	});
 

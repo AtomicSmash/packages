@@ -63,7 +63,7 @@ describe.sequential("Init testing utils", () => {
 			};
 		},
 		// Long timeout due to npm install command.
-		20000,
+		30000,
 	);
 	afterEach(() => {
 		consoleSpy.mockReset();

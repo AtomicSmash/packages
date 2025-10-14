@@ -1,5 +1,6 @@
 import type { BlockJson } from "./utils.js";
 import type { Compiler, WebpackPluginInstance } from "webpack";
+import { existsSync } from "node:fs";
 import { readFile, writeFile, unlink as deleteFile } from "node:fs/promises";
 import { extname, resolve, relative, sep as pathSeparator } from "node:path";
 import glob from "fast-glob";
@@ -23,7 +24,7 @@ export class BlocksPlugin implements WebpackPluginInstance {
 		compiler.hooks.thisCompilation.tap(this.pluginName, (compilation) => {
 			compilation.hooks.processAssets.tapPromise(
 				{
-					name: "CustomBlocksCSSHandler",
+					name: "CopyPHPFiles",
 					stage: Compilation.PROCESS_ASSETS_STAGE_ADDITIONAL,
 				},
 				async (assets) => {
@@ -107,9 +108,11 @@ export class BlocksPlugin implements WebpackPluginInstance {
 											newValues.push(srcFilePath);
 											continue;
 										}
-										const fileName = srcFilePath
+										const [fileName, contentHash] = srcFilePath
 											.replace("file:./", "")
-											.replace(extname(srcFilePath), "");
+											.replace(extname(srcFilePath), "")
+											.split(".");
+
 										const hashedAsset = Object.keys(compilation.assets).find(
 											(asset) => {
 												return (
@@ -119,7 +122,10 @@ export class BlocksPlugin implements WebpackPluginInstance {
 												);
 											},
 										);
-										if (hashedAsset) {
+										if (
+											hashedAsset &&
+											(!contentHash || !hashedAsset.includes(contentHash))
+										) {
 											if (hashedAsset in wordpressAssets) {
 												await writeFile(
 													`${compilation.outputOptions.path}${pathSeparator}${hashedAsset.replace(
@@ -131,6 +137,10 @@ export class BlocksPlugin implements WebpackPluginInstance {
 													)};\n`,
 													"utf-8",
 												);
+											}
+											const oldAssetFileLocation = `${compilation.outputOptions.path}${pathSeparator}${blockName}${pathSeparator}${fileName}.${contentHash}.asset.php`;
+											if (contentHash && existsSync(oldAssetFileLocation)) {
+												await deleteFile(oldAssetFileLocation);
 											}
 											newValues.push(
 												`file:./${hashedAsset.replace(`${blockName}${pathSeparator}`, "")}`,
@@ -156,14 +166,16 @@ export class BlocksPlugin implements WebpackPluginInstance {
 							blocksManifest[blockName] = newBlockJson;
 						});
 				}
-				const phpContent = `<?php
-// This file is generated. Do not modify it manually.
-return ${printer(blocksManifest)};
-`;
-				await writeFile(
-					`${compilation.outputOptions.path}${pathSeparator}blocks${pathSeparator}blocks-manifest.php`,
-					phpContent,
-				);
+				if (Object.keys(blocksManifest).length > 0) {
+					const phpContent = `<?php
+	// This file is generated. Do not modify it manually.
+	return ${printer(blocksManifest)};
+	`;
+					await writeFile(
+						`${compilation.outputOptions.path}${pathSeparator}blocks${pathSeparator}blocks-manifest.php`,
+						phpContent,
+					);
+				}
 				await writeFile(
 					`${compilation.outputOptions.path}${pathSeparator}wordpress-assets-info.php`,
 					`<?php return ${json2php(wordpressAssets)};\n`,

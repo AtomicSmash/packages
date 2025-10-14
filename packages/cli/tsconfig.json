@@ -3,11 +3,8 @@
 	"include": ["src/**/*", "test-setup.ts"],
 	"exclude": ["dist", "node_modules"],
 	"compilerOptions": {
-		"target": "esnext",
-		"moduleResolution": "NodeNext",
-		"module": "NodeNext",
-		"sourceMap": true,
-		"noEmit": true
+		"rootDir": "src",
+		"outDir": "dist"
 	},
 	"references": [{ "path": "../date-php" }, { "path": "../blocks-helpers" }]
 }

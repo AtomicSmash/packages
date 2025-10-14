@@ -11,8 +11,8 @@ export async function getBlocksAssetsEntryPoints(
 ) {
 	const restOfPaths: string[] = [];
 	for (const path of paths) {
+		restOfPaths.push(path);
 		if (!path.endsWith("block.json.ts")) {
-			restOfPaths.push(path);
 			continue;
 		}
 		const blockJson = await tsImport(path, import.meta.url).then(
