@@ -1,5 +1,7 @@
 # @atomicsmash/eslint-config
 
+## 16.0.0-beta.0
+
 ## 15.0.0
 
 ### Minor Changes

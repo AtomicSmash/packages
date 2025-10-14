@@ -1,5 +1,11 @@
 # @atomicsmash/browserslist-config
 
+## 16.0.0-beta.0
+
+### Major Changes
+
+- [#441](https://github.com/AtomicSmash/packages/pull/441) [`79639f3`](https://github.com/AtomicSmash/packages/commit/79639f3f019487297d39b8debe0b88292e143474) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Remove support for older chrome to support import attributes
+
 ## 15.0.0
 
 ### Patch Changes
