@@ -1,6 +1,5 @@
 #!/usr/bin/env node
-// import type { Configuration } from "webpack";
-// import { cosmiconfig } from "cosmiconfig";
+import { DatePHP } from "@atomicsmash/date-php";
 import webpack from "webpack";
 import yargs from "yargs";
 import { hideBin } from "yargs/helpers";
@@ -61,6 +60,8 @@ const { experimentalBlocksSupport, ...compilerOptions } = argv;
 const compiler = webpack(await defaultConfig({ ...compilerOptions }));
 
 if (argv.watch) {
+	let i = 0;
+	console.log("Starting dev compiler.");
 	const watching = compiler.watch(
 		{
 			// Example
@@ -74,7 +75,7 @@ if (argv.watch) {
 				watching.close((closeError) => {
 					console.error(closeError);
 				});
-			} else if (stats) {
+			} else if (stats && i > 0) {
 				const info = stats.toJson();
 				if (stats.hasErrors()) {
 					const errors = info.errors!;
@@ -90,7 +91,19 @@ if (argv.watch) {
 						console.warn(warning.message);
 					}
 				}
+				if (i === 1) {
+					console.log("Started watching files.");
+				} else if (!stats.hasErrors() && !stats.hasWarnings()) {
+					console.log(
+						`Recompiled successfully at ${new DatePHP().format("jS F Y \\a\\t H:i:s")}`,
+					);
+				} else {
+					console.log(
+						`Recompiled with errors at ${new DatePHP().format("jS F Y \\a\\t H:i:s")}`,
+					);
+				}
 			}
+			i++;
 		},
 	);
 	process.on("SIGINT", function () {
