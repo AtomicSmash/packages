@@ -66,3 +66,5 @@ jobs:
           version: npm run version
           publish: npm run release
           setupGitUser: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
