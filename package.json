@@ -34,7 +34,7 @@
 		"test:coverage": "cross-env TZ=\"Europe/Istanbul\" vitest run --coverage",
 		"lint": "run-p lint:*",
 		"lint:eslint": "eslint . --cache --cache-location ./node_modules/.cache/eslint --ext .js,.ts,.jsx,.tsx,.mts,.cts",
-		"lint:types": "tsc",
+		"lint:types": "tsc --build --emitDeclarationOnly",
 		"format": "run-p format:*",
 		"format:prettier": "prettier . --write",
 		"version": "changeset version && npm install",
