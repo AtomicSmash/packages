@@ -233,7 +233,9 @@ async function runCommand({
 		mode: isProduction ? "production" : "development",
 		node: { global: false },
 	});
-
+	if (!compiler) {
+		throw new Error("Failed to initialise compiler.");
+	}
 	if (isWatch) {
 		console.log("The blocks command is now deprecated. " + deprecated);
 		const watching = compiler.watch(
@@ -246,7 +248,7 @@ async function runCommand({
 				if (error) {
 					console.error(error.stack ?? error);
 					process.exitCode = 1;
-					watching.close((closeError) => {
+					watching?.close((closeError) => {
 						console.error(closeError);
 					});
 				} else if (stats) {
@@ -261,15 +263,15 @@ async function runCommand({
 			},
 		);
 		process.on("SIGINT", function () {
-			watching.close((closeError) => {
+			watching?.close((closeError) => {
 				console.log("The blocks command is now deprecated. " + deprecated);
 				console.error(closeError);
 			});
 		});
 	} else {
 		const stopRunningMessage = startRunningMessage("Building blocks");
-		compiler.run(async (error, stats) => {
-			await stopRunningMessage();
+		compiler.run((error, stats) => {
+			void stopRunningMessage();
 			if (error) {
 				console.error(error);
 				process.exitCode = 1;

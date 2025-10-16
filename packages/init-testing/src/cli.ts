@@ -137,7 +137,7 @@ for (const dirent of copyFiles) {
 			),
 	);
 }
-
+const [nodeMajor, nodeMinor] = process.versions.node.split(".");
 await Promise.all([
 	Promise.allSettled([
 		packageManager.ensurePackageIsInstalled("@atomicsmash/test-utils", {
@@ -168,13 +168,10 @@ await Promise.all([
 			packageConstraint: "^4.0.0",
 			type: "dev",
 		}),
-		async () => {
-			const [major, minor] = process.versions.node.split(".");
-			return packageManager.ensurePackageIsInstalled("@types/node", {
-				packageConstraint: `${major}.${minor}.x`,
-				type: "dev",
-			});
-		},
+		packageManager.ensurePackageIsInstalled("@types/node", {
+			packageConstraint: `${nodeMajor}.${nodeMinor}.x`,
+			type: "dev",
+		}),
 		!hasRootTSConfig
 			? packageManager.ensurePackageIsInstalled("typescript", {
 					packageConstraint: "~5.8.0",

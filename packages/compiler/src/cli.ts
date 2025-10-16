@@ -59,6 +59,10 @@ const argv = await yargs(hideBin(process.argv))
 const { experimentalBlocksSupport, ...compilerOptions } = argv;
 const compiler = webpack(await defaultConfig({ ...compilerOptions }));
 
+if (!compiler) {
+	throw new Error("Failed to initialise compiler.");
+}
+
 if (argv.watch) {
 	let i = 0;
 	console.log("Starting dev compiler.");
@@ -72,7 +76,7 @@ if (argv.watch) {
 			if (error) {
 				console.error(error.stack ?? error);
 				process.exitCode = 1;
-				watching.close((closeError) => {
+				watching?.close((closeError) => {
 					console.error(closeError);
 				});
 			} else if (stats && i > 0) {
@@ -107,7 +111,7 @@ if (argv.watch) {
 		},
 	);
 	process.on("SIGINT", function () {
-		watching.close((closeError) => {
+		watching?.close((closeError) => {
 			console.error(closeError);
 		});
 	});
