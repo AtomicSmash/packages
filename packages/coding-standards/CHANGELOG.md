@@ -1,5 +1,15 @@
 # @atomicsmash/coding-standards
 
+## 16.0.0-beta.1
+
+### Patch Changes
+
+- [#445](https://github.com/AtomicSmash/packages/pull/445) [`90629ab`](https://github.com/AtomicSmash/packages/commit/90629aba40fe2e06200a6294f66b870cd60864e5) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Update deps
+
+- Updated dependencies [[`90629ab`](https://github.com/AtomicSmash/packages/commit/90629aba40fe2e06200a6294f66b870cd60864e5)]:
+  - @atomicsmash/browserslist-config@16.0.0-beta.1
+  - @atomicsmash/eslint-config@16.0.0-beta.1
+
 ## 16.0.0-beta.0
 
 ### Patch Changes

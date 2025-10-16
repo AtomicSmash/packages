@@ -1,5 +1,14 @@
 # @atomicsmash/compiler
 
+## 2.0.0-beta.9
+
+### Patch Changes
+
+- [#445](https://github.com/AtomicSmash/packages/pull/445) [`90629ab`](https://github.com/AtomicSmash/packages/commit/90629aba40fe2e06200a6294f66b870cd60864e5) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Update deps
+
+- Updated dependencies [[`90629ab`](https://github.com/AtomicSmash/packages/commit/90629aba40fe2e06200a6294f66b870cd60864e5)]:
+  - @atomicsmash/cli@9.0.0-beta.13
+
 ## 2.0.0-beta.8
 
 ### Minor Changes
