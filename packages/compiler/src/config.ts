@@ -4,8 +4,10 @@ import {
 	extname,
 	resolve as resolvePath,
 	relative,
+	join,
 } from "node:path";
 import { pathToFileURL } from "node:url";
+import { getSmashConfig } from "@atomicsmash/cli";
 import DependencyExtractionWebpackPlugin from "@wordpress/dependency-extraction-webpack-plugin";
 import browserslistToEsbuild from "browserslist-to-esbuild";
 import CopyPlugin from "copy-webpack-plugin";
@@ -27,11 +29,11 @@ export async function config(options: {
 	/**
 	 * The directory where the source files can be found. Relative to cwd.
 	 */
-	in: string;
+	in?: string;
 	/**
 	 * The directory where the compiled files will out output. Relative to cwd.
 	 */
-	out: string;
+	out?: string;
 	/**
 	 * Whether to watch the files in the source folder for changes and compile.
 	 */
@@ -41,18 +43,14 @@ export async function config(options: {
 	 */
 	analyse?: boolean | undefined;
 	/**
-	 * Enable experimental support for WordPress blocks compilation.
-	 */
-	experimentalBlocksSupport?: boolean | undefined;
-	/**
 	 * A comma separated list of the folder names of blocks to exclude from compilation. Requires experimental blocks support.
 	 */
 	excludeBlocks?: string[] | undefined;
 }) {
+	const smashConfig = await getSmashConfig();
 	const argv = {
 		watch: false,
 		analyse: false,
-		experimentalBlocksSupport: false,
 		excludeBlocks: ["__TEMPLATE__"],
 		...options,
 	};
@@ -61,8 +59,24 @@ export async function config(options: {
 			? "development"
 			: "production";
 
-	const srcFolder = resolvePath(argv.in);
-	const distFolder = resolvePath(argv.out);
+	const srcFolder = argv.in
+		? resolvePath(argv.in)
+		: smashConfig?.themePath
+			? resolvePath(join(smashConfig?.themePath, "src"))
+			: null;
+	const distFolder = argv.out
+		? resolvePath(argv.out)
+		: smashConfig?.themePath
+			? resolvePath(
+					join(smashConfig?.themePath, smashConfig.assetsOutputFolder),
+				)
+			: null;
+	if (!srcFolder || !distFolder) {
+		throw new Error(
+			"Failed to get the in or out folders for the blocks. Please add a smash.config.ts file to your project with a themeName and a themePath.",
+		);
+	}
+
 	// Add optional support for Tailwind if tailwind postcss plugin is installed
 	const tailwindPostCSSPlugin = await import("@tailwindcss/postcss")
 		.then((tailwindPostCSS) => [tailwindPostCSS.default])
@@ -115,7 +129,7 @@ export async function config(options: {
 			},
 			exclude: (file) => {
 				// Exclude all block.json.ts files (handled by a separate loader).
-				if (argv.experimentalBlocksSupport && file.includes("block.json")) {
+				if (file.includes("block.json")) {
 					return true;
 				}
 				// Exclude node_modules files from transpilation unless they are vue files and the vue-loader is present
@@ -141,9 +155,8 @@ export async function config(options: {
 		mode: MODE,
 		entry: await glob(
 			[
-				...(argv.experimentalBlocksSupport
-					? [`${srcFolder}/blocks/**/block.json.ts`]
-					: []),
+				// Parse all block json typescript files in the blocks folder.
+				`${srcFolder}/blocks/**/block.json.ts`,
 				// Parse all direct children of the JS folder, as long as they are JS & TS files
 				`${srcFolder}/scripts/*.{js,ts,jsx,tsx}`,
 				// Parse all direct children of the CSS folder, as long as they are CSS files
@@ -152,17 +165,16 @@ export async function config(options: {
 				`${srcFolder}/styles/**/[^_]*.s[ac]ss`,
 			],
 			{
-				ignore: argv.experimentalBlocksSupport
-					? argv.excludeBlocks.map(
-							(blockName) =>
-								`${srcFolder}/blocks/**/${blockName}/block.json.ts`,
-						)
-					: [],
+				ignore: argv.excludeBlocks.map(
+					(blockName) => `${srcFolder}/blocks/**/${blockName}/block.json.ts`,
+				),
 			},
 		).then(async (paths) => {
-			const { restOfPaths, entryPoints } = argv.experimentalBlocksSupport
-				? await getBlocksAssetsEntryPoints(paths, {}, srcFolder)
-				: { restOfPaths: paths, entryPoints: {} };
+			const { restOfPaths, entryPoints } = await getBlocksAssetsEntryPoints(
+				paths,
+				{},
+				srcFolder,
+			);
 
 			restOfPaths.forEach((path) => {
 				const entryName = path.replace(srcFolder, "");
@@ -215,21 +227,35 @@ export async function config(options: {
 					resourceQuery: (value) => !value.includes("vue"),
 					...getEsBuildLoaderSetup("default"),
 				},
-				...(argv.experimentalBlocksSupport
-					? [
-							{
-								test: /block\.json\.ts$/,
-								type: "asset/resource",
-								generator: {
-									filename: (pathData: PathData) =>
-										relative(srcFolder, pathData.filename ?? "").slice(0, -3),
+				{
+					test: /block\.json\.ts$/,
+					oneOf: [
+						{
+							issuer: [
+								(issuer) => {
+									// Return JSON for all imports in other files, but exclude entry points for which we emit json files.
+									return !!issuer;
 								},
-								use: {
+							],
+							use: [
+								"json-loader",
+								{
 									loader: resolvePath(import.meta.dirname, "./BlocksLoader.js"),
 								},
+							],
+						},
+						{
+							type: "asset/resource",
+							generator: {
+								filename: (pathData: PathData) =>
+									relative(srcFolder, pathData.filename ?? "").slice(0, -3),
 							},
-						]
-					: []),
+							use: {
+								loader: resolvePath(import.meta.dirname, "./BlocksLoader.js"),
+							},
+						},
+					],
+				},
 				// Transpile SCSS files and run the result through postcss
 				{
 					test: /\.s[ac]ss$/i,
@@ -337,7 +363,7 @@ export async function config(options: {
 		},
 		plugins: [
 			// Output progress information when compiling
-			new webpack.ProgressPlugin(),
+			// new webpack.ProgressPlugin(),
 			// Generate a manifest file of assets to make it possible to target fingerprinted files
 			new WebpackAssetsManifest({
 				writeToDisk: true,
@@ -351,10 +377,13 @@ export async function config(options: {
 						entry.key === "wordpress-assets-info.php" ||
 						entry.key.endsWith(".map") ||
 						entry.key.startsWith("fonts") ||
-						entry.key.startsWith("images") ||
-						entry.key === "spritemap.svg"
+						entry.key.startsWith("images")
 					) {
 						return false;
+					}
+					if (entry.key === "spritemap.svg") {
+						entry.key = "icons/sprite.svg";
+						return entry;
 					}
 					if (entry.key.startsWith("/")) {
 						entry.key = entry.key.slice(1);
@@ -373,7 +402,7 @@ export async function config(options: {
 			...((await glob(`${srcFolder}/icons/*.svg`)).length
 				? [
 						new SVGSpritemapPlugin(`${srcFolder}/icons/*.svg`, {
-							output: { filename: "icons/sprite.svg" },
+							output: { filename: "icons/sprite.[contenthash].svg" },
 							sprite: { prefix: "", generate: { title: false } },
 						}),
 					]
@@ -405,19 +434,12 @@ export async function config(options: {
 			new DependencyExtractionWebpackPlugin({
 				combineAssets: true,
 				// Blocks plugin converts this to php, but it must be output as json here.
-				...(argv.experimentalBlocksSupport
-					? {
-							outputFormat: "json",
-							combinedOutputFile: "wordpress-assets-info.json",
-						}
-					: {
-							outputFormat: "php",
-							combinedOutputFile: "wordpress-assets-info.php",
-						}),
+				outputFormat: "json",
+				combinedOutputFile: "wordpress-assets-info.json",
 			}),
 			// Support Vue files if vue-loader is present
 			...vueConfig.plugin,
-			...(argv.experimentalBlocksSupport ? [new BlocksPlugin(srcFolder)] : []),
+			new BlocksPlugin(srcFolder),
 			new webpack.DefinePlugin({ ...vueConfig.globals }),
 		],
 		optimization: {
@@ -430,6 +452,12 @@ export async function config(options: {
 }
 
 async function getSassOptions(srcFolder: string) {
+	const smashConfig = await getSmashConfig();
+	if (smashConfig) {
+		return smashConfig.scssAliases;
+	}
+
+	// Legacy fallback.
 	const explorer = cosmiconfig("scssAliases");
 	const config = await explorer
 		.load(resolvePath(process.cwd(), "scssAliases.config.ts"))

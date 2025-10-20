@@ -1,5 +1,87 @@
 # @atomicsmash/compiler
 
+## 2.0.0-beta.9
+
+### Patch Changes
+
+- [#445](https://github.com/AtomicSmash/packages/pull/445) [`90629ab`](https://github.com/AtomicSmash/packages/commit/90629aba40fe2e06200a6294f66b870cd60864e5) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Update deps
+
+- Updated dependencies [[`90629ab`](https://github.com/AtomicSmash/packages/commit/90629aba40fe2e06200a6294f66b870cd60864e5)]:
+  - @atomicsmash/cli@9.0.0-beta.13
+
+## 2.0.0-beta.8
+
+### Minor Changes
+
+- [#439](https://github.com/AtomicSmash/packages/pull/439) [`1e6f4d8`](https://github.com/AtomicSmash/packages/commit/1e6f4d8becc7339ba8c53427ea3676e85d4c246e) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Improve watch mode terminal output
+
+### Patch Changes
+
+- [#439](https://github.com/AtomicSmash/packages/pull/439) [`cd3e78d`](https://github.com/AtomicSmash/packages/commit/cd3e78d1323ee3469c35833bf627c31d45b9cd48) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Update asset filenames on dev/watch rebuilds
+
+## 2.0.0-beta.7
+
+### Patch Changes
+
+- [#437](https://github.com/AtomicSmash/packages/pull/437) [`8ea4008`](https://github.com/AtomicSmash/packages/commit/8ea4008e35406445da1ee31a1291f73f18fef534) Thanks [@mikeybinns](https://github.com/mikeybinns)! - remove duplicate of block json loader
+
+## 2.0.0-beta.6
+
+### Patch Changes
+
+- [#435](https://github.com/AtomicSmash/packages/pull/435) [`86dfc99`](https://github.com/AtomicSmash/packages/commit/86dfc991a54280bbfb5030821bef1f1f82100c3e) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Import of block json returns json while still outputting file to directory
+
+## 2.0.0-beta.5
+
+### Major Changes
+
+- [#432](https://github.com/AtomicSmash/packages/pull/432) [`7dcb0ae`](https://github.com/AtomicSmash/packages/commit/7dcb0ae9b8cc0019f589950b19f2d52fd4d5d655) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Add content hash to svg sprite filename for cache busting.
+
+## 2.0.0-beta.4
+
+### Minor Changes
+
+- [#418](https://github.com/AtomicSmash/packages/pull/418) [`aaacb61`](https://github.com/AtomicSmash/packages/commit/aaacb617d7cd01f1c0f6eb775d48984c9136c3bd) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Stabilise the blocks command in the compiler package
+
+### Patch Changes
+
+- Updated dependencies [[`082a6e5`](https://github.com/AtomicSmash/packages/commit/082a6e560bca9a7f053428f2946c2200e5e0abb4), [`cbc29c9`](https://github.com/AtomicSmash/packages/commit/cbc29c9c6972e41126d6ef6503553d61e48c60d9)]:
+  - @atomicsmash/cli@9.0.0-beta.6
+
+## 2.0.0-beta.3
+
+### Patch Changes
+
+- Updated dependencies [[`f330f8f`](https://github.com/AtomicSmash/packages/commit/f330f8f786db53172669a02ce228eabdb058d860)]:
+  - @atomicsmash/cli@9.0.0-beta.5
+
+## 2.0.0-beta.2
+
+### Patch Changes
+
+- Updated dependencies [[`20bbe3c`](https://github.com/AtomicSmash/packages/commit/20bbe3c7516a7b8735d95ee9e3cd26389227c147), [`d4e4dd9`](https://github.com/AtomicSmash/packages/commit/d4e4dd96f788920ff5adf125fd224aa5bfb96d75)]:
+  - @atomicsmash/cli@8.2.0-beta.3
+
+## 2.0.0-beta.1
+
+### Patch Changes
+
+- [#407](https://github.com/AtomicSmash/packages/pull/407) [`f2fa89e`](https://github.com/AtomicSmash/packages/commit/f2fa89e94438d274a6463a543b8f1e63ca3715dd) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Fix src and dist folder resolution
+
+- Updated dependencies [[`f2fa89e`](https://github.com/AtomicSmash/packages/commit/f2fa89e94438d274a6463a543b8f1e63ca3715dd), [`e9941b6`](https://github.com/AtomicSmash/packages/commit/e9941b603dc18f1fda2df43d53608a8eaa0663f1)]:
+  - @atomicsmash/cli@8.2.0-beta.2
+
+## 2.0.0-beta.0
+
+### Minor Changes
+
+- [#405](https://github.com/AtomicSmash/packages/pull/405) [`74bbfca`](https://github.com/AtomicSmash/packages/commit/74bbfcac320c8f763411ebc6f1e4421b826338af) Thanks [@mikeybinns](https://github.com/mikeybinns)! - let smash config handle in out folders
+
+### Patch Changes
+
+- Updated dependencies [[`74bbfca`](https://github.com/AtomicSmash/packages/commit/74bbfcac320c8f763411ebc6f1e4421b826338af)]:
+  - @atomicsmash/cli@8.2.0-beta.1
+
 ## 1.1.0
 
 ### Minor Changes

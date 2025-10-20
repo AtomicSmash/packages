@@ -11,9 +11,8 @@ import {
 
 describe("Blocks command works as intended", () => {
 	test("Blocks command correctly displays help message", async () => {
-		await expect(
-			execute(`${testCommand} blocks --help`),
-		).resolves.toMatchInlineSnapshot(`
+		await expect(execute(`${testCommand} blocks --help`)).resolves
+			.toMatchInlineSnapshot(`
 			{
 			  "error": null,
 			  "stderr": "",
@@ -22,8 +21,8 @@ describe("Blocks command works as intended", () => {
 			A command to generate WordPress blocks from a src folder.
 
 			Options:
-			      --in                      The directory where the WP blocks can be found. Relative to cwd.  [string] [required]
-			      --out                     The directory where the WP blocks will be output. Relative to cwd.  [string] [required]
+			      --in                      The directory where the WP blocks can be found. Relative to cwd.  [string]
+			      --out                     The directory where the WP blocks will be output. Relative to cwd.  [string]
 			      --tsConfigPath            The directory where the tsconfig file can be found. Relative to cwd. Defaults to the in folder.  [string]
 			      --postcssConfigPath       The directory where the postcss config file can be found. Relative to cwd. Defaults to the in folder and then searches up the directory tree.  [string]
 			      --watch                   Watch the blocks in folder for changes and compile.  [boolean] [default: false]

@@ -9,7 +9,7 @@ module.exports = {
 		"last 1 ios_saf version",
 	],
 	production: [
-		"defaults and >1% and not samsung > 0 and not op_mini all",
+		"defaults and >1% and not samsung > 0 and not op_mini all and not Chrome < 120",
 		"last 1 Chrome major version",
 		"last 1 Firefox major version",
 		"last 1 Edge major version",

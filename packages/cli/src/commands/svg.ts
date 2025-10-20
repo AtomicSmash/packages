@@ -1,10 +1,10 @@
+import type { YargsInstance } from "../cli.js";
 import type { ArgumentsCamelCase } from "yargs";
 import { readFileSync, mkdirSync, writeFileSync } from "node:fs";
 import { resolve as resolvePath, join as joinPath, dirname } from "path";
 import glob from "glob-promise";
 import SVGSpriter from "svg-sprite";
 import File from "vinyl";
-import { YargsInstance } from "../index.js";
 
 export const command = "svg";
 export const describe = "Generate an SVG sprite from a group of SVGs.";

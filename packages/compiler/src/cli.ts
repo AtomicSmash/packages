@@ -1,6 +1,5 @@
 #!/usr/bin/env node
-// import type { Configuration } from "webpack";
-// import { cosmiconfig } from "cosmiconfig";
+import { DatePHP } from "@atomicsmash/date-php";
 import webpack from "webpack";
 import yargs from "yargs";
 import { hideBin } from "yargs/helpers";
@@ -19,13 +18,11 @@ declare global {
 const argv = await yargs(hideBin(process.argv))
 	.options({
 		in: {
-			demandOption: true,
 			describe:
 				"The directory where the source files can be found. Relative to cwd.",
 			type: "string",
 		},
 		out: {
-			demandOption: true,
 			describe:
 				"The directory where the compiled files will out output. Relative to cwd.",
 			type: "string",
@@ -45,6 +42,8 @@ const argv = await yargs(hideBin(process.argv))
 			boolean: true,
 			default: false,
 			describe: "Enable experimental support for WordPress blocks compilation.",
+			deprecate:
+				"Blocks support is enabled by default now. You can remove this option from your command.",
 		},
 		excludeBlocks: {
 			array: true,
@@ -56,17 +55,17 @@ const argv = await yargs(hideBin(process.argv))
 	})
 	.showHelpOnFail(false, "Specify --help for available options")
 	.parse();
+// eslint-disable-next-line @typescript-eslint/naming-convention -- Experimental option.
+const { experimentalBlocksSupport, ...compilerOptions } = argv;
+const compiler = webpack(await defaultConfig({ ...compilerOptions }));
 
-// const explorer = cosmiconfig("smash-compiler");
-// const config = await explorer.search().then(async (config) => {
-// 	if (!config) {
-// 		return await defaultConfig({ ...argv });
-// 	}
-// 	return config.config as Configuration;
-// });
-const compiler = webpack(await defaultConfig({ ...argv }));
+if (!compiler) {
+	throw new Error("Failed to initialise compiler.");
+}
 
 if (argv.watch) {
+	let i = 0;
+	console.log("Starting dev compiler.");
 	const watching = compiler.watch(
 		{
 			// Example
@@ -77,10 +76,10 @@ if (argv.watch) {
 			if (error) {
 				console.error(error.stack ?? error);
 				process.exitCode = 1;
-				watching.close((closeError) => {
+				watching?.close((closeError) => {
 					console.error(closeError);
 				});
-			} else if (stats) {
+			} else if (stats && i > 0) {
 				const info = stats.toJson();
 				if (stats.hasErrors()) {
 					const errors = info.errors!;
@@ -96,11 +95,23 @@ if (argv.watch) {
 						console.warn(warning.message);
 					}
 				}
+				if (i === 1) {
+					console.log("Started watching files.");
+				} else if (!stats.hasErrors() && !stats.hasWarnings()) {
+					console.log(
+						`Recompiled successfully at ${new DatePHP().format("jS F Y \\a\\t H:i:s")}`,
+					);
+				} else {
+					console.log(
+						`Recompiled with errors at ${new DatePHP().format("jS F Y \\a\\t H:i:s")}`,
+					);
+				}
 			}
+			i++;
 		},
 	);
 	process.on("SIGINT", function () {
-		watching.close((closeError) => {
+		watching?.close((closeError) => {
 			console.error(closeError);
 		});
 	});
