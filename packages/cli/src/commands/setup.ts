@@ -106,6 +106,7 @@ export async function handler() {
 								}
 								await execute(`herd init`)
 									.then(() => {
+										performance.mark("herd init done");
 										console.log(
 											`Herd is configured. (${convertMeasureToPrettyString(
 												performance.measure("herd-or-valet", "Start"),
@@ -118,9 +119,10 @@ export async function handler() {
 									});
 								await execute(`herd link ${projectName} --secure`)
 									.then(() => {
+										performance.mark("herd link done");
 										console.log(
 											`Herd is linked and secured. (${convertMeasureToPrettyString(
-												performance.measure("herd link", "Start"),
+												performance.measure("herd link", "herd init done"),
 											)})`,
 										);
 									})
@@ -132,7 +134,7 @@ export async function handler() {
 									.then(() => {
 										console.log(
 											`Herd is isolated. (${convertMeasureToPrettyString(
-												performance.measure("herd isolate", "Start"),
+												performance.measure("herd isolate", "herd link done"),
 											)})`,
 										);
 									})
