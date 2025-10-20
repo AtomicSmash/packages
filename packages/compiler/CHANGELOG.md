@@ -1,5 +1,34 @@
 # @atomicsmash/compiler
 
+## 2.0.0
+
+### Major Changes
+
+- [#432](https://github.com/AtomicSmash/packages/pull/432) [`7dcb0ae`](https://github.com/AtomicSmash/packages/commit/7dcb0ae9b8cc0019f589950b19f2d52fd4d5d655) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Add content hash to svg sprite filename for cache busting.
+
+### Minor Changes
+
+- [#439](https://github.com/AtomicSmash/packages/pull/439) [`1e6f4d8`](https://github.com/AtomicSmash/packages/commit/1e6f4d8becc7339ba8c53427ea3676e85d4c246e) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Improve watch mode terminal output
+
+- [#405](https://github.com/AtomicSmash/packages/pull/405) [`74bbfca`](https://github.com/AtomicSmash/packages/commit/74bbfcac320c8f763411ebc6f1e4421b826338af) Thanks [@mikeybinns](https://github.com/mikeybinns)! - let smash config handle in out folders
+
+- [#418](https://github.com/AtomicSmash/packages/pull/418) [`aaacb61`](https://github.com/AtomicSmash/packages/commit/aaacb617d7cd01f1c0f6eb775d48984c9136c3bd) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Stabilise the blocks command in the compiler package
+
+### Patch Changes
+
+- [#407](https://github.com/AtomicSmash/packages/pull/407) [`f2fa89e`](https://github.com/AtomicSmash/packages/commit/f2fa89e94438d274a6463a543b8f1e63ca3715dd) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Fix src and dist folder resolution
+
+- [#437](https://github.com/AtomicSmash/packages/pull/437) [`8ea4008`](https://github.com/AtomicSmash/packages/commit/8ea4008e35406445da1ee31a1291f73f18fef534) Thanks [@mikeybinns](https://github.com/mikeybinns)! - remove duplicate of block json loader
+
+- [#445](https://github.com/AtomicSmash/packages/pull/445) [`90629ab`](https://github.com/AtomicSmash/packages/commit/90629aba40fe2e06200a6294f66b870cd60864e5) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Update deps
+
+- [#439](https://github.com/AtomicSmash/packages/pull/439) [`cd3e78d`](https://github.com/AtomicSmash/packages/commit/cd3e78d1323ee3469c35833bf627c31d45b9cd48) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Update asset filenames on dev/watch rebuilds
+
+- [#435](https://github.com/AtomicSmash/packages/pull/435) [`86dfc99`](https://github.com/AtomicSmash/packages/commit/86dfc991a54280bbfb5030821bef1f1f82100c3e) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Import of block json returns json while still outputting file to directory
+
+- Updated dependencies [[`5871057`](https://github.com/AtomicSmash/packages/commit/5871057c21bbb52ec9ac2c4151a7f15595a1216e), [`fb7fa5f`](https://github.com/AtomicSmash/packages/commit/fb7fa5f83817ab1d471a3bb72740fa77e98b6d1d), [`40051f4`](https://github.com/AtomicSmash/packages/commit/40051f4ddd89311f08d4db3de6fc22a03c202b7a), [`b03c8dd`](https://github.com/AtomicSmash/packages/commit/b03c8ddb0d97d72174a0dad37be0a822ccba63f1), [`6cc9e82`](https://github.com/AtomicSmash/packages/commit/6cc9e823e64caca45ca20d6a258319a63960bb1e), [`6fac42d`](https://github.com/AtomicSmash/packages/commit/6fac42df68d6fcc026e5ab5e7eae28b4ccb2e20e), [`f2fa89e`](https://github.com/AtomicSmash/packages/commit/f2fa89e94438d274a6463a543b8f1e63ca3715dd), [`70eab70`](https://github.com/AtomicSmash/packages/commit/70eab70d70a8559d1a2b60d94a6814e761d6f807), [`20bbe3c`](https://github.com/AtomicSmash/packages/commit/20bbe3c7516a7b8735d95ee9e3cd26389227c147), [`e9941b6`](https://github.com/AtomicSmash/packages/commit/e9941b603dc18f1fda2df43d53608a8eaa0663f1), [`f8dc9f7`](https://github.com/AtomicSmash/packages/commit/f8dc9f7ec301af23aab19c82e2623e8db6c16466), [`082a6e5`](https://github.com/AtomicSmash/packages/commit/082a6e560bca9a7f053428f2946c2200e5e0abb4), [`7ae7bdf`](https://github.com/AtomicSmash/packages/commit/7ae7bdf09bad2617b2faa667dc1947ab74c436e5), [`c3a911d`](https://github.com/AtomicSmash/packages/commit/c3a911da72c4688ffcce91199bdc988960716cf5), [`90629ab`](https://github.com/AtomicSmash/packages/commit/90629aba40fe2e06200a6294f66b870cd60864e5), [`9dfc7a0`](https://github.com/AtomicSmash/packages/commit/9dfc7a0cc1f0461cc6b198ce2425cec50414609b), [`74bbfca`](https://github.com/AtomicSmash/packages/commit/74bbfcac320c8f763411ebc6f1e4421b826338af), [`cbc29c9`](https://github.com/AtomicSmash/packages/commit/cbc29c9c6972e41126d6ef6503553d61e48c60d9), [`f330f8f`](https://github.com/AtomicSmash/packages/commit/f330f8f786db53172669a02ce228eabdb058d860), [`d4e4dd9`](https://github.com/AtomicSmash/packages/commit/d4e4dd96f788920ff5adf125fd224aa5bfb96d75), [`c0eb710`](https://github.com/AtomicSmash/packages/commit/c0eb71018646524f66e3054ecb2fcca686d8e041)]:
+  - @atomicsmash/cli@9.0.0
+
 ## 2.0.0-beta.9
 
 ### Patch Changes
