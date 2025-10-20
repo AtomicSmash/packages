@@ -1,5 +1,55 @@
 # @atomicsmash/cli
 
+## 9.0.0
+
+### Major Changes
+
+- [#415](https://github.com/AtomicSmash/packages/pull/415) [`f330f8f`](https://github.com/AtomicSmash/packages/commit/f330f8f786db53172669a02ce228eabdb058d860) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Update sass-loader version to avoid conflict with compiler
+
+### Minor Changes
+
+- [#402](https://github.com/AtomicSmash/packages/pull/402) [`70eab70`](https://github.com/AtomicSmash/packages/commit/70eab70d70a8559d1a2b60d94a6814e761d6f807) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Update commands to use smash.config.ts if present
+
+- [#409](https://github.com/AtomicSmash/packages/pull/409) [`20bbe3c`](https://github.com/AtomicSmash/packages/commit/20bbe3c7516a7b8735d95ee9e3cd26389227c147) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Improve running messages for cli commands
+
+- [#402](https://github.com/AtomicSmash/packages/pull/402) [`f8dc9f7`](https://github.com/AtomicSmash/packages/commit/f8dc9f7ec301af23aab19c82e2623e8db6c16466) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Add pull database and pull media commands
+
+- [#405](https://github.com/AtomicSmash/packages/pull/405) [`74bbfca`](https://github.com/AtomicSmash/packages/commit/74bbfcac320c8f763411ebc6f1e4421b826338af) Thanks [@mikeybinns](https://github.com/mikeybinns)! - let smash config handle in out folders
+
+- [#418](https://github.com/AtomicSmash/packages/pull/418) [`cbc29c9`](https://github.com/AtomicSmash/packages/commit/cbc29c9c6972e41126d6ef6503553d61e48c60d9) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Deprecate cli package blocks command
+
+### Patch Changes
+
+- [#426](https://github.com/AtomicSmash/packages/pull/426) [`5871057`](https://github.com/AtomicSmash/packages/commit/5871057c21bbb52ec9ac2c4151a7f15595a1216e) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Migrate .env.example files to .config/environments/.env.dev
+
+- [#420](https://github.com/AtomicSmash/packages/pull/420) [`fb7fa5f`](https://github.com/AtomicSmash/packages/commit/fb7fa5f83817ab1d471a3bb72740fa77e98b6d1d) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Search for both yml instances
+
+- [#430](https://github.com/AtomicSmash/packages/pull/430) [`40051f4`](https://github.com/AtomicSmash/packages/commit/40051f4ddd89311f08d4db3de6fc22a03c202b7a) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Support non-capistrano web roots for pull database
+
+- [#412](https://github.com/AtomicSmash/packages/pull/412) [`b03c8dd`](https://github.com/AtomicSmash/packages/commit/b03c8ddb0d97d72174a0dad37be0a822ccba63f1) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Fix running messages not clearing the line properly
+
+- [#428](https://github.com/AtomicSmash/packages/pull/428) [`6cc9e82`](https://github.com/AtomicSmash/packages/commit/6cc9e823e64caca45ca20d6a258319a63960bb1e) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Exclude tables from db import
+
+- [#428](https://github.com/AtomicSmash/packages/pull/428) [`6fac42d`](https://github.com/AtomicSmash/packages/commit/6fac42df68d6fcc026e5ab5e7eae28b4ccb2e20e) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Fix port bug in pull media
+
+- [#407](https://github.com/AtomicSmash/packages/pull/407) [`f2fa89e`](https://github.com/AtomicSmash/packages/commit/f2fa89e94438d274a6463a543b8f1e63ca3715dd) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Fix src and dist folder resolution
+
+- [#407](https://github.com/AtomicSmash/packages/pull/407) [`e9941b6`](https://github.com/AtomicSmash/packages/commit/e9941b603dc18f1fda2df43d53608a8eaa0663f1) Thanks [@mikeybinns](https://github.com/mikeybinns)! - fix sitecss alias in smash config defaults
+
+- [#414](https://github.com/AtomicSmash/packages/pull/414) [`082a6e5`](https://github.com/AtomicSmash/packages/commit/082a6e560bca9a7f053428f2946c2200e5e0abb4) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Better handle projects with fixed theme names
+
+- [#420](https://github.com/AtomicSmash/packages/pull/420) [`7ae7bdf`](https://github.com/AtomicSmash/packages/commit/7ae7bdf09bad2617b2faa667dc1947ab74c436e5) Thanks [@mikeybinns](https://github.com/mikeybinns)! - fix project name in valid config function
+
+- [#424](https://github.com/AtomicSmash/packages/pull/424) [`c3a911d`](https://github.com/AtomicSmash/packages/commit/c3a911da72c4688ffcce91199bdc988960716cf5) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Add missing deps
+
+- [#445](https://github.com/AtomicSmash/packages/pull/445) [`90629ab`](https://github.com/AtomicSmash/packages/commit/90629aba40fe2e06200a6294f66b870cd60864e5) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Update deps
+
+- [#422](https://github.com/AtomicSmash/packages/pull/422) [`9dfc7a0`](https://github.com/AtomicSmash/packages/commit/9dfc7a0cc1f0461cc6b198ce2425cec50414609b) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Disable strict host check for ssh
+
+- [#409](https://github.com/AtomicSmash/packages/pull/409) [`d4e4dd9`](https://github.com/AtomicSmash/packages/commit/d4e4dd96f788920ff5adf125fd224aa5bfb96d75) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Fix setup database command
+
+- [#424](https://github.com/AtomicSmash/packages/pull/424) [`c0eb710`](https://github.com/AtomicSmash/packages/commit/c0eb71018646524f66e3054ecb2fcca686d8e041) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Add missing herd.yaml message
+
 ## 9.0.0-beta.13
 
 ### Patch Changes
