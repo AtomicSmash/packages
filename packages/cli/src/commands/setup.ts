@@ -106,15 +106,41 @@ export async function handler() {
 								}
 								await execute(`herd init`)
 									.then(() => {
+										performance.mark("herd init done");
 										console.log(
-											`Herd is linked, secured and isolated. (${convertMeasureToPrettyString(
+											`Herd is configured. (${convertMeasureToPrettyString(
 												performance.measure("herd-or-valet", "Start"),
 											)})`,
 										);
 									})
 									.catch((error) => {
 										console.error(error);
-										throw new Error("Failed to link the site using herd.");
+										throw new Error("Failed to configure the site using Herd.");
+									});
+								await execute(`herd link ${projectName} --secure`)
+									.then(() => {
+										performance.mark("herd link done");
+										console.log(
+											`Herd is linked and secured. (${convertMeasureToPrettyString(
+												performance.measure("herd link", "herd init done"),
+											)})`,
+										);
+									})
+									.catch((error) => {
+										console.error(error);
+										throw new Error("Failed to link the site using Herd.");
+									});
+								await execute(`herd isolate`)
+									.then(() => {
+										console.log(
+											`Herd is isolated. (${convertMeasureToPrettyString(
+												performance.measure("herd isolate", "herd link done"),
+											)})`,
+										);
+									})
+									.catch((error) => {
+										console.error(error);
+										throw new Error("Failed to isolate the site using Herd.");
 									});
 							} else if (
 								await execute(`valet --version`)
