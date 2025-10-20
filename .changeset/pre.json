@@ -14,6 +14,7 @@
     "@atomicsmash/wordpress-tests-helper": "1.1.0"
   },
   "changesets": [
+    "better-insects-mix",
     "chubby-turkeys-trade",
     "cold-carpets-fly",
     "cool-jokes-tease",
@@ -21,6 +22,7 @@
     "giant-bushes-ring",
     "hip-doodles-retire",
     "loose-carpets-act",
+    "mean-cases-wonder",
     "neat-parks-turn",
     "neat-peaches-decide",
     "new-cases-fold",
@@ -28,12 +30,16 @@
     "ninety-lands-decide",
     "old-rats-find",
     "orange-mails-smile",
+    "purple-ants-create",
     "quiet-donkeys-knock",
     "rude-tigers-sleep",
+    "smart-snails-float",
     "tasty-toes-beg",
     "thick-lamps-go",
     "tiny-goats-look",
+    "twelve-ears-check",
     "weak-tips-judge",
+    "wet-tools-grin",
     "whole-terms-boil",
     "yellow-jobs-see"
   ]

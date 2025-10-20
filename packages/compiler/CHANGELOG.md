@@ -1,5 +1,36 @@
 # @atomicsmash/compiler
 
+## 2.0.0-beta.9
+
+### Patch Changes
+
+- [#445](https://github.com/AtomicSmash/packages/pull/445) [`90629ab`](https://github.com/AtomicSmash/packages/commit/90629aba40fe2e06200a6294f66b870cd60864e5) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Update deps
+
+- Updated dependencies [[`90629ab`](https://github.com/AtomicSmash/packages/commit/90629aba40fe2e06200a6294f66b870cd60864e5)]:
+  - @atomicsmash/cli@9.0.0-beta.13
+
+## 2.0.0-beta.8
+
+### Minor Changes
+
+- [#439](https://github.com/AtomicSmash/packages/pull/439) [`1e6f4d8`](https://github.com/AtomicSmash/packages/commit/1e6f4d8becc7339ba8c53427ea3676e85d4c246e) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Improve watch mode terminal output
+
+### Patch Changes
+
+- [#439](https://github.com/AtomicSmash/packages/pull/439) [`cd3e78d`](https://github.com/AtomicSmash/packages/commit/cd3e78d1323ee3469c35833bf627c31d45b9cd48) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Update asset filenames on dev/watch rebuilds
+
+## 2.0.0-beta.7
+
+### Patch Changes
+
+- [#437](https://github.com/AtomicSmash/packages/pull/437) [`8ea4008`](https://github.com/AtomicSmash/packages/commit/8ea4008e35406445da1ee31a1291f73f18fef534) Thanks [@mikeybinns](https://github.com/mikeybinns)! - remove duplicate of block json loader
+
+## 2.0.0-beta.6
+
+### Patch Changes
+
+- [#435](https://github.com/AtomicSmash/packages/pull/435) [`86dfc99`](https://github.com/AtomicSmash/packages/commit/86dfc991a54280bbfb5030821bef1f1f82100c3e) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Import of block json returns json while still outputting file to directory
+
 ## 2.0.0-beta.5
 
 ### Major Changes
