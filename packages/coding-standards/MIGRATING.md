@@ -2,6 +2,82 @@
 
 This document contains information on how to migrate from one version to the next version.
 
+## v15 --> v16
+
+Browserslist query has been updated to exclude Chrome versions older than 120.
+
+## v14 --> v15
+
+We recently introduced a change in order which says media queries should come after declarations but before other rules, like so:
+
+Incorrect code:
+
+```scss
+.class {
+	margin: 0;
+
+	@media (width >= 100px) {
+		margin: 1rem;
+	}
+
+	.nested-class {
+	}
+}
+```
+
+This leads to a potential issue where the media query is used to nest rules and output styles out of order, like this:
+
+```scss
+.class {
+	margin: 0;
+
+	@media (width >= 100px) {
+		margin: 1rem;
+
+		.nested-class {
+			padding: 1rem;
+		}
+	}
+
+	.nested-class {
+	}
+}
+```
+
+This makes rules harder to read because everything is split up instead of together (which is what we're trying to solve with the order change). To solve this, you now cannot nest rules within media queries unless the media query is at the root.
+
+An example of the correct code for the above would be this:
+
+```scss
+.class {
+	margin: 0;
+
+	@media (width >= 100px) {
+		margin: 1rem;
+	}
+
+	.nested-class {
+		@media (width >= 100px) {
+			padding: 1rem;
+		}
+	}
+}
+```
+
+## v13 --> v14
+
+If your project has tailwind, you should now extend a second config file for stylelint.
+
+```ts
+/** @type {import('stylelint').Config} */
+module.exports = {
+	extends: [
+		"@atomicsmash/coding-standards/stylelint/classic",
+		"@atomicsmash/coding-standards/stylelint/tailwind",
+	],
+};
+```
+
 ## v12 --> v13
 
 ### Stabilise stylelint config
@@ -67,7 +143,8 @@ No breaking changes (this shouldn't have been a major release).
 
 ## v9 --> v10
 
-### We have stabilised the PHPCS config. 
+### We have stabilised the PHPCS config.
+
 - If you were previously referencing this file, you must target the new stable config.
 
 ```
@@ -82,7 +159,8 @@ becomes:
 
 ## v8 --> v9
 
-### All dependencies were changed to peer dependencies. 
+### All dependencies were changed to peer dependencies.
+
 - You may need to explicitly install the packages if they are not installed automatically for you:
 
 ```sh
