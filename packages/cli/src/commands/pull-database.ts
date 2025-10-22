@@ -168,6 +168,7 @@ export async function handler() {
 							`Warning: Failed to delete ${failedCleanups.length} temporary file(s). You may need to clean them up manually.`,
 						);
 					}
+					process.exitCode = 1;
 				});
 		})();
 	}
