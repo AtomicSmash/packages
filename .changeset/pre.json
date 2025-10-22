@@ -13,5 +13,7 @@
     "@atomicsmash/test-utils": "5.0.4",
     "@atomicsmash/wordpress-tests-helper": "1.1.0"
   },
-  "changesets": []
+  "changesets": [
+    "mighty-moose-sing"
+  ]
 }
