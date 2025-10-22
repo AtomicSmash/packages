@@ -94,6 +94,7 @@ export async function handler() {
 					);
 				} else {
 					console.error(error);
+					process.exitCode = 1;
 				}
 			});
 	}

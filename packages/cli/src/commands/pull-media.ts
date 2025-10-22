@@ -109,6 +109,7 @@ export async function handler() {
 				console.log(
 					"There was an error downloading the media, see the message above.",
 				);
+				process.exitCode = 1;
 			});
 	}
 }

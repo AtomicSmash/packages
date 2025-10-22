@@ -267,6 +267,9 @@ export async function handler() {
 					)}`,
 				);
 			}
+		}).catch((error) => {
+			console.error(error);
+			process.exitCode = 1;
 		});
 	}
 }
