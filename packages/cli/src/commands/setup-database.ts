@@ -1,4 +1,6 @@
 import { exec } from "node:child_process";
+import { readFileSync, readdirSync } from "node:fs";
+import { join } from "node:path";
 import { performance } from "node:perf_hooks";
 import { promisify } from "node:util";
 import {
@@ -7,6 +9,128 @@ import {
 	startRunningMessage,
 } from "../utils.js";
 import "dotenv/config";
+
+function parsePluginHeaders(pluginPath: string): Record<string, string> | null {
+	try {
+		// Find the main plugin file by looking for the standard WordPress plugin header
+		const files = readdirSync(pluginPath).filter(file => file.endsWith('.php'));
+		let mainFile: string | null = null;
+
+		// Look for the file containing the standard plugin header
+		for (const file of files) {
+			const content = readFileSync(join(pluginPath, file), 'utf8');
+			// Check for the standard plugin header (Plugin Name: field)
+			if (/^\s*\/\*\*[\s\S]*?Plugin Name:/m.test(content)) {
+				mainFile = file;
+				break;
+			}
+		}
+
+		if (!mainFile) return null;
+
+		const content = readFileSync(join(pluginPath, mainFile), 'utf8');
+
+		// Match the plugin header block
+		const headerPattern = /\/\*\*\s*([\s\S]*?)\s*\*\//;
+		const match = headerPattern.exec(content);
+
+		if (!match) return null;
+
+		const headers: Record<string, string> = {};
+		const headerContent = match[1];
+
+		// Parse each header line
+		headerContent?.split('\n').forEach(line => {
+			const colonIndex = line.indexOf(':');
+			if (colonIndex > 0) {
+				const key = line.substring(0, colonIndex).trim().replace(/\*/g, '');
+				const value = line.substring(colonIndex + 1).trim();
+				if (key && value) {
+					headers[key] = value;
+				}
+			}
+		});
+
+		return headers;
+	} catch (_error) {
+		return null;
+	}
+}
+
+async function buildDependencyGraph(execute: (command: string) => Promise<{ stdout: string; stderr: string }>) {
+	const graph = new Map<string, string[]>();
+	const pluginPaths = new Map<string, string>();
+
+	// Get the plugins directory path
+	const { stdout: pluginsDir } = await execute('wp plugin path');
+	const pluginsDirectory = pluginsDir.trim();
+
+	// Get all plugins
+	const { stdout: pluginList } = await execute('wp plugin list --format=json');
+	const plugins: { name: string }[] = JSON.parse(pluginList) as { name: string }[];
+
+	// Map plugin names to their paths
+	for (const plugin of plugins) {
+		const pluginPath = `${pluginsDirectory}/${plugin.name}`;
+    pluginPaths.set(plugin.name, pluginPath);
+	}
+
+	// Parse headers and build dependency graph
+	for (const [pluginName, pluginPath] of pluginPaths) {
+		const headers = parsePluginHeaders(pluginPath);
+		if (headers?.['Requires Plugins']) {
+			// Parse the Requires Plugins field (comma-separated list)
+			const dependencies = headers['Requires Plugins']
+				.split(',')
+				.map(dep => dep.trim())
+				.filter(dep => dep.length > 0);
+
+			graph.set(pluginName, dependencies);
+		} else {
+			graph.set(pluginName, []);
+		}
+	}
+
+	return graph;
+}
+
+function topologicalSort(graph: Map<string, string[]>): string[] {
+	const visited = new Set<string>();
+	const temp = new Set<string>();
+	const result: string[] = [];
+
+	function visit(node: string) {
+		if (temp.has(node)) {
+			throw new Error(`Circular dependency detected involving ${node}`);
+		}
+		if (visited.has(node)) {
+			return;
+		}
+
+		temp.add(node);
+
+		// Visit all dependencies first
+		const dependencies = graph.get(node) ?? [];
+		for (const dep of dependencies) {
+			if (graph.has(dep)) {
+				visit(dep);
+			}
+		}
+
+		temp.delete(node);
+		visited.add(node);
+		result.push(node);
+	}
+
+	// Visit all nodes
+	for (const node of graph.keys()) {
+		if (!visited.has(node)) {
+			visit(node);
+		}
+	}
+
+	return result;
+}
 
 export const command = "setup-database";
 export const describe =
@@ -47,7 +171,7 @@ export async function handler() {
 					);
 				}
 			})
-			.then(() => {
+			.then(async () => {
 				if (addCustomUser) {
 					performance.mark("add-custom-user");
 					console.log(
@@ -56,9 +180,40 @@ export async function handler() {
 						)})`,
 					);
 				}
-				return execute(
-					`wp plugin activate --all --exclude=wordfence,shortpixel-image-optimiser`,
+
+				const dependencyGraph = await buildDependencyGraph(execute);
+
+				const excludedPlugins = ['stream', 'shortpixel-image-optimiser', 'wordfence'];
+				const { stdout: pluginList } = await execute('wp plugin list --format=json');
+				const allPlugins: { name: string; status: string }[] = JSON.parse(pluginList) as { name: string; status: string }[];
+
+				// Filter out excluded plugins and already active plugins
+				const pluginsToActivate = allPlugins.filter(plugin =>
+					!excludedPlugins.includes(plugin.name) &&
+					plugin.status !== 'active'
 				);
+
+				const filteredGraph = new Map<string, string[]>();
+				for (const plugin of pluginsToActivate) {
+					const dependencies = dependencyGraph.get(plugin.name) ?? [];
+					// Only include dependencies that are also in our activation list
+					const filteredDependencies = dependencies.filter(dep =>
+						pluginsToActivate.some(p => p.name === dep)
+					);
+					filteredGraph.set(plugin.name, filteredDependencies);
+				}
+
+				const activationOrder = topologicalSort(filteredGraph);
+
+				for (const pluginName of activationOrder) {
+					try {
+						await execute(`wp plugin activate ${pluginName}`);
+						console.log(`✓ Activated ${pluginName}`);
+					} catch (error: unknown) {
+						const errorMessage = error instanceof Error ? error.message : String(error);
+						console.warn(`⚠ Warning: Could not activate ${pluginName}: ${errorMessage}`);
+					}
+				}
 			})
 			.then(() => {
 				performance.mark("plugins");
@@ -86,7 +241,7 @@ export async function handler() {
 					)})`,
 				);
 			})
-			.catch(async (error: { stderr: string }) => {
+				.catch(async (error: { stderr: string }) => {
 				await stopRunningMessage();
 				if (error.stderr?.startsWith("ERROR 1007")) {
 					console.error(
