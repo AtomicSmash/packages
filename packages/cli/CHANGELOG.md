@@ -1,5 +1,11 @@
 # @atomicsmash/cli
 
+## 9.0.1-beta.0
+
+### Patch Changes
+
+- [#453](https://github.com/AtomicSmash/packages/pull/453) [`3e7dd0d`](https://github.com/AtomicSmash/packages/commit/3e7dd0d534352135710360405db377f401ae22d6) Thanks [@MeMattStone](https://github.com/MeMattStone)! - Added missing exit code 1 to setup and pull commands
+
 ## 9.0.0
 
 ### Major Changes
