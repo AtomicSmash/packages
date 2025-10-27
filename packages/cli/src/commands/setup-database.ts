@@ -181,28 +181,27 @@ export async function handler() {
 					);
 				}
 
-				performance.mark("plugins");
 				const dependencyGraph = await buildDependencyGraph(execute);
 
 				const excludedPlugins = ['stream', 'shortpixel-image-optimiser', 'wordfence'];
-			const { stdout: pluginList } = await execute('wp plugin list --format=json');
-			const allPlugins: { name: string; status: string }[] = JSON.parse(pluginList) as { name: string; status: string }[];
+				const { stdout: pluginList } = await execute('wp plugin list --format=json');
+				const allPlugins: { name: string; status: string }[] = JSON.parse(pluginList) as { name: string; status: string }[];
 
-			// Filter out excluded plugins and already active plugins
-			const pluginsToActivate = allPlugins.filter(plugin =>
-				!excludedPlugins.includes(plugin.name) &&
-				plugin.status !== 'active'
-			);
-
-			const filteredGraph = new Map<string, string[]>();
-			for (const plugin of pluginsToActivate) {
-				const dependencies = dependencyGraph.get(plugin.name) ?? [];
-				// Only include dependencies that are also in our activation list
-				const filteredDependencies = dependencies.filter(dep =>
-					pluginsToActivate.some(p => p.name === dep)
+				// Filter out excluded plugins and already active plugins
+				const pluginsToActivate = allPlugins.filter(plugin =>
+					!excludedPlugins.includes(plugin.name) &&
+					plugin.status !== 'active'
 				);
-				filteredGraph.set(plugin.name, filteredDependencies);
-			}
+
+				const filteredGraph = new Map<string, string[]>();
+				for (const plugin of pluginsToActivate) {
+					const dependencies = dependencyGraph.get(plugin.name) ?? [];
+					// Only include dependencies that are also in our activation list
+					const filteredDependencies = dependencies.filter(dep =>
+						pluginsToActivate.some(p => p.name === dep)
+					);
+					filteredGraph.set(plugin.name, filteredDependencies);
+				}
 
 				const activationOrder = topologicalSort(filteredGraph);
 
@@ -217,6 +216,7 @@ export async function handler() {
 				}
 			})
 			.then(() => {
+				performance.mark("plugins");
 				console.log(
 					`Plugins activated. (${convertMeasureToPrettyString(
 						performance.measure(
