@@ -38,7 +38,7 @@ function parsePluginHeaders(pluginPath: string): Record<string, string> | null {
 		headerContent?.split('\n').forEach(line => {
 			const colonIndex = line.indexOf(':');
 			if (colonIndex > 0) {
-				const key = line.substring(0, colonIndex).trim().replace(/\*/, '');
+				const key = line.substring(0, colonIndex).trim().replace(/\*/g, '');
 				const value = line.substring(colonIndex + 1).trim();
 				if (key && value) {
 					headers[key] = value;
@@ -56,18 +56,18 @@ async function buildDependencyGraph(execute: (command: string) => Promise<{ stdo
 	const graph = new Map<string, string[]>();
 	const pluginPaths = new Map<string, string>();
 
-	const { stdout: pathOutput } = await execute('wp plugin path --all');
-	const paths = pathOutput.trim().split('\n');
+	// Get the plugins directory path
+	const { stdout: pluginsDir } = await execute('wp plugin path');
+	const pluginsDirectory = pluginsDir.trim();
 
+	// Get all plugins
 	const { stdout: pluginList } = await execute('wp plugin list --format=json');
 	const plugins: { name: string }[] = JSON.parse(pluginList) as { name: string }[];
 
 	// Map plugin names to their paths
 	for (const plugin of plugins) {
-		const pluginPath = paths.find(p => p.includes(plugin.name));
-		if (pluginPath) {
-			pluginPaths.set(plugin.name, pluginPath);
-		}
+		const pluginPath = `${pluginsDirectory}/${plugin.name}`;
+    pluginPaths.set(plugin.name, pluginPath);
 	}
 
 	// Parse headers and build dependency graph
