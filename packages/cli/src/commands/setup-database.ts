@@ -12,14 +12,19 @@ import "dotenv/config";
 
 function parsePluginHeaders(pluginPath: string): Record<string, string> | null {
 	try {
-		// Find the main plugin file (usually the same name as the folder or index.php)
-		const files = readdirSync(pluginPath);
-		const mainFile = files.find(file =>
-			file.endsWith('.php') &&
-			(file === 'index.php' ||
-			 file === files.find(f => f.endsWith('.php') && f !== 'index.php') ||
-			 files.length === 1)
-		);
+		// Find the main plugin file by looking for the standard WordPress plugin header
+		const files = readdirSync(pluginPath).filter(file => file.endsWith('.php'));
+		let mainFile: string | null = null;
+
+		// Look for the file containing the standard plugin header
+		for (const file of files) {
+			const content = readFileSync(join(pluginPath, file), 'utf8');
+			// Check for the standard plugin header (Plugin Name: field)
+			if (/^\s*\/\*\*[\s\S]*?Plugin Name:/m.test(content)) {
+				mainFile = file;
+				break;
+			}
+		}
 
 		if (!mainFile) return null;
 
