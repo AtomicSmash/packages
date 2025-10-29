@@ -14,6 +14,7 @@
     "@atomicsmash/wordpress-tests-helper": "1.1.0"
   },
   "changesets": [
+    "brown-spoons-reply",
     "fifty-berries-worry",
     "mighty-moose-sing"
   ]
