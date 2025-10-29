@@ -1,5 +1,11 @@
 # @atomicsmash/cli
 
+## 9.0.1-beta.2
+
+### Patch Changes
+
+- [#461](https://github.com/AtomicSmash/packages/pull/461) [`0a4f33b`](https://github.com/AtomicSmash/packages/commit/0a4f33be9da5f9560f80cd1a66148fbec1e52048) Thanks [@MeMattStone](https://github.com/MeMattStone)! - Refactored the plugin dependency loop to make WordPress the source of truth
+
 ## 9.0.1-beta.1
 
 ### Patch Changes
