@@ -1,5 +1,11 @@
 # @atomicsmash/cli
 
+## 9.0.1-beta.3
+
+### Patch Changes
+
+- [#463](https://github.com/AtomicSmash/packages/pull/463) [`95c8e8f`](https://github.com/AtomicSmash/packages/commit/95c8e8f874931b17bb40a4735780a99d719f4712) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Updata search and replace in pull database script to use wp cli to fix serialisation issues
+
 ## 9.0.1-beta.2
 
 ### Patch Changes
