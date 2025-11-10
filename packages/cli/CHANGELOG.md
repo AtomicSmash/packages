@@ -1,5 +1,23 @@
 # @atomicsmash/cli
 
+## 9.0.1-beta.2
+
+### Patch Changes
+
+- [#461](https://github.com/AtomicSmash/packages/pull/461) [`0a4f33b`](https://github.com/AtomicSmash/packages/commit/0a4f33be9da5f9560f80cd1a66148fbec1e52048) Thanks [@MeMattStone](https://github.com/MeMattStone)! - Refactored the plugin dependency loop to make WordPress the source of truth
+
+## 9.0.1-beta.1
+
+### Patch Changes
+
+- [#457](https://github.com/AtomicSmash/packages/pull/457) [`dc9a701`](https://github.com/AtomicSmash/packages/commit/dc9a7019faa7c350644157d50becb65d94d7fe65) Thanks [@MeMattStone](https://github.com/MeMattStone)! - Re-factored how plugins are activated to account for dependancies in plugins
+
+## 9.0.1-beta.0
+
+### Patch Changes
+
+- [#453](https://github.com/AtomicSmash/packages/pull/453) [`3e7dd0d`](https://github.com/AtomicSmash/packages/commit/3e7dd0d534352135710360405db377f401ae22d6) Thanks [@MeMattStone](https://github.com/MeMattStone)! - Added missing exit code 1 to setup and pull commands
+
 ## 9.0.0
 
 ### Major Changes
