@@ -1,1 +1,1 @@
-module.exports = require("./base.cjs");
+export { default } from "./base.mjs";

@@ -2,6 +2,29 @@
 
 This document contains information on how to migrate from one version to the next version.
 
+## v9 --> v10
+
+Removed blocks command. Migrate to using the new compiler package.
+
+## v8 --> v9
+
+Updated sass-loader version to avoid conflict with compiler
+Deprecated cli package blocks command. Migrate to using the new compiler package.
+
+## v7 --> v8
+
+Migrated CLI to use yargs package. This means some help messages are different and some flags may be handled differently, however this should be a mostly seemless release.
+
+## v6 --> v7
+
+Delete extra CSS files after compilation
+Update blocks compiler to work with new structure
+
+## v5 --> v6
+
+`__Template__` block folder is excluded by default
+No longer compiles root files if there are no blocks, unless specifically opted in via flag
+
 ## v4 --> v5
 
 ### CLI
