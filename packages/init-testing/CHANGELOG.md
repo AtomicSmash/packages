@@ -1,5 +1,11 @@
 # @atomicsmash/init-testing
 
+## 2.1.2
+
+### Patch Changes
+
+- [#467](https://github.com/AtomicSmash/packages/pull/467) [`81e2759`](https://github.com/AtomicSmash/packages/commit/81e27596d29f566f781cdba92ba6e5f494826a17) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Update deps
+
 ## 2.1.1
 
 ### Patch Changes
