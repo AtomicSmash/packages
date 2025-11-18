@@ -1,8 +1,6 @@
 import { exec } from "node:child_process";
-import { createReadStream, createWriteStream } from "node:fs";
 import { unlink as deleteFile } from "node:fs/promises";
 import { performance } from "node:perf_hooks";
-import readline from "node:readline";
 import { promisify } from "node:util";
 import {
 	convertMeasureToPrettyString,
@@ -45,7 +43,6 @@ export async function handler() {
 		await (async () => {
 			const tmpFile = "/tmp/staging-database.sql";
 			const dbPrefixFile = "/tmp/db-prefix.txt";
-			const tmpFileProcessed = "/tmp/staging-database.processed.sql";
 			const tablesToExclude = [
 				// WordFence
 				"wfauditevents",
@@ -88,34 +85,11 @@ export async function handler() {
 				.then(async () => {
 					await stopRunningMessage();
 					console.log("Database downloaded.");
-					const stopRunningMessage2 = startRunningMessage(
-						"Updating URLs in database SQL",
-					);
-					await new Promise<void>((resolve, reject) => {
-						const readStream = createReadStream(tmpFile, { encoding: "utf8" });
-						const writeStream = createWriteStream(tmpFileProcessed, {
-							encoding: "utf8",
-						});
-
-						const rl = readline.createInterface({ input: readStream });
-
-						rl.on("line", (line) => {
-							writeStream.write(
-								line.replaceAll(stagingUrl, `//${projectName}.test`) + "\n",
-							);
-						});
-
-						rl.on("close", () => {
-							writeStream.end();
-						});
-
-						writeStream.on("finish", resolve);
-						writeStream.on("error", reject);
-						readStream.on("error", reject);
-					})
+					const stopRunningMessage2 = startRunningMessage("Importing database");
+					await execute(`wp db query < ${tmpFile}`)
 						.then(async () => {
 							await stopRunningMessage2();
-							console.log("URLs updated.");
+							console.log("Database imported.");
 						})
 						.catch(async (error) => {
 							await stopRunningMessage2();
@@ -123,20 +97,26 @@ export async function handler() {
 						});
 				})
 				.then(async () => {
-					const stopRunningMessage3 = startRunningMessage("Importing database");
-					await execute(`wp db query < ${tmpFileProcessed}`)
+					const stopRunningMessage3 = startRunningMessage(
+						"Running search and replace",
+					);
+					await execute(
+						`wp search-replace --url=${projectName}.test ${stagingUrl} '//${projectName}.test' --skip-columns=guid`,
+					)
 						.then(async () => {
 							await stopRunningMessage3();
+							console.log("Search and replace completed.");
 						})
 						.catch(async (error) => {
 							await stopRunningMessage3();
 							throw error;
 						});
+				})
+				.then(async () => {
 					const stopRunningMessage4 = startRunningMessage("Cleaning up");
 					await Promise.allSettled([
 						deleteFile(tmpFile),
 						deleteFile(dbPrefixFile),
-						deleteFile(tmpFileProcessed),
 					]).then(async () => {
 						await stopRunningMessage4();
 					});
@@ -157,7 +137,6 @@ export async function handler() {
 					const cleanupResults = await Promise.allSettled([
 						deleteFile(tmpFile),
 						deleteFile(dbPrefixFile),
-						deleteFile(tmpFileProcessed),
 					]);
 
 					const failedCleanups = cleanupResults.filter(
@@ -168,6 +147,7 @@ export async function handler() {
 							`Warning: Failed to delete ${failedCleanups.length} temporary file(s). You may need to clean them up manually.`,
 						);
 					}
+					process.exitCode = 1;
 				});
 		})();
 	}
