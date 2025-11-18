@@ -139,6 +139,7 @@ export async function getSmashConfig() {
 				return {
 					scssAliases: getDefaultSCSSAliases(config.themePath),
 					themeFolderName: config.projectName,
+					lintingBaseline: {},
 					...config,
 					// Normalize and resolve paths to cwd.
 					npmInstallPaths:
@@ -189,6 +190,7 @@ export async function getSmashConfig() {
 				npmInstallPaths: [],
 				composerInstallPaths: [],
 				scssAliases: getDefaultSCSSAliases(themePath),
+				lintingBaseline: {},
 			};
 			return defaultConfig;
 		});
