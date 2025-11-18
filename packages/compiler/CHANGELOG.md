@@ -1,5 +1,14 @@
 # @atomicsmash/compiler
 
+## 2.0.1
+
+### Patch Changes
+
+- [#467](https://github.com/AtomicSmash/packages/pull/467) [`81e2759`](https://github.com/AtomicSmash/packages/commit/81e27596d29f566f781cdba92ba6e5f494826a17) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Update deps
+
+- Updated dependencies [[`0a4f33b`](https://github.com/AtomicSmash/packages/commit/0a4f33be9da5f9560f80cd1a66148fbec1e52048), [`dc9a701`](https://github.com/AtomicSmash/packages/commit/dc9a7019faa7c350644157d50becb65d94d7fe65), [`81e2759`](https://github.com/AtomicSmash/packages/commit/81e27596d29f566f781cdba92ba6e5f494826a17), [`3e7dd0d`](https://github.com/AtomicSmash/packages/commit/3e7dd0d534352135710360405db377f401ae22d6), [`95c8e8f`](https://github.com/AtomicSmash/packages/commit/95c8e8f874931b17bb40a4735780a99d719f4712)]:
+  - @atomicsmash/cli@9.0.1
+
 ## 2.0.1-beta.0
 
 ### Patch Changes
