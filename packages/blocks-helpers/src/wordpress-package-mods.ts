@@ -165,7 +165,7 @@ declare module "@wordpress/block-editor" {
 			removeNotice?: () => void;
 			children?: ReactNode;
 			multiple?: Multiple;
-			addToGallery: boolean;
+			addToGallery?: boolean;
 			handleUpload?: boolean;
 			popoverProps?: ComponentProps<typeof Dropdown>["popoverProps"];
 			renderToggle?: (args: {
