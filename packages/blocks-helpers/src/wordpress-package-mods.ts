@@ -49,12 +49,6 @@ type SelectedImage = {
 	type: string;
 };
 
-// type LinkSettings = {
-// 	url: string;
-// 	title?: string;
-// 	opensInNewTab?: boolean;
-// };
-
 declare module "@wordpress/block-editor" {
 	const BlockContextProvider: Context<Record<string, unknown>>["Provider"];
 	// eslint-disable-next-line @typescript-eslint/naming-convention -- Wordpress Provided Function
@@ -191,6 +185,23 @@ declare module "@wordpress/block-editor" {
 					onSelect: (selectedImage: SelectedImage) => void;
 				}),
 	) => JSX.Element;
+
+	// eslint-disable-next-line @typescript-eslint/no-namespace -- Namespace must be used to match types package
+	namespace MediaPlaceholder {
+		// eslint-disable-next-line @typescript-eslint/consistent-type-definitions -- Interface is needed as per the existing types.
+		interface Props<T extends boolean> {
+			onToggleFeaturedImage?: () => void | Promise<void>;
+			autoOpenMediaUpload?: boolean;
+			disableDropZone?: boolean;
+			disableMediaButtons?: boolean;
+			onFilesPreUpload?: (
+				files: T extends true ? SelectedImage[] : SelectedImage,
+			) => void;
+			handleUpload?:
+				| boolean
+				| ((files: T extends true ? SelectedImage[] : SelectedImage) => void);
+		}
+	}
 }
 
 declare module "@wordpress/blocks" {
