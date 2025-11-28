@@ -13,5 +13,13 @@
     "@atomicsmash/test-utils": "5.0.5",
     "@atomicsmash/wordpress-tests-helper": "1.1.0"
   },
-  "changesets": []
+  "changesets": [
+    "full-lies-think",
+    "gold-trees-taste",
+    "happy-queens-judge",
+    "modern-pants-turn",
+    "nice-hornets-trade",
+    "puny-shoes-own",
+    "thin-loops-sing"
+  ]
 }
