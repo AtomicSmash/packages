@@ -1,1 +1,1 @@
-module.exports = require("./classic.cjs");
+export { default } from "./classic.mjs";

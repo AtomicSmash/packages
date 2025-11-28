@@ -2,6 +2,94 @@
 
 This document contains information on how to migrate from one version to the next version.
 
+## v16 --> v17
+
+### Removal of commitlint.
+
+We no longer use commitlint after moving to changesets. If your project still uses the commitlint config, you should remove it from the project and uninstall all commitlint dependencies.
+
+### Removal of PHPCS config.
+
+We migrated the PHPCS config to a composer package in v13 of this package, this config was only kept around for legacy projects, but it's now been removed.
+
+To install the new package, use the following instructions:
+
+1. Install the new package
+
+```sh
+composer require --dev atomicsmash/php-coding-standards
+```
+
+2. Update the existing `phpcs.xml` file to the new package location
+
+```xml
+<rule ref="./vendor/atomicsmash/php-coding-standards/phpcs.xml"/>
+```
+
+### Migration of coding standards configs to ESM - Part 1
+
+In v13 we added ESM versions of our config scripts with the goal of migrating to modern ESM. This is being done to assist with updating ESLint which is now EOL for the version we're stuck on.
+
+We are now making the next step which is to migrate the plain .js files to point to the new ESM files instead of the old config files. At this point, the old configs are still kept around in case of issues, however it's highly recommended to migrate your configs to the new ESM imports instead.
+
+In a future version, the old CJS files WILL be removed, so if you don't migrate now, you will have to do it later.
+
+Here's some specific examples for the tools you need to update:
+
+#### CSpell
+
+No change needed if using .js extension. If using .mjs or .cjs, migrate to using the .js extension. If you're using the .mjs extension you'll use the right file, but it will still break as the .mjs files will be removed in the future as well to avoid clutter.
+
+```js
+{
+	"import": ["@atomicsmash/coding-standards/cspell/index.js"]
+}
+```
+
+#### Prettier
+
+You likely have a `prettier.config.cjs` file which looks like this:
+
+```js
+module.exports = {
+	...require("@atomicsmash/coding-standards").prettierConfig,
+};
+```
+
+Rename the file to `prettier.config.mjs` and use this instead:
+
+```js
+import { prettierConfig } from "@atomicsmash/coding-standards";
+export default prettierConfig;
+```
+
+#### Stylelint
+
+You likely have a `.stylelintrc.cjs` file which looks like this:
+
+```js
+const stylelintConfig = require("@atomicsmash/coding-standards/stylelint/classic");
+
+/** @type {import('stylelint').Config} */
+module.exports = stylelintConfig;
+```
+
+OR
+
+```js
+module.exports = {
+	extends: ["@atomicsmash/coding-standards/stylelint/classic"],
+};
+```
+
+Rename the file to `.stylelintrc.mjs` and use this instead:
+
+```js
+export default {
+	extends: ["@atomicsmash/coding-standards/stylelint/classic"],
+};
+```
+
 ## v15 --> v16
 
 Browserslist query has been updated to exclude Chrome versions older than 120.
