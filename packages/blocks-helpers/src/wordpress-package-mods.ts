@@ -19,7 +19,7 @@ import type {
 import type { Dropdown } from "@wordpress/components";
 import type { Context, ComponentProps, ReactNode } from "react";
 
-type LayoutTypes = {
+export type LayoutTypes = {
 	type: "default";
 } & {
 	type: "flex";
@@ -29,7 +29,7 @@ type LayoutTypes = {
 	type: "constrained";
 };
 
-type SelectedImage = {
+export type SelectedImage = {
 	url: string;
 	alt: string;
 	id: number;
