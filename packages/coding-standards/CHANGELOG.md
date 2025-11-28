@@ -1,5 +1,21 @@
 # @atomicsmash/coding-standards
 
+## 17.0.0-beta.0
+
+### Major Changes
+
+- [#472](https://github.com/AtomicSmash/packages/pull/472) [`3f656e0`](https://github.com/AtomicSmash/packages/commit/3f656e02f88f88bbdc2b538b1cb23a959479bf99) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Remove PHPCS config
+
+- [#472](https://github.com/AtomicSmash/packages/pull/472) [`521823e`](https://github.com/AtomicSmash/packages/commit/521823e0a6100f8d46ce2c86e8491101ed8beffc) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Migrate to ESM first imports
+
+- [#472](https://github.com/AtomicSmash/packages/pull/472) [`7f3f4cc`](https://github.com/AtomicSmash/packages/commit/7f3f4cc582492c8b83bf889747a5d91eb1f01983) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Remove commitlint
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @atomicsmash/eslint-config@17.0.0-beta.0
+  - @atomicsmash/browserslist-config@17.0.0-beta.0
+
 ## 16.0.1
 
 ### Patch Changes

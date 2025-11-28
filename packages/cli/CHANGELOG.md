@@ -1,5 +1,11 @@
 # @atomicsmash/cli
 
+## 10.0.0-beta.0
+
+### Major Changes
+
+- [#472](https://github.com/AtomicSmash/packages/pull/472) [`197e841`](https://github.com/AtomicSmash/packages/commit/197e8410cb516916a76f6aba51ed5782052064b6) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Remove blocks command
+
 ## 9.0.1
 
 ### Patch Changes
