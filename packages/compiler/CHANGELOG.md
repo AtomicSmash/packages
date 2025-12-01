@@ -1,5 +1,11 @@
 # @atomicsmash/compiler
 
+## 3.0.0-beta.1
+
+### Patch Changes
+
+- [#476](https://github.com/AtomicSmash/packages/pull/476) [`02f62d2`](https://github.com/AtomicSmash/packages/commit/02f62d24798dd0e6931d062c3b168adeceee54b4) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Add PHP files to the file dependencies array to trigger watch rebuilds
+
 ## 3.0.0-beta.0
 
 ### Patch Changes
