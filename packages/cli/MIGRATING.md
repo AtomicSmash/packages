@@ -4,7 +4,9 @@ This document contains information on how to migrate from one version to the nex
 
 ## v9 --> v10
 
-Removed blocks command. Migrate to using the new compiler package.
+### Removed blocks command.
+
+Migrate to using the new compiler package.
 
 ## v8 --> v9
 

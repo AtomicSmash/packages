@@ -6,7 +6,7 @@ This document contains information on how to migrate from one version to the nex
 
 ### Updated peer deps
 
-The package now requires v10 of the @atomicsmash/cli package.
+The package now no longer requires @atomicsmash/cli as a peer dependency.
 
 ## v1 --> v2
 
