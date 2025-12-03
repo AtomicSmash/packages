@@ -27,6 +27,7 @@ export async function handler() {
 		.catch(() => {
 			return false;
 		});
+	const isCI = process.env.CI ?? false;
 	const smashConfig = await getSmashConfig();
 	if (!smashConfig) {
 		throw new Error(
@@ -37,7 +38,7 @@ export async function handler() {
 		const stopRunningMessage = startRunningMessage("Running setup");
 		performance.mark("Start");
 		await Promise.allSettled([
-			...(shouldInstallAndBuildOnly
+			...(isCI || shouldInstallAndBuildOnly
 				? []
 				: [
 						(async () => {
@@ -166,7 +167,7 @@ export async function handler() {
 							}
 						})(),
 					]),
-			execute("composer install")
+			execute(`composer install${isCI ? " --prefer-dist" : ""}`)
 				.then(() => {
 					console.log(
 						`Root composer install done. (${convertMeasureToPrettyString(
@@ -181,7 +182,9 @@ export async function handler() {
 					);
 				}),
 			...(composerInstallPaths?.map((path, index) => {
-				return execute(`cd "${resolve(process.cwd(), path)}"; composer install`)
+				return execute(
+					`cd "${resolve(process.cwd(), path)}"; composer install${isCI ? " --no-dev --classmap-authoritative" : ""}`,
+				)
 					.then(() => {
 						console.log(
 							`Additional composer install ${index + 1} done. (${convertMeasureToPrettyString(
@@ -200,7 +203,7 @@ export async function handler() {
 					});
 			}) ?? []),
 			(async () => {
-				await execute("npm install")
+				await execute(`npm ${isCI ? "ci" : "install"}`)
 					.then(() => {
 						performance.mark("root npm install done");
 						console.log(
@@ -229,7 +232,9 @@ export async function handler() {
 				throw new Error(reason);
 			}),
 			...(npmInstallPaths?.map((path, index) => {
-				return execute(`cd "${resolve(process.cwd(), path)}"; npm install`)
+				return execute(
+					`cd "${resolve(process.cwd(), path)}"; npm  ${isCI ? "ci --omit=dev" : "install"}`,
+				)
 					.then(() => {
 						console.log(
 							`Additional npm install ${index + 1} done. (${convertMeasureToPrettyString(
@@ -247,29 +252,31 @@ export async function handler() {
 						);
 					});
 			}) ?? []),
-		]).then(async (results) => {
-			await stopRunningMessage();
-			if (results.some((result) => result.status === "rejected")) {
+		])
+			.then(async (results) => {
+				await stopRunningMessage();
+				if (results.some((result) => result.status === "rejected")) {
+					process.exitCode = 1;
+					console.error("Setup failed with the following errors:\n");
+					console.error(
+						results
+							.filter((result) => result.status === "rejected")
+							.map((result) => {
+								return `- ${result.reason}`;
+							})
+							.join(`\n`),
+					);
+				} else {
+					console.log(
+						`Setup is complete. ${convertMeasureToPrettyString(
+							performance.measure("everything", "Start"),
+						)}`,
+					);
+				}
+			})
+			.catch((error) => {
+				console.error(error);
 				process.exitCode = 1;
-				console.error("Setup failed with the following errors:\n");
-				console.error(
-					results
-						.filter((result) => result.status === "rejected")
-						.map((result) => {
-							return `- ${result.reason}`;
-						})
-						.join(`\n`),
-				);
-			} else {
-				console.log(
-					`Setup is complete. ${convertMeasureToPrettyString(
-						performance.measure("everything", "Start"),
-					)}`,
-				);
-			}
-		}).catch((error) => {
-			console.error(error);
-			process.exitCode = 1;
-		});
+			});
 	}
 }

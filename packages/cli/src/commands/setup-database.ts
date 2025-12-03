@@ -14,12 +14,16 @@ function extractDependenciesFromError(errorMessage: string): string[] {
 	const regex = /requires \d+ plugin[s]? to be installed and activated: (.+)\./;
 	const match = regex.exec(errorMessage);
 	if (match?.[1]) {
-		return match[1].split(',').map(dep => dep.trim());
+		return match[1].split(",").map((dep) => dep.trim());
 	}
 	return [];
 }
 
-async function activatePluginsWithRetry(execute: (command: string) => Promise<{ stdout: string; stderr: string }>, pluginsToActivate: string[], excludedPlugins: string[]): Promise<void> {
+async function activatePluginsWithRetry(
+	execute: (command: string) => Promise<{ stdout: string; stderr: string }>,
+	pluginsToActivate: string[],
+	excludedPlugins: string[],
+): Promise<void> {
 	const maxRetries = 10; // Prevent infinite loops
 	let retryCount = 0;
 	const remainingPlugins = [...pluginsToActivate];
@@ -37,17 +41,23 @@ async function activatePluginsWithRetry(execute: (command: string) => Promise<{ 
 				await execute(`wp plugin activate ${pluginName}`);
 				console.log(`✓ Activated ${pluginName}`);
 			} catch (error: unknown) {
-				const errorMessage = error instanceof Error ? error.message : String(error);
+				const errorMessage =
+					error instanceof Error ? error.message : String(error);
 
 				// Check if this is a dependency error
 				const dependencies = extractDependenciesFromError(errorMessage);
 
 				if (dependencies.length > 0) {
-					console.log(`⚠ ${pluginName} requires dependencies: ${dependencies.join(', ')}`);
+					console.log(
+						`⚠ ${pluginName} requires dependencies: ${dependencies.join(", ")}`,
+					);
 
 					// Add dependencies to the remaining plugins list if they're not already there
 					for (const dep of dependencies) {
-						if (!pluginsToActivate.includes(dep) && !excludedPlugins.includes(dep)) {
+						if (
+							!pluginsToActivate.includes(dep) &&
+							!excludedPlugins.includes(dep)
+						) {
 							pluginsToActivate.push(dep);
 						}
 						if (!remainingPlugins.includes(dep)) {
@@ -58,7 +68,9 @@ async function activatePluginsWithRetry(execute: (command: string) => Promise<{ 
 					// Add the current plugin back to try again later
 					remainingPlugins.push(pluginName);
 				} else {
-					console.warn(`⚠ Warning: Could not activate ${pluginName}: ${errorMessage}`);
+					console.warn(
+						`⚠ Warning: Could not activate ${pluginName}: ${errorMessage}`,
+					);
 				}
 			}
 		}
@@ -67,7 +79,9 @@ async function activatePluginsWithRetry(execute: (command: string) => Promise<{ 
 	}
 
 	if (remainingPlugins.length > 0) {
-		console.warn(`⚠ Warning: Could not activate all plugins after ${maxRetries} attempts. Remaining: ${remainingPlugins.join(', ')}`);
+		console.warn(
+			`⚠ Warning: Could not activate all plugins after ${maxRetries} attempts. Remaining: ${remainingPlugins.join(", ")}`,
+		);
 	}
 }
 
@@ -120,19 +134,33 @@ export async function handler() {
 					);
 				}
 
-				const excludedPlugins = ['stream', 'shortpixel-image-optimiser', 'wordfence'];
-				const { stdout: pluginList } = await execute('wp plugin list --format=json');
-				const allPlugins: { name: string; status: string }[] = JSON.parse(pluginList) as { name: string; status: string }[];
+				const excludedPlugins = [
+					"stream",
+					"shortpixel-image-optimiser",
+					"wordfence",
+					"wp-mail-smtp",
+				];
+				const { stdout: pluginList } = await execute(
+					"wp plugin list --format=json",
+				);
+				const allPlugins: { name: string; status: string }[] = JSON.parse(
+					pluginList,
+				) as { name: string; status: string }[];
 
 				// Filter out excluded plugins and already active plugins
 				const pluginsToActivate = allPlugins
-					.filter(plugin =>
-						!excludedPlugins.includes(plugin.name) &&
-						plugin.status !== 'active'
+					.filter(
+						(plugin) =>
+							!excludedPlugins.includes(plugin.name) &&
+							plugin.status !== "active",
 					)
-					.map(plugin => plugin.name);
+					.map((plugin) => plugin.name);
 
-				await activatePluginsWithRetry(execute, pluginsToActivate, excludedPlugins);
+				await activatePluginsWithRetry(
+					execute,
+					pluginsToActivate,
+					excludedPlugins,
+				);
 			})
 			.then(() => {
 				performance.mark("plugins");
@@ -160,7 +188,7 @@ export async function handler() {
 					)})`,
 				);
 			})
-				.catch(async (error: { stderr: string }) => {
+			.catch(async (error: { stderr: string }) => {
 				await stopRunningMessage();
 				if (error.stderr?.startsWith("ERROR 1007")) {
 					console.error(
