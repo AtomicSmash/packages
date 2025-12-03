@@ -2,11 +2,8 @@ import { exec } from "node:child_process";
 import { unlink as deleteFile } from "node:fs/promises";
 import { performance } from "node:perf_hooks";
 import { promisify } from "node:util";
-import {
-	convertMeasureToPrettyString,
-	getSmashConfig,
-	startRunningMessage,
-} from "../utils.js";
+import { getSmashConfig } from "@atomicsmash/smash-config";
+import { convertMeasureToPrettyString, startRunningMessage } from "../utils.js";
 
 export const command = "pull-database";
 export const describe =

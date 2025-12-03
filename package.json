@@ -23,7 +23,8 @@
 		"packages/blocks-helpers",
 		"packages/test-utils",
 		"packages/init-testing",
-		"packages/wordpress-tests-helper"
+		"packages/wordpress-tests-helper",
+		"packages/smash-config"
 	],
 	"scripts": {
 		"prepare": "husky",

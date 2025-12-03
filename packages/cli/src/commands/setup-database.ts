@@ -1,11 +1,8 @@
 import { exec } from "node:child_process";
 import { performance } from "node:perf_hooks";
 import { promisify } from "node:util";
-import {
-	convertMeasureToPrettyString,
-	getSmashConfig,
-	startRunningMessage,
-} from "../utils.js";
+import { getSmashConfig } from "@atomicsmash/smash-config";
+import { convertMeasureToPrettyString, startRunningMessage } from "../utils.js";
 import "dotenv/config";
 
 function extractDependenciesFromError(errorMessage: string): string[] {
