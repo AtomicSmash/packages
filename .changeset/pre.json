@@ -11,10 +11,12 @@
     "@atomicsmash/eslint-config": "16.0.1",
     "@atomicsmash/init-testing": "2.1.2",
     "@atomicsmash/test-utils": "5.0.5",
-    "@atomicsmash/wordpress-tests-helper": "1.1.0"
+    "@atomicsmash/wordpress-tests-helper": "1.1.0",
+    "@atomicsmash/smash-config": "0.1.0"
   },
   "changesets": [
     "full-lies-think",
+    "funny-pianos-punch",
     "gold-trees-taste",
     "happy-queens-judge",
     "hip-lizards-lie",
@@ -23,6 +25,7 @@
     "nice-hornets-trade",
     "puny-shoes-own",
     "ripe-views-wave",
+    "stale-maps-drive",
     "thin-loops-sing"
   ]
 }

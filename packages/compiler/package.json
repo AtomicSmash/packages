@@ -1,7 +1,7 @@
 {
 	"name": "@atomicsmash/compiler",
 	"type": "module",
-	"version": "3.0.0-beta.2",
+	"version": "3.0.0-beta.3",
 	"description": "A universal compiler for all Atomic Smash projects.",
 	"keywords": [
 		"cli",
@@ -47,7 +47,7 @@
 	},
 	"dependencies": {
 		"@atomicsmash/date-php": "^2.1.0",
-		"@atomicsmash/smash-config": "^0.1.0",
+		"@atomicsmash/smash-config": "^1.0.0-beta.0",
 		"@wordpress/dependency-extraction-webpack-plugin": "^6.35.0",
 		"browserslist-to-esbuild": "^2.1.1",
 		"copy-webpack-plugin": "^12.0.2",
