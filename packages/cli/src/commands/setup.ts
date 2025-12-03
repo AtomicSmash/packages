@@ -9,11 +9,8 @@ import {
 import { resolve } from "node:path";
 import { performance } from "node:perf_hooks";
 import { promisify } from "node:util";
-import {
-	convertMeasureToPrettyString,
-	getSmashConfig,
-	startRunningMessage,
-} from "../utils.js";
+import { getSmashConfig } from "@atomicsmash/smash-config";
+import { convertMeasureToPrettyString, startRunningMessage } from "../utils.js";
 
 export const command = "setup";
 export const describe = "Run all the common setup tasks for a project.";

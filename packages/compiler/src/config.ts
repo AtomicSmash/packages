@@ -1,3 +1,4 @@
+import type { SCSSAliases } from "@atomicsmash/smash-config";
 import type { Configuration, PathData, RuleSetRule } from "webpack";
 import {
 	sep as pathSeparator,
@@ -7,7 +8,7 @@ import {
 	join,
 } from "node:path";
 import { pathToFileURL } from "node:url";
-import { getSmashConfig } from "@atomicsmash/cli";
+import { getSmashConfig } from "@atomicsmash/smash-config";
 import DependencyExtractionWebpackPlugin from "@wordpress/dependency-extraction-webpack-plugin";
 import browserslistToEsbuild from "browserslist-to-esbuild";
 import CopyPlugin from "copy-webpack-plugin";
@@ -23,7 +24,6 @@ import { WebpackAssetsManifest } from "webpack-assets-manifest";
 import { BundleAnalyzerPlugin } from "webpack-bundle-analyzer";
 import { BlocksPlugin } from "./BlocksPlugin.js";
 import { getBlocksAssetsEntryPoints } from "./getBlocksAssetsEntryPoints.js";
-import { SCSSAliases } from "./index.js";
 
 export async function config(options: {
 	/**

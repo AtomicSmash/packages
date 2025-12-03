@@ -1,7 +1,7 @@
 {
-	"name": "@atomicsmash/cli",
-	"version": "10.0.0-beta.1",
-	"description": "A collection of CLI tools by Atomic Smash.",
+	"name": "@atomicsmash/smash-config",
+	"version": "0.1.0",
+	"description": "",
 	"keywords": [],
 	"homepage": "https://www.atomicsmash.co.uk/",
 	"license": "GPL-3.0-or-later",
@@ -13,17 +13,13 @@
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/AtomicSmash/packages",
-		"directory": "packages/cli"
+		"directory": "packages/smash-config"
 	},
 	"files": [
 		"./dist/**/*"
 	],
 	"main": "./dist/index.js",
-	"bin": {
-		"smash-cli": "./dist/cli.js",
-		"@atomicsmash/cli": "./dist/cli.js"
-	},
-	"type": "module",
+	"types": "./dist/index.d.ts",
 	"publishConfig": {
 		"access": "public"
 	},
@@ -37,24 +33,6 @@
 		"test:coverage": "TZ=\"Europe/Istanbul\" vitest run --coverage",
 		"lint": "run-p lint:*",
 		"lint:eslint": "eslint --cache --cache-location ./node_modules/.cache/eslint . --ext .js,.ts,.jsx,.tsx",
-		"lint:types": "tsc -b"
-	},
-	"dependencies": {
-		"@atomicsmash/date-php": "^2.1.0",
-		"@atomicsmash/smash-config": "^0.1.0",
-		"@types/vinyl": "^2.0.12",
-		"cosmiconfig": "^9.0.0",
-		"glob-promise": "^6.0.7",
-		"svg-sprite": "^2.0.4",
-		"vinyl": "^3.0.1",
-		"yargs": "^18.0.0"
-	},
-	"devDependencies": {
-		"@atomicsmash/blocks-helpers": "^7.2.0-beta.0",
-		"@types/svg-sprite": "^0.0.39"
-	},
-	"peerDependencies": {
-		"dotenv": "^16.6.1",
-		"typescript": "^5.8.3"
+		"lint:types": "tsc"
 	}
 }
