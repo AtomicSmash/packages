@@ -1,5 +1,15 @@
 # @atomicsmash/cli
 
+## 10.0.0-beta.1
+
+### Minor Changes
+
+- [#478](https://github.com/AtomicSmash/packages/pull/478) [`28787b5`](https://github.com/AtomicSmash/packages/commit/28787b5ab36f01c92ab7f9f899a2fdc201614fe0) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Add support for running in command in CI
+
+### Patch Changes
+
+- [#478](https://github.com/AtomicSmash/packages/pull/478) [`ef8fab3`](https://github.com/AtomicSmash/packages/commit/ef8fab35fdd40d14096439d3d35d97e7c1addab0) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Exclude wp-mail-smtp from activation due to splash page on login
+
 ## 10.0.0-beta.0
 
 ### Major Changes
