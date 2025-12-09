@@ -196,7 +196,10 @@ export class WordPressAdminInteraction {
 			};
 		}[],
 	) {
-		const newTabPromise = this.page.waitForEvent("popup");
+		let newTabPromise;
+		if (this.versionIsHigherThan("6.8")) {
+			newTabPromise = this.page.waitForEvent("popup");
+		}
 		if (!this.initialised) {
 			throw new Error("You must initialise the helper first with init()");
 		}
@@ -256,6 +259,9 @@ export class WordPressAdminInteraction {
 					postInfo.frontendURL = this.page.url();
 				} else {
 					const newTab = await newTabPromise;
+					if (newTab === undefined) {
+						throw new Error("Failed to get new tab page.");
+					}
 					postInfo.frontendURL = newTab.url();
 				}
 			}
