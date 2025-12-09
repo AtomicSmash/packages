@@ -15,6 +15,7 @@
     "@atomicsmash/smash-config": "0.1.0"
   },
   "changesets": [
+    "brave-lizards-draw",
     "fast-forks-count",
     "full-lies-think",
     "funny-pianos-punch",
