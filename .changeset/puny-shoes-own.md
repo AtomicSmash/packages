@@ -2,4 +2,4 @@
 "@atomicsmash/blocks-helpers": patch
 ---
 
-Add missing types to placeholder
+Add missing types to MediaPlaceholder
