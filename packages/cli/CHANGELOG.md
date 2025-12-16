@@ -1,5 +1,26 @@
 # @atomicsmash/cli
 
+## 10.0.0
+
+### Major Changes
+
+- [#480](https://github.com/AtomicSmash/packages/pull/480) [`9e83ae4`](https://github.com/AtomicSmash/packages/commit/9e83ae42689cc7cea608db2414337d676d1ff083) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Use smash config package for loading smash config
+
+- [#472](https://github.com/AtomicSmash/packages/pull/472) [`197e841`](https://github.com/AtomicSmash/packages/commit/197e8410cb516916a76f6aba51ed5782052064b6) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Remove blocks command
+
+### Minor Changes
+
+- [#478](https://github.com/AtomicSmash/packages/pull/478) [`28787b5`](https://github.com/AtomicSmash/packages/commit/28787b5ab36f01c92ab7f9f899a2fdc201614fe0) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Add support for running in command in CI
+
+### Patch Changes
+
+- [#478](https://github.com/AtomicSmash/packages/pull/478) [`ef8fab3`](https://github.com/AtomicSmash/packages/commit/ef8fab35fdd40d14096439d3d35d97e7c1addab0) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Exclude wp-mail-smtp from activation due to splash page on login
+
+- [#489](https://github.com/AtomicSmash/packages/pull/489) [`7eb41c3`](https://github.com/AtomicSmash/packages/commit/7eb41c3a2e8d74479a48815d7c1cd0e5d5a2652c) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Add timeout to herd/valet commands in case it tries to be interactive.
+
+- Updated dependencies [[`9e83ae4`](https://github.com/AtomicSmash/packages/commit/9e83ae42689cc7cea608db2414337d676d1ff083)]:
+  - @atomicsmash/smash-config@1.0.0
+
 ## 10.0.0-beta.2
 
 ### Major Changes

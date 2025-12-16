@@ -1,5 +1,11 @@
 # @atomicsmash/wordpress-tests-helper
 
+## 1.2.0
+
+### Minor Changes
+
+- [#483](https://github.com/AtomicSmash/packages/pull/483) [`87ab88a`](https://github.com/AtomicSmash/packages/commit/87ab88a5812a903372eb8868d6a174d974f3fe12) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Add support for WP 6.9
+
 ## 1.2.0-beta.1
 
 ### Patch Changes

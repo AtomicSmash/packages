@@ -1,5 +1,11 @@
 # @atomicsmash/test-utils
 
+## 5.0.6
+
+### Patch Changes
+
+- [#488](https://github.com/AtomicSmash/packages/pull/488) [`52c94f9`](https://github.com/AtomicSmash/packages/commit/52c94f9941bc54e835d429c882482473dfaef6e0) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Update deps
+
 ## 5.0.5
 
 ### Patch Changes
