@@ -1,5 +1,22 @@
 # @atomicsmash/compiler
 
+## 3.0.0
+
+### Major Changes
+
+- [#488](https://github.com/AtomicSmash/packages/pull/488) [`4e2cf58`](https://github.com/AtomicSmash/packages/commit/4e2cf5887ff17c7a3cbf242f2afdde1d81035daa) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Remove support for scssAliases.config.ts, use smash.config.ts instead.
+
+- [#480](https://github.com/AtomicSmash/packages/pull/480) [`9e83ae4`](https://github.com/AtomicSmash/packages/commit/9e83ae42689cc7cea608db2414337d676d1ff083) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Use smash config package for loading smash config
+
+### Patch Changes
+
+- [#488](https://github.com/AtomicSmash/packages/pull/488) [`52c94f9`](https://github.com/AtomicSmash/packages/commit/52c94f9941bc54e835d429c882482473dfaef6e0) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Update deps
+
+- [#476](https://github.com/AtomicSmash/packages/pull/476) [`02f62d2`](https://github.com/AtomicSmash/packages/commit/02f62d24798dd0e6931d062c3b168adeceee54b4) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Add PHP files to the file dependencies array to trigger watch rebuilds
+
+- Updated dependencies [[`9e83ae4`](https://github.com/AtomicSmash/packages/commit/9e83ae42689cc7cea608db2414337d676d1ff083)]:
+  - @atomicsmash/smash-config@1.0.0
+
 ## 3.0.0-beta.3
 
 ### Major Changes
