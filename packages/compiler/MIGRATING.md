@@ -8,6 +8,10 @@ This document contains information on how to migrate from one version to the nex
 
 The package now no longer requires @atomicsmash/cli as a peer dependency.
 
+### scssAliases.config.ts is no longer supported.
+
+The scssAliases.config.ts file is a legacy file and a precursor to the smash.config.ts. Please migrate to the smash.config.ts and use the scssAliases property.
+
 ## v1 --> v2
 
 ### Added content hash to svg sprite filename for cache busting.
