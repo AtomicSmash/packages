@@ -89,6 +89,12 @@ export async function handler() {
 								});
 						})(),
 						(async () => {
+							const ONE_MINUTE_IN_MS = 60000;
+							const timeout = setTimeout(() => {
+								throw new Error(
+									"Herd/Valet commands timed out. Please try again.",
+								);
+							}, ONE_MINUTE_IN_MS * 1.5);
 							if (
 								await execute(`herd --version`)
 									.then(() => true)
@@ -135,6 +141,7 @@ export async function handler() {
 												performance.measure("herd isolate", "herd link done"),
 											)})`,
 										);
+										clearTimeout(timeout);
 									})
 									.catch((error) => {
 										console.error(error);
@@ -147,6 +154,7 @@ export async function handler() {
 							) {
 								await execute(`valet link ${projectName} --secure --isolate`)
 									.then(() => {
+										clearTimeout(timeout);
 										console.log(
 											`Valet is linked, secured and isolated. (${convertMeasureToPrettyString(
 												performance.measure("herd-or-valet", "Start"),
