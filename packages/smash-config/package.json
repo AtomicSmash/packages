@@ -1,5 +1,6 @@
 {
 	"name": "@atomicsmash/smash-config",
+	"type": "module",
 	"version": "1.0.0-beta.0",
 	"description": "",
 	"keywords": [],
@@ -34,5 +35,12 @@
 		"lint": "run-p lint:*",
 		"lint:eslint": "eslint --cache --cache-location ./node_modules/.cache/eslint . --ext .js,.ts,.jsx,.tsx",
 		"lint:types": "tsc"
+	},
+	"peerDependencies": {
+		"dotenv": "^17.2.3",
+		"sass": "^1.97.0"
+	},
+	"dependencies": {
+		"cosmiconfig": "^9.0.0"
 	}
 }

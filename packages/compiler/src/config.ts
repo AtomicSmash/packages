@@ -12,7 +12,6 @@ import { getSmashConfig } from "@atomicsmash/smash-config";
 import DependencyExtractionWebpackPlugin from "@wordpress/dependency-extraction-webpack-plugin";
 import browserslistToEsbuild from "browserslist-to-esbuild";
 import CopyPlugin from "copy-webpack-plugin";
-import { cosmiconfig } from "cosmiconfig";
 import cssNano from "cssnano";
 import { EsbuildPlugin } from "esbuild-loader";
 import glob from "fast-glob";
@@ -385,6 +384,10 @@ export async function config(options: {
 						entry.key = "icons/sprite.svg";
 						return entry;
 					}
+					if (entry.key.startsWith("icons/sprite") && entry.key.endsWith(".svg")) {
+						entry.key = "icons/sprite.svg";
+						return entry;
+					}
 					if (entry.key.startsWith("/")) {
 						entry.key = entry.key.slice(1);
 					}
@@ -457,38 +460,7 @@ async function getSassOptions(srcFolder: string) {
 		return smashConfig.scssAliases;
 	}
 
-	// Legacy fallback.
-	const explorer = cosmiconfig("scssAliases");
-	const config = await explorer
-		.load(resolvePath(process.cwd(), "scssAliases.config.ts"))
-		.then((result) => {
-			if (!result || result.isEmpty) {
-				throw new Error("Return default config.");
-			}
-			const config = result.config as unknown;
-			if (
-				typeof config === "object" &&
-				config !== null &&
-				Object.keys(config).length <= 2
-			) {
-				if (
-					Object.keys(config).length === 2 &&
-					"importers" in config &&
-					"loadPaths" in config
-				) {
-					return config as SCSSAliases;
-				}
-				if (
-					Object.keys(config).length === 1 &&
-					("importers" in config || "loadPaths" in config)
-				) {
-					return config as SCSSAliases;
-				}
-			}
-			throw new Error("Return default config.");
-		})
-		.catch(() => {
-			const defaultConfig: SCSSAliases = {
+	const defaultConfig: SCSSAliases = {
 				importers: [
 					{
 						findFileUrl(url) {
@@ -510,7 +482,5 @@ async function getSassOptions(srcFolder: string) {
 					},
 				],
 			};
-			return defaultConfig;
-		});
-	return config;
+	return defaultConfig;
 }

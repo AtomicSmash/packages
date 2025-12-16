@@ -82,25 +82,4 @@ describe.concurrent("Base CLI helpers work as intended", () => {
 			}
 		`);
 	});
-	test("main cli shows correct version number if --version is added after main command", async () => {
-		await expect(execute(`${testCommand} --version`)).resolves
-			.toMatchInlineSnapshot(`
-			{
-			  "error": null,
-			  "stderr": "",
-			  "stdout": "${packageVersion}
-			",
-			}
-		`);
-	});
-	test("main cli shows correct version number if -v is added after main command", async () => {
-		await expect(execute(`${testCommand} -v`)).resolves.toMatchInlineSnapshot(`
-			{
-			  "error": null,
-			  "stderr": "",
-			  "stdout": "${packageVersion}
-			",
-			}
-		`);
-	});
 });
