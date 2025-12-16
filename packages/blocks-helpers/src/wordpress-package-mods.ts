@@ -64,48 +64,6 @@ declare module "@wordpress/block-editor" {
 		additionalStyles?: { css: string }[];
 	}) => JSX.Element;
 
-	// eslint-disable-next-line @typescript-eslint/naming-convention -- Wordpress Provided Function
-	const __experimentalLinkControl: typeof LinkControl;
-
-	const LinkControl: (props: {
-		value?: {
-			url: string;
-			title?: string;
-			opensInNewTab?: boolean;
-		};
-		settings?: {
-			id: string;
-			title: string;
-		}[];
-		onChange: (newValue: {
-			url: string;
-			title: string;
-			opensInNewTab: boolean;
-			id?: number;
-			kind?: string;
-			type?: string;
-		}) => void;
-		showSuggestions?: boolean;
-		showInitialSuggestions?: boolean;
-		suggestionsQuery?: Record<string, unknown>;
-		forceIsEditingLink?: boolean;
-		createSuggestion?: (inputText: string) =>
-			| {
-					url: string;
-					title?: string;
-					opensInNewTab?: boolean;
-			  }
-			| Promise<{
-					url: string;
-					title?: string;
-					opensInNewTab?: boolean;
-			  }>;
-		onRemove?: () => void;
-		renderControlBottom?: () => void;
-		searchInputPlaceholder?: string;
-		noDirectEntry?: boolean;
-	}) => JSX.Element;
-
 	// eslint-disable-next-line @typescript-eslint/no-namespace -- Namespace must be used to match types package
 	namespace InnerBlocks {
 		// eslint-disable-next-line @typescript-eslint/consistent-type-definitions -- Interface is needed as per the existing types.

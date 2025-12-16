@@ -6,18 +6,18 @@
 	"main": "index.js",
 	"types": "index.d.ts",
 	"devDependencies": {
-		"@cspell/cspell-types": "^8.19.4"
+		"@cspell/cspell-types": "^9.5.0"
 	},
 	"peerDependencies": {
 		"@atomicsmash/browserslist-config": "^17.0.0-beta.0",
 		"@atomicsmash/eslint-config": "^17.0.0-beta.0",
-		"@wordpress/stylelint-config": "^23.27.0",
-		"prettier": "^3.6.2",
-		"stylelint": "^16.25.0",
-		"stylelint-config-standard": "^36.0.1",
-		"stylelint-config-standard-scss": "^14.0.0",
+		"@wordpress/stylelint-config": "^23.28.0",
+		"prettier": "^3.7.4",
+		"stylelint": "^16.26.1",
+		"stylelint-config-standard": "^39.0.1",
+		"stylelint-config-standard-scss": "^16.0.0",
 		"stylelint-no-restricted-syntax": "^2.2.1",
-		"stylelint-order": "^6.0.4"
+		"stylelint-order": "^7.0.0"
 	},
 	"keywords": [
 		"atomic",
