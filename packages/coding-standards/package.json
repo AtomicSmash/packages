@@ -11,9 +11,9 @@
 	"peerDependencies": {
 		"@atomicsmash/browserslist-config": "^17.0.0-beta.0",
 		"@atomicsmash/eslint-config": "^17.0.0-beta.0",
-		"@wordpress/stylelint-config": "^23.27.0",
-		"prettier": "^3.6.2",
-		"stylelint": "^16.25.0",
+		"@wordpress/stylelint-config": "^23.28.0",
+		"prettier": "^3.7.4",
+		"stylelint": "^16.26.1",
 		"stylelint-config-standard": "^36.0.1",
 		"stylelint-config-standard-scss": "^14.0.0",
 		"stylelint-no-restricted-syntax": "^2.2.1",
