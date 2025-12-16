@@ -30,39 +30,6 @@ export default defineConfig({
 		},
 	},
 	test: {
-		reporters: [
-			"default",
-			{
-				async onWatcherRerun(files) {
-					// Doesn't work yet
-					// let changedPackages: string[] = [];
-					// for (const file of files) {
-					// 	let relativePath = pathRelative(__dirname, file);
-					// 	if (relativePath.startsWith("packages")) {
-					// 		const [, packageName] = relativePath.split("/");
-					// 		changedPackages.push(packageName);
-					// 	}
-					// }
-					// changedPackages = [...new Set(changedPackages)]; // Remove duplicates
-					// for (const changedPackage of changedPackages) {
-					// 	const module = (await import(
-					// 		`./packages/${changedPackage}/test-setup.mjs`
-					// 	).catch(() => null)) as {
-					// 		setup?: () => Promise<void>;
-					// 		teardown?: () => Promise<void>;
-					// 	} | null;
-					// 	if (module) {
-					// 		if (module.teardown) {
-					// 			await module.teardown();
-					// 		}
-					// 		if (module.setup) {
-					// 			await module.setup();
-					// 		}
-					// 	}
-					// }
-				},
-			},
-		],
 		forceRerunTriggers: [
 			"package.json",
 			"packages/*/package.json",

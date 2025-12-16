@@ -44,7 +44,7 @@
 	},
 	"dependencies": {
 		"semver": "^7.7.3",
-		"yargs": "^17.7.2"
+		"yargs": "^18.0.0"
 	},
 	"devDependencies": {
 		"@types/semver": "^7.7.1",

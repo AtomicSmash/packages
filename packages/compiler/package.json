@@ -1,7 +1,7 @@
 {
 	"name": "@atomicsmash/compiler",
 	"type": "module",
-	"version": "2.0.1",
+	"version": "3.0.0-beta.3",
 	"description": "A universal compiler for all Atomic Smash projects.",
 	"keywords": [
 		"cli",
@@ -47,10 +47,10 @@
 	},
 	"dependencies": {
 		"@atomicsmash/date-php": "^2.1.0",
-		"@wordpress/dependency-extraction-webpack-plugin": "^6.35.0",
+		"@atomicsmash/smash-config": "^1.0.0-beta.0",
+		"@wordpress/dependency-extraction-webpack-plugin": "^6.36.0",
 		"browserslist-to-esbuild": "^2.1.1",
-		"copy-webpack-plugin": "^12.0.2",
-		"cosmiconfig": "^9.0.0",
+		"copy-webpack-plugin": "^13.0.1",
 		"cssnano": "^7.1.2",
 		"esbuild-loader": "^4.4.0",
 		"fast-glob": "^3.3.3",
@@ -58,20 +58,19 @@
 		"json2php": "^0.0.12",
 		"postcss": "^8.5.6",
 		"postcss-loader": "^8.2.0",
-		"postcss-preset-env": "^10.4.0",
-		"sass": "^1.94.1",
+		"postcss-preset-env": "^10.5.0",
+		"sass": "^1.97.0",
 		"sass-loader": "^16.0.6",
-		"svg-spritemap-webpack-plugin": "^4.7.0",
+		"svg-spritemap-webpack-plugin": "^5.1.0",
 		"tsconfig-paths-webpack-plugin": "^4.2.0",
-		"tsx": "^4.20.6",
-		"webpack": "^5.103.0",
-		"webpack-assets-manifest": "^6.4.0",
-		"webpack-bundle-analyzer": "^4.10.2",
-		"yargs": "^17.7.2"
+		"tsx": "^4.21.0",
+		"webpack": "^5.104.0",
+		"webpack-assets-manifest": "^6.5.0",
+		"webpack-bundle-analyzer": "^5.1.0",
+		"yargs": "^18.0.0"
 	},
 	"devDependencies": {
-		"@tailwindcss/postcss": "^4.1.17",
-		"@types/svg-spritemap-webpack-plugin": "^4.4.4",
+		"@tailwindcss/postcss": "^4.1.18",
 		"@types/webpack": "^5.28.5",
 		"@types/webpack-assets-manifest": "^5.1.4",
 		"@types/webpack-bundle-analyzer": "^4.7.0",
@@ -81,8 +80,5 @@
 	},
 	"engines": {
 		"node": "^20 || >=22"
-	},
-	"peerDependencies": {
-		"@atomicsmash/cli": "^9.0.1"
 	}
 }

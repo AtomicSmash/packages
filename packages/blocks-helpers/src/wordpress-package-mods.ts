@@ -19,7 +19,7 @@ import type {
 import type { Dropdown } from "@wordpress/components";
 import type { Context, ComponentProps, ReactNode } from "react";
 
-type LayoutTypes = {
+export type LayoutTypes = {
 	type: "default";
 } & {
 	type: "flex";
@@ -29,7 +29,7 @@ type LayoutTypes = {
 	type: "constrained";
 };
 
-type SelectedImage = {
+export type SelectedImage = {
 	url: string;
 	alt: string;
 	id: number;
@@ -49,12 +49,6 @@ type SelectedImage = {
 	type: string;
 };
 
-// type LinkSettings = {
-// 	url: string;
-// 	title?: string;
-// 	opensInNewTab?: boolean;
-// };
-
 declare module "@wordpress/block-editor" {
 	const BlockContextProvider: Context<Record<string, unknown>>["Provider"];
 	// eslint-disable-next-line @typescript-eslint/naming-convention -- Wordpress Provided Function
@@ -68,48 +62,6 @@ declare module "@wordpress/block-editor" {
 		viewportWidth?: number;
 		minHeight?: number;
 		additionalStyles?: { css: string }[];
-	}) => JSX.Element;
-
-	// eslint-disable-next-line @typescript-eslint/naming-convention -- Wordpress Provided Function
-	const __experimentalLinkControl: typeof LinkControl;
-
-	const LinkControl: (props: {
-		value?: {
-			url: string;
-			title?: string;
-			opensInNewTab?: boolean;
-		};
-		settings?: {
-			id: string;
-			title: string;
-		}[];
-		onChange: (newValue: {
-			url: string;
-			title: string;
-			opensInNewTab: boolean;
-			id?: number;
-			kind?: string;
-			type?: string;
-		}) => void;
-		showSuggestions?: boolean;
-		showInitialSuggestions?: boolean;
-		suggestionsQuery?: Record<string, unknown>;
-		forceIsEditingLink?: boolean;
-		createSuggestion?: (inputText: string) =>
-			| {
-					url: string;
-					title?: string;
-					opensInNewTab?: boolean;
-			  }
-			| Promise<{
-					url: string;
-					title?: string;
-					opensInNewTab?: boolean;
-			  }>;
-		onRemove?: () => void;
-		renderControlBottom?: () => void;
-		searchInputPlaceholder?: string;
-		noDirectEntry?: boolean;
 	}) => JSX.Element;
 
 	// eslint-disable-next-line @typescript-eslint/no-namespace -- Namespace must be used to match types package
@@ -171,7 +123,7 @@ declare module "@wordpress/block-editor" {
 			removeNotice?: () => void;
 			children?: ReactNode;
 			multiple?: Multiple;
-			addToGallery: boolean;
+			addToGallery?: boolean;
 			handleUpload?: boolean;
 			popoverProps?: ComponentProps<typeof Dropdown>["popoverProps"];
 			renderToggle?: (args: {
@@ -191,6 +143,23 @@ declare module "@wordpress/block-editor" {
 					onSelect: (selectedImage: SelectedImage) => void;
 				}),
 	) => JSX.Element;
+
+	// eslint-disable-next-line @typescript-eslint/no-namespace -- Namespace must be used to match types package
+	namespace MediaPlaceholder {
+		// eslint-disable-next-line @typescript-eslint/consistent-type-definitions -- Interface is needed as per the existing types.
+		interface Props<T extends boolean> {
+			onToggleFeaturedImage?: () => void | Promise<void>;
+			autoOpenMediaUpload?: boolean;
+			disableDropZone?: boolean;
+			disableMediaButtons?: boolean;
+			onFilesPreUpload?: (
+				files: T extends true ? SelectedImage[] : SelectedImage,
+			) => void;
+			handleUpload?:
+				| boolean
+				| ((files: T extends true ? SelectedImage[] : SelectedImage) => void);
+		}
+	}
 }
 
 declare module "@wordpress/blocks" {

@@ -1,1 +1,1 @@
-module.exports = require("./theme-json.cjs");
+export { default } from "./theme-json.mjs";

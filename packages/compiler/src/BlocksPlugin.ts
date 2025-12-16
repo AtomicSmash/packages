@@ -42,6 +42,7 @@ export class BlocksPlugin implements WebpackPluginInstance {
 					]);
 					await Promise.all(
 						PHPFiles.map(async (file) => {
+							compilation.fileDependencies.add(file);
 							return readFile(file, "utf-8").then((data) => {
 								compilation.emitAsset(
 									relative(this.srcFolder, file),

@@ -1,5 +1,17 @@
 # @atomicsmash/blocks-helpers
 
+## 7.2.0-beta.0
+
+### Minor Changes
+
+- [#474](https://github.com/AtomicSmash/packages/pull/474) [`be212df`](https://github.com/AtomicSmash/packages/commit/be212dff6f25b1799de6e071a536af7872562245) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Export helpful types from package
+
+### Patch Changes
+
+- [#474](https://github.com/AtomicSmash/packages/pull/474) [`a62ac27`](https://github.com/AtomicSmash/packages/commit/a62ac27f2b9cc13dc99b89d92948f4ce0e0e7e26) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Fix MediaReplaceFlow addToGallery to make it optional
+
+- [#474](https://github.com/AtomicSmash/packages/pull/474) [`dc785d4`](https://github.com/AtomicSmash/packages/commit/dc785d4c6d81eaf7bc11cd5985c4978da17f4736) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Add missing types to placeholder
+
 ## 7.1.0
 
 ### Minor Changes

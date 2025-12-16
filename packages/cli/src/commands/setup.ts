@@ -9,11 +9,8 @@ import {
 import { resolve } from "node:path";
 import { performance } from "node:perf_hooks";
 import { promisify } from "node:util";
-import {
-	convertMeasureToPrettyString,
-	getSmashConfig,
-	startRunningMessage,
-} from "../utils.js";
+import { getSmashConfig } from "@atomicsmash/smash-config";
+import { convertMeasureToPrettyString, startRunningMessage } from "../utils.js";
 
 export const command = "setup";
 export const describe = "Run all the common setup tasks for a project.";
@@ -27,6 +24,7 @@ export async function handler() {
 		.catch(() => {
 			return false;
 		});
+	const isCI = process.env.CI ?? false;
 	const smashConfig = await getSmashConfig();
 	if (!smashConfig) {
 		throw new Error(
@@ -37,7 +35,7 @@ export async function handler() {
 		const stopRunningMessage = startRunningMessage("Running setup");
 		performance.mark("Start");
 		await Promise.allSettled([
-			...(shouldInstallAndBuildOnly
+			...(isCI || shouldInstallAndBuildOnly
 				? []
 				: [
 						(async () => {
@@ -91,6 +89,12 @@ export async function handler() {
 								});
 						})(),
 						(async () => {
+							const ONE_MINUTE_IN_MS = 60000;
+							const timeout = setTimeout(() => {
+								throw new Error(
+									"Herd/Valet commands timed out. Please try again.",
+								);
+							}, ONE_MINUTE_IN_MS * 1.5);
 							if (
 								await execute(`herd --version`)
 									.then(() => true)
@@ -137,6 +141,7 @@ export async function handler() {
 												performance.measure("herd isolate", "herd link done"),
 											)})`,
 										);
+										clearTimeout(timeout);
 									})
 									.catch((error) => {
 										console.error(error);
@@ -149,6 +154,7 @@ export async function handler() {
 							) {
 								await execute(`valet link ${projectName} --secure --isolate`)
 									.then(() => {
+										clearTimeout(timeout);
 										console.log(
 											`Valet is linked, secured and isolated. (${convertMeasureToPrettyString(
 												performance.measure("herd-or-valet", "Start"),
@@ -166,7 +172,7 @@ export async function handler() {
 							}
 						})(),
 					]),
-			execute("composer install")
+			execute(`composer install${isCI ? " --prefer-dist" : ""}`)
 				.then(() => {
 					console.log(
 						`Root composer install done. (${convertMeasureToPrettyString(
@@ -181,7 +187,9 @@ export async function handler() {
 					);
 				}),
 			...(composerInstallPaths?.map((path, index) => {
-				return execute(`cd "${resolve(process.cwd(), path)}"; composer install`)
+				return execute(
+					`cd "${resolve(process.cwd(), path)}"; composer install${isCI ? " --no-dev --classmap-authoritative" : ""}`,
+				)
 					.then(() => {
 						console.log(
 							`Additional composer install ${index + 1} done. (${convertMeasureToPrettyString(
@@ -200,7 +208,7 @@ export async function handler() {
 					});
 			}) ?? []),
 			(async () => {
-				await execute("npm install")
+				await execute(`npm ${isCI ? "ci" : "install"}`)
 					.then(() => {
 						performance.mark("root npm install done");
 						console.log(
@@ -229,7 +237,9 @@ export async function handler() {
 				throw new Error(reason);
 			}),
 			...(npmInstallPaths?.map((path, index) => {
-				return execute(`cd "${resolve(process.cwd(), path)}"; npm install`)
+				return execute(
+					`cd "${resolve(process.cwd(), path)}"; npm  ${isCI ? "ci --omit=dev" : "install"}`,
+				)
 					.then(() => {
 						console.log(
 							`Additional npm install ${index + 1} done. (${convertMeasureToPrettyString(
@@ -247,29 +257,31 @@ export async function handler() {
 						);
 					});
 			}) ?? []),
-		]).then(async (results) => {
-			await stopRunningMessage();
-			if (results.some((result) => result.status === "rejected")) {
+		])
+			.then(async (results) => {
+				await stopRunningMessage();
+				if (results.some((result) => result.status === "rejected")) {
+					process.exitCode = 1;
+					console.error("Setup failed with the following errors:\n");
+					console.error(
+						results
+							.filter((result) => result.status === "rejected")
+							.map((result) => {
+								return `- ${result.reason}`;
+							})
+							.join(`\n`),
+					);
+				} else {
+					console.log(
+						`Setup is complete. ${convertMeasureToPrettyString(
+							performance.measure("everything", "Start"),
+						)}`,
+					);
+				}
+			})
+			.catch((error) => {
+				console.error(error);
 				process.exitCode = 1;
-				console.error("Setup failed with the following errors:\n");
-				console.error(
-					results
-						.filter((result) => result.status === "rejected")
-						.map((result) => {
-							return `- ${result.reason}`;
-						})
-						.join(`\n`),
-				);
-			} else {
-				console.log(
-					`Setup is complete. ${convertMeasureToPrettyString(
-						performance.measure("everything", "Start"),
-					)}`,
-				);
-			}
-		}).catch((error) => {
-			console.error(error);
-			process.exitCode = 1;
-		});
+			});
 	}
 }

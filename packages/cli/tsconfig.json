@@ -6,5 +6,9 @@
 		"rootDir": "src",
 		"outDir": "dist"
 	},
-	"references": [{ "path": "../date-php" }, { "path": "../blocks-helpers" }]
+	"references": [
+		{ "path": "../date-php" },
+		{ "path": "../blocks-helpers" },
+		{ "path": "../smash-config" }
+	]
 }

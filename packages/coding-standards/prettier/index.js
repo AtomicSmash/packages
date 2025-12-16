@@ -1,1 +1,1 @@
-module.exports = require("./index.cjs");
+export { default } from "./index.mjs";

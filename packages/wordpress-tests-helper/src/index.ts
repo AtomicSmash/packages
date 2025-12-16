@@ -2,7 +2,7 @@ import type { Page } from "@playwright/test";
 import { readFile, writeFile, unlink } from "node:fs/promises";
 import { expect } from "@playwright/test";
 
-type SupportedWPVersions = "6.6" | "6.7" | "6.8";
+type SupportedWPVersions = "6.6" | "6.7" | "6.8" | "6.9";
 
 export class WordPressAdminInteraction {
 	readonly page: Page;
@@ -28,7 +28,7 @@ export class WordPressAdminInteraction {
 	) {
 		this.page = page;
 		this.persistLocation = persistLocation;
-		this.WPVersion = WPVersion === "latest" ? "6.8" : WPVersion;
+		this.WPVersion = WPVersion === "latest" ? "6.9" : WPVersion;
 	}
 
 	/**
@@ -196,6 +196,10 @@ export class WordPressAdminInteraction {
 			};
 		}[],
 	) {
+		let newTabPromise;
+		if (this.versionIsHigherThan("6.8")) {
+			newTabPromise = this.page.waitForEvent("popup");
+		}
 		if (!this.initialised) {
 			throw new Error("You must initialise the helper first with init()");
 		}
@@ -248,12 +252,18 @@ export class WordPressAdminInteraction {
 					.getByLabel("Editor publish")
 					.getByRole("link", { name: /^View / })
 					.click();
-
-				await this.page.waitForURL(
-					(url) => !url.toString().includes("wp/wp-admin"),
-				);
-
-				postInfo.frontendURL = this.page.url();
+				if (this.versionIsLowerThan("6.9")) {
+					await this.page.waitForURL(
+						(url) => !url.toString().includes("wp/wp-admin"),
+					);
+					postInfo.frontendURL = this.page.url();
+				} else {
+					const newTab = await newTabPromise;
+					if (newTab === undefined) {
+						throw new Error("Failed to get new tab page.");
+					}
+					postInfo.frontendURL = newTab.url();
+				}
 			}
 
 			if (
@@ -354,7 +364,9 @@ export class WordPressAdminInteraction {
 
 			const moveToTrashText = this.versionIsLowerThan("6.7")
 				? "Move to Trash"
-				: "Move to trash";
+				: this.versionIsLowerThan("6.9")
+					? "Move to trash"
+					: "Trash";
 
 			await this.page
 				.getByRole("menuitem", { name: moveToTrashText, exact: true })

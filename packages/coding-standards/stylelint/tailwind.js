@@ -1,1 +1,1 @@
-module.exports = require("./tailwind.cjs");
+export { default } from "./tailwind.mjs";

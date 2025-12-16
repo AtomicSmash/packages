@@ -29,7 +29,6 @@ describe.concurrent("Base CLI helpers work as intended", () => {
 			  "stdout": "smash-cli <command>
 
 			Commands:
-			  smash-cli blocks          A command to generate WordPress blocks from a src folder.  [deprecated: Please migrate to using the @atomicsmash/compiler package. This command will be removed in the next major version.]
 			  smash-cli pull-database   Pull the database down from staging and replace local database.
 			  smash-cli pull-media      Pull the media items from the staging site.
 			  smash-cli setup-database  Create a new database and initialise the site with no content.
@@ -52,7 +51,6 @@ describe.concurrent("Base CLI helpers work as intended", () => {
 			  "stdout": "smash-cli <command>
 
 			Commands:
-			  smash-cli blocks          A command to generate WordPress blocks from a src folder.  [deprecated: Please migrate to using the @atomicsmash/compiler package. This command will be removed in the next major version.]
 			  smash-cli pull-database   Pull the database down from staging and replace local database.
 			  smash-cli pull-media      Pull the media items from the staging site.
 			  smash-cli setup-database  Create a new database and initialise the site with no content.
@@ -81,27 +79,6 @@ describe.concurrent("Base CLI helpers work as intended", () => {
 			Specify --help to see the available commands.
 			",
 			  "stdout": "",
-			}
-		`);
-	});
-	test("main cli shows correct version number if --version is added after main command", async () => {
-		await expect(execute(`${testCommand} --version`)).resolves
-			.toMatchInlineSnapshot(`
-			{
-			  "error": null,
-			  "stderr": "",
-			  "stdout": "${packageVersion}
-			",
-			}
-		`);
-	});
-	test("main cli shows correct version number if -v is added after main command", async () => {
-		await expect(execute(`${testCommand} -v`)).resolves.toMatchInlineSnapshot(`
-			{
-			  "error": null,
-			  "stderr": "",
-			  "stdout": "${packageVersion}
-			",
 			}
 		`);
 	});

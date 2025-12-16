@@ -19,6 +19,8 @@ export type {
 	DefaultAttributes,
 };
 
+export type { SelectedImage, LayoutTypes } from "./wordpress-package-mods";
+
 export type BlockCategory =
 	| "text"
 	| "media"
