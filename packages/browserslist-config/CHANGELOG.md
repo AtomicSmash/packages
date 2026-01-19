@@ -1,5 +1,7 @@
 # @atomicsmash/browserslist-config
 
+## 17.0.1
+
 ## 17.0.1-beta.0
 
 ## 17.0.0
