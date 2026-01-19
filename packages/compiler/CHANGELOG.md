@@ -1,5 +1,14 @@
 # @atomicsmash/compiler
 
+## 3.0.1
+
+### Patch Changes
+
+- [#495](https://github.com/AtomicSmash/packages/pull/495) [`7f336ba`](https://github.com/AtomicSmash/packages/commit/7f336badb88d6374df0350d3aa18d555171fc368) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Update deps
+
+- Updated dependencies [[`7f336ba`](https://github.com/AtomicSmash/packages/commit/7f336badb88d6374df0350d3aa18d555171fc368)]:
+  - @atomicsmash/smash-config@1.0.1
+
 ## 3.0.1-beta.0
 
 ### Patch Changes

@@ -1,5 +1,14 @@
 # @atomicsmash/cli
 
+## 10.0.1
+
+### Patch Changes
+
+- [#497](https://github.com/AtomicSmash/packages/pull/497) [`da14930`](https://github.com/AtomicSmash/packages/commit/da14930be02360a48c2491ee391136dcfc72ee1c) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Add modular connector to exclusions list
+
+- Updated dependencies [[`7f336ba`](https://github.com/AtomicSmash/packages/commit/7f336badb88d6374df0350d3aa18d555171fc368)]:
+  - @atomicsmash/smash-config@1.0.1
+
 ## 10.0.1-beta.0
 
 ### Patch Changes
