@@ -14,5 +14,8 @@
     "@atomicsmash/test-utils": "5.0.6",
     "@atomicsmash/wordpress-tests-helper": "1.2.0"
   },
-  "changesets": []
+  "changesets": [
+    "sweet-teeth-lead",
+    "tender-otters-tease"
+  ]
 }
