@@ -38,7 +38,7 @@
 	},
 	"peerDependencies": {
 		"dotenv": "^17.2.3",
-		"sass": "^1.97.0"
+		"sass": "^1.97.2"
 	},
 	"dependencies": {
 		"cosmiconfig": "^9.0.0"
