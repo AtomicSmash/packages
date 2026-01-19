@@ -136,6 +136,7 @@ export async function handler() {
 					"shortpixel-image-optimiser",
 					"wordfence",
 					"wp-mail-smtp",
+					"modular-connector",
 				];
 				const { stdout: pluginList } = await execute(
 					"wp plugin list --format=json",

@@ -17,7 +17,7 @@ import type {
 	BlockAttributes as FixedBlockAttributes,
 } from "./index";
 import type { Dropdown } from "@wordpress/components";
-import type { Context, ComponentProps, ReactNode } from "react";
+import type { ComponentProps, ReactNode } from "react";
 
 export type LayoutTypes = {
 	type: "default";
@@ -50,7 +50,6 @@ export type SelectedImage = {
 };
 
 declare module "@wordpress/block-editor" {
-	const BlockContextProvider: Context<Record<string, unknown>>["Provider"];
 	// eslint-disable-next-line @typescript-eslint/naming-convention -- Wordpress Provided Function
 	const __experimentalUseBlockPreview: (props: {
 		blocks: BlockInstanceAsObject[];
@@ -179,10 +178,8 @@ declare module "@wordpress/blocks" {
 			string,
 			never
 		>,
-		InterpretedAttributes extends InterpretAttributes<
-			Supports,
-			Attributes
-		> = InterpretAttributes<Supports, Attributes>,
+		InterpretedAttributes extends InterpretAttributes<Supports, Attributes> =
+			InterpretAttributes<Supports, Attributes>,
 	>(
 		name: string,
 		settings: ClientOnlyRegisterOptions<
