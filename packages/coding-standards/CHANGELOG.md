@@ -1,5 +1,15 @@
 # @atomicsmash/coding-standards
 
+## 17.0.2-beta.0
+
+### Patch Changes
+
+- [#502](https://github.com/AtomicSmash/packages/pull/502) [`eddcd78`](https://github.com/AtomicSmash/packages/commit/eddcd78cb065821ab2ac1c7302ef62d7be6f2d82) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Rollback stylelint version due to conflict
+
+- Updated dependencies []:
+  - @atomicsmash/eslint-config@17.0.2-beta.0
+  - @atomicsmash/browserslist-config@17.0.2-beta.0
+
 ## 17.0.1
 
 ### Patch Changes
