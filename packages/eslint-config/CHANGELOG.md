@@ -1,5 +1,7 @@
 # @atomicsmash/eslint-config
 
+## 17.0.2-beta.0
+
 ## 17.0.1
 
 ### Patch Changes
