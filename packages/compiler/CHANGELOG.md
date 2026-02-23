@@ -1,5 +1,12 @@
 # @atomicsmash/compiler
 
+## 3.0.2-beta.0
+
+### Patch Changes
+
+- Updated dependencies [[`7963f5f`](https://github.com/AtomicSmash/packages/commit/7963f5f9d267808e16ab446e750ef06fd76faf5a), [`7963f5f`](https://github.com/AtomicSmash/packages/commit/7963f5f9d267808e16ab446e750ef06fd76faf5a)]:
+  - @atomicsmash/date-php@2.2.0-beta.0
+
 ## 3.0.1
 
 ### Patch Changes
