@@ -43,7 +43,7 @@
 		"lint:types": "tsc"
 	},
 	"dependencies": {
-		"semver": "^7.7.3",
+		"semver": "^7.7.4",
 		"yargs": "^18.0.0"
 	},
 	"devDependencies": {

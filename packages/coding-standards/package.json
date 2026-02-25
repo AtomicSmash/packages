@@ -6,13 +6,13 @@
 	"main": "index.js",
 	"types": "index.d.ts",
 	"devDependencies": {
-		"@cspell/cspell-types": "^9.6.0"
+		"@cspell/cspell-types": "^9.7.0"
 	},
 	"peerDependencies": {
 		"@atomicsmash/browserslist-config": "^17.0.2",
 		"@atomicsmash/eslint-config": "^17.0.2",
-		"@wordpress/stylelint-config": "^23.30.0",
-		"prettier": "^3.8.0",
+		"@wordpress/stylelint-config": "^23.32.0",
+		"prettier": "^3.8.1",
 		"stylelint": "^16.26.1",
 		"stylelint-config-standard": "^39.0.1",
 		"stylelint-config-standard-scss": "^16.0.0",
