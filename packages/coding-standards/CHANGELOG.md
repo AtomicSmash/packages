@@ -1,5 +1,15 @@
 # @atomicsmash/coding-standards
 
+## 17.0.3-beta.0
+
+### Patch Changes
+
+- [#519](https://github.com/AtomicSmash/packages/pull/519) [`41bea20`](https://github.com/AtomicSmash/packages/commit/41bea20b7bca144214f348ec45cdd1d608dc1c33) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Update dependencies
+
+- Updated dependencies [[`41bea20`](https://github.com/AtomicSmash/packages/commit/41bea20b7bca144214f348ec45cdd1d608dc1c33)]:
+  - @atomicsmash/eslint-config@17.0.3-beta.0
+  - @atomicsmash/browserslist-config@17.0.3-beta.0
+
 ## 17.0.2
 
 ### Patch Changes

@@ -1,5 +1,24 @@
 # @atomicsmash/cli
 
+## 11.0.0-beta.1
+
+### Major Changes
+
+- [#517](https://github.com/AtomicSmash/packages/pull/517) [`9c39102`](https://github.com/AtomicSmash/packages/commit/9c39102c7d2d3e6a138c6ef02505f29410b380b0) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Add --no-existing-database flag
+
+### Minor Changes
+
+- [#518](https://github.com/AtomicSmash/packages/pull/518) [`cc71f80`](https://github.com/AtomicSmash/packages/commit/cc71f8074a50532dbf2ce593049369658219cce2) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Deprecate SVG command
+
+- [#517](https://github.com/AtomicSmash/packages/pull/517) [`9c39102`](https://github.com/AtomicSmash/packages/commit/9c39102c7d2d3e6a138c6ef02505f29410b380b0) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Add --drop-database flag
+
+### Patch Changes
+
+- [#519](https://github.com/AtomicSmash/packages/pull/519) [`41bea20`](https://github.com/AtomicSmash/packages/commit/41bea20b7bca144214f348ec45cdd1d608dc1c33) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Update dependencies
+
+- Updated dependencies [[`41bea20`](https://github.com/AtomicSmash/packages/commit/41bea20b7bca144214f348ec45cdd1d608dc1c33)]:
+  - @atomicsmash/smash-config@1.0.2-beta.0
+
 ## 10.0.2-beta.0
 
 ### Patch Changes
