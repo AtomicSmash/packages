@@ -53,7 +53,7 @@
 		"@types/svg-sprite": "^0.0.39"
 	},
 	"peerDependencies": {
-		"dotenv": "^17.2.3",
+		"dotenv": "^17.3.1",
 		"typescript": "~5.9.3"
 	}
 }

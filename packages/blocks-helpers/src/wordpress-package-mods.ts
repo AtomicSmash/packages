@@ -67,14 +67,6 @@ declare module "@wordpress/block-editor" {
 	namespace InnerBlocks {
 		// eslint-disable-next-line @typescript-eslint/consistent-type-definitions -- Interface is needed as per the existing types.
 		interface Props {
-			/**
-			 * `allowedBlocks` can contain an array of strings, each string should contain the identifier of a block.
-			 * When `allowedBlocks` is set it is only possible to insert blocks part of the set specified in the array.
-			 *
-			 * @see https://github.com/WordPress/gutenberg/blob/trunk/packages/block-editor/src/components/inner-blocks/README.md#allowedblocks;
-			 */
-			// @ts-expect-error We're overwriting the namespace from the package so it must be different.
-			allowedBlocks?: boolean | string[];
 			__unstableDisableLayoutClassNames?: boolean;
 			__unstableDisableDropZone?: boolean;
 			dropZoneElement?: HTMLElement;
@@ -93,12 +85,8 @@ declare module "@wordpress/block-editor" {
 			 *
 			 * @see https://github.com/WordPress/gutenberg/blob/trunk/packages/block-editor/src/components/inner-blocks/README.md#defaultblock
 			 */
+			// @ts-expect-error We're overwriting the namespace from the package so it must be different.
 			defaultBlock?: BlockInstanceAsObject;
-			/**
-			 * Determines whether the default block should be inserted directly into the InnerBlocks area by the block appender.
-			 * @see https://github.com/WordPress/gutenberg/blob/trunk/packages/block-editor/src/components/inner-blocks/README.md#directinsert
-			 */
-			directInsert?: boolean;
 		}
 	}
 
