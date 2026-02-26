@@ -33,7 +33,7 @@ describe.concurrent("Base CLI helpers work as intended", () => {
 			  smash-cli pull-media      Pull the media items from the staging site.
 			  smash-cli setup-database  Create a new database and initialise the site with no content.
 			  smash-cli setup           Run all the common setup tasks for a project.
-			  smash-cli svg             Generate an SVG sprite from a group of SVGs.
+			  smash-cli svg             Generate an SVG sprite from a group of SVGs.  [deprecated: Migrate to using @atomicsmash/compiler, which supports an icons folder in the src folder.]
 			  smash-cli completion      generate completion script
 
 			Options:
@@ -55,7 +55,7 @@ describe.concurrent("Base CLI helpers work as intended", () => {
 			  smash-cli pull-media      Pull the media items from the staging site.
 			  smash-cli setup-database  Create a new database and initialise the site with no content.
 			  smash-cli setup           Run all the common setup tasks for a project.
-			  smash-cli svg             Generate an SVG sprite from a group of SVGs.
+			  smash-cli svg             Generate an SVG sprite from a group of SVGs.  [deprecated: Migrate to using @atomicsmash/compiler, which supports an icons folder in the src folder.]
 			  smash-cli completion      generate completion script
 
 			Options:
