@@ -8,6 +8,8 @@ import File from "vinyl";
 
 export const command = "svg";
 export const describe = "Generate an SVG sprite from a group of SVGs.";
+export const deprecated =
+	"Migrate to using @atomicsmash/compiler, which supports an icons folder in the src folder.";
 export const builder = function (yargs: YargsInstance) {
 	return yargs
 		.options({
