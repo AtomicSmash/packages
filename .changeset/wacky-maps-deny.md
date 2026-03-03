@@ -2,4 +2,4 @@
 "@atomicsmash/cli": minor
 ---
 
-Add --drop-database flag
+Added a check to see if DB exists
