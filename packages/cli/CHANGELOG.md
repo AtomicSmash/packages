@@ -4,7 +4,7 @@
 
 ### Minor Changes
 
-- [#522](https://github.com/AtomicSmash/packages/pull/522) [`9dcf680`](https://github.com/AtomicSmash/packages/commit/9dcf680cb1f9ed5ec7c6798f93e76cfa09614c15) Thanks [@daviddarke](https://github.com/daviddarke)! - Added a check to see if DB exists
+- [#522](https://github.com/AtomicSmash/packages/pull/522) [`9dcf680`](https://github.com/AtomicSmash/packages/commit/9dcf680cb1f9ed5ec7c6798f93e76cfa09614c15) Thanks [@daviddarke](https://github.com/daviddarke)! - Added a check to see if DB exists to pull database script, removed setup database flags as they're now redundant
 
 ## 11.0.0-beta.1
 
