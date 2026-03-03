@@ -81,6 +81,10 @@ export async function handler() {
 			)
 				.then(async () => {
 					await stopRunningMessage();
+					await execute(`wp db check`).catch(async () => {
+						await execute(`wp db create`);
+						console.log("Local database created.");
+					});
 					console.log("Database downloaded.");
 					const stopRunningMessage2 = startRunningMessage("Importing database");
 					await execute(`wp db query < ${tmpFile}`)
