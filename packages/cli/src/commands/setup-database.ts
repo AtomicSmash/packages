@@ -1,5 +1,3 @@
-import type { YargsInstance } from "../cli.js";
-import type { ArgumentsCamelCase } from "yargs";
 import { exec } from "node:child_process";
 import { performance } from "node:perf_hooks";
 import { promisify } from "node:util";
@@ -87,25 +85,7 @@ async function activatePluginsWithRetry(
 export const command = "setup-database";
 export const describe =
 	"Create a new database and initialise the site with no content.";
-export const builder = function (yargs: YargsInstance) {
-	return yargs.options({
-		"no-existing-database": {
-			boolean: true,
-			default: false,
-			description:
-				"Declare that you're not about to pull a database from elsewhere.",
-		},
-		"drop-database": {
-			boolean: true,
-			default: false,
-			description:
-				"Deletes the database if it already exists before setting up a new one.",
-		},
-	});
-};
-export async function handler(
-	args: ArgumentsCamelCase<Awaited<ReturnType<typeof builder>["argv"]>>,
-) {
+export async function handler() {
 	const execute = promisify(exec);
 	const smashConfig = await getSmashConfig();
 	// These must remain env vars because they differ for each dev.
@@ -120,46 +100,9 @@ export async function handler(
 		);
 	} else {
 		const { projectName, themeFolderName } = smashConfig;
+		const stopRunningMessage = startRunningMessage("Initialising database");
 		performance.mark("Start");
-		if (args.dropDatabase) {
-			const stopRunningMessage = startRunningMessage(
-				"Removing existing database",
-			);
-			await execute("wp db drop --yes")
-				.then(async () => {
-					await stopRunningMessage();
-					performance.mark("database-removed");
-					console.log(
-						`Database removed. (${convertMeasureToPrettyString(
-							performance.measure("database-removed", "Start"),
-						)})`,
-					);
-				})
-				.catch(async (error: { stderr: string }) => {
-					await stopRunningMessage();
-					if ("stderr" in error && error.stderr?.startsWith("ERROR 1008")) {
-						performance.mark("database-removed");
-						console.log(
-							`No database to delete, moving on. (${convertMeasureToPrettyString(
-								performance.measure("database-removed", "Start"),
-							)})`,
-						);
-					} else {
-						console.error(error);
-						process.exitCode = 1;
-					}
-				});
-		}
-		if (process.exitCode !== 0) {
-			return;
-		}
-		const stopRunningMessage2 = startRunningMessage("Initialising database");
 		await execute("wp db create")
-			.then(() => {
-				if (args.noExistingDatabase) {
-					throw new Error("No existing database, exiting early...");
-				}
-			})
 			.then(() => {
 				return execute(
 					`wp core install --url=http://${process.env.CI ? "127.0.0.1" : `${projectName}.test`}/ --title=Temp --admin_user=Bot --admin_email=fake@fake.com --admin_password=password`,
@@ -169,10 +112,7 @@ export async function handler(
 				performance.mark("wordpress-tables");
 				console.log(
 					`Wordpress database tables installed. (${convertMeasureToPrettyString(
-						performance.measure(
-							"wordpress-tables",
-							args.dropDatabase ? "database-removed" : "Start",
-						),
+						performance.measure("wordpress-tables", "Start"),
 					)})`,
 				);
 				if (addCustomUser) {
@@ -239,23 +179,16 @@ export async function handler(
 						performance.measure("theme", "plugins"),
 					)})`,
 				);
-				await stopRunningMessage2();
+				await stopRunningMessage();
 				console.log(
 					`Database set up${addCustomUser ? ` and ${process.env.WORDPRESS_USER} user added` : !process.env.CI ? ". To set up a user, run the `wp user create` command." : ""}. (${convertMeasureToPrettyString(
 						performance.measure("everything", "Start"),
 					)})`,
 				);
 			})
-			.catch(async (error: Error | { stderr: string }) => {
-				await stopRunningMessage2();
-				if (
-					error instanceof Error &&
-					error.message === "No existing database, exiting early..."
-				) {
-					console.log(error.message);
-					return;
-				}
-				if ("stderr" in error && error.stderr?.startsWith("ERROR 1007")) {
+			.catch(async (error: { stderr: string }) => {
+				await stopRunningMessage();
+				if (error.stderr?.startsWith("ERROR 1007")) {
 					console.error(
 						"Database already exists with the name in the wp-config. Please delete that database first with `wp db drop --yes`",
 					);
