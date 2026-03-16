@@ -13,7 +13,7 @@
 		"@atomicsmash/eslint-config": "^17.0.3-beta.0",
 		"@eslint-community/eslint-plugin-eslint-comments": "^4.5.0",
 		"@eslint/js": "^8.57.1",
-		"@wordpress/stylelint-config": "^23.32.0",
+		"@wordpress/stylelint-config": "^23.33.0",
 		"eslint": "^8.57.1",
 		"eslint-config-prettier": "^8.10.2",
 		"eslint-plugin-import": "^2.32.0",
