@@ -1,6 +1,6 @@
 {
 	"name": "@atomicsmash/eslint-config",
-	"version": "17.0.3-beta.0",
+	"version": "17.0.3-beta.1",
 	"description": "An ESLint config made by Atomic Smash.",
 	"keywords": [
 		"atomic",

@@ -1,5 +1,11 @@
 # @atomicsmash/eslint-config
 
+## 17.0.3-beta.1
+
+### Patch Changes
+
+- [#524](https://github.com/AtomicSmash/packages/pull/524) [`b7b83b5`](https://github.com/AtomicSmash/packages/commit/b7b83b5414d7e6899a5ad0805d5d47390d233a78) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Dependency updates
+
 ## 17.0.3-beta.0
 
 ### Patch Changes
