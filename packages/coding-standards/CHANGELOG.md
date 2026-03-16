@@ -1,5 +1,17 @@
 # @atomicsmash/coding-standards
 
+## 18.0.0-beta.2
+
+### Minor Changes
+
+- [#526](https://github.com/AtomicSmash/packages/pull/526) [`45913a9`](https://github.com/AtomicSmash/packages/commit/45913a99257aabfadec1399e0c712fb3afd5f956) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Add beta flat config for ESLint
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @atomicsmash/eslint-config@18.0.0-beta.2
+  - @atomicsmash/browserslist-config@18.0.0-beta.2
+
 ## 17.0.3-beta.1
 
 ### Patch Changes
