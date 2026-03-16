@@ -5,19 +5,30 @@ const ERROR = 2;
 import js from "@eslint/js";
 import esLintComments from "@eslint-community/eslint-plugin-eslint-comments";
 import { defineConfig } from "eslint/config";
-import eslintConfigPrettier from "eslint-config-prettier/flat";
 import importPlugin from "eslint-plugin-import";
+import { playwrightConfigs } from "eslint-plugin-playwright";
+import reactPlugin from "eslint-plugin-react";
+import reactHooksPlugin from "eslint-plugin-react-hooks";
 import globals from "globals";
 import tseslint from "typescript-eslint";
 
-const config = defineConfig([
-	js.configs.recommended,
-	esLintComments.configs.recommended,
-	tseslint.configs.strictTypeChecked,
-	tseslint.configs.stylisticTypeChecked,
-	importPlugin.flatConfigs.typescript,
+export const config = defineConfig([
 	{
-		ignorePatterns: [".eslintrc.cjs", "dist/**/*", "**/*.config.*"],
+		files: [
+			"**/*.js",
+			"**/*.cjs",
+			"**/*.mjs",
+			"**/*.ts",
+			"**/*.cts",
+			"**/*.mts",
+		],
+		extends: [
+			js.configs.recommended,
+			esLintComments.configs.recommended,
+			tseslint.configs.strictTypeChecked,
+			tseslint.configs.stylisticTypeChecked,
+			importPlugin.flatConfigs.typescript,
+		],
 		plugins: {
 			"@typescript-eslint": tseslint.plugin,
 			import: importPlugin,
@@ -114,6 +125,41 @@ const config = defineConfig([
 			"@typescript-eslint/no-unused-vars": [OFF],
 		},
 	},
-	eslintConfigPrettier,
+	{
+		files: ["**/*.jsx", "**/*.tsx"],
+		extends: [
+			reactPlugin.configs.flat.recommended,
+			reactPlugin.configs.flat["jsx-runtime"],
+			reactHooksPlugin.configs.flat["recommended-latest"],
+		],
+		settings: {
+			react: {
+				version: "detect",
+			},
+		},
+		rules: {
+			"react-hooks/exhaustive-deps": [
+				WARN,
+				{
+					additionalHooks: "(useSelect|useSuspenseSelect)",
+				},
+			],
+		},
+	},
 ]);
-export default config;
+
+export const playwrightConfig = defineConfig([
+	{
+		extends: [playwrightConfigs["flat/recommended"]],
+		rules: {
+			"playwright/expect-expect": [
+				ERROR,
+				{
+					assertFunctionNames: [
+						"playAudit", // This is the lighthouse playwright test, which contains threshold assertions.
+					],
+				},
+			],
+		},
+	},
+]);
