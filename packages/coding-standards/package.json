@@ -11,13 +11,20 @@
 	"peerDependencies": {
 		"@atomicsmash/browserslist-config": "^17.0.3-beta.1",
 		"@atomicsmash/eslint-config": "^17.0.3-beta.1",
+		"@eslint-community/eslint-plugin-eslint-comments": "^4.5.0",
+		"@eslint/js": "^8.57.1",
 		"@wordpress/stylelint-config": "^23.33.0",
+		"eslint": "^8.57.1",
+		"eslint-config-prettier": "^8.10.2",
+		"eslint-plugin-import": "^2.32.0",
+		"globals": "^13.24.0",
 		"prettier": "^3.8.1",
 		"stylelint": "^16.26.1",
 		"stylelint-config-standard": "^39.0.1",
 		"stylelint-config-standard-scss": "^16.0.0",
 		"stylelint-no-restricted-syntax": "^2.2.1",
-		"stylelint-order": "^7.0.1"
+		"stylelint-order": "^7.0.1",
+		"typescript-eslint": "^8.50.0"
 	},
 	"keywords": [
 		"atomic",
