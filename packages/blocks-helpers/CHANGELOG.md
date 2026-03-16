@@ -1,5 +1,23 @@
 # @atomicsmash/blocks-helpers
 
+## 7.2.2-beta.0
+
+### Patch Changes
+
+- [#519](https://github.com/AtomicSmash/packages/pull/519) [`41bea20`](https://github.com/AtomicSmash/packages/commit/41bea20b7bca144214f348ec45cdd1d608dc1c33) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Update dependencies
+
+## 7.2.1
+
+### Patch Changes
+
+- [#495](https://github.com/AtomicSmash/packages/pull/495) [`7f336ba`](https://github.com/AtomicSmash/packages/commit/7f336badb88d6374df0350d3aa18d555171fc368) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Update deps
+
+## 7.2.1-beta.0
+
+### Patch Changes
+
+- [#495](https://github.com/AtomicSmash/packages/pull/495) [`7f336ba`](https://github.com/AtomicSmash/packages/commit/7f336badb88d6374df0350d3aa18d555171fc368) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Update deps
+
 ## 7.2.0
 
 ### Minor Changes

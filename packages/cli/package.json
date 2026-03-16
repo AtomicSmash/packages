@@ -1,6 +1,6 @@
 {
 	"name": "@atomicsmash/cli",
-	"version": "10.0.0",
+	"version": "11.0.0-beta.2",
 	"description": "A collection of CLI tools by Atomic Smash.",
 	"keywords": [],
 	"homepage": "https://www.atomicsmash.co.uk/",
@@ -40,8 +40,8 @@
 		"lint:types": "tsc -b"
 	},
 	"dependencies": {
-		"@atomicsmash/date-php": "^2.1.0",
-		"@atomicsmash/smash-config": "^1.0.0",
+		"@atomicsmash/date-php": "^2.2.0-beta.0",
+		"@atomicsmash/smash-config": "^1.0.2-beta.0",
 		"@types/vinyl": "^2.0.12",
 		"glob-promise": "^6.0.7",
 		"svg-sprite": "^2.0.4",
@@ -49,11 +49,11 @@
 		"yargs": "^18.0.0"
 	},
 	"devDependencies": {
-		"@atomicsmash/blocks-helpers": "^7.2.0",
+		"@atomicsmash/blocks-helpers": "^7.2.2-beta.0",
 		"@types/svg-sprite": "^0.0.39"
 	},
 	"peerDependencies": {
-		"dotenv": "^17.2.3",
+		"dotenv": "^17.3.1",
 		"typescript": "~5.9.3"
 	}
 }

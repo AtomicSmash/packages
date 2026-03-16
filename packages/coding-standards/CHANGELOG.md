@@ -1,5 +1,55 @@
 # @atomicsmash/coding-standards
 
+## 17.0.3-beta.0
+
+### Patch Changes
+
+- [#519](https://github.com/AtomicSmash/packages/pull/519) [`41bea20`](https://github.com/AtomicSmash/packages/commit/41bea20b7bca144214f348ec45cdd1d608dc1c33) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Update dependencies
+
+- Updated dependencies [[`41bea20`](https://github.com/AtomicSmash/packages/commit/41bea20b7bca144214f348ec45cdd1d608dc1c33)]:
+  - @atomicsmash/eslint-config@17.0.3-beta.0
+  - @atomicsmash/browserslist-config@17.0.3-beta.0
+
+## 17.0.2
+
+### Patch Changes
+
+- [#502](https://github.com/AtomicSmash/packages/pull/502) [`eddcd78`](https://github.com/AtomicSmash/packages/commit/eddcd78cb065821ab2ac1c7302ef62d7be6f2d82) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Rollback stylelint version due to conflict
+
+- Updated dependencies []:
+  - @atomicsmash/eslint-config@17.0.2
+  - @atomicsmash/browserslist-config@17.0.2
+
+## 17.0.2-beta.0
+
+### Patch Changes
+
+- [#502](https://github.com/AtomicSmash/packages/pull/502) [`eddcd78`](https://github.com/AtomicSmash/packages/commit/eddcd78cb065821ab2ac1c7302ef62d7be6f2d82) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Rollback stylelint version due to conflict
+
+- Updated dependencies []:
+  - @atomicsmash/eslint-config@17.0.2-beta.0
+  - @atomicsmash/browserslist-config@17.0.2-beta.0
+
+## 17.0.1
+
+### Patch Changes
+
+- [#495](https://github.com/AtomicSmash/packages/pull/495) [`7f336ba`](https://github.com/AtomicSmash/packages/commit/7f336badb88d6374df0350d3aa18d555171fc368) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Update deps
+
+- Updated dependencies [[`7f336ba`](https://github.com/AtomicSmash/packages/commit/7f336badb88d6374df0350d3aa18d555171fc368)]:
+  - @atomicsmash/eslint-config@17.0.1
+  - @atomicsmash/browserslist-config@17.0.1
+
+## 17.0.1-beta.0
+
+### Patch Changes
+
+- [#495](https://github.com/AtomicSmash/packages/pull/495) [`7f336ba`](https://github.com/AtomicSmash/packages/commit/7f336badb88d6374df0350d3aa18d555171fc368) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Update deps
+
+- Updated dependencies [[`7f336ba`](https://github.com/AtomicSmash/packages/commit/7f336badb88d6374df0350d3aa18d555171fc368)]:
+  - @atomicsmash/eslint-config@17.0.1-beta.0
+  - @atomicsmash/browserslist-config@17.0.1-beta.0
+
 ## 17.0.0
 
 ### Major Changes

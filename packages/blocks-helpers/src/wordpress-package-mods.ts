@@ -17,7 +17,7 @@ import type {
 	BlockAttributes as FixedBlockAttributes,
 } from "./index";
 import type { Dropdown } from "@wordpress/components";
-import type { Context, ComponentProps, ReactNode } from "react";
+import type { ComponentProps, ReactNode } from "react";
 
 export type LayoutTypes = {
 	type: "default";
@@ -50,7 +50,6 @@ export type SelectedImage = {
 };
 
 declare module "@wordpress/block-editor" {
-	const BlockContextProvider: Context<Record<string, unknown>>["Provider"];
 	// eslint-disable-next-line @typescript-eslint/naming-convention -- Wordpress Provided Function
 	const __experimentalUseBlockPreview: (props: {
 		blocks: BlockInstanceAsObject[];
@@ -68,14 +67,6 @@ declare module "@wordpress/block-editor" {
 	namespace InnerBlocks {
 		// eslint-disable-next-line @typescript-eslint/consistent-type-definitions -- Interface is needed as per the existing types.
 		interface Props {
-			/**
-			 * `allowedBlocks` can contain an array of strings, each string should contain the identifier of a block.
-			 * When `allowedBlocks` is set it is only possible to insert blocks part of the set specified in the array.
-			 *
-			 * @see https://github.com/WordPress/gutenberg/blob/trunk/packages/block-editor/src/components/inner-blocks/README.md#allowedblocks;
-			 */
-			// @ts-expect-error We're overwriting the namespace from the package so it must be different.
-			allowedBlocks?: boolean | string[];
 			__unstableDisableLayoutClassNames?: boolean;
 			__unstableDisableDropZone?: boolean;
 			dropZoneElement?: HTMLElement;
@@ -94,12 +85,8 @@ declare module "@wordpress/block-editor" {
 			 *
 			 * @see https://github.com/WordPress/gutenberg/blob/trunk/packages/block-editor/src/components/inner-blocks/README.md#defaultblock
 			 */
+			// @ts-expect-error We're overwriting the namespace from the package so it must be different.
 			defaultBlock?: BlockInstanceAsObject;
-			/**
-			 * Determines whether the default block should be inserted directly into the InnerBlocks area by the block appender.
-			 * @see https://github.com/WordPress/gutenberg/blob/trunk/packages/block-editor/src/components/inner-blocks/README.md#directinsert
-			 */
-			directInsert?: boolean;
 		}
 	}
 
@@ -179,10 +166,8 @@ declare module "@wordpress/blocks" {
 			string,
 			never
 		>,
-		InterpretedAttributes extends InterpretAttributes<
-			Supports,
-			Attributes
-		> = InterpretAttributes<Supports, Attributes>,
+		InterpretedAttributes extends InterpretAttributes<Supports, Attributes> =
+			InterpretAttributes<Supports, Attributes>,
 	>(
 		name: string,
 		settings: ClientOnlyRegisterOptions<

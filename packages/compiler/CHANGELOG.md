@@ -1,5 +1,39 @@
 # @atomicsmash/compiler
 
+## 3.0.2-beta.1
+
+### Patch Changes
+
+- [#519](https://github.com/AtomicSmash/packages/pull/519) [`41bea20`](https://github.com/AtomicSmash/packages/commit/41bea20b7bca144214f348ec45cdd1d608dc1c33) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Update dependencies
+
+- Updated dependencies [[`41bea20`](https://github.com/AtomicSmash/packages/commit/41bea20b7bca144214f348ec45cdd1d608dc1c33)]:
+  - @atomicsmash/smash-config@1.0.2-beta.0
+
+## 3.0.2-beta.0
+
+### Patch Changes
+
+- Updated dependencies [[`7963f5f`](https://github.com/AtomicSmash/packages/commit/7963f5f9d267808e16ab446e750ef06fd76faf5a), [`7963f5f`](https://github.com/AtomicSmash/packages/commit/7963f5f9d267808e16ab446e750ef06fd76faf5a)]:
+  - @atomicsmash/date-php@2.2.0-beta.0
+
+## 3.0.1
+
+### Patch Changes
+
+- [#495](https://github.com/AtomicSmash/packages/pull/495) [`7f336ba`](https://github.com/AtomicSmash/packages/commit/7f336badb88d6374df0350d3aa18d555171fc368) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Update deps
+
+- Updated dependencies [[`7f336ba`](https://github.com/AtomicSmash/packages/commit/7f336badb88d6374df0350d3aa18d555171fc368)]:
+  - @atomicsmash/smash-config@1.0.1
+
+## 3.0.1-beta.0
+
+### Patch Changes
+
+- [#495](https://github.com/AtomicSmash/packages/pull/495) [`7f336ba`](https://github.com/AtomicSmash/packages/commit/7f336badb88d6374df0350d3aa18d555171fc368) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Update deps
+
+- Updated dependencies [[`7f336ba`](https://github.com/AtomicSmash/packages/commit/7f336badb88d6374df0350d3aa18d555171fc368)]:
+  - @atomicsmash/smash-config@1.0.1-beta.0
+
 ## 3.0.0
 
 ### Major Changes
