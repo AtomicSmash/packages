@@ -108,25 +108,12 @@ export async function handler() {
 										"Herd is present on your machine, but the project is missing a herd.yaml file. Please do the initial setup by running herd init.",
 									);
 								}
-								await execute(`herd init`)
-									.then(() => {
-										performance.mark("herd init done");
-										console.log(
-											`Herd is configured. (${convertMeasureToPrettyString(
-												performance.measure("herd-or-valet", "Start"),
-											)})`,
-										);
-									})
-									.catch((error) => {
-										console.error(error);
-										throw new Error("Failed to configure the site using Herd.");
-									});
 								await execute(`herd link ${projectName} --secure`)
 									.then(() => {
 										performance.mark("herd link done");
 										console.log(
 											`Herd is linked and secured. (${convertMeasureToPrettyString(
-												performance.measure("herd link", "herd init done"),
+												performance.measure("herd link", "Start"),
 											)})`,
 										);
 									})
