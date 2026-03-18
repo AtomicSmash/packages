@@ -3,7 +3,11 @@ import { unlink as deleteFile } from "node:fs/promises";
 import { performance } from "node:perf_hooks";
 import { promisify } from "node:util";
 import { getSmashConfig } from "@atomicsmash/smash-config";
-import { convertMeasureToPrettyString, startRunningMessage } from "../utils.js";
+import {
+	confirmAction,
+	convertMeasureToPrettyString,
+	startRunningMessage,
+} from "../utils.js";
 
 export const command = "pull-database";
 export const describe =
@@ -32,6 +36,13 @@ export async function handler() {
 	} else if (!stagingUrl) {
 		throw new Error("STAGING_URL is missing from .env file.");
 	} else {
+		const isConfirmed = await confirmAction(
+			"This will overwrite your local database with the staging database. Are you sure? (y/n) ",
+		);
+		if (!isConfirmed) {
+			console.log("Aborted. No database changes made");
+			return;
+		}
 		const { projectName } = smashConfig;
 		const stopRunningMessage = startRunningMessage(
 			"Pulling database from staging",
@@ -126,9 +137,6 @@ export async function handler() {
 						`Database import complete! ${convertMeasureToPrettyString(
 							performance.measure("everything", "Start"),
 						)}`,
-					);
-					console.log(
-						"If you want to download recent media you can use `npm run pull:media`, you can also change the number of months to download in your `.env` file.",
 					);
 				})
 				.catch(async (error) => {

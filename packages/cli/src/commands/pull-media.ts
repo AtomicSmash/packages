@@ -3,7 +3,10 @@ import { mkdir } from "node:fs/promises";
 import { resolve } from "node:path";
 import { performance } from "node:perf_hooks";
 import { promisify } from "node:util";
-import { startRunningMessage } from "../utils.js";
+import {
+	confirmAction,
+	startRunningMessage,
+} from "../utils.js";
 
 const execute = promisify(exec);
 
@@ -58,6 +61,13 @@ export async function handler() {
 	} else if (!mediaLocalPath) {
 		throw new Error("MEDIA_DOWNLOAD_LOCAL_PATH is missing from .env file.");
 	} else {
+		const isConfirmed = await confirmAction(
+			"You are about to download gigabytes of media when there is a 'proxy media' option available. Would you like to proceed? (y/n) ",
+		);
+		if (!isConfirmed) {
+			console.log("Aborted. No media downloaded");
+			return;
+		}
 		const ssh = {
 			port: stagingSSHPort,
 			host: stagingSSHHost,

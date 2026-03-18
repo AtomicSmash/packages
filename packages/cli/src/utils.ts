@@ -4,6 +4,7 @@ import type { PackageJson } from "type-fest";
 import { exec } from "node:child_process";
 import { createRequire } from "node:module";
 import { resolve } from "node:path";
+import * as readline from "node:readline";
 
 const require = createRequire(import.meta.url);
 export const packageJson = require("../package.json") as PackageJson;
@@ -63,6 +64,19 @@ export function convertMeasureToPrettyString(measure: PerformanceMeasure) {
 	const minutes = Math.floor(timeInSeconds / 60);
 	const seconds = Math.ceil(timeInSeconds % 60);
 	return `${minutes}m ${seconds}s`;
+}
+
+export function confirmAction(question: string): Promise<boolean> {
+	const rl = readline.createInterface({
+		input: process.stdin,
+		output: process.stdout,
+	});
+	return new Promise((resolve) => {
+		rl.question(question, (answer) => {
+			rl.close();
+			resolve(answer.toLowerCase() === "y" || answer.toLowerCase() === "yes");
+		});
+	});
 }
 
 export function startRunningMessage(message: string) {
