@@ -121,7 +121,7 @@ export async function handler() {
 										console.error(error);
 										throw new Error("Failed to link the site using Herd.");
 									});
-								await execute(`herd isolate`)
+								await execute(`herd isolate --site=${projectName}`)
 									.then(() => {
 										console.log(
 											`Herd is isolated. (${convertMeasureToPrettyString(
