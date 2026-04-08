@@ -5,7 +5,10 @@ import { getSmashConfig } from "@atomicsmash/smash-config";
 
 export const PROXY_MARKER = "location @uploadsproxy";
 
-export function buildProxyBlock(stagingUrl: string) {
+export function buildProxyBlock(stagingUrl: string, httpAuth?: string) {
+	const authHeader = httpAuth
+		? `\n        proxy_set_header Authorization "Basic ${httpAuth}";`
+		: "";
 	return `
     location ^~ /wp-content/uploads/ {
         try_files $uri @uploadsproxy;
@@ -19,11 +22,11 @@ export function buildProxyBlock(stagingUrl: string) {
         proxy_pass https:${stagingUrl}$uri$is_args$args;
         proxy_ssl_verify off;
         proxy_set_header Referer "";
-        proxy_set_header User-Agent "Mozilla/5.0";
+        proxy_set_header User-Agent "Mozilla/5.0";${authHeader}
     }`;
 }
 
-export function addProxyBlock(config: string, stagingUrl: string): string {
+export function addProxyBlock(config: string, stagingUrl: string, httpAuth?: string): string {
 	const listenDirective = "listen 127.0.0.1:443 ssl;";
 	const listenIndex = config.indexOf(listenDirective);
 	if (listenIndex === -1) {
@@ -45,7 +48,7 @@ export function addProxyBlock(config: string, stagingUrl: string): string {
 
 	return (
 		config.slice(0, serverBlockEnd) +
-		buildProxyBlock(stagingUrl) +
+		buildProxyBlock(stagingUrl, httpAuth) +
 		"\n" +
 		config.slice(serverBlockEnd)
 	);
@@ -93,14 +96,27 @@ export async function handler() {
 		);
 	}
 
+	const httpAuthUsername = process.env.STAGING_HTTP_AUTH_USERNAME;
+	const httpAuthPassword = process.env.STAGING_HTTP_AUTH_PASSWORD;
+	const httpAuth =
+		httpAuthUsername && httpAuthPassword
+			? Buffer.from(`${httpAuthUsername}:${httpAuthPassword}`).toString("base64")
+			: undefined;
+
 	let updatedConfig: string;
 
 	if (config.includes(PROXY_MARKER)) {
 		updatedConfig = removeProxyBlock(config);
 		console.log("Media proxy removed from NGINX config.");
 	} else {
-		updatedConfig = addProxyBlock(config, stagingUrl);
-		console.log("Media proxy added to NGINX config.");
+		updatedConfig = addProxyBlock(config, stagingUrl, httpAuth);
+		if (httpAuth) {
+			console.log("Media proxy added to NGINX config (with HTTP auth).");
+		} else {
+			console.log(
+				"Media proxy added to NGINX config (no HTTP auth — STAGING_HTTP_AUTH_USERNAME and STAGING_HTTP_AUTH_PASSWORD not set).",
+			);
+		}
 	}
 
 	await writeFile(nginxConfigPath, updatedConfig, "utf-8");
