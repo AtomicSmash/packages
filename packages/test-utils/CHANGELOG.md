@@ -1,5 +1,11 @@
 # @atomicsmash/test-utils
 
+## 5.0.7-beta.1
+
+### Patch Changes
+
+- [#532](https://github.com/AtomicSmash/packages/pull/532) [`07093f4`](https://github.com/AtomicSmash/packages/commit/07093f44aebfd990843beb6c8adbd40274f56cbb) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Handle score thresholds for lighthouse tests correctly
+
 ## 5.0.7-beta.0
 
 ### Patch Changes
