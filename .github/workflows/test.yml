@@ -28,10 +28,12 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-      - name: Setup Node.js 22
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "22.x"
+          node-version-file: ".nvmrc"
+          registry-url: "https://registry.npmjs.org"
+          check-latest: true
           cache: npm
 
       - name: Cache
