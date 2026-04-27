@@ -149,7 +149,7 @@ export const doLighthouseTest: (
 				? pageToTest.url
 				: await pageToTest.url(),
 		);
-		await playAudit({
+		const lighthouseReport = await playAudit({
 			page,
 			port,
 			thresholds: {
@@ -174,6 +174,18 @@ export const doLighthouseTest: (
 				pageToTest.slug ?? slugify(pageToTest.name)
 			}-${type}.html`,
 		);
+		expect
+			.soft(lighthouseReport.lhr.categories.performance?.score)
+			.toBeGreaterThanOrEqual(0.85);
+		expect
+			.soft(lighthouseReport.lhr.categories.accessibility?.score)
+			.toBeGreaterThanOrEqual(0.85);
+		expect
+			.soft(lighthouseReport.lhr.categories.seo?.score)
+			.toBeGreaterThanOrEqual(0.85);
+		expect
+			.soft(lighthouseReport.lhr.categories["best-practices"]?.score)
+			.toBeGreaterThanOrEqual(0.85);
 	};
 
 export async function checkAccessibility(
