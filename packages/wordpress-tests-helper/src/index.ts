@@ -154,21 +154,31 @@ export class WordPressAdminInteraction {
 			.getByRole("button", { name: "Options", exact: true })
 			.click();
 
-		const modeSwitchKeyboardShortcut =
-			process.platform === "darwin" ? "⇧⌥⌘M" : "Ctrl+Shift+Alt+M";
 		if (mode === "visual" && !isVisualEditorMode) {
 			await this.page
 				.getByRole("menuitemradio", {
-					name: `Visual editor ${modeSwitchKeyboardShortcut}`,
+					name: `Visual editor ⇧⌥⌘M`,
 					exact: true,
 				})
+				.or(
+					this.page.getByRole("menuitemradio", {
+						name: `Visual editor Ctrl+Shift+Alt+M`,
+						exact: true,
+					}),
+				)
 				.click();
 		} else if (mode === "code" && isVisualEditorMode) {
 			await this.page
 				.getByRole("menuitemradio", {
-					name: `Code editor ${modeSwitchKeyboardShortcut}`,
+					name: `Code editor ⇧⌥⌘M`,
 					exact: true,
 				})
+				.or(
+					this.page.getByRole("menuitemradio", {
+						name: `Code editor Ctrl+Shift+Alt+M`,
+						exact: true,
+					}),
+				)
 				.click();
 		}
 
