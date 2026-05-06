@@ -1,5 +1,17 @@
 # @atomicsmash/coding-standards
 
+## 18.0.0-beta.3
+
+### Major Changes
+
+- [#533](https://github.com/AtomicSmash/packages/pull/533) [`7fd9db6`](https://github.com/AtomicSmash/packages/commit/7fd9db62a9359be302c865aeacf2e5dfc663c31a) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Update TS base config
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @atomicsmash/eslint-config@18.0.0-beta.3
+  - @atomicsmash/browserslist-config@18.0.0-beta.3
+
 ## 18.0.0-beta.2
 
 ### Minor Changes

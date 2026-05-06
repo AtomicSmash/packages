@@ -15,10 +15,13 @@
     "@atomicsmash/wordpress-tests-helper": "1.2.0"
   },
   "changesets": [
+    "all-pigs-care",
     "dark-years-lie",
     "free-grapes-swim",
     "green-cougars-create",
+    "kind-plums-teach",
     "many-windows-deny",
+    "short-heads-wish",
     "twelve-files-train",
     "two-coins-find",
     "wacky-maps-deny",

@@ -1,5 +1,11 @@
 # @atomicsmash/test-utils
 
+## 6.0.0-beta.2
+
+### Major Changes
+
+- [#536](https://github.com/AtomicSmash/packages/pull/536) [`c936427`](https://github.com/AtomicSmash/packages/commit/c93642723aedeaf56797347df1a7c6e455e9479d) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Remove expect call from accessibility helper, instead return the violations to let the site determine what is acceptable.
+
 ## 5.0.7-beta.1
 
 ### Patch Changes
