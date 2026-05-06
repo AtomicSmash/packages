@@ -11,12 +11,6 @@ describe.sequential("Init testing utils", () => {
 			await import(`${import.meta.dirname}/tests/package.json`),
 			await import(`${import.meta.dirname}/tests/package-lock.json`),
 		);
-		return async () => {
-			await rimraf([
-				`${import.meta.dirname}/tests/package.json`,
-				`${import.meta.dirname}/tests/package-lock.json`,
-			]);
-		};
 	});
 	afterEach(() => {
 		consoleSpy.mockReset();
