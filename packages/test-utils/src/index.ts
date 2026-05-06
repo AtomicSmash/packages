@@ -199,10 +199,7 @@ export async function checkAccessibility(
 	} = {},
 ) {
 	let builder;
-	// TODO: Wait for @wordpress/scripts to update dependency constraint, then remove this "as" declaration.
-	builder = new AxeBuilder({ page } as {
-		page: ConstructorParameters<typeof AxeBuilder>[0]["page"];
-	});
+	builder = new AxeBuilder({ page });
 	if (includes) {
 		for (const include of includes) {
 			builder = builder.include(include);
@@ -216,19 +213,7 @@ export async function checkAccessibility(
 	builder = builder.exclude("#userback_button_container"); // Ignore userback testing tool
 	const accessibilityScanResults = await builder.analyze();
 
-	expect(
-		accessibilityScanResults.violations.filter((violation) => {
-			if (
-				violation.id === "aria-allowed-attr" &&
-				violation.nodes[0] &&
-				violation.nodes[0].html.startsWith("<button") &&
-				violation.nodes[0].html.includes(`role="switch"`)
-			) {
-				return false;
-			}
-			return true;
-		}),
-	).toEqual([]);
+	return accessibilityScanResults.violations;
 }
 
 export const checkPrivilegedPages =
