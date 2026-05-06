@@ -1,10 +1,10 @@
-import { BlockSupports } from "@atomicsmash/blocks-helpers";
-import { AlignAttribute } from "./align";
-import { ClassNameAttribute } from "./className";
-import { LayoutAttribute } from "./layout";
-import { LockAttribute } from "./lock";
-import { MetaDataAttribute } from "./metadata";
-import { StyleAttribute } from "./style";
+import type { AlignAttribute } from "./align";
+import type { ClassNameAttribute } from "./className";
+import type { LayoutAttribute } from "./layout";
+import type { LockAttribute } from "./lock";
+import type { MetaDataAttribute } from "./metadata";
+import type { StyleAttribute } from "./style";
+import type { BlockSupports } from "@atomicsmash/blocks-helpers";
 
 export type DefaultAttributes<Supports extends BlockSupports> =
 	AlignAttribute<Supports> &

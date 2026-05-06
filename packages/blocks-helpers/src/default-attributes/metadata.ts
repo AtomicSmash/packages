@@ -1,4 +1,4 @@
-import { BlockSupports } from "@atomicsmash/blocks-helpers";
+import type { BlockSupports } from "@atomicsmash/blocks-helpers";
 
 export type MetaDataAttribute<Supports extends BlockSupports> = {
 	metadata?: MetaDataNameAttribute<
