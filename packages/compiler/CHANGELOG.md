@@ -1,5 +1,11 @@
 # @atomicsmash/compiler
 
+## 4.0.0-beta.3
+
+### Major Changes
+
+- [#538](https://github.com/AtomicSmash/packages/pull/538) [`6da843b`](https://github.com/AtomicSmash/packages/commit/6da843bc0d991a2d566f5700f3a8ecf22af2a278) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Don't use an error code if only has warnings
+
 ## 3.0.2-beta.2
 
 ### Patch Changes
