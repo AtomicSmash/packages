@@ -136,9 +136,6 @@ if (argv.watch) {
 				for (const warning of warnings) {
 					console.warn(warning.message);
 				}
-				if (!stats.hasErrors()) {
-					process.exitCode = 2;
-				}
 			}
 		}
 
