@@ -1,5 +1,15 @@
 # @atomicsmash/coding-standards
 
+## 18.0.0-beta.6
+
+### Patch Changes
+
+- [#544](https://github.com/AtomicSmash/packages/pull/544) [`8e4a0b7`](https://github.com/AtomicSmash/packages/commit/8e4a0b75e2d007c67dd6db0aa8d66d055b62f39e) Thanks [@mikeybinns](https://github.com/mikeybinns)! - More changes to eslint beta config
+
+- Updated dependencies []:
+  - @atomicsmash/eslint-config@18.0.0-beta.6
+  - @atomicsmash/browserslist-config@18.0.0-beta.6
+
 ## 18.0.0-beta.5
 
 ### Patch Changes
