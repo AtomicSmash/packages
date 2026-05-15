@@ -1,5 +1,11 @@
 # @atomicsmash/eslint-config
 
+## 18.0.0-beta.4
+
+### Patch Changes
+
+- [#540](https://github.com/AtomicSmash/packages/pull/540) [`01ebb55`](https://github.com/AtomicSmash/packages/commit/01ebb5548e71a6380b086514e091cf0f39a264d3) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Update react hooks and playwright eslint plugins
+
 ## 18.0.0-beta.3
 
 ## 18.0.0-beta.2
