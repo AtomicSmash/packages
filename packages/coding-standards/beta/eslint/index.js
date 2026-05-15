@@ -69,8 +69,8 @@ export const config = defineConfig([
 			"prefer-const": [ERROR],
 			"no-var": [ERROR],
 			"import/no-duplicates": WARN,
-			"eslint-comments/no-unused-disable": [ERROR],
-			"eslint-comments/require-description": [
+			"@eslint-community/eslint-comments/no-unused-disable": [ERROR],
+			"@eslint-community/eslint-comments/require-description": [
 				ERROR,
 				{ ignore: ["eslint-enable"] },
 			],
@@ -105,6 +105,12 @@ export const config = defineConfig([
 					ignoreRestSiblings: true,
 				},
 			],
+		},
+		settings: {
+			"import/resolver": {
+				typescript: true,
+				node: true,
+			},
 		},
 	},
 	{
