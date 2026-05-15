@@ -12,68 +12,79 @@ import reactHooksPlugin from "eslint-plugin-react-hooks";
 import globals from "globals";
 import tseslint from "typescript-eslint";
 
-export const config = defineConfig([
-	{
-		files: [
-			"**/*.js",
-			"**/*.cjs",
-			"**/*.mjs",
-			"**/*.ts",
-			"**/*.cts",
-			"**/*.mts",
+const baseConfig = defineConfig({
+	name: "@atomicsmash/coding-standards/base-config",
+	files: ["**/*.js", "**/*.cjs", "**/*.mjs"],
+	extends: [
+		js.configs.recommended,
+		esLintComments.recommended,
+		importPlugin.flatConfigs.recommended,
+	],
+	languageOptions: {
+		ecmaVersion: 2022,
+		sourceType: "module",
+		globals: {
+			...globals.browser,
+			...globals.node,
+		},
+	},
+	rules: {
+		"no-case-declarations": [OFF],
+		"import/order": [
+			ERROR,
+			{
+				alphabetize: {
+					order: "asc",
+				},
+				groups: [
+					"type",
+					"builtin",
+					"external",
+					"internal",
+					"parent",
+					["sibling", "index"],
+				],
+				"newlines-between": "ignore",
+				pathGroups: [],
+				pathGroupsExcludedImportTypes: [],
+			},
 		],
+		"prefer-const": [ERROR],
+		"no-var": [ERROR],
+		"import/no-duplicates": WARN,
+		"@eslint-community/eslint-comments/no-unused-disable": [ERROR],
+		"@eslint-community/eslint-comments/require-description": [
+			ERROR,
+			{ ignore: ["eslint-enable"] },
+		],
+	},
+	settings: {
+		"import/resolver": {
+			node: true,
+		},
+	},
+});
+
+const typescriptConfig = defineConfig([
+	{
+		name: "@atomicsmash/coding-standards/typescript-config",
+		files: ["**/*.ts", "**/*.cts", "**/*.mts"],
 		extends: [
-			js.configs.recommended,
-			esLintComments.recommended,
+			baseConfig,
 			tseslint.configs.strictTypeChecked,
 			tseslint.configs.stylisticTypeChecked,
-			importPlugin.flatConfigs.recommended,
 			importPlugin.flatConfigs.typescript,
 		],
 		plugins: {
 			"@typescript-eslint": tseslint.plugin,
 		},
 		languageOptions: {
-			ecmaVersion: 2022,
-			sourceType: "module",
-			globals: {
-				...globals.browser,
-				...globals.node,
-			},
 			parser: tseslint.parser,
 			parserOptions: {
 				projectService: true,
 			},
 		},
 		rules: {
-			"no-case-declarations": [OFF],
-			"import/order": [
-				ERROR,
-				{
-					alphabetize: {
-						order: "asc",
-					},
-					groups: [
-						"type",
-						"builtin",
-						"external",
-						"internal",
-						"parent",
-						["sibling", "index"],
-					],
-					"newlines-between": "ignore",
-					pathGroups: [],
-					pathGroupsExcludedImportTypes: [],
-				},
-			],
-			"prefer-const": [ERROR],
-			"no-var": [ERROR],
-			"import/no-duplicates": WARN,
-			"@eslint-community/eslint-comments/no-unused-disable": [ERROR],
-			"@eslint-community/eslint-comments/require-description": [
-				ERROR,
-				{ ignore: ["eslint-enable"] },
-			],
 			"@typescript-eslint/naming-convention": [
 				ERROR,
 				{
@@ -113,49 +124,60 @@ export const config = defineConfig([
 			},
 		},
 	},
-	{
-		files: ["*.cjs"],
-		languageOptions: {
-			sourceType: "commonjs",
+]);
+
+const sharedReactRulesAndSettings = {
+	extends: [
+		reactPlugin.configs.flat.recommended,
+		reactPlugin.configs.flat["jsx-runtime"],
+		reactHooksPlugin.configs.flat.recommended,
+	],
+	settings: {
+		react: {
+			version: "detect",
 		},
 	},
-	{
-		files: ["*.mjs"],
-		languageOptions: {
-			sourceType: "module",
-		},
-	},
-	{
-		files: ["**/*.test.*"],
-		rules: {
-			"@typescript-eslint/no-unused-vars": [OFF],
-		},
-	},
-	{
-		files: ["**/*.jsx", "**/*.tsx"],
-		extends: [
-			reactPlugin.configs.flat.recommended,
-			reactPlugin.configs.flat["jsx-runtime"],
-			reactHooksPlugin.configs.flat.recommended,
-		],
-		settings: {
-			react: {
-				version: "detect",
+	rules: {
+		"react-hooks/exhaustive-deps": [
+			WARN,
+			{
+				additionalHooks: "(useSelect|useSuspenseSelect)",
 			},
+		],
+	},
+};
+
+const reactConfig = defineConfig([
+	{
+		name: "@atomicsmash/coding-standards/react-config",
+		files: ["**/*.jsx"],
+		extends: [baseConfig, ...sharedReactRulesAndSettings.extends],
+		settings: {
+			...sharedReactRulesAndSettings.settings,
 		},
 		rules: {
-			"react-hooks/exhaustive-deps": [
-				WARN,
-				{
-					additionalHooks: "(useSelect|useSuspenseSelect)",
-				},
-			],
+			...sharedReactRulesAndSettings.rules,
+		},
+	},
+]);
+
+const reactTypescriptConfig = defineConfig([
+	{
+		name: "@atomicsmash/coding-standards/react-typescript-config",
+		files: ["**/*.tsx"],
+		extends: [typescriptConfig, ...sharedReactRulesAndSettings.extends],
+		settings: {
+			...sharedReactRulesAndSettings.settings,
+		},
+		rules: {
+			...sharedReactRulesAndSettings.rules,
 		},
 	},
 ]);
 
 export const playwrightConfig = defineConfig([
 	{
+		name: "@atomicsmash/coding-standards/playwright-config",
 		extends: [playwrightPlugin.configs["flat/recommended"]],
 		rules: {
 			"playwright/expect-expect": [
@@ -168,4 +190,11 @@ export const playwrightConfig = defineConfig([
 			],
 		},
 	},
+]);
+
+export const recommendedConfig = defineConfig([
+	baseConfig,
+	typescriptConfig,
+	reactConfig,
+	reactTypescriptConfig,
 ]);
