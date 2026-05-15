@@ -1,7 +1,7 @@
 {
 	"name": "@atomicsmash/coding-standards",
 	"type": "module",
-	"version": "18.0.0-beta.3",
+	"version": "18.0.0-beta.4",
 	"description": "A collection of coding standards configurations.",
 	"main": "index.js",
 	"types": "index.d.ts",
@@ -9,8 +9,8 @@
 		"@cspell/cspell-types": "^9.7.0"
 	},
 	"peerDependencies": {
-		"@atomicsmash/browserslist-config": "^18.0.0-beta.3",
-		"@atomicsmash/eslint-config": "^18.0.0-beta.3",
+		"@atomicsmash/browserslist-config": "^18.0.0-beta.4",
+		"@atomicsmash/eslint-config": "^18.0.0-beta.4",
 		"@eslint-community/eslint-plugin-eslint-comments": "^4.5.0",
 		"@eslint/js": "^8.57.1",
 		"@wordpress/stylelint-config": "^23.33.0",
