@@ -1,5 +1,17 @@
 # @atomicsmash/compiler
 
+## 4.0.0-beta.4
+
+### Major Changes
+
+- [#546](https://github.com/AtomicSmash/packages/pull/546) [`6901105`](https://github.com/AtomicSmash/packages/commit/6901105f581b02f94199eed423756e7589d6ddaa) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Use new underscore folder system for files which the compiler should ignore.
+
+### Patch Changes
+
+- [#546](https://github.com/AtomicSmash/packages/pull/546) [`6901105`](https://github.com/AtomicSmash/packages/commit/6901105f581b02f94199eed423756e7589d6ddaa) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Deprecate excludeBlocks option in config and CLI in favour of underscore folders
+
+- [#546](https://github.com/AtomicSmash/packages/pull/546) [`6901105`](https://github.com/AtomicSmash/packages/commit/6901105f581b02f94199eed423756e7589d6ddaa) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Remove duplicated or errorneous entries in the manifest
+
 ## 4.0.0-beta.3
 
 ### Major Changes
