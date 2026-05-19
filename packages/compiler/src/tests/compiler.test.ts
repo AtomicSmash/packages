@@ -46,26 +46,40 @@ describe("Compiler tests", () => {
 				encoding: "utf8",
 			},
 		);
-		const subfolderStyle = await readFile(
+		const subfolderCSS = await readFile(
 			resolve(
 				import.meta.dirname,
-				`dist/${manifest["styles/subfolder/style-subfolder.scss"]}`,
+				`dist/${manifest["styles/subfoldercompiled/allowed.css"]}`,
+			),
+			{
+				encoding: "utf8",
+			},
+		);
+		const subfolderSCSS = await readFile(
+			resolve(
+				import.meta.dirname,
+				`dist/${manifest["styles/subfoldercompiled/style-subfoldercompiled.scss"]}`,
 			),
 			{
 				encoding: "utf8",
 			},
 		);
 
-		expect(manifest["styles/subfolder/_partial.scss"]).toBeUndefined();
-		expect(manifest["styles/subfolder/failure.css"]).toBeUndefined();
+		expect(manifest["styles/_subfoldercompiled/_partial.scss"]).toBeUndefined();
+		expect(manifest["styles/_subfoldernotcompiled/_partial.scss"]).toBeUndefined();
+		expect(manifest["styles/_subfoldernotcompiled/failure.css"]).toBeUndefined();
+		expect(manifest["styles/_subfoldernotcompiled/style-subfoldernotcompiled.scss"]).toBeUndefined();
 
 		expect(pure).toMatchInlineSnapshot(
 			`"body{background-color:red;color:blue}"`,
 		);
 		expect(style).toMatchInlineSnapshot(
-			`"h1{color:purple}body{background-color:green;border:1px solid red;color:#fff;padding:1rem 2rem}"`,
+			`"h1{color:purple}h2{color:#639}body{background-color:green;border:1px solid red;color:#fff;padding:1rem 2rem}"`,
 		);
-		expect(subfolderStyle).toMatchInlineSnapshot(
+		expect(subfolderCSS).toMatchInlineSnapshot(
+			`"body{background-color:red;color:blue}"`,
+		);
+		expect(subfolderSCSS).toMatchInlineSnapshot(
 			`"body{background-color:green;border:1px solid red;color:#fff}"`,
 		);
 	});
@@ -80,7 +94,7 @@ describe("Compiler tests", () => {
 				`node ${resolve(import.meta.dirname, `dist/${jsFileName}`)}`,
 			).then((output) => output.stdout),
 		).resolves.toMatchInlineSnapshot(`
-			"Hello this is a console log. 
+			"Hello this is a console log.${" "}
 			Hello this is a console log. Some extra message.
 			"
 		`);
@@ -93,7 +107,33 @@ describe("Compiler tests", () => {
 				`node ${resolve(import.meta.dirname, `dist/${tsFileName}`)}`,
 			).then((output) => output.stdout),
 		).resolves.toMatchInlineSnapshot(`
-			"Hello this is a console log. 
+			"Hello this is a console log.${" "}
+			Hello this is a console log. Some extra message.
+			"
+		`);
+		const jsInSubfolderFileName = manifest["scripts/subfoldercompiled/javascript.js"];
+		expect(existsSync(resolve(import.meta.dirname, `dist/${jsInSubfolderFileName}`))).toBe(
+			true,
+		);
+		await expect(
+			execute(
+				`node ${resolve(import.meta.dirname, `dist/${jsInSubfolderFileName}`)}`,
+			).then((output) => output.stdout),
+		).resolves.toMatchInlineSnapshot(`
+			"Hello this is a console log.${" "}
+			Hello this is a console log. Some extra message.
+			"
+		`);
+		const tsInSubfolderFileName = manifest["scripts/subfoldercompiled/typescript.ts"];
+		expect(existsSync(resolve(import.meta.dirname, `dist/${tsInSubfolderFileName}`))).toBe(
+			true,
+		);
+		await expect(
+			execute(
+				`node ${resolve(import.meta.dirname, `dist/${tsInSubfolderFileName}`)}`,
+			).then((output) => output.stdout),
+		).resolves.toMatchInlineSnapshot(`
+			"Hello this is a console log.${" "}
 			Hello this is a console log. Some extra message.
 			"
 		`);
@@ -126,6 +166,6 @@ describe("Compiler tests", () => {
 	});
 
 	afterAll(async () => {
-		await tearDown();
+		// await tearDown();
 	});
 });

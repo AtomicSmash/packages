@@ -1,0 +1,15 @@
+body {
+	@extend %border_styles;
+	background-color: green;
+	color: white;
+}
+
+%border_styles {
+	border: 1px solid red;
+}
+
+@mixin reset-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
