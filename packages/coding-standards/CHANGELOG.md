@@ -1,5 +1,20 @@
 # @atomicsmash/coding-standards
 
+## 18.0.0-beta.7
+
+### Major Changes
+
+- [#548](https://github.com/AtomicSmash/packages/pull/548) [`3cbb8b8`](https://github.com/AtomicSmash/packages/commit/3cbb8b8b7b1e588a30786cae9f4675ebcf143492) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Remove AS ESLint config package as an automatic peer dependency to avoid conflicts with new config
+
+- [#548](https://github.com/AtomicSmash/packages/pull/548) [`3cbb8b8`](https://github.com/AtomicSmash/packages/commit/3cbb8b8b7b1e588a30786cae9f4675ebcf143492) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Convert configs to typescript and use proper exports setup
+
+### Patch Changes
+
+- [#548](https://github.com/AtomicSmash/packages/pull/548) [`3cbb8b8`](https://github.com/AtomicSmash/packages/commit/3cbb8b8b7b1e588a30786cae9f4675ebcf143492) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Update deps
+
+- Updated dependencies []:
+  - @atomicsmash/browserslist-config@18.0.0-beta.7
+
 ## 18.0.0-beta.6
 
 ### Patch Changes
