@@ -61,6 +61,7 @@ const baseConfig = defineConfig({
 	},
 	settings: {
 		"import/resolver": {
+			typescript: true, // This is needed even for js files because of errors with resolving subpaths.
 			node: true,
 		},
 	},
