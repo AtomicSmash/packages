@@ -1,5 +1,5 @@
 {
-	"$schema": "https://unpkg.com/@changesets/config@2.3.0/schema.json",
+	"$schema": "../node_modules/@changesets/config/schema.json",
 	"changelog": [
 		"@changesets/changelog-github",
 		{ "repo": "AtomicSmash/packages" }
@@ -7,11 +7,7 @@
 	"commit": false,
 	"linked": [],
 	"fixed": [
-		[
-			"@atomicsmash/coding-standards",
-			"@atomicsmash/eslint-config",
-			"@atomicsmash/browserslist-config"
-		]
+		["@atomicsmash/coding-standards", "@atomicsmash/browserslist-config"]
 	],
 	"access": "restricted",
 	"baseBranch": "main",

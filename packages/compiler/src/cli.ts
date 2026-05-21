@@ -51,7 +51,7 @@ const argv = await yargs(hideBin(process.argv))
 			default: ["__TEMPLATE__"],
 			describe:
 				"A comma separated list of the folder names of blocks to exclude from compilation. Requires experimental blocks support.",
-			deprecate: "Use folders which start with an underscore instead."
+			deprecate: "Use folders which start with an underscore instead.",
 		},
 	})
 	.showHelpOnFail(false, "Specify --help for available options")
@@ -59,10 +59,6 @@ const argv = await yargs(hideBin(process.argv))
 // eslint-disable-next-line @typescript-eslint/naming-convention -- Experimental option.
 const { experimentalBlocksSupport, ...compilerOptions } = argv;
 const compiler = webpack(await defaultConfig({ ...compilerOptions }));
-
-if (!compiler) {
-	throw new Error("Failed to initialise compiler.");
-}
 
 if (argv.watch) {
 	let i = 0;
@@ -83,14 +79,14 @@ if (argv.watch) {
 			} else if (stats && i > 0) {
 				const info = stats.toJson();
 				if (stats.hasErrors()) {
-					const errors = info.errors!;
+					const errors = info.errors ?? [];
 					console.warn("The compiler produced the following errors: \n");
 					for (const error of errors) {
 						console.warn(error.message);
 					}
 				}
 				if (stats.hasWarnings()) {
-					const warnings = info.warnings!;
+					const warnings = info.warnings ?? [];
 					console.warn("The compiler produced the following warnings: \n");
 					for (const warning of warnings) {
 						console.warn(warning.message);
@@ -124,7 +120,7 @@ if (argv.watch) {
 		} else if (stats) {
 			const info = stats.toJson();
 			if (stats.hasErrors()) {
-				const errors = info.errors!;
+				const errors = info.errors ?? [];
 				console.warn("The compiler produced the following errors: \n");
 				for (const error of errors) {
 					console.warn(error.message);
@@ -132,7 +128,7 @@ if (argv.watch) {
 				process.exitCode = 1;
 			}
 			if (stats.hasWarnings()) {
-				const warnings = info.warnings!;
+				const warnings = info.warnings ?? [];
 				console.warn("The compiler produced the following warnings: \n");
 				for (const warning of warnings) {
 					console.warn(warning.message);

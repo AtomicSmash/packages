@@ -8,10 +8,8 @@ async function tearDown() {
 	await deleteDir(`${import.meta.dirname}/dist/`, {
 		recursive: true,
 		force: true,
-	}).catch((error: NodeJS.ErrnoException) => {
-		if (error.code === "ENOENT") {
-			return;
-		}
+	}).catch(() => {
+		return;
 	});
 }
 
@@ -35,13 +33,16 @@ describe("Compiler tests", () => {
 
 	test("Testing CSS output", async () => {
 		const pure = await readFile(
-			resolve(import.meta.dirname, `dist/${manifest["styles/pure.css"]}`),
+			resolve(import.meta.dirname, `dist/${manifest["styles/pure.css"] ?? ""}`),
 			{
 				encoding: "utf8",
 			},
 		);
 		const style = await readFile(
-			resolve(import.meta.dirname, `dist/${manifest["styles/style.scss"]}`),
+			resolve(
+				import.meta.dirname,
+				`dist/${manifest["styles/style.scss"] ?? ""}`,
+			),
 			{
 				encoding: "utf8",
 			},
@@ -49,7 +50,7 @@ describe("Compiler tests", () => {
 		const subfolderCSS = await readFile(
 			resolve(
 				import.meta.dirname,
-				`dist/${manifest["styles/subfoldercompiled/allowed.css"]}`,
+				`dist/${manifest["styles/subfoldercompiled/allowed.css"] ?? ""}`,
 			),
 			{
 				encoding: "utf8",
@@ -58,7 +59,7 @@ describe("Compiler tests", () => {
 		const subfolderSCSS = await readFile(
 			resolve(
 				import.meta.dirname,
-				`dist/${manifest["styles/subfoldercompiled/style-subfoldercompiled.scss"]}`,
+				`dist/${manifest["styles/subfoldercompiled/style-subfoldercompiled.scss"] ?? ""}`,
 			),
 			{
 				encoding: "utf8",
@@ -66,9 +67,15 @@ describe("Compiler tests", () => {
 		);
 
 		expect(manifest["styles/_subfoldercompiled/_partial.scss"]).toBeUndefined();
-		expect(manifest["styles/_subfoldernotcompiled/_partial.scss"]).toBeUndefined();
-		expect(manifest["styles/_subfoldernotcompiled/failure.css"]).toBeUndefined();
-		expect(manifest["styles/_subfoldernotcompiled/style-subfoldernotcompiled.scss"]).toBeUndefined();
+		expect(
+			manifest["styles/_subfoldernotcompiled/_partial.scss"],
+		).toBeUndefined();
+		expect(
+			manifest["styles/_subfoldernotcompiled/failure.css"],
+		).toBeUndefined();
+		expect(
+			manifest["styles/_subfoldernotcompiled/style-subfoldernotcompiled.scss"],
+		).toBeUndefined();
 
 		expect(pure).toMatchInlineSnapshot(
 			`"body{background-color:red;color:blue}"`,
@@ -85,7 +92,7 @@ describe("Compiler tests", () => {
 	});
 
 	test("Test scripts", async () => {
-		const jsFileName = manifest["scripts/javascript.js"];
+		const jsFileName = manifest["scripts/javascript.js"] ?? "";
 		expect(existsSync(resolve(import.meta.dirname, `dist/${jsFileName}`))).toBe(
 			true,
 		);
@@ -98,7 +105,7 @@ describe("Compiler tests", () => {
 			Hello this is a console log. Some extra message.
 			"
 		`);
-		const tsFileName = manifest["scripts/typescript.ts"];
+		const tsFileName = manifest["scripts/typescript.ts"] ?? "";
 		expect(existsSync(resolve(import.meta.dirname, `dist/${tsFileName}`))).toBe(
 			true,
 		);
@@ -111,10 +118,11 @@ describe("Compiler tests", () => {
 			Hello this is a console log. Some extra message.
 			"
 		`);
-		const jsInSubfolderFileName = manifest["scripts/subfoldercompiled/javascript.js"];
-		expect(existsSync(resolve(import.meta.dirname, `dist/${jsInSubfolderFileName}`))).toBe(
-			true,
-		);
+		const jsInSubfolderFileName =
+			manifest["scripts/subfoldercompiled/javascript.js"] ?? "";
+		expect(
+			existsSync(resolve(import.meta.dirname, `dist/${jsInSubfolderFileName}`)),
+		).toBe(true);
 		await expect(
 			execute(
 				`node ${resolve(import.meta.dirname, `dist/${jsInSubfolderFileName}`)}`,
@@ -124,10 +132,11 @@ describe("Compiler tests", () => {
 			Hello this is a console log. Some extra message.
 			"
 		`);
-		const tsInSubfolderFileName = manifest["scripts/subfoldercompiled/typescript.ts"];
-		expect(existsSync(resolve(import.meta.dirname, `dist/${tsInSubfolderFileName}`))).toBe(
-			true,
-		);
+		const tsInSubfolderFileName =
+			manifest["scripts/subfoldercompiled/typescript.ts"] ?? "";
+		expect(
+			existsSync(resolve(import.meta.dirname, `dist/${tsInSubfolderFileName}`)),
+		).toBe(true);
 		await expect(
 			execute(
 				`node ${resolve(import.meta.dirname, `dist/${tsInSubfolderFileName}`)}`,
@@ -160,12 +169,15 @@ describe("Compiler tests", () => {
 	test("Test icons", () => {
 		expect(
 			existsSync(
-				resolve(import.meta.dirname, `dist/${manifest["icons/sprite.svg"]}`),
+				resolve(
+					import.meta.dirname,
+					`dist/${manifest["icons/sprite.svg"] ?? ""}`,
+				),
 			),
 		).toBe(true);
 	});
 
 	afterAll(async () => {
-		// await tearDown();
+		await tearDown();
 	});
 });

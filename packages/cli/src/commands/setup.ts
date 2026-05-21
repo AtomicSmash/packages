@@ -71,7 +71,7 @@ export async function handler() {
 										)})`,
 									);
 								})
-								.catch((error) => {
+								.catch((error: unknown) => {
 									if (
 										error instanceof Error &&
 										"code" in error &&
@@ -117,7 +117,7 @@ export async function handler() {
 											)})`,
 										);
 									})
-									.catch((error) => {
+									.catch((error: unknown) => {
 										console.error(error);
 										throw new Error("Failed to link the site using Herd.");
 									});
@@ -130,7 +130,7 @@ export async function handler() {
 										);
 										clearTimeout(timeout);
 									})
-									.catch((error) => {
+									.catch((error: unknown) => {
 										console.error(error);
 										throw new Error("Failed to isolate the site using Herd.");
 									});
@@ -148,7 +148,7 @@ export async function handler() {
 											)})`,
 										);
 									})
-									.catch((error) => {
+									.catch((error: unknown) => {
 										console.error(error);
 										throw new Error("Failed to link the site using valet.");
 									});
@@ -167,33 +167,33 @@ export async function handler() {
 						)})`,
 					);
 				})
-				.catch((error) => {
+				.catch((error: unknown) => {
 					console.error(error);
 					throw new Error(
 						"Failed to run composer install in the root directory.",
 					);
 				}),
-			...(composerInstallPaths?.map((path, index) => {
+			...composerInstallPaths.map((path, index) => {
 				return execute(
 					`cd "${resolve(process.cwd(), path)}"; composer install${isCI ? " --no-dev --classmap-authoritative" : ""}`,
 				)
 					.then(() => {
 						console.log(
-							`Additional composer install ${index + 1} done. (${convertMeasureToPrettyString(
+							`Additional composer install ${(index + 1).toString()} done. (${convertMeasureToPrettyString(
 								performance.measure(
-									`additional composer install ${index + 1}`,
+									`additional composer install ${(index + 1).toString()}`,
 									"Start",
 								),
 							)})`,
 						);
 					})
-					.catch((error) => {
+					.catch((error: unknown) => {
 						console.error(error);
 						throw new Error(
-							`Failed to run additional composer install ${index + 1}.`,
+							`Failed to run additional composer install ${(index + 1).toString()}.`,
 						);
 					});
-			}) ?? []),
+			}),
 			(async () => {
 				await execute(`npm ${isCI ? "ci" : "install"}`)
 					.then(() => {
@@ -204,7 +204,7 @@ export async function handler() {
 							)})`,
 						);
 					})
-					.catch((error) => {
+					.catch((error: unknown) => {
 						console.error(error);
 						throw new Error("Failed to run npm install in the root directory.");
 					});
@@ -216,34 +216,37 @@ export async function handler() {
 							)})`,
 						);
 					})
-					.catch((error) => {
+					.catch((error: unknown) => {
 						console.error(error);
 						throw new Error("Failed to run a build after installing.");
 					});
-			})().catch((reason: string) => {
-				throw new Error(reason);
+			})().catch((reason: unknown) => {
+				if (typeof reason === "string") {
+					throw new Error(reason);
+				}
+				throw reason;
 			}),
-			...(npmInstallPaths?.map((path, index) => {
+			...npmInstallPaths.map((path, index) => {
 				return execute(
 					`cd "${resolve(process.cwd(), path)}"; npm  ${isCI ? "ci --omit=dev" : "install"}`,
 				)
 					.then(() => {
 						console.log(
-							`Additional npm install ${index + 1} done. (${convertMeasureToPrettyString(
+							`Additional npm install ${(index + 1).toString()} done. (${convertMeasureToPrettyString(
 								performance.measure(
-									`additional npm install ${index + 1}`,
+									`additional npm install ${(index + 1).toString()}`,
 									"Start",
 								),
 							)})`,
 						);
 					})
-					.catch((error) => {
+					.catch((error: unknown) => {
 						console.error(error);
 						throw new Error(
-							`Failed to run additional npm install ${index + 1}.`,
+							`Failed to run additional npm install ${(index + 1).toString()}.`,
 						);
 					});
-			}) ?? []),
+			}),
 		])
 			.then(async (results) => {
 				await stopRunningMessage();
@@ -254,7 +257,7 @@ export async function handler() {
 						results
 							.filter((result) => result.status === "rejected")
 							.map((result) => {
-								return `- ${result.reason}`;
+								return `- ${typeof result.reason === "string" ? result.reason : "Unknown reason."}`;
 							})
 							.join(`\n`),
 					);
@@ -266,7 +269,7 @@ export async function handler() {
 					);
 				}
 			})
-			.catch((error) => {
+			.catch((error: unknown) => {
 				console.error(error);
 				process.exitCode = 1;
 			});

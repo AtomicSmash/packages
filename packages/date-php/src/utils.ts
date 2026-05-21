@@ -32,7 +32,7 @@ export function replaceAllUnescaped(
 	const splitString = string.split("\\\\"); // Split by any escaped backslashes.
 	for (let stringPiece of splitString) {
 		let tempString = "";
-		let lastIndex = stringPiece.lastIndexOf(`${searchValue}`);
+		let lastIndex = stringPiece.lastIndexOf(searchValue);
 		if (lastIndex === -1) {
 			newString = `${newString}${index > 0 ? "\\\\" : ""}${stringPiece}`;
 		} else {
@@ -45,7 +45,7 @@ export function replaceAllUnescaped(
 					tempString = stringPiece.slice(lastIndex) + tempString;
 				}
 				stringPiece = stringPiece.slice(0, lastIndex);
-				lastIndex = stringPiece.lastIndexOf(`${searchValue}`);
+				lastIndex = stringPiece.lastIndexOf(searchValue);
 			}
 			newString = `${newString}${stringPiece}${
 				index > 0 ? "\\\\" : ""
@@ -73,7 +73,7 @@ export function searchFirstUnescaped(
 			position = position + 2;
 		}
 		index++;
-		let lastIndex = stringPiece.lastIndexOf(`${searchValue}`);
+		let lastIndex = stringPiece.lastIndexOf(searchValue);
 		if (lastIndex === 0) {
 			return position;
 		}
@@ -82,7 +82,7 @@ export function searchFirstUnescaped(
 				return position + lastIndex;
 			}
 			stringPiece = stringPiece.slice(0, lastIndex);
-			lastIndex = stringPiece.lastIndexOf(`${searchValue}`);
+			lastIndex = stringPiece.lastIndexOf(searchValue);
 		}
 		position = position + stringPiece.length;
 	}

@@ -77,7 +77,7 @@ async function activatePluginsWithRetry(
 
 	if (remainingPlugins.length > 0) {
 		console.warn(
-			`⚠ Warning: Could not activate all plugins after ${maxRetries} attempts. Remaining: ${remainingPlugins.join(", ")}`,
+			`⚠ Warning: Could not activate all plugins after ${maxRetries.toString()} attempts. Remaining: ${remainingPlugins.join(", ")}`,
 		);
 	}
 }
@@ -89,10 +89,16 @@ export async function handler() {
 	const execute = promisify(exec);
 	const smashConfig = await getSmashConfig();
 	// These must remain env vars because they differ for each dev.
-	const addCustomUser =
+	const newUserToAdd =
 		process.env.WORDPRESS_USER &&
 		process.env.WORDPRESS_USER_EMAIL &&
-		process.env.WORDPRESS_PASSWORD;
+		process.env.WORDPRESS_PASSWORD
+			? {
+					user: process.env.WORDPRESS_USER,
+					email: process.env.WORDPRESS_USER_EMAIL,
+					password: process.env.WORDPRESS_PASSWORD,
+				}
+			: null;
 
 	if (!smashConfig) {
 		throw new Error(
@@ -115,17 +121,17 @@ export async function handler() {
 						performance.measure("wordpress-tables", "Start"),
 					)})`,
 				);
-				if (addCustomUser) {
+				if (newUserToAdd) {
 					return execute(
-						`wp user create ${process.env.WORDPRESS_USER} ${process.env.WORDPRESS_USER_EMAIL} --user_pass=${process.env.WORDPRESS_PASSWORD} --role=administrator`,
+						`wp user create ${newUserToAdd.user} ${newUserToAdd.email} --user_pass=${newUserToAdd.password} --role=administrator`,
 					);
 				}
 			})
 			.then(async () => {
-				if (addCustomUser) {
+				if (newUserToAdd) {
 					performance.mark("add-custom-user");
 					console.log(
-						`Custom user ${process.env.WORDPRESS_USER} added. (${convertMeasureToPrettyString(
+						`Custom user ${newUserToAdd.user} added. (${convertMeasureToPrettyString(
 							performance.measure("add-custom-user", "wordpress-tables"),
 						)})`,
 					);
@@ -166,7 +172,7 @@ export async function handler() {
 					`Plugins activated. (${convertMeasureToPrettyString(
 						performance.measure(
 							"plugins",
-							addCustomUser ? "add-custom-user" : "wordpress-tables",
+							newUserToAdd ? "add-custom-user" : "wordpress-tables",
 						),
 					)})`,
 				);
@@ -181,14 +187,20 @@ export async function handler() {
 				);
 				await stopRunningMessage();
 				console.log(
-					`Database set up${addCustomUser ? ` and ${process.env.WORDPRESS_USER} user added` : !process.env.CI ? ". To set up a user, run the `wp user create` command." : ""}. (${convertMeasureToPrettyString(
+					`Database set up${newUserToAdd ? ` and ${newUserToAdd.user} user added` : !process.env.CI ? ". To set up a user, run the `wp user create` command." : ""}. (${convertMeasureToPrettyString(
 						performance.measure("everything", "Start"),
 					)})`,
 				);
 			})
-			.catch(async (error: { stderr: string }) => {
+			.catch(async (error: unknown) => {
 				await stopRunningMessage();
-				if (error.stderr?.startsWith("ERROR 1007")) {
+				if (
+					typeof error === "object" &&
+					error &&
+					"stderr" in error &&
+					typeof error.stderr === "string" &&
+					error.stderr.startsWith("ERROR 1007")
+				) {
 					console.error(
 						"Database already exists with the name in the wp-config. Please delete that database first with `wp db drop --yes`",
 					);
