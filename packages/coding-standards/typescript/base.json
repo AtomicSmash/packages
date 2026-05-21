@@ -16,6 +16,7 @@
 		"checkJs": true,
 		"forceConsistentCasingInFileNames": true,
 		"verbatimModuleSyntax": true,
-		"noImplicitOverride": true
+		"noImplicitOverride": true,
+		"strictNullChecks": true
 	}
 }

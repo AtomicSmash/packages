@@ -61,7 +61,7 @@ declare module "@wordpress/block-editor" {
 		viewportWidth?: number;
 		minHeight?: number;
 		additionalStyles?: { css: string }[];
-	}) => JSX.Element;
+	}) => React.JSX.Element;
 
 	// eslint-disable-next-line @typescript-eslint/no-namespace -- Namespace must be used to match types package
 	namespace InnerBlocks {
@@ -90,9 +90,7 @@ declare module "@wordpress/block-editor" {
 		}
 	}
 
-	export function useSettings<Paths extends string[]>(
-		...paths: Paths
-	): unknown[];
+	export function useSettings(...paths: string[]): unknown[];
 
 	const MediaReplaceFlow: <Multiple extends boolean>(
 		props: {
@@ -129,7 +127,7 @@ declare module "@wordpress/block-editor" {
 					mediaId?: number;
 					onSelect: (selectedImage: SelectedImage) => void;
 				}),
-	) => JSX.Element;
+	) => React.JSX.Element;
 
 	// eslint-disable-next-line @typescript-eslint/no-namespace -- Namespace must be used to match types package
 	namespace MediaPlaceholder {

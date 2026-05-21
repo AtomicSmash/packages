@@ -1,10 +1,9 @@
-import { resolve } from "node:path";
 import { expect, test, describe } from "vitest";
-import { execute, testCommand, packageVersion } from "./utils.js";
+import { execute, testCommand } from "./utils.js";
 
 describe.concurrent("Base CLI helpers work as intended", () => {
 	test("main cli shows error if nothing is added after main command", async () => {
-		await expect(execute(`${testCommand}`)).rejects
+		await expect(execute(testCommand)).rejects
 			.toThrowErrorMatchingInlineSnapshot(`
 			{
 			  "error": [Error: Command failed: ${testCommand}
@@ -20,6 +19,7 @@ describe.concurrent("Base CLI helpers work as intended", () => {
 			}
 		`);
 	});
+
 	test("main cli shows help message if --help is added after main command", async () => {
 		await expect(execute(`${testCommand} --help`)).resolves
 			.toMatchInlineSnapshot(`
@@ -43,6 +43,7 @@ describe.concurrent("Base CLI helpers work as intended", () => {
 			}
 		`);
 	});
+
 	test("main cli shows help message if -h is added after main command", async () => {
 		await expect(execute(`${testCommand} -h`)).resolves.toMatchInlineSnapshot(`
 			{
@@ -65,6 +66,7 @@ describe.concurrent("Base CLI helpers work as intended", () => {
 			}
 		`);
 	});
+
 	test("main cli shows command not found message if invalid command is provided", async () => {
 		await expect(execute(`${testCommand} fake-command`)).rejects
 			.toThrowErrorMatchingInlineSnapshot(`

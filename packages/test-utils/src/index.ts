@@ -112,7 +112,6 @@ export const lighthouseTest = base.extend<
 	{ port: number; browser: Browser }
 >({
 	port: [
-		// eslint-disable-next-line no-empty-pattern -- destructure pattern is required by playwright
 		async ({}, use) => {
 			// Assign a unique port for each playwright worker to support parallel tests
 			const port = await getPort();
@@ -124,7 +123,7 @@ export const lighthouseTest = base.extend<
 	browser: [
 		async ({ port }, use) => {
 			const browser = await chromium.launch({
-				args: [`--remote-debugging-port=${port}`],
+				args: [`--remote-debugging-port=${port.toString()}`],
 			});
 			await use(browser);
 		},
@@ -303,7 +302,7 @@ export function generateProjectsForAllBrowsers(
 	]) {
 		projects.push({
 			...baseProject,
-			name: `${baseProject.name}__${browser.name}`,
+			name: `${baseProject.name ?? "unknown_project"}__${browser.name}`,
 			use: { ...baseProject.use, ...browser.use },
 			grepInvert: [
 				...[baseProject.grepInvert].flat(1),

@@ -61,14 +61,12 @@ export async function config(options: {
 	const srcFolder = argv.in
 		? resolvePath(argv.in)
 		: smashConfig?.themePath
-			? resolvePath(join(smashConfig?.themePath, "src"))
+			? resolvePath(join(smashConfig.themePath, "src"))
 			: null;
 	const distFolder = argv.out
 		? resolvePath(argv.out)
 		: smashConfig?.themePath
-			? resolvePath(
-					join(smashConfig?.themePath, smashConfig.assetsOutputFolder),
-				)
+			? resolvePath(join(smashConfig.themePath, smashConfig.assetsOutputFolder))
 			: null;
 	if (!srcFolder || !distFolder) {
 		throw new Error(
@@ -384,7 +382,10 @@ export async function config(options: {
 						entry.key = "icons/sprite.svg";
 						return entry;
 					}
-					if (entry.key.startsWith("icons/sprite") && entry.key.endsWith(".svg")) {
+					if (
+						entry.key.startsWith("icons/sprite") &&
+						entry.key.endsWith(".svg")
+					) {
 						entry.key = "icons/sprite.svg";
 						return entry;
 					}
@@ -461,26 +462,26 @@ async function getSassOptions(srcFolder: string) {
 	}
 
 	const defaultConfig: SCSSAliases = {
-				importers: [
-					{
-						findFileUrl(url) {
-							if (!url.startsWith("sitecss:")) return null;
-							const pathname = url.substring(8);
-							return pathToFileURL(
-								`${resolvePath(srcFolder, "../css")}${pathname.startsWith("/") ? pathname : `/${pathname}`}`,
-							);
-						},
-					},
-					{
-						findFileUrl(url) {
-							if (!url.startsWith("launchpad:")) return null;
-							const pathname = url.substring(10);
-							return pathToFileURL(
-								`${resolvePath(process.cwd(), "public/wp-content/themes/launchpad/src/styles")}${pathname.startsWith("/") ? pathname : `/${pathname}`}`,
-							);
-						},
-					},
-				],
-			};
+		importers: [
+			{
+				findFileUrl(url) {
+					if (!url.startsWith("sitecss:")) return null;
+					const pathname = url.substring(8);
+					return pathToFileURL(
+						`${resolvePath(srcFolder, "../css")}${pathname.startsWith("/") ? pathname : `/${pathname}`}`,
+					);
+				},
+			},
+			{
+				findFileUrl(url) {
+					if (!url.startsWith("launchpad:")) return null;
+					const pathname = url.substring(10);
+					return pathToFileURL(
+						`${resolvePath(process.cwd(), "public/wp-content/themes/launchpad/src/styles")}${pathname.startsWith("/") ? pathname : `/${pathname}`}`,
+					);
+				},
+			},
+		],
+	};
 	return defaultConfig;
 }

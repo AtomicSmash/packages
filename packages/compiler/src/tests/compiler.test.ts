@@ -8,10 +8,8 @@ async function tearDown() {
 	await deleteDir(`${import.meta.dirname}/dist/`, {
 		recursive: true,
 		force: true,
-	}).catch((error: NodeJS.ErrnoException) => {
-		if (error.code === "ENOENT") {
-			return;
-		}
+	}).catch(() => {
+		return;
 	});
 }
 
@@ -35,13 +33,16 @@ describe("Compiler tests", () => {
 
 	test("Testing CSS output", async () => {
 		const pure = await readFile(
-			resolve(import.meta.dirname, `dist/${manifest["styles/pure.css"]}`),
+			resolve(import.meta.dirname, `dist/${manifest["styles/pure.css"] ?? ""}`),
 			{
 				encoding: "utf8",
 			},
 		);
 		const style = await readFile(
-			resolve(import.meta.dirname, `dist/${manifest["styles/style.scss"]}`),
+			resolve(
+				import.meta.dirname,
+				`dist/${manifest["styles/style.scss"] ?? ""}`,
+			),
 			{
 				encoding: "utf8",
 			},
@@ -49,7 +50,7 @@ describe("Compiler tests", () => {
 		const subfolderStyle = await readFile(
 			resolve(
 				import.meta.dirname,
-				`dist/${manifest["styles/subfolder/style-subfolder.scss"]}`,
+				`dist/${manifest["styles/subfolder/style-subfolder.scss"] ?? ""}`,
 			),
 			{
 				encoding: "utf8",
@@ -71,7 +72,7 @@ describe("Compiler tests", () => {
 	});
 
 	test("Test scripts", async () => {
-		const jsFileName = manifest["scripts/javascript.js"];
+		const jsFileName = manifest["scripts/javascript.js"] ?? "";
 		expect(existsSync(resolve(import.meta.dirname, `dist/${jsFileName}`))).toBe(
 			true,
 		);
@@ -80,11 +81,11 @@ describe("Compiler tests", () => {
 				`node ${resolve(import.meta.dirname, `dist/${jsFileName}`)}`,
 			).then((output) => output.stdout),
 		).resolves.toMatchInlineSnapshot(`
-			"Hello this is a console log. 
+			"Hello this is a console log.
 			Hello this is a console log. Some extra message.
 			"
 		`);
-		const tsFileName = manifest["scripts/typescript.ts"];
+		const tsFileName = manifest["scripts/typescript.ts"] ?? "";
 		expect(existsSync(resolve(import.meta.dirname, `dist/${tsFileName}`))).toBe(
 			true,
 		);
@@ -93,7 +94,7 @@ describe("Compiler tests", () => {
 				`node ${resolve(import.meta.dirname, `dist/${tsFileName}`)}`,
 			).then((output) => output.stdout),
 		).resolves.toMatchInlineSnapshot(`
-			"Hello this is a console log. 
+			"Hello this is a console log.
 			Hello this is a console log. Some extra message.
 			"
 		`);
@@ -120,7 +121,10 @@ describe("Compiler tests", () => {
 	test("Test icons", () => {
 		expect(
 			existsSync(
-				resolve(import.meta.dirname, `dist/${manifest["icons/sprite.svg"]}`),
+				resolve(
+					import.meta.dirname,
+					`dist/${manifest["icons/sprite.svg"] ?? ""}`,
+				),
 			),
 		).toBe(true);
 	});

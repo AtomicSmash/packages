@@ -141,7 +141,8 @@ export class PackageManager {
 					this.commands.devInstall.push(
 						`${packageName}@"${packageConstraintRange}"`,
 					);
-					return resolve(true);
+					resolve(true);
+					return;
 				}
 				if (
 					greaterThanRange(
@@ -152,7 +153,8 @@ export class PackageManager {
 					console.log(
 						`The package ${packageName} is already installed and is newer than the requested version. You may encounter issues with your testing setup.`,
 					);
-					return reject(new Error("NEWER_PACKAGE_FOUND"));
+					reject(new Error("NEWER_PACKAGE_FOUND"));
+					return;
 				}
 				if (
 					lessThanRange(dependencyInfo.currentVersion, packageConstraintRange)
@@ -160,12 +162,14 @@ export class PackageManager {
 					console.log(
 						`The package ${packageName} is already installed and is older than the requested version. You should manually update the package to match the range: ${packageConstraintRange}.`,
 					);
-					return reject(new Error("OLDER_PACKAGE_FOUND"));
+					reject(new Error("OLDER_PACKAGE_FOUND"));
+					return;
 				}
 				console.log(
 					`An acceptable version of ${packageName} is already installed, skipping...`,
 				);
-				return resolve(false);
+				resolve(false);
+				return;
 			}
 			if (dependencyInfo === null) {
 				console.log(
@@ -174,7 +178,8 @@ export class PackageManager {
 				this.commands.install.push(
 					`${packageName}@"${packageConstraintRange}"`,
 				);
-				return resolve(true);
+				resolve(true);
+				return;
 			}
 			const isFoundAsDevDependency = dependencyInfo.type === "dev";
 			if (
@@ -187,7 +192,8 @@ export class PackageManager {
 							: ""
 					}`,
 				);
-				return reject(new Error("NEWER_PACKAGE_FOUND"));
+				reject(new Error("NEWER_PACKAGE_FOUND"));
+				return;
 			}
 			if (
 				lessThanRange(dependencyInfo.currentVersion, packageConstraintRange)
@@ -199,7 +205,8 @@ export class PackageManager {
 							: ""
 					}`,
 				);
-				return reject(new Error("OLDER_PACKAGE_FOUND"));
+				reject(new Error("OLDER_PACKAGE_FOUND"));
+				return;
 			}
 			if (isFoundAsDevDependency) {
 				console.log(
@@ -208,12 +215,14 @@ export class PackageManager {
 				this.commands.install.push(
 					`${packageName}@"${packageConstraintRange}"`,
 				);
-				return resolve(true);
+				resolve(true);
+				return;
 			}
 			console.log(
 				`An acceptable version of ${packageName} is already installed, skipping...`,
 			);
-			return resolve(false);
+			resolve(false);
+			return;
 		});
 	}
 }

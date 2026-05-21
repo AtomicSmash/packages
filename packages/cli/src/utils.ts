@@ -49,20 +49,20 @@ export function toCamelCase(text: string) {
 }
 
 export function convertMeasureToPrettyString(measure: PerformanceMeasure) {
-	const duration = Number(measure.duration);
+	const duration = measure.duration;
 	if (duration < 1) {
-		return `${duration * 1000}µs`;
+		return `${(duration * 1000).toString()}µs`;
 	}
 	if (duration < 999) {
-		return `${Math.round(duration)}ms`;
+		return `${Math.round(duration).toString()}ms`;
 	}
 	const timeInSeconds = Number((duration / 1000).toFixed(2));
 	if (timeInSeconds < 60) {
-		return `${timeInSeconds}s`;
+		return `${timeInSeconds.toString()}s`;
 	}
 	const minutes = Math.floor(timeInSeconds / 60);
 	const seconds = Math.ceil(timeInSeconds % 60);
-	return `${minutes}m ${seconds}s`;
+	return `${minutes.toString()}m ${seconds.toString()}s`;
 }
 
 export function startRunningMessage(message: string) {
@@ -80,19 +80,17 @@ export function startRunningMessage(message: string) {
 			process.stdout.write(`${message}${".".repeat($i)}\r`);
 		}, 200);
 		return async () => {
-			if (interval) {
-				clearInterval(interval);
-				await new Promise<void>((resolve) => {
-					process.stdout.clearLine(0, () => {
-						resolve();
-					});
+			clearInterval(interval);
+			await new Promise<void>((resolve) => {
+				process.stdout.clearLine(0, () => {
+					resolve();
 				});
-				await new Promise<void>((resolve) => {
-					process.stdout.cursorTo(0, () => {
-						resolve();
-					});
+			});
+			await new Promise<void>((resolve) => {
+				process.stdout.cursorTo(0, () => {
+					resolve();
 				});
-			}
+			});
 		};
 	}
 	return async () => {
