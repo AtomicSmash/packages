@@ -28,9 +28,21 @@
 			"types": "./dist/prettier/index.d.ts",
 			"default": "./dist/prettier/index.js"
 		},
-		"./stylelint/*": {
-			"types": "./dist/stylelint/*.d.ts",
-			"default": "./dist/stylelint/*.js"
+		"./stylelint": {
+			"types": "./dist/stylelint/index.d.ts",
+			"default": "./dist/stylelint/index.js"
+		},
+		"./stylelint/classic": {
+			"types": "./dist/stylelint/classic.d.ts",
+			"default": "./dist/stylelint/classic.js"
+		},
+		"./stylelint/theme-json": {
+			"types": "./dist/stylelint/theme-json.d.ts",
+			"default": "./dist/stylelint/theme-json.js"
+		},
+		"./stylelint/tailwind": {
+			"types": "./dist/stylelint/tailwind.d.ts",
+			"default": "./dist/stylelint/tailwind.js"
 		},
 		"./typescript/*": "./typescript/*.json",
 		"./beta/biome": "./beta/biome/biome.jsonc"
