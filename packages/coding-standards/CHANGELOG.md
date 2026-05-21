@@ -1,5 +1,14 @@
 # @atomicsmash/coding-standards
 
+## 18.0.0-beta.11
+
+### Patch Changes
+
+- [#559](https://github.com/AtomicSmash/packages/pull/559) [`0570b31`](https://github.com/AtomicSmash/packages/commit/0570b31ffb40a47961fcb2a3f132546281d2e8bc) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Don't expose base stylelint config
+
+- Updated dependencies []:
+  - @atomicsmash/browserslist-config@18.0.0-beta.11
+
 ## 18.0.0-beta.10
 
 ### Patch Changes
