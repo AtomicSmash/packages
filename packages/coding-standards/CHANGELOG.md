@@ -1,5 +1,14 @@
 # @atomicsmash/coding-standards
 
+## 18.0.0-beta.8
+
+### Patch Changes
+
+- [#553](https://github.com/AtomicSmash/packages/pull/553) [`f5f0051`](https://github.com/AtomicSmash/packages/commit/f5f0051589f88fda628c714112c2c297cd8ced76) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Fix ESLint config exports
+
+- Updated dependencies []:
+  - @atomicsmash/browserslist-config@18.0.0-beta.8
+
 ## 18.0.0-beta.7
 
 ### Major Changes
