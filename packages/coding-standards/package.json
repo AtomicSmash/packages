@@ -20,6 +20,10 @@
 			"types": "./dist/cspell/index.d.ts",
 			"default": "./dist/cspell/index.js"
 		},
+		"./eslint": {
+			"types": "./dist/eslint/index.d.ts",
+			"default": "./dist/eslint/index.js"
+		},
 		"./prettier": {
 			"types": "./dist/prettier/index.d.ts",
 			"default": "./dist/prettier/index.js"
@@ -29,11 +33,7 @@
 			"default": "./dist/stylelint/*.js"
 		},
 		"./typescript/*": "./typescript/*.json",
-		"./beta/biome": "./beta/biome/biome.jsonc",
-		"./beta/eslint/flat-config": {
-			"types": "./dist/beta/eslint/*.d.ts",
-			"default": "./dist/beta/eslint/index.js"
-		}
+		"./beta/biome": "./beta/biome/biome.jsonc"
 	},
 	"devDependencies": {
 		"@cspell/cspell-types": "^9.7.0"
