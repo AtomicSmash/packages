@@ -1,5 +1,14 @@
 # @atomicsmash/coding-standards
 
+## 18.0.0-beta.9
+
+### Patch Changes
+
+- [#555](https://github.com/AtomicSmash/packages/pull/555) [`26399d1`](https://github.com/AtomicSmash/packages/commit/26399d1cc021f02740d2a2f435c4850227b24f96) Thanks [@mikeybinns](https://github.com/mikeybinns)! - fix incorrect @eslint/js dep version
+
+- Updated dependencies []:
+  - @atomicsmash/browserslist-config@18.0.0-beta.9
+
 ## 18.0.0-beta.8
 
 ### Patch Changes
