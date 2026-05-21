@@ -43,6 +43,8 @@ export async function config(options: {
 	analyse?: boolean | undefined;
 	/**
 	 * A comma separated list of the folder names of blocks to exclude from compilation. Requires experimental blocks support.
+	 *
+	 * @deprecated Use folders which start with an underscore instead.
 	 */
 	excludeBlocks?: string[] | undefined;
 }) {
@@ -154,17 +156,21 @@ export async function config(options: {
 			[
 				// Parse all block json typescript files in the blocks folder.
 				`${srcFolder}/blocks/**/block.json.ts`,
-				// Parse all direct children of the JS folder, as long as they are JS & TS files
-				`${srcFolder}/scripts/*.{js,ts,jsx,tsx}`,
-				// Parse all direct children of the CSS folder, as long as they are CSS files
-				`${srcFolder}/styles/*.css`,
+				// Parse all children of the JS folder, as long as they are JS & TS files and not in a folder that starts with an underscore
+				`${srcFolder}/scripts/**/*.{js,ts,jsx,tsx}`,
+				// Parse all children of the CSS folder, as long as they are CSS files and not in a folder that starts with an underscore
+				`${srcFolder}/styles/**/*.css`,
 				// Parse all nested children of the CSS folder, as long as they are non-partial SCSS files
 				`${srcFolder}/styles/**/[^_]*.s[ac]ss`,
 			],
 			{
-				ignore: argv.excludeBlocks.map(
-					(blockName) => `${srcFolder}/blocks/**/${blockName}/block.json.ts`,
-				),
+				ignore: [
+					// eslint-disable-next-line @typescript-eslint/no-deprecated -- Support for a few more versions to allow migration
+					...argv.excludeBlocks.map(
+						(blockName) => `${srcFolder}/blocks/**/${blockName}/block.json.ts`,
+					),
+					"!**/_*/**", // Exclude any folder that starts with an underscore for all files
+				],
 			},
 		).then(async (paths) => {
 			const { restOfPaths, entryPoints } = await getBlocksAssetsEntryPoints(
@@ -372,9 +378,12 @@ export async function config(options: {
 					if (
 						entry.key === "assets.php" ||
 						entry.key === "wordpress-assets-info.php" ||
+						entry.key === "wordpress-assets-info.json" ||
 						entry.key.endsWith(".map") ||
 						entry.key.startsWith("fonts") ||
-						entry.key.startsWith("images")
+						entry.key.startsWith("images") ||
+						entry.key.endsWith(".scss.css") ||
+						entry.key.endsWith(".css.css")
 					) {
 						return false;
 					}
@@ -396,6 +405,9 @@ export async function config(options: {
 						entry.key = entry.key.replace("css/", "styles/");
 					}
 					if (entry.key.endsWith(".js")) {
+						entry.key = entry.key.slice(0, -3);
+					}
+					if (entry.key.endsWith(".css.css")) {
 						entry.key = entry.key.slice(0, -3);
 					}
 

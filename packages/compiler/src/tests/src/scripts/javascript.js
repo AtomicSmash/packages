@@ -1,4 +1,4 @@
-import { outputMessage } from "./modules/js-module.js";
+import { outputMessage } from "./_modules/js-module.js";
 
 outputMessage();
 outputMessage("Some extra message.");

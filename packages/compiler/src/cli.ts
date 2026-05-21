@@ -51,6 +51,7 @@ const argv = await yargs(hideBin(process.argv))
 			default: ["__TEMPLATE__"],
 			describe:
 				"A comma separated list of the folder names of blocks to exclude from compilation. Requires experimental blocks support.",
+			deprecate: "Use folders which start with an underscore instead.",
 		},
 	})
 	.showHelpOnFail(false, "Specify --help for available options")
