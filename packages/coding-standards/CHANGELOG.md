@@ -1,5 +1,14 @@
 # @atomicsmash/coding-standards
 
+## 18.0.0-beta.10
+
+### Patch Changes
+
+- [#557](https://github.com/AtomicSmash/packages/pull/557) [`7252b22`](https://github.com/AtomicSmash/packages/commit/7252b22708d424098ffc1d673b4a420f6cb721e5) Thanks [@mikeybinns](https://github.com/mikeybinns)! - fix module resolution for import rules
+
+- Updated dependencies []:
+  - @atomicsmash/browserslist-config@18.0.0-beta.10
+
 ## 18.0.0-beta.9
 
 ### Patch Changes
