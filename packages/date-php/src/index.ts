@@ -4,7 +4,19 @@ import {
 	replaceAllUnescaped,
 	searchFirstUnescaped,
 } from "./utils.js";
+
+type ParsingFormats =
+	| "Y-m-d\\TH:i:s.vp"
+	| "Y-m-d H:i:s"
+	| "Ymd"
+	| "H:i:s"
+	| /* Legacy alias */ "ISO-8601";
+
 export class DatePHP extends Date {
+	public static ISO_8601 = "Y-m-d\\TH:i:s.vp" as const;
+	public static ACF_RAW_DATETIME = "Y-m-d H:i:s" as const;
+	public static ACF_RAW_DATE = "Ymd" as const;
+	public static ACF_RAW_TIME = "H:i:s" as const;
 	/**
 	 * Return a string representation of a provided date object.
 	 * @param format The format to output it as.
@@ -51,6 +63,7 @@ export class DatePHP extends Date {
 		// "c" references ISO-8601 but doesn't include milliseconds, so we can't use .toISOString()
 		format = replaceAllUnescaped(format, "c", "Y-m-d\\TH:i:sp");
 		format = replaceAllUnescaped(format, "r", "D, d M Y H:i:s O");
+		format = replaceAllUnescaped(format, "ISO-8601", DatePHP.ISO_8601); // Legacy alias
 
 		// Day
 		format = replaceAllUnescaped(format, "d", date.toString().padStart(2, "0"));
@@ -227,47 +240,109 @@ export class DatePHP extends Date {
 		return unslash(format);
 	}
 
-	static parseString(
-		dateString: string,
-		formatString: "Y-m-d\\TH:i:s.vp" | "ISO-8601",
-	) {
-		if (formatString !== "Y-m-d\\TH:i:s.vp" && formatString !== "ISO-8601") {
-			console.error(
-				"parseDateUsingPHPDateFormat: Currently only ISO-8601 is supported.",
-			);
-			return new DatePHP();
+	static parseString(dateString: string, formatString: ParsingFormats) {
+		// Handle legacy alias with new system.
+		if (formatString === "ISO-8601") {
+			formatString = DatePHP.ISO_8601;
 		}
+		// Handle date parsing
+		switch (formatString) {
+			case "Y-m-d\\TH:i:s.vp": {
+				const yearString = dateString.substring(0, 4);
+				const monthString = dateString.substring(5, 7);
+				const dayString = dateString.substring(8, 10);
+				const hoursString = dateString.substring(11, 13);
+				const minutesString = dateString.substring(14, 16);
+				const secondsString = dateString.substring(17, 19);
+				const millisecondsString = dateString.substring(20, 23);
+				const timezoneString = dateString.substring(23);
+				let offsetMinutes;
+				if (timezoneString === "Z" || timezoneString === "z") {
+					offsetMinutes = 0;
+				} else {
+					// Split timezone string into hours and minutes no matter if there's a colon or not.
+					// Take the first 3 characters of the timezone to get the hour offset
+					const timezoneOffsetHours = timezoneString.substring(0, 3);
+					// Take the last 2 characters of the timezone to get the minutes to the same offset as above
+					const timezoneOffsetMins = timezoneString.slice(-2);
+					offsetMinutes =
+						Number(timezoneOffsetHours) * 60 + Number(timezoneOffsetMins);
+				}
+				const year = Number(yearString);
+				const month = Number(monthString) - 1;
+				const day = Number(dayString);
+				const hours = Number(hoursString);
+				const minutes = Number(minutesString) - offsetMinutes;
+				const seconds = Number(secondsString);
+				const milliseconds = Number(millisecondsString);
 
-		const yearString = dateString.substring(0, 4);
-		const monthString = dateString.substring(5, 7);
-		const dayString = dateString.substring(8, 10);
-		const hoursString = dateString.substring(11, 13);
-		const minutesString = dateString.substring(14, 16);
-		const secondsString = dateString.substring(17, 19);
-		const millisecondsString = dateString.substring(20, 23);
-		const timezoneString = dateString.substring(23);
-		let offsetMinutes;
-		if (timezoneString === "Z" || timezoneString === "z") {
-			offsetMinutes = 0;
-		} else {
-			// Split timezone string into hours and minutes no matter if there's a colon or not.
-			// Take the first 3 characters of the timezone to get the hour offset
-			const timezoneOffsetHours = timezoneString.substring(0, 3);
-			// Take the last 2 characters of the timezone to get the minutes to the same offset as above
-			const timezoneOffsetMins = timezoneString.slice(-2);
-			offsetMinutes =
-				Number(timezoneOffsetHours) * 60 + Number(timezoneOffsetMins);
+				return new DatePHP(
+					Date.UTC(year, month, day, hours, minutes, seconds, milliseconds),
+				);
+			}
+
+			case "Y-m-d H:i:s": {
+				const yearString = dateString.substring(0, 4);
+				const monthString = dateString.substring(5, 7);
+				const dayString = dateString.substring(8, 10);
+				const hoursString = dateString.substring(11, 13);
+				const minutesString = dateString.substring(14, 16);
+				const secondsString = dateString.substring(17, 19);
+
+				const year = Number(yearString);
+				const month = Number(monthString) - 1;
+				const day = Number(dayString);
+				const hours = Number(hoursString);
+				const minutes = Number(minutesString);
+				const seconds = Number(secondsString);
+
+				return new DatePHP(year, month, day, hours, minutes, seconds);
+			}
+
+			case "Ymd": {
+				const yearString = dateString.substring(0, 4);
+				const monthString = dateString.substring(4, 6);
+				const dayString = dateString.substring(6, 8);
+
+				const year = Number(yearString);
+				const month = Number(monthString) - 1;
+				const day = Number(dayString);
+
+				const today = new DatePHP();
+				return new DatePHP(
+					year,
+					month,
+					day,
+					today.getHours(),
+					today.getMinutes(),
+					today.getSeconds(),
+				);
+			}
+
+			case "H:i:s": {
+				const hoursString = dateString.substring(0, 2);
+				const minutesString = dateString.substring(3, 5);
+				const secondsString = dateString.substring(6, 8);
+
+				const hours = Number(hoursString);
+				const minutes = Number(minutesString);
+				const seconds = Number(secondsString);
+				const today = new DatePHP();
+				return new DatePHP(
+					today.getFullYear(),
+					today.getMonth(),
+					today.getDate(),
+					hours,
+					minutes,
+					seconds,
+				);
+			}
+
+			default: {
+				throw new Error(
+					`parseDateUsingPHPDateFormat: Unsupported format (${formatString as string}).`,
+				);
+			}
 		}
-		const year = Number(yearString);
-		const month = Number(monthString) - 1;
-		const day = Number(dayString);
-		const hours = Number(hoursString);
-		const minutes = Number(minutesString) - offsetMinutes;
-		const seconds = Number(secondsString);
-		const milliseconds = Number(millisecondsString);
-
-		return new DatePHP(
-			Date.UTC(year, month, day, hours, minutes, seconds, milliseconds),
-		);
 	}
 }

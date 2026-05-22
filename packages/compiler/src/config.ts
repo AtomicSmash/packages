@@ -43,6 +43,8 @@ export async function config(options: {
 	analyse?: boolean | undefined;
 	/**
 	 * A comma separated list of the folder names of blocks to exclude from compilation. Requires experimental blocks support.
+	 *
+	 * @deprecated Use folders which start with an underscore instead.
 	 */
 	excludeBlocks?: string[] | undefined;
 }) {
@@ -61,14 +63,12 @@ export async function config(options: {
 	const srcFolder = argv.in
 		? resolvePath(argv.in)
 		: smashConfig?.themePath
-			? resolvePath(join(smashConfig?.themePath, "src"))
+			? resolvePath(join(smashConfig.themePath, "src"))
 			: null;
 	const distFolder = argv.out
 		? resolvePath(argv.out)
 		: smashConfig?.themePath
-			? resolvePath(
-					join(smashConfig?.themePath, smashConfig.assetsOutputFolder),
-				)
+			? resolvePath(join(smashConfig.themePath, smashConfig.assetsOutputFolder))
 			: null;
 	if (!srcFolder || !distFolder) {
 		throw new Error(
@@ -156,17 +156,21 @@ export async function config(options: {
 			[
 				// Parse all block json typescript files in the blocks folder.
 				`${srcFolder}/blocks/**/block.json.ts`,
-				// Parse all direct children of the JS folder, as long as they are JS & TS files
-				`${srcFolder}/scripts/*.{js,ts,jsx,tsx}`,
-				// Parse all direct children of the CSS folder, as long as they are CSS files
-				`${srcFolder}/styles/*.css`,
+				// Parse all children of the JS folder, as long as they are JS & TS files and not in a folder that starts with an underscore
+				`${srcFolder}/scripts/**/*.{js,ts,jsx,tsx}`,
+				// Parse all children of the CSS folder, as long as they are CSS files and not in a folder that starts with an underscore
+				`${srcFolder}/styles/**/*.css`,
 				// Parse all nested children of the CSS folder, as long as they are non-partial SCSS files
 				`${srcFolder}/styles/**/[^_]*.s[ac]ss`,
 			],
 			{
-				ignore: argv.excludeBlocks.map(
-					(blockName) => `${srcFolder}/blocks/**/${blockName}/block.json.ts`,
-				),
+				ignore: [
+					// eslint-disable-next-line @typescript-eslint/no-deprecated -- Support for a few more versions to allow migration
+					...argv.excludeBlocks.map(
+						(blockName) => `${srcFolder}/blocks/**/${blockName}/block.json.ts`,
+					),
+					"!**/_*/**", // Exclude any folder that starts with an underscore for all files
+				],
 			},
 		).then(async (paths) => {
 			const { restOfPaths, entryPoints } = await getBlocksAssetsEntryPoints(
@@ -374,9 +378,12 @@ export async function config(options: {
 					if (
 						entry.key === "assets.php" ||
 						entry.key === "wordpress-assets-info.php" ||
+						entry.key === "wordpress-assets-info.json" ||
 						entry.key.endsWith(".map") ||
 						entry.key.startsWith("fonts") ||
-						entry.key.startsWith("images")
+						entry.key.startsWith("images") ||
+						entry.key.endsWith(".scss.css") ||
+						entry.key.endsWith(".css.css")
 					) {
 						return false;
 					}
@@ -384,7 +391,10 @@ export async function config(options: {
 						entry.key = "icons/sprite.svg";
 						return entry;
 					}
-					if (entry.key.startsWith("icons/sprite") && entry.key.endsWith(".svg")) {
+					if (
+						entry.key.startsWith("icons/sprite") &&
+						entry.key.endsWith(".svg")
+					) {
 						entry.key = "icons/sprite.svg";
 						return entry;
 					}
@@ -395,6 +405,9 @@ export async function config(options: {
 						entry.key = entry.key.replace("css/", "styles/");
 					}
 					if (entry.key.endsWith(".js")) {
+						entry.key = entry.key.slice(0, -3);
+					}
+					if (entry.key.endsWith(".css.css")) {
 						entry.key = entry.key.slice(0, -3);
 					}
 
@@ -461,26 +474,26 @@ async function getSassOptions(srcFolder: string) {
 	}
 
 	const defaultConfig: SCSSAliases = {
-				importers: [
-					{
-						findFileUrl(url) {
-							if (!url.startsWith("sitecss:")) return null;
-							const pathname = url.substring(8);
-							return pathToFileURL(
-								`${resolvePath(srcFolder, "../css")}${pathname.startsWith("/") ? pathname : `/${pathname}`}`,
-							);
-						},
-					},
-					{
-						findFileUrl(url) {
-							if (!url.startsWith("launchpad:")) return null;
-							const pathname = url.substring(10);
-							return pathToFileURL(
-								`${resolvePath(process.cwd(), "public/wp-content/themes/launchpad/src/styles")}${pathname.startsWith("/") ? pathname : `/${pathname}`}`,
-							);
-						},
-					},
-				],
-			};
+		importers: [
+			{
+				findFileUrl(url) {
+					if (!url.startsWith("sitecss:")) return null;
+					const pathname = url.substring(8);
+					return pathToFileURL(
+						`${resolvePath(srcFolder, "../css")}${pathname.startsWith("/") ? pathname : `/${pathname}`}`,
+					);
+				},
+			},
+			{
+				findFileUrl(url) {
+					if (!url.startsWith("launchpad:")) return null;
+					const pathname = url.substring(10);
+					return pathToFileURL(
+						`${resolvePath(process.cwd(), "public/wp-content/themes/launchpad/src/styles")}${pathname.startsWith("/") ? pathname : `/${pathname}`}`,
+					);
+				},
+			},
+		],
+	};
 	return defaultConfig;
 }

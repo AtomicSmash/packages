@@ -148,62 +148,83 @@ describe.concurrent("DatePHP.format()", () => {
 	});
 });
 describe.concurrent("DatePHP.parseString()", () => {
-	it("Parses date in Y-m-d\\TH:i:s.vp format", () => {
-		const dateString = "2022-11-21T14:56:34.000Z";
-		expect(
-			DatePHP.parseString(dateString, "Y-m-d\\TH:i:s.vp").getUTCFullYear(),
-		).toBe(2022);
-		expect(
-			DatePHP.parseString(dateString, "Y-m-d\\TH:i:s.vp").getUTCMonth(),
-		).toBe(10);
-		expect(
-			DatePHP.parseString(dateString, "Y-m-d\\TH:i:s.vp").getUTCDate(),
-		).toBe(21);
-		expect(
-			DatePHP.parseString(dateString, "Y-m-d\\TH:i:s.vp").getUTCHours(),
-		).toBe(14);
-		expect(
-			DatePHP.parseString(dateString, "Y-m-d\\TH:i:s.vp").getUTCMinutes(),
-		).toBe(56);
-		expect(
-			DatePHP.parseString(dateString, "Y-m-d\\TH:i:s.vp").getUTCSeconds(),
-		).toBe(34);
-		expect(
-			DatePHP.parseString(dateString, "Y-m-d\\TH:i:s.vp").getFullYear(),
-		).toBe(2022);
-		expect(DatePHP.parseString(dateString, "Y-m-d\\TH:i:s.vp").getMonth()).toBe(
-			10,
-		);
-		expect(DatePHP.parseString(dateString, "Y-m-d\\TH:i:s.vp").getDate()).toBe(
-			21,
-		);
-		expect(DatePHP.parseString(dateString, "Y-m-d\\TH:i:s.vp").getHours()).toBe(
-			17,
-		);
-		expect(
-			DatePHP.parseString(dateString, "Y-m-d\\TH:i:s.vp").getMinutes(),
-		).toBe(56);
-		expect(
-			DatePHP.parseString(dateString, "Y-m-d\\TH:i:s.vp").getSeconds(),
-		).toBe(34);
+	for (const format of ["Y-m-d\\TH:i:s.vp", "ISO-8601"] as const) {
+		it(`Parses date in ${format} format`, () => {
+			const dateString = "2022-11-21T14:56:34.000Z";
+			expect(DatePHP.parseString(dateString, format).getUTCFullYear()).toBe(
+				2022,
+			);
+			expect(DatePHP.parseString(dateString, format).getUTCMonth()).toBe(10);
+			expect(DatePHP.parseString(dateString, format).getUTCDate()).toBe(21);
+			expect(DatePHP.parseString(dateString, format).getUTCHours()).toBe(14);
+			expect(DatePHP.parseString(dateString, format).getUTCMinutes()).toBe(56);
+			expect(DatePHP.parseString(dateString, format).getUTCSeconds()).toBe(34);
+			expect(DatePHP.parseString(dateString, format).getFullYear()).toBe(2022);
+			expect(DatePHP.parseString(dateString, format).getMonth()).toBe(10);
+			expect(DatePHP.parseString(dateString, format).getDate()).toBe(21);
+			expect(DatePHP.parseString(dateString, format).getHours()).toBe(17);
+			expect(DatePHP.parseString(dateString, format).getMinutes()).toBe(56);
+			expect(DatePHP.parseString(dateString, format).getSeconds()).toBe(34);
+		});
+		it(`formats ${format} and parses a date back into the same date`, () => {
+			const date = new DatePHP(2022, 0, 1, 9, 34, 2); // Saturday 1st January 2022 9:34:02
+			expect(DatePHP.parseString(date.format(format), format).getTime()).toBe(
+				date.getTime(),
+			);
+		});
+		it(`formats ${format} and parses a date in UTC timezone back into the same date`, () => {
+			const date = new DatePHP(Date.UTC(2022, 0, 1, 9, 34, 2)); // Saturday 1st January 2022 9:34:02
+			expect(DatePHP.parseString(date.format(format), format).getTime()).toBe(
+				date.getTime(),
+			);
+		});
+	}
+	it(`Parses date in Y-m-d H:i:s format`, () => {
+		const format = "Y-m-d H:i:s";
+		const dateString = "2022-11-21 14:56:34";
+		expect(DatePHP.parseString(dateString, format).getFullYear()).toBe(2022);
+		expect(DatePHP.parseString(dateString, format).getMonth()).toBe(10);
+		expect(DatePHP.parseString(dateString, format).getDate()).toBe(21);
+		expect(DatePHP.parseString(dateString, format).getHours()).toBe(14);
+		expect(DatePHP.parseString(dateString, format).getMinutes()).toBe(56);
+		expect(DatePHP.parseString(dateString, format).getSeconds()).toBe(34);
 	});
-	it("formats and parses a date back into the same date", () => {
+	it(`formats Y-m-d H:i:s and parses a date back into the same date`, () => {
+		const format = "Y-m-d H:i:s";
 		const date = new DatePHP(2022, 0, 1, 9, 34, 2); // Saturday 1st January 2022 9:34:02
-		expect(
-			DatePHP.parseString(
-				date.format("Y-m-d\\TH:i:s.vp"),
-				"Y-m-d\\TH:i:s.vp",
-			).getTime(),
-		).toBe(date.getTime());
+		expect(DatePHP.parseString(date.format(format), format).getTime()).toBe(
+			date.getTime(),
+		);
 	});
-	it("formats and parses a date in UTC timezone back into the same date", () => {
-		const date = new DatePHP(Date.UTC(2022, 0, 1, 9, 34, 2)); // Saturday 1st January 2022 9:34:02
-		expect(
-			DatePHP.parseString(
-				date.format("Y-m-d\\TH:i:s.vp"),
-				"Y-m-d\\TH:i:s.vp",
-			).getTime(),
-		).toBe(date.getTime());
+	it(`Parses date in Ymd format`, () => {
+		const format = "Ymd";
+		const dateString = "20221121";
+		const parsedDate = DatePHP.parseString(dateString, format);
+		const today = new DatePHP();
+		expect(parsedDate.getFullYear()).toBe(2022);
+		expect(parsedDate.getMonth()).toBe(10);
+		expect(parsedDate.getDate()).toBe(21);
+		expect(parsedDate.getHours()).toBe(today.getHours());
+		expect(parsedDate.getMinutes()).toBe(today.getMinutes());
+		expect(parsedDate.getSeconds()).toBe(today.getSeconds());
 	});
+	it(`Parses date in H:i:s format`, () => {
+		const format = "H:i:s";
+		const dateString = "14:56:34";
+		const parsedDate = DatePHP.parseString(dateString, format);
+		const today = new DatePHP();
+		expect(parsedDate.getFullYear()).toBe(today.getFullYear());
+		expect(parsedDate.getMonth()).toBe(today.getMonth());
+		expect(parsedDate.getDate()).toBe(today.getDate());
+		expect(parsedDate.getHours()).toBe(14);
+		expect(parsedDate.getMinutes()).toBe(56);
+		expect(parsedDate.getSeconds()).toBe(34);
+	});
+});
+it("Checks aliases work", () => {
+	expect(DatePHP.ISO_8601).toBe("Y-m-d\\TH:i:s.vp");
+	expect(DatePHP.ACF_RAW_DATETIME).toBe("Y-m-d H:i:s");
+	expect(DatePHP.ACF_RAW_DATE).toBe("Ymd");
+	expect(DatePHP.ACF_RAW_TIME).toBe("H:i:s");
 });
 // spell-checker:enable

@@ -1,10 +1,9 @@
-import { resolve } from "node:path";
 import { expect, test, describe } from "vitest";
-import { execute, testCommand, packageVersion } from "./utils.js";
+import { execute, testCommand } from "./utils.js";
 
 describe.concurrent("Base CLI helpers work as intended", () => {
 	test("main cli shows error if nothing is added after main command", async () => {
-		await expect(execute(`${testCommand}`)).rejects
+		await expect(execute(testCommand)).rejects
 			.toThrowErrorMatchingInlineSnapshot(`
 			{
 			  "error": [Error: Command failed: ${testCommand}
@@ -20,6 +19,7 @@ describe.concurrent("Base CLI helpers work as intended", () => {
 			}
 		`);
 	});
+
 	test("main cli shows help message if --help is added after main command", async () => {
 		await expect(execute(`${testCommand} --help`)).resolves
 			.toMatchInlineSnapshot(`
@@ -33,7 +33,7 @@ describe.concurrent("Base CLI helpers work as intended", () => {
 			  smash-cli pull-media      Pull the media items from the staging site.
 			  smash-cli setup-database  Create a new database and initialise the site with no content.
 			  smash-cli setup           Run all the common setup tasks for a project.
-			  smash-cli svg             Generate an SVG sprite from a group of SVGs.
+			  smash-cli svg             Generate an SVG sprite from a group of SVGs.  [deprecated: Migrate to using @atomicsmash/compiler, which supports an icons folder in the src folder.]
 			  smash-cli completion      generate completion script
 
 			Options:
@@ -43,6 +43,7 @@ describe.concurrent("Base CLI helpers work as intended", () => {
 			}
 		`);
 	});
+
 	test("main cli shows help message if -h is added after main command", async () => {
 		await expect(execute(`${testCommand} -h`)).resolves.toMatchInlineSnapshot(`
 			{
@@ -55,7 +56,7 @@ describe.concurrent("Base CLI helpers work as intended", () => {
 			  smash-cli pull-media      Pull the media items from the staging site.
 			  smash-cli setup-database  Create a new database and initialise the site with no content.
 			  smash-cli setup           Run all the common setup tasks for a project.
-			  smash-cli svg             Generate an SVG sprite from a group of SVGs.
+			  smash-cli svg             Generate an SVG sprite from a group of SVGs.  [deprecated: Migrate to using @atomicsmash/compiler, which supports an icons folder in the src folder.]
 			  smash-cli completion      generate completion script
 
 			Options:
@@ -65,6 +66,7 @@ describe.concurrent("Base CLI helpers work as intended", () => {
 			}
 		`);
 	});
+
 	test("main cli shows command not found message if invalid command is provided", async () => {
 		await expect(execute(`${testCommand} fake-command`)).rejects
 			.toThrowErrorMatchingInlineSnapshot(`

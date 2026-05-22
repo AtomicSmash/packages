@@ -1,73 +1,21 @@
-import type { ExecException } from "node:child_process";
-import { exec } from "node:child_process";
-import { writeFile, mkdir } from "node:fs/promises";
-import { sep as pathSeparator } from "node:path";
-import { rimraf } from "rimraf";
 import { expect, test, describe, vi, afterEach, it, beforeAll } from "vitest";
 import { PackageManager } from "./utils.js";
-
-async function execute(
-	command: string,
-	options: { debug: boolean } = { debug: false },
-) {
-	return new Promise<{
-		error: ExecException | null;
-		stdout: string;
-		stderr: string;
-	}>((resolve, reject) => {
-		exec(command, (error, stdout, stderr) => {
-			if (error) {
-				if (options.debug) {
-					console.error({ error, stdout, stderr });
-				}
-				// eslint-disable-next-line @typescript-eslint/prefer-promise-reject-errors -- This is preferred in this case
-				reject({ error, stdout, stderr });
-			}
-			resolve({ error, stdout, stderr });
-		});
-	});
-}
 
 describe.sequential("Init testing utils", () => {
 	const consoleSpy = vi.spyOn(console, "log");
 	let packageManager: PackageManager;
 
-	beforeAll(
-		async () => {
-			await mkdir(`${import.meta.dirname}/tests`, { recursive: true });
-			await writeFile(
-				`${import.meta.dirname}/tests/package.json`,
-				JSON.stringify({
-					dependencies: {
-						"@atomicsmash/coding-standards": "^10.0.0",
-					},
-					devDependencies: {
-						"@atomicsmash/eslint-config": "^10.0.0",
-					},
-				}),
-				{ flag: "w+" },
-			);
-			await execute(
-				`cd ${import.meta.dirname}${pathSeparator}tests; npm install --package-lock-only=true`,
-			);
+	beforeAll(async () => {
+		packageManager = new PackageManager(
+			await import(`${import.meta.dirname}/tests/package.json`),
+			await import(`${import.meta.dirname}/tests/package-lock.json`),
+		);
+	});
 
-			packageManager = new PackageManager(
-				await import(`${import.meta.dirname}/tests/package.json`),
-				await import(`${import.meta.dirname}/tests/package-lock.json`),
-			);
-			return async () => {
-				await rimraf([
-					`${import.meta.dirname}/tests/package.json`,
-					`${import.meta.dirname}/tests/package-lock.json`,
-				]);
-			};
-		},
-		// Long timeout due to npm install command.
-		30000,
-	);
 	afterEach(() => {
 		consoleSpy.mockReset();
 	});
+
 	test("getDependencyInfo()", () => {
 		expect(
 			packageManager.getDependencyInfo("@atomicsmash/coding-standards"),
@@ -84,6 +32,7 @@ describe.sequential("Init testing utils", () => {
 			currentVersion: "10.0.1",
 		});
 	});
+
 	describe.sequential("ensurePackageIsInstalled()", () => {
 		it("should do nothing if dependency is already installed", async () => {
 			await packageManager.ensurePackageIsInstalled(
@@ -108,7 +57,7 @@ describe.sequential("Init testing utils", () => {
 							packageConstraint: "NotARange",
 						},
 					),
-			).rejects.toThrowError(
+			).rejects.toThrow(
 				"The packageConstraint value you entered is not a valid semver range.",
 			);
 		});
@@ -154,7 +103,7 @@ describe.sequential("Init testing utils", () => {
 							packageConstraint: "^1.0.0",
 						},
 					),
-			).rejects.toThrowError("NEWER_PACKAGE_FOUND");
+			).rejects.toThrow("NEWER_PACKAGE_FOUND");
 			expect(consoleSpy).toHaveBeenCalledTimes(1);
 			expect(consoleSpy).toHaveBeenCalledWith(
 				"The package @atomicsmash/eslint-config is already installed and is newer than the requested version. You may encounter issues with your testing setup.",
@@ -175,7 +124,7 @@ describe.sequential("Init testing utils", () => {
 							packageConstraint: "^12.0.0",
 						},
 					),
-			).rejects.toThrowError("OLDER_PACKAGE_FOUND");
+			).rejects.toThrow("OLDER_PACKAGE_FOUND");
 			expect(consoleSpy).toHaveBeenCalledTimes(1);
 			expect(consoleSpy).toHaveBeenCalledWith(
 				"The package @atomicsmash/eslint-config is already installed and is older than the requested version. You should manually update the package to match the range: >=12.0.0 <13.0.0-0.",
@@ -228,7 +177,7 @@ describe.sequential("Init testing utils", () => {
 							packageConstraint: "^1.0.0",
 						},
 					),
-			).rejects.toThrowError("NEWER_PACKAGE_FOUND");
+			).rejects.toThrow("NEWER_PACKAGE_FOUND");
 			expect(consoleSpy).toHaveBeenCalledTimes(1);
 			expect(consoleSpy).toHaveBeenCalledWith(
 				"The package @atomicsmash/coding-standards is already installed and is newer than the requested version. You may encounter issues with your testing setup.",
@@ -249,7 +198,7 @@ describe.sequential("Init testing utils", () => {
 							packageConstraint: "^1.0.0",
 						},
 					),
-			).rejects.toThrowError("NEWER_PACKAGE_FOUND");
+			).rejects.toThrow("NEWER_PACKAGE_FOUND");
 			expect(consoleSpy).toHaveBeenCalledTimes(1);
 			expect(consoleSpy).toHaveBeenCalledWith(
 				"The package @atomicsmash/eslint-config is already installed and is newer than the requested version. You may encounter issues with your testing setup. You should also move this dependency to be a normal dependency.",
@@ -270,7 +219,7 @@ describe.sequential("Init testing utils", () => {
 							packageConstraint: "^12.0.0",
 						},
 					),
-			).rejects.toThrowError("OLDER_PACKAGE_FOUND");
+			).rejects.toThrow("OLDER_PACKAGE_FOUND");
 			expect(consoleSpy).toHaveBeenCalledTimes(1);
 			expect(consoleSpy).toHaveBeenCalledWith(
 				"The package @atomicsmash/coding-standards is already installed and is older than the requested version. You should manually update the package to match the range: >=12.0.0 <13.0.0-0.",
@@ -291,7 +240,7 @@ describe.sequential("Init testing utils", () => {
 							packageConstraint: "^12.0.0",
 						},
 					),
-			).rejects.toThrowError("OLDER_PACKAGE_FOUND");
+			).rejects.toThrow("OLDER_PACKAGE_FOUND");
 			expect(consoleSpy).toHaveBeenCalledTimes(1);
 			expect(consoleSpy).toHaveBeenCalledWith(
 				"The package @atomicsmash/eslint-config is already installed and is older than the requested version. You should manually update the package to match the range: >=12.0.0 <13.0.0-0. You should also move this dependency to be a normal dependency.",

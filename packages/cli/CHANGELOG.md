@@ -1,5 +1,43 @@
 # @atomicsmash/cli
 
+## 11.0.0-beta.3
+
+### Minor Changes
+
+- [#529](https://github.com/AtomicSmash/packages/pull/529) [`5457b06`](https://github.com/AtomicSmash/packages/commit/5457b061bf33e83571fe4f408d1b4b38072868dc) Thanks [@daviddarke](https://github.com/daviddarke)! - Remove Herd Init command from setup
+
+## 11.0.0-beta.2
+
+### Minor Changes
+
+- [#522](https://github.com/AtomicSmash/packages/pull/522) [`9dcf680`](https://github.com/AtomicSmash/packages/commit/9dcf680cb1f9ed5ec7c6798f93e76cfa09614c15) Thanks [@daviddarke](https://github.com/daviddarke)! - Added a check to see if DB exists to pull database script, removed setup database flags as they're now redundant
+
+## 11.0.0-beta.1
+
+### Major Changes
+
+- [#517](https://github.com/AtomicSmash/packages/pull/517) [`9c39102`](https://github.com/AtomicSmash/packages/commit/9c39102c7d2d3e6a138c6ef02505f29410b380b0) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Add --no-existing-database flag
+
+### Minor Changes
+
+- [#518](https://github.com/AtomicSmash/packages/pull/518) [`cc71f80`](https://github.com/AtomicSmash/packages/commit/cc71f8074a50532dbf2ce593049369658219cce2) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Deprecate SVG command
+
+- [#517](https://github.com/AtomicSmash/packages/pull/517) [`9c39102`](https://github.com/AtomicSmash/packages/commit/9c39102c7d2d3e6a138c6ef02505f29410b380b0) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Add --drop-database flag
+
+### Patch Changes
+
+- [#519](https://github.com/AtomicSmash/packages/pull/519) [`41bea20`](https://github.com/AtomicSmash/packages/commit/41bea20b7bca144214f348ec45cdd1d608dc1c33) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Update dependencies
+
+- Updated dependencies [[`41bea20`](https://github.com/AtomicSmash/packages/commit/41bea20b7bca144214f348ec45cdd1d608dc1c33)]:
+  - @atomicsmash/smash-config@1.0.2-beta.0
+
+## 10.0.2-beta.0
+
+### Patch Changes
+
+- Updated dependencies [[`7963f5f`](https://github.com/AtomicSmash/packages/commit/7963f5f9d267808e16ab446e750ef06fd76faf5a), [`7963f5f`](https://github.com/AtomicSmash/packages/commit/7963f5f9d267808e16ab446e750ef06fd76faf5a)]:
+  - @atomicsmash/date-php@2.2.0-beta.0
+
 ## 10.0.1
 
 ### Patch Changes

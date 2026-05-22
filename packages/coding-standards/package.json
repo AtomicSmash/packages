@@ -1,23 +1,74 @@
 {
 	"name": "@atomicsmash/coding-standards",
 	"type": "module",
-	"version": "17.0.2",
+	"version": "18.0.0-beta.11",
 	"description": "A collection of coding standards configurations.",
-	"main": "index.js",
-	"types": "index.d.ts",
+	"files": [
+		"./dist/**/*",
+		"./typescript/**/*",
+		"./beta/**/*",
+		"CHANGELOG.md",
+		"MIGRATING.md",
+		"package.json"
+	],
+	"exports": {
+		".": {
+			"types": "./dist/index.d.ts",
+			"default": "./dist/index.js"
+		},
+		"./cspell": {
+			"types": "./dist/cspell/index.d.ts",
+			"default": "./dist/cspell/index.js"
+		},
+		"./eslint": {
+			"types": "./dist/eslint/index.d.ts",
+			"default": "./dist/eslint/index.js"
+		},
+		"./prettier": {
+			"types": "./dist/prettier/index.d.ts",
+			"default": "./dist/prettier/index.js"
+		},
+		"./stylelint": {
+			"types": "./dist/stylelint/index.d.ts",
+			"default": "./dist/stylelint/index.js"
+		},
+		"./stylelint/classic": {
+			"types": "./dist/stylelint/classic.d.ts",
+			"default": "./dist/stylelint/classic.js"
+		},
+		"./stylelint/theme-json": {
+			"types": "./dist/stylelint/theme-json.d.ts",
+			"default": "./dist/stylelint/theme-json.js"
+		},
+		"./stylelint/tailwind": {
+			"types": "./dist/stylelint/tailwind.d.ts",
+			"default": "./dist/stylelint/tailwind.js"
+		},
+		"./typescript/*": "./typescript/*.json",
+		"./beta/biome": "./beta/biome/biome.jsonc"
+	},
 	"devDependencies": {
-		"@cspell/cspell-types": "^9.6.0"
+		"@cspell/cspell-types": "^9.7.0"
 	},
 	"peerDependencies": {
-		"@atomicsmash/browserslist-config": "^17.0.2",
-		"@atomicsmash/eslint-config": "^17.0.2",
-		"@wordpress/stylelint-config": "^23.30.0",
-		"prettier": "^3.8.0",
+		"@atomicsmash/browserslist-config": "^18.0.0-beta.11",
+		"@eslint-community/eslint-plugin-eslint-comments": "^4.7.1",
+		"@eslint/js": "^9.39.4",
+		"@wordpress/stylelint-config": "^23.33.0",
+		"eslint": "^9.0.0",
+		"eslint-import-resolver-typescript": "^4.4.4",
+		"eslint-plugin-import": "^2.32.0",
+		"eslint-plugin-playwright": "^2.10.2",
+		"eslint-plugin-react": "^7.37.5",
+		"eslint-plugin-react-hooks": "^7.1.1",
+		"globals": "^17.6.0",
+		"prettier": "^3.8.1",
 		"stylelint": "^16.26.1",
 		"stylelint-config-standard": "^39.0.1",
 		"stylelint-config-standard-scss": "^16.0.0",
 		"stylelint-no-restricted-syntax": "^2.2.1",
-		"stylelint-order": "^7.0.1"
+		"stylelint-order": "^7.0.1",
+		"typescript-eslint": "^8.59.3"
 	},
 	"keywords": [
 		"atomic",
@@ -39,5 +90,14 @@
 	},
 	"publishConfig": {
 		"access": "public"
+	},
+	"scripts": {
+		"dev": "tsc --build --watch tsconfig.build.json",
+		"build": "npm-run-all clean compile",
+		"clean": "del-cli ./dist/ *.tsbuildinfo",
+		"compile": "tsc --build tsconfig.build.json",
+		"lint": "run-p lint:*",
+		"lint:eslint": "eslint --cache --cache-location ./node_modules/.cache/eslint . --ext .js,.ts,.jsx,.tsx",
+		"lint:types": "tsc"
 	}
 }
