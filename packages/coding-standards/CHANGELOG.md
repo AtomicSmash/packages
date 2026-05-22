@@ -4,161 +4,22 @@
 
 ### Major Changes
 
-- [#533](https://github.com/AtomicSmash/packages/pull/533) [`7fd9db6`](https://github.com/AtomicSmash/packages/commit/7fd9db62a9359be302c865aeacf2e5dfc663c31a) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Update TS base config
+- Update TS base config
 
-- [#548](https://github.com/AtomicSmash/packages/pull/548) [`3cbb8b8`](https://github.com/AtomicSmash/packages/commit/3cbb8b8b7b1e588a30786cae9f4675ebcf143492) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Remove AS ESLint config package as an automatic peer dependency to avoid conflicts with new config
+- Remove @atomicsmash/eslint-config package as a peer dependency to avoid conflicts with new config
 
-- [#548](https://github.com/AtomicSmash/packages/pull/548) [`3cbb8b8`](https://github.com/AtomicSmash/packages/commit/3cbb8b8b7b1e588a30786cae9f4675ebcf143492) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Convert configs to typescript and use proper exports setup
-
-### Patch Changes
-
-- [#553](https://github.com/AtomicSmash/packages/pull/553) [`f5f0051`](https://github.com/AtomicSmash/packages/commit/f5f0051589f88fda628c714112c2c297cd8ced76) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Fix ESLint config exports
-
-- [#557](https://github.com/AtomicSmash/packages/pull/557) [`7252b22`](https://github.com/AtomicSmash/packages/commit/7252b22708d424098ffc1d673b4a420f6cb721e5) Thanks [@mikeybinns](https://github.com/mikeybinns)! - fix module resolution for import rules
-
-- [#542](https://github.com/AtomicSmash/packages/pull/542) [`7b60117`](https://github.com/AtomicSmash/packages/commit/7b60117254724918905e46bfc635bebc6ff7c9ad) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Further fixes to the beta eslint config
-
-- [#519](https://github.com/AtomicSmash/packages/pull/519) [`41bea20`](https://github.com/AtomicSmash/packages/commit/41bea20b7bca144214f348ec45cdd1d608dc1c33) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Update dependencies
-
-- [#540](https://github.com/AtomicSmash/packages/pull/540) [`01ebb55`](https://github.com/AtomicSmash/packages/commit/01ebb5548e71a6380b086514e091cf0f39a264d3) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Fixes for new ESLint config
-
-- [#559](https://github.com/AtomicSmash/packages/pull/559) [`0570b31`](https://github.com/AtomicSmash/packages/commit/0570b31ffb40a47961fcb2a3f132546281d2e8bc) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Don't expose base stylelint config
-
-- [#555](https://github.com/AtomicSmash/packages/pull/555) [`26399d1`](https://github.com/AtomicSmash/packages/commit/26399d1cc021f02740d2a2f435c4850227b24f96) Thanks [@mikeybinns](https://github.com/mikeybinns)! - fix incorrect @eslint/js dep version
-
-- [#544](https://github.com/AtomicSmash/packages/pull/544) [`8e4a0b7`](https://github.com/AtomicSmash/packages/commit/8e4a0b75e2d007c67dd6db0aa8d66d055b62f39e) Thanks [@mikeybinns](https://github.com/mikeybinns)! - More changes to eslint beta config
-
-- [#548](https://github.com/AtomicSmash/packages/pull/548) [`3cbb8b8`](https://github.com/AtomicSmash/packages/commit/3cbb8b8b7b1e588a30786cae9f4675ebcf143492) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Update deps
-
-- [#524](https://github.com/AtomicSmash/packages/pull/524) [`b7b83b5`](https://github.com/AtomicSmash/packages/commit/b7b83b5414d7e6899a5ad0805d5d47390d233a78) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Dependency updates
-
-- Updated dependencies []:
-  - @atomicsmash/browserslist-config@18.0.0
-
-## 18.0.0-beta.11
-
-### Patch Changes
-
-- [#559](https://github.com/AtomicSmash/packages/pull/559) [`0570b31`](https://github.com/AtomicSmash/packages/commit/0570b31ffb40a47961fcb2a3f132546281d2e8bc) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Don't expose base stylelint config
-
-- Updated dependencies []:
-  - @atomicsmash/browserslist-config@18.0.0-beta.11
-
-## 18.0.0-beta.10
-
-### Patch Changes
-
-- [#557](https://github.com/AtomicSmash/packages/pull/557) [`7252b22`](https://github.com/AtomicSmash/packages/commit/7252b22708d424098ffc1d673b4a420f6cb721e5) Thanks [@mikeybinns](https://github.com/mikeybinns)! - fix module resolution for import rules
-
-- Updated dependencies []:
-  - @atomicsmash/browserslist-config@18.0.0-beta.10
-
-## 18.0.0-beta.9
-
-### Patch Changes
-
-- [#555](https://github.com/AtomicSmash/packages/pull/555) [`26399d1`](https://github.com/AtomicSmash/packages/commit/26399d1cc021f02740d2a2f435c4850227b24f96) Thanks [@mikeybinns](https://github.com/mikeybinns)! - fix incorrect @eslint/js dep version
-
-- Updated dependencies []:
-  - @atomicsmash/browserslist-config@18.0.0-beta.9
-
-## 18.0.0-beta.8
-
-### Patch Changes
-
-- [#553](https://github.com/AtomicSmash/packages/pull/553) [`f5f0051`](https://github.com/AtomicSmash/packages/commit/f5f0051589f88fda628c714112c2c297cd8ced76) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Fix ESLint config exports
-
-- Updated dependencies []:
-  - @atomicsmash/browserslist-config@18.0.0-beta.8
-
-## 18.0.0-beta.7
-
-### Major Changes
-
-- [#548](https://github.com/AtomicSmash/packages/pull/548) [`3cbb8b8`](https://github.com/AtomicSmash/packages/commit/3cbb8b8b7b1e588a30786cae9f4675ebcf143492) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Remove AS ESLint config package as an automatic peer dependency to avoid conflicts with new config
-
-- [#548](https://github.com/AtomicSmash/packages/pull/548) [`3cbb8b8`](https://github.com/AtomicSmash/packages/commit/3cbb8b8b7b1e588a30786cae9f4675ebcf143492) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Convert configs to typescript and use proper exports setup
-
-### Patch Changes
-
-- [#548](https://github.com/AtomicSmash/packages/pull/548) [`3cbb8b8`](https://github.com/AtomicSmash/packages/commit/3cbb8b8b7b1e588a30786cae9f4675ebcf143492) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Update deps
-
-- Updated dependencies []:
-  - @atomicsmash/browserslist-config@18.0.0-beta.7
-
-## 18.0.0-beta.6
-
-### Patch Changes
-
-- [#544](https://github.com/AtomicSmash/packages/pull/544) [`8e4a0b7`](https://github.com/AtomicSmash/packages/commit/8e4a0b75e2d007c67dd6db0aa8d66d055b62f39e) Thanks [@mikeybinns](https://github.com/mikeybinns)! - More changes to eslint beta config
-
-- Updated dependencies []:
-  - @atomicsmash/eslint-config@18.0.0-beta.6
-  - @atomicsmash/browserslist-config@18.0.0-beta.6
-
-## 18.0.0-beta.5
-
-### Patch Changes
-
-- [#542](https://github.com/AtomicSmash/packages/pull/542) [`7b60117`](https://github.com/AtomicSmash/packages/commit/7b60117254724918905e46bfc635bebc6ff7c9ad) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Further fixes to the beta eslint config
-
-- Updated dependencies []:
-  - @atomicsmash/eslint-config@18.0.0-beta.5
-  - @atomicsmash/browserslist-config@18.0.0-beta.5
-
-## 18.0.0-beta.4
-
-### Patch Changes
-
-- [#540](https://github.com/AtomicSmash/packages/pull/540) [`01ebb55`](https://github.com/AtomicSmash/packages/commit/01ebb5548e71a6380b086514e091cf0f39a264d3) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Fixes for new ESLint config
-
-- Updated dependencies [[`01ebb55`](https://github.com/AtomicSmash/packages/commit/01ebb5548e71a6380b086514e091cf0f39a264d3)]:
-  - @atomicsmash/eslint-config@18.0.0-beta.4
-  - @atomicsmash/browserslist-config@18.0.0-beta.4
-
-## 18.0.0-beta.3
-
-### Major Changes
-
-- [#533](https://github.com/AtomicSmash/packages/pull/533) [`7fd9db6`](https://github.com/AtomicSmash/packages/commit/7fd9db62a9359be302c865aeacf2e5dfc663c31a) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Update TS base config
-
-### Patch Changes
-
-- Updated dependencies []:
-  - @atomicsmash/eslint-config@18.0.0-beta.3
-  - @atomicsmash/browserslist-config@18.0.0-beta.3
-
-## 18.0.0-beta.2
+- Convert configs to typescript and use proper exports setup
 
 ### Minor Changes
 
-- [#526](https://github.com/AtomicSmash/packages/pull/526) [`45913a9`](https://github.com/AtomicSmash/packages/commit/45913a99257aabfadec1399e0c712fb3afd5f956) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Add beta flat config for ESLint
+- New ESLint flat config
 
 ### Patch Changes
 
-- Updated dependencies []:
-  - @atomicsmash/eslint-config@18.0.0-beta.2
-  - @atomicsmash/browserslist-config@18.0.0-beta.2
+- Update dependencies
 
-## 17.0.3-beta.1
-
-### Patch Changes
-
-- [#524](https://github.com/AtomicSmash/packages/pull/524) [`b7b83b5`](https://github.com/AtomicSmash/packages/commit/b7b83b5414d7e6899a5ad0805d5d47390d233a78) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Dependency updates
-
-- Updated dependencies [[`b7b83b5`](https://github.com/AtomicSmash/packages/commit/b7b83b5414d7e6899a5ad0805d5d47390d233a78)]:
-  - @atomicsmash/eslint-config@17.0.3-beta.1
-  - @atomicsmash/browserslist-config@17.0.3-beta.1
-
-## 17.0.3-beta.0
-
-### Patch Changes
-
-- [#519](https://github.com/AtomicSmash/packages/pull/519) [`41bea20`](https://github.com/AtomicSmash/packages/commit/41bea20b7bca144214f348ec45cdd1d608dc1c33) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Update dependencies
-
-- Updated dependencies [[`41bea20`](https://github.com/AtomicSmash/packages/commit/41bea20b7bca144214f348ec45cdd1d608dc1c33)]:
-  - @atomicsmash/eslint-config@17.0.3-beta.0
-  - @atomicsmash/browserslist-config@17.0.3-beta.0
+- Updated dependencies:
+  - @atomicsmash/browserslist-config@18.0.0
 
 ## 17.0.2
 

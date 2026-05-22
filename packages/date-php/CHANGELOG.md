@@ -4,17 +4,9 @@
 
 ### Minor Changes
 
-- [#514](https://github.com/AtomicSmash/packages/pull/514) [`7963f5f`](https://github.com/AtomicSmash/packages/commit/7963f5f9d267808e16ab446e750ef06fd76faf5a) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Add class constants for aliases
+- Add class constants for aliases
 
-- [#514](https://github.com/AtomicSmash/packages/pull/514) [`7963f5f`](https://github.com/AtomicSmash/packages/commit/7963f5f9d267808e16ab446e750ef06fd76faf5a) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Add more date parsing formats
-
-## 2.2.0-beta.0
-
-### Minor Changes
-
-- [#514](https://github.com/AtomicSmash/packages/pull/514) [`7963f5f`](https://github.com/AtomicSmash/packages/commit/7963f5f9d267808e16ab446e750ef06fd76faf5a) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Add class constants for aliases
-
-- [#514](https://github.com/AtomicSmash/packages/pull/514) [`7963f5f`](https://github.com/AtomicSmash/packages/commit/7963f5f9d267808e16ab446e750ef06fd76faf5a) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Add more date parsing formats
+- Add more date parsing formats
 
 ## 2.1.0
 
