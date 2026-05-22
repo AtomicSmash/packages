@@ -1,22 +1,16 @@
 # @atomicsmash/test-utils
 
-## 6.0.0-beta.2
+## 6.0.0
 
 ### Major Changes
 
-- [#536](https://github.com/AtomicSmash/packages/pull/536) [`c936427`](https://github.com/AtomicSmash/packages/commit/c93642723aedeaf56797347df1a7c6e455e9479d) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Remove expect call from accessibility helper, instead return the violations to let the site determine what is acceptable.
-
-## 5.0.7-beta.1
+- Remove expect call from accessibility helper, instead return the violations to let the site determine what is acceptable.
 
 ### Patch Changes
 
-- [#532](https://github.com/AtomicSmash/packages/pull/532) [`07093f4`](https://github.com/AtomicSmash/packages/commit/07093f44aebfd990843beb6c8adbd40274f56cbb) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Handle score thresholds for lighthouse tests correctly
+- Update dependencies
 
-## 5.0.7-beta.0
-
-### Patch Changes
-
-- [#519](https://github.com/AtomicSmash/packages/pull/519) [`41bea20`](https://github.com/AtomicSmash/packages/commit/41bea20b7bca144214f348ec45cdd1d608dc1c33) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Update dependencies
+- Handle score thresholds for lighthouse tests correctly
 
 ## 5.0.6
 
