@@ -78,12 +78,14 @@ export async function handler() {
 		);
 	}
 
-	const stagingUrl = process.env.STAGING_URL?.endsWith("/")
-		? process.env.STAGING_URL.slice(0, -1)
-		: process.env.STAGING_URL;
+	const stagingUrl = smashConfig.staging.url ?
+		smashConfig.staging.url.endsWith("/")
+			? smashConfig.staging.url.slice(0, -1)
+			: smashConfig.staging.url
+		: undefined;
 
 	if (!stagingUrl) {
-		throw new Error("STAGING_URL is missing from .env file.");
+		throw new Error("staging.url is missing from the smash config");
 	}
 
 	const { projectName } = smashConfig;
