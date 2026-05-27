@@ -3,9 +3,9 @@ import { homedir } from "node:os";
 import { join } from "node:path";
 import { getSmashConfig } from "@atomicsmash/smash-config";
 
-export const PROXY_MARKER = "location @uploadsproxy";
+const PROXY_MARKER = "location @uploadsproxy";
 
-export function buildProxyBlock(stagingUrl: string, httpAuth?: string) {
+function buildProxyBlock(stagingUrl: string, httpAuth?: string) {
 	const authHeader = httpAuth
 		? `\n        proxy_set_header Authorization "Basic ${httpAuth}";`
 		: "";
@@ -26,7 +26,7 @@ export function buildProxyBlock(stagingUrl: string, httpAuth?: string) {
     }`;
 }
 
-export function addProxyBlock(config: string, stagingUrl: string, httpAuth?: string): string {
+function addProxyBlock(config: string, stagingUrl: string, httpAuth?: string): string {
 	const listenDirective = "listen 127.0.0.1:443 ssl;";
 	const listenIndex = config.indexOf(listenDirective);
 	if (listenIndex === -1) {
@@ -54,7 +54,7 @@ export function addProxyBlock(config: string, stagingUrl: string, httpAuth?: str
 	);
 }
 
-export function removeProxyBlock(config: string): string {
+function removeProxyBlock(config: string): string {
 	return config.replace(
 		/\n\s*location \^~ \/wp-content\/uploads\/\s*\{[\s\S]*?location @uploadsproxy\s*\{[\s\S]*?\}/,
 		"",
@@ -64,6 +64,7 @@ export function removeProxyBlock(config: string): string {
 export const command = "toggle-media-proxy";
 export const describe =
 	"Toggle the media proxy in the local NGINX config within Herd.";
+
 export async function handler() {
 	const smashConfig = await getSmashConfig();
 	if (!smashConfig) {
