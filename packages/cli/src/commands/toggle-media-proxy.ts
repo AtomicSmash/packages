@@ -1,9 +1,11 @@
 import { readFile, writeFile } from "node:fs/promises";
-import { homedir } from "node:os";
+import { homedir, type } from "node:os";
 import { join } from "node:path";
 import { getSmashConfig } from "@atomicsmash/smash-config";
 
+
 const PROXY_MARKER = "location @uploadsproxy";
+const isWindows = type() === "Darwin";
 
 function buildProxyBlock(stagingUrl: string, httpAuth?: string) {
 	const authHeader = httpAuth
@@ -84,7 +86,7 @@ export async function handler() {
 	const { projectName } = smashConfig;
 	const nginxConfigPath = join(
 		homedir(),
-		"Library/Application Support/Herd/config/valet/Nginx",
+		isWindows ? "Library/Application Support/Herd/config/valet/Nginx" : ".config\\herd\\config\\nginx",
 		`${projectName}.test`,
 	);
 
