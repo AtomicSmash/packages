@@ -1,11 +1,14 @@
+import { exec } from "node:child_process";
 import { readFile, writeFile } from "node:fs/promises";
 import { homedir, type } from "node:os";
 import { join } from "node:path";
+import { promisify } from "node:util";
 import { getSmashConfig } from "@atomicsmash/smash-config";
 
 
 const PROXY_MARKER = "location @uploadsproxy";
 const isWindows = type() === "Darwin";
+const execute = promisify(exec);
 
 function buildProxyBlock(stagingUrl: string, httpAuth?: string) {
 	const authHeader = httpAuth
@@ -123,7 +126,14 @@ export async function handler() {
 	}
 
 	await writeFile(nginxConfigPath, updatedConfig, "utf-8");
-	console.log(
-		"Run `herd restart` or restart Herd via the UI for the changes to take effect.",
-	);
+
+	console.log("Restarting Herd...");
+	await execute("herd restart")
+		.then(() => {
+			console.log("Herd restarted successfully.");
+		})
+		.catch(() => {
+			console.log("Failed to restart Herd automatically.")
+		});
 }
+
