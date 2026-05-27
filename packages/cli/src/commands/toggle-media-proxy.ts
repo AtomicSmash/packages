@@ -85,7 +85,7 @@ export async function handler() {
 		: undefined;
 
 	if (!stagingUrl) {
-		throw new Error("staging.url is missing from the smash config");
+		throw new Error("staging.url is missing from smash.config.ts");
 	}
 
 	const { projectName } = smashConfig;
