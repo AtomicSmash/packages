@@ -91,11 +91,11 @@ export async function getSmashConfig(): Promise<Required<SmashConfig> | null> {
 				composerInstallPaths: [],
 				scssAliases: getDefaultSCSSAliases(themePath),
 				staging: {
+					url: "",
 					ssh: {
 						username: "",
 						host: "",
 						port: "",
-						url: "",
 					},
 					httpAuth: {
 						username: "",

@@ -14,11 +14,11 @@ export type SmashConfig = {
 	composerInstallPaths?: string[];
 	scssAliases?: SCSSAliases;
 	staging: {
+		url: string,
 		ssh: {
 			username: string,
 			host: string,
 			port: string,
-			url: string,
 		}
 		httpAuth: {
 			username: string,
