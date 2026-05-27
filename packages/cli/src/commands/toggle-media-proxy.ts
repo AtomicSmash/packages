@@ -102,8 +102,9 @@ export async function handler() {
 		);
 	}
 
-	const httpAuthUsername = process.env.STAGING_HTTP_AUTH_USERNAME;
-	const httpAuthPassword = process.env.STAGING_HTTP_AUTH_PASSWORD;
+	const httpAuthUsername = smashConfig.staging.httpAuth.username;
+	const httpAuthPassword = smashConfig.staging.httpAuth.password;
+
 	const httpAuth =
 		httpAuthUsername && httpAuthPassword
 			? Buffer.from(`${httpAuthUsername}:${httpAuthPassword}`).toString("base64")
