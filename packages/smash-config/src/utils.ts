@@ -92,6 +92,8 @@ export async function getSmashConfig(): Promise<Required<SmashConfig> | null> {
 				scssAliases: getDefaultSCSSAliases(themePath),
 				staging: {
 					url: "",
+					dbPrefix: "",
+					webRoot: "",
 					ssh: {
 						username: "",
 						host: "",
@@ -118,3 +120,7 @@ function isValidSmashConfig(config: unknown): config is SmashConfig {
 		typeof config.themePath === "string"
 	);
 }
+
+
+// Fetch config vars from smash config
+

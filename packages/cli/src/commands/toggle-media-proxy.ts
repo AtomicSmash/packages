@@ -3,7 +3,8 @@ import { readFile, writeFile } from "node:fs/promises";
 import { homedir, type } from "node:os";
 import { join } from "node:path";
 import { promisify } from "node:util";
-import { getSmashConfig } from "@atomicsmash/smash-config";
+import {  getConfigs, getSmashConfig, getStagingUrl } from "@atomicsmash/smash-config";
+
 
 
 const PROXY_MARKER = "location @uploadsproxy";
@@ -77,16 +78,7 @@ export async function handler() {
 			"Unable to determine project setup information. Please add a smash.config.ts file with the required info.",
 		);
 	}
-
-	const stagingUrl = smashConfig.staging.url ?
-		smashConfig.staging.url.endsWith("/")
-			? smashConfig.staging.url.slice(0, -1)
-			: smashConfig.staging.url
-		: undefined;
-
-	if (!stagingUrl) {
-		throw new Error("staging.url is missing from smash.config.ts");
-	}
+	const stagingUrl = getStagingUrl(smashConfig);
 
 	const { projectName } = smashConfig;
 	const nginxConfigPath = join(
@@ -104,8 +96,7 @@ export async function handler() {
 		);
 	}
 
-	const httpAuthUsername = smashConfig.staging.httpAuth.username;
-	const httpAuthPassword = smashConfig.staging.httpAuth.password;
+	const [httpAuthUsername, httpAuthPassword] = getConfigs(smashConfig, ["staging.httpAuth.username", "staging.httpAuth.password"]);
 
 	const httpAuth =
 		httpAuthUsername && httpAuthPassword

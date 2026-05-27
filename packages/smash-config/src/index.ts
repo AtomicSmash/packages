@@ -15,6 +15,8 @@ export type SmashConfig = {
 	scssAliases?: SCSSAliases;
 	staging: {
 		url: string,
+		webRoot: string,
+		dbPrefix: string,
 		ssh: {
 			username: string,
 			host: string,
@@ -27,4 +29,6 @@ export type SmashConfig = {
 	}
 };
 
+export {getConfig, getConfigs} from "./getConfigVar.js"
+export {getStagingUrl } from "./getStagingUrl.js";
 export { getSmashConfig } from "./utils.js";
