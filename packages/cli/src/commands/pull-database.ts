@@ -110,7 +110,7 @@ export async function handler() {
 				const stagingUrl = getStagingUrl(smashConfig);
 
 				await execute(
-					`wp search-replace --url=${projectName}.test //${stagingUrl} '//${projectName}.test' --skip-columns=guid`,
+					`wp search-replace --url=${projectName}.test //${stagingUrl} '//${projectName}.test'`,
 				)
 					.then(async () => {
 						await stopRunningMessage3();
