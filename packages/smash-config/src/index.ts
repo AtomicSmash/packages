@@ -1,34 +1,4 @@
-import { Options } from "sass";
-
-export type SCSSAliases = {
-	loadPaths?: Options<"async">["loadPaths"];
-	importers?: Options<"async">["importers"];
-};
-
-export type SmashConfig = {
-	projectName: string;
-	themePath: string;
-	themeFolderName?: string;
-	assetsOutputFolder?: string;
-	npmInstallPaths?: string[];
-	composerInstallPaths?: string[];
-	scssAliases?: SCSSAliases;
-	staging: {
-		url: string;
-		webRoot: string;
-		dbPrefix: string;
-		ssh: {
-			username: string;
-			host: string;
-			port: string;
-		};
-		httpAuth: {
-			username: string;
-			password: string;
-		};
-	};
-};
-
-export { getConfig, getConfigs } from "./getConfigVar.js";
-export { getStagingUrl } from "./getStagingUrl.js";
-export { getSmashConfig } from "./utils.js";
+export * from "./types.js";
+export { getConfig, getConfigs } from "./utils/getConfigValue.js";
+export { default as getStagingUrl } from "./utils/getStagingUrl.js";
+export { default as getSmashConfig } from "./utils/getSmashConfig.js";

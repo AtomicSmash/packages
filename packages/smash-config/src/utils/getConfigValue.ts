@@ -1,4 +1,11 @@
-import { SmashConfig } from "./index.js";
+import { SmashConfig } from "../types";
+
+/*
+
+Allows getting of values from the smash config using dot.notation and fully typed
+
+
+*/
 
 // Recursive type to get all dot-notation paths in an object
 type DotNotationPaths<T, Prefix extends string = ""> = {
@@ -23,6 +30,21 @@ type PathsToTuple<T, Paths extends DotNotationPaths<T>[]> = {
 
 type SmashConfigPaths = DotNotationPaths<SmashConfig>;
 
+/*
+
+Get One 
+
+*/
+
+/**
+ * Get a single configuration value using dot-notation path syntax
+ * @param config - The SmashConfig object to retrieve from
+ * @param path - The dot-notation path to the configuration value
+ * @returns The value at the specified path
+ * @throws {Error} If the configuration value is not found at the specified path
+ * @example
+ * const apiUrl = getConfig(config, "server.api.url");
+ */
 export function getConfig<P extends SmashConfigPaths>(
 	config: SmashConfig,
 	path: P,
@@ -41,6 +63,15 @@ export function getConfig<P extends SmashConfigPaths>(
 	return value as unknown as PathValue<SmashConfig, P>;
 }
 
+/**
+ * Get multiple configuration values using dot-notation path syntax
+ * @param config - The SmashConfig object to retrieve from
+ * @param paths - Array of dot-notation paths to retrieve
+ * @returns Array of values corresponding to the specified paths
+ * @throws {Error} If any configuration value is not found at the specified paths
+ * @example
+ * const [apiUrl, timeout] = getConfigs(config, ["server.api.url", "server.timeout"]);
+ */
 export function getConfigs<P extends SmashConfigPaths[]>(
 	config: SmashConfig,
 	paths: [...P],
