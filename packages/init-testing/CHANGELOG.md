@@ -1,10 +1,10 @@
 # @atomicsmash/init-testing
 
-## 2.1.3-beta.0
+## 2.1.3
 
 ### Patch Changes
 
-- [#519](https://github.com/AtomicSmash/packages/pull/519) [`41bea20`](https://github.com/AtomicSmash/packages/commit/41bea20b7bca144214f348ec45cdd1d608dc1c33) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Update dependencies
+- Update dependencies
 
 ## 2.1.2
 

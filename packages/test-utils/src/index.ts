@@ -112,7 +112,6 @@ export const lighthouseTest = base.extend<
 	{ port: number; browser: Browser }
 >({
 	port: [
-		// eslint-disable-next-line no-empty-pattern -- destructure pattern is required by playwright
 		async ({}, use) => {
 			// Assign a unique port for each playwright worker to support parallel tests
 			const port = await getPort();
@@ -124,7 +123,7 @@ export const lighthouseTest = base.extend<
 	browser: [
 		async ({ port }, use) => {
 			const browser = await chromium.launch({
-				args: [`--remote-debugging-port=${port}`],
+				args: [`--remote-debugging-port=${port.toString()}`],
 			});
 			await use(browser);
 		},
@@ -149,7 +148,7 @@ export const doLighthouseTest: (
 				? pageToTest.url
 				: await pageToTest.url(),
 		);
-		await playAudit({
+		const lighthouseReport = await playAudit({
 			page,
 			port,
 			thresholds: {
@@ -174,6 +173,18 @@ export const doLighthouseTest: (
 				pageToTest.slug ?? slugify(pageToTest.name)
 			}-${type}.html`,
 		);
+		expect
+			.soft(lighthouseReport.lhr.categories.performance?.score)
+			.toBeGreaterThanOrEqual(0.85);
+		expect
+			.soft(lighthouseReport.lhr.categories.accessibility?.score)
+			.toBeGreaterThanOrEqual(0.85);
+		expect
+			.soft(lighthouseReport.lhr.categories.seo?.score)
+			.toBeGreaterThanOrEqual(0.85);
+		expect
+			.soft(lighthouseReport.lhr.categories["best-practices"]?.score)
+			.toBeGreaterThanOrEqual(0.85);
 	};
 
 export async function checkAccessibility(
@@ -187,10 +198,7 @@ export async function checkAccessibility(
 	} = {},
 ) {
 	let builder;
-	// TODO: Wait for @wordpress/scripts to update dependency constraint, then remove this "as" declaration.
-	builder = new AxeBuilder({ page } as {
-		page: ConstructorParameters<typeof AxeBuilder>[0]["page"];
-	});
+	builder = new AxeBuilder({ page });
 	if (includes) {
 		for (const include of includes) {
 			builder = builder.include(include);
@@ -204,19 +212,7 @@ export async function checkAccessibility(
 	builder = builder.exclude("#userback_button_container"); // Ignore userback testing tool
 	const accessibilityScanResults = await builder.analyze();
 
-	expect(
-		accessibilityScanResults.violations.filter((violation) => {
-			if (
-				violation.id === "aria-allowed-attr" &&
-				violation.nodes[0] &&
-				violation.nodes[0].html.startsWith("<button") &&
-				violation.nodes[0].html.includes(`role="switch"`)
-			) {
-				return false;
-			}
-			return true;
-		}),
-	).toEqual([]);
+	return accessibilityScanResults.violations;
 }
 
 export const checkPrivilegedPages =
@@ -306,7 +302,7 @@ export function generateProjectsForAllBrowsers(
 	]) {
 		projects.push({
 			...baseProject,
-			name: `${baseProject.name}__${browser.name}`,
+			name: `${baseProject.name ?? "unknown_project"}__${browser.name}`,
 			use: { ...baseProject.use, ...browser.use },
 			grepInvert: [
 				...[baseProject.grepInvert].flat(1),

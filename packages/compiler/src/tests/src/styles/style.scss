@@ -1,4 +1,5 @@
-@use "subfolder/partial";
+@use "subfoldercompiled/partial";
+@use "_subfoldernotcompiled/partial2";
 
 @mixin padding-mixin {
 	padding: 1rem 2rem;

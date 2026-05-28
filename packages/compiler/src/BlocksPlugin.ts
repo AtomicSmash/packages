@@ -33,11 +33,11 @@ export class BlocksPlugin implements WebpackPluginInstance {
 					);
 					const PHPFiles = await glob([
 						...blockJsonFiles.map((blockJsonPath) => {
-							return `${resolve(
+							return resolve(
 								`${this.srcFolder}${pathSeparator}${blockJsonPath}`,
 								"..",
 								`**${pathSeparator}*.php`,
-							)}`;
+							);
 						}),
 					]);
 					await Promise.all(
@@ -118,7 +118,7 @@ export class BlocksPlugin implements WebpackPluginInstance {
 											(asset) => {
 												return (
 													asset.startsWith(
-														`${blockName}${pathSeparator}${fileName}`,
+														`${blockName}${pathSeparator}${fileName ?? ""}`,
 													) && !asset.endsWith(".php")
 												);
 											},
@@ -139,7 +139,7 @@ export class BlocksPlugin implements WebpackPluginInstance {
 													"utf-8",
 												);
 											}
-											const oldAssetFileLocation = `${compilation.outputOptions.path}${pathSeparator}${blockName}${pathSeparator}${fileName}.${contentHash}.asset.php`;
+											const oldAssetFileLocation = `${compilation.outputOptions.path}${pathSeparator}${blockName}${pathSeparator}${fileName ?? ""}.${contentHash ?? ""}.asset.php`;
 											if (contentHash && existsSync(oldAssetFileLocation)) {
 												await deleteFile(oldAssetFileLocation);
 											}

@@ -22,6 +22,7 @@ export async function handler() {
 			"Unable to determine project setup information. Please add a smash.config.ts file with the required info.",
 		);
 	}
+
 	const [
 		stagingSSHUsername,
 		stagingSSHHost,
