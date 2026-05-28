@@ -77,22 +77,24 @@ export async function handler() {
 				);
 				await downloadFiles(mediaPath, localPath, ssh);
 			} else {
-				console.log(`Downloading media for the last ${mediaMonths} months...`);
+				console.log(
+					`Downloading media for the last ${mediaMonths.toString()} months...`,
+				);
 				// Download media for each month
 				for (let i = 0; i < mediaMonths; i++) {
 					const date = new Date();
 					date.setMonth(date.getMonth() - i);
 					const year = date.getFullYear();
 					const month = String(date.getMonth() + 1).padStart(2, "0");
-					const remotePath = `${mediaPath}/${year}/${month}`;
-					const localPath = `${mediaLocalPath}/${year}`;
+					const remotePath = `${mediaPath}/${year.toString()}/${month}`;
+					const localPath = `${mediaLocalPath}/${year.toString()}`;
 
 					console.log(`Attempting to download: ${remotePath} -> ${localPath}`);
 					try {
 						await downloadFiles(remotePath, localPath, ssh);
 					} catch {
 						console.log(
-							`Skipping uploads/${year}/${month} - directory does not exist on remote server`,
+							`Skipping uploads/${year.toString()}/${month} - directory does not exist on remote server`,
 						);
 						return; // Skip to next iteration
 					}

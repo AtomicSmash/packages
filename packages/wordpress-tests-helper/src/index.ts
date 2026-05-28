@@ -227,7 +227,7 @@ export class WordPressAdminInteraction {
 			await this.page
 				.getByLabel("Add title")
 				.fill(
-					`${options.markTitleAsGenerated ? "GENERATED " : ""}${title}${options.makeTitleUnique ? ` ${Math.floor(Math.random() * 99999999)}` : ""}`,
+					`${options.markTitleAsGenerated ? "GENERATED " : ""}${title}${options.makeTitleUnique ? ` ${Math.floor(Math.random() * 99999999).toString()}` : ""}`,
 				);
 
 			await this.page
@@ -266,11 +266,7 @@ export class WordPressAdminInteraction {
 				}
 			}
 
-			if (
-				postInfo.friendlyId === undefined ||
-				postInfo.type === undefined ||
-				postInfo.editURL === undefined
-			) {
+			if (postInfo.friendlyId === undefined || postInfo.type === undefined) {
 				throw new Error("Failed when adding a new post.");
 			}
 

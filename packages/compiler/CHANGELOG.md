@@ -1,29 +1,24 @@
 # @atomicsmash/compiler
 
-## 3.0.2-beta.2
+## 4.0.0
+
+### Major Changes
+
+- Use new underscore folder system for files which the compiler should ignore.
+
+- Don't use an error code if only has warnings
 
 ### Patch Changes
 
-- [#524](https://github.com/AtomicSmash/packages/pull/524) [`b7b83b5`](https://github.com/AtomicSmash/packages/commit/b7b83b5414d7e6899a5ad0805d5d47390d233a78) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Dependency updates
+- Deprecate excludeBlocks option in config and CLI in favour of underscore folders
 
-- Updated dependencies [[`b7b83b5`](https://github.com/AtomicSmash/packages/commit/b7b83b5414d7e6899a5ad0805d5d47390d233a78)]:
-  - @atomicsmash/smash-config@1.0.2-beta.1
+- Update dependencies
 
-## 3.0.2-beta.1
+- Remove duplicated or errorneous entries in the manifest
 
-### Patch Changes
-
-- [#519](https://github.com/AtomicSmash/packages/pull/519) [`41bea20`](https://github.com/AtomicSmash/packages/commit/41bea20b7bca144214f348ec45cdd1d608dc1c33) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Update dependencies
-
-- Updated dependencies [[`41bea20`](https://github.com/AtomicSmash/packages/commit/41bea20b7bca144214f348ec45cdd1d608dc1c33)]:
-  - @atomicsmash/smash-config@1.0.2-beta.0
-
-## 3.0.2-beta.0
-
-### Patch Changes
-
-- Updated dependencies [[`7963f5f`](https://github.com/AtomicSmash/packages/commit/7963f5f9d267808e16ab446e750ef06fd76faf5a), [`7963f5f`](https://github.com/AtomicSmash/packages/commit/7963f5f9d267808e16ab446e750ef06fd76faf5a)]:
-  - @atomicsmash/date-php@2.2.0-beta.0
+- Updated dependencies:
+  - @atomicsmash/date-php@2.2.0
+  - @atomicsmash/smash-config@1.0.2
 
 ## 3.0.1
 
