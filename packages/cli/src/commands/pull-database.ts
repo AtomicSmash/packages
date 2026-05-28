@@ -2,12 +2,17 @@ import { exec } from "node:child_process";
 import { unlink as deleteFile } from "node:fs/promises";
 import { performance } from "node:perf_hooks";
 import { promisify } from "node:util";
-import { getConfigs, getSmashConfig, getStagingUrl } from "@atomicsmash/smash-config";
+import {
+	getConfigs,
+	getSmashConfig,
+	getStagingUrl,
+} from "@atomicsmash/smash-config";
 import { convertMeasureToPrettyString, startRunningMessage } from "../utils.js";
 
 export const command = "pull-database";
 export const describe =
 	"Pull the database down from staging and replace local database.";
+
 export async function handler() {
 	const execute = promisify(exec);
 	const smashConfig = await getSmashConfig();
@@ -16,7 +21,7 @@ export async function handler() {
 		throw new Error(
 			"Unable to determine project setup information. Please add a smash.config.ts file with the required info.",
 		);
-	} 
+	}
 	const [
 		stagingSSHUsername,
 		stagingSSHHost,
@@ -28,7 +33,7 @@ export async function handler() {
 		"staging.ssh.host",
 		"staging.ssh.port",
 		"staging.dbPrefix",
-		"staging.webRoot"
+		"staging.webRoot",
 	]);
 
 	const stagingUrl = getStagingUrl(smashConfig);
@@ -43,7 +48,7 @@ export async function handler() {
 		const dbPrefixFile = "/tmp/db-prefix.txt";
 		const tablesToExclude = [
 			// WordFence
-			"wfauditevents",	
+			"wfauditevents",
 			"wfblockediplog",
 			"wfblocks7",
 			"wfconfig",
@@ -152,5 +157,4 @@ export async function handler() {
 				process.exitCode = 1;
 			});
 	})();
-	
 }
