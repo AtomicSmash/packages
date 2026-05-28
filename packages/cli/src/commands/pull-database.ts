@@ -107,8 +107,13 @@ export async function handler() {
 				const stopRunningMessage3 = startRunningMessage(
 					"Running search and replace",
 				);
+
+				const composeStagingUrl = stagingUrl
+					.replace(/^https?:\/\//, "")
+					.replace(/^www\./, "");
+
 				await execute(
-					`wp search-replace --url=${projectName}.test ${stagingUrl} '//${projectName}.test' --skip-columns=guid`,
+					`wp search-replace --url=${projectName}.test //${composeStagingUrl} '//${projectName}.test' --skip-columns=guid`,
 				)
 					.then(async () => {
 						await stopRunningMessage3();
