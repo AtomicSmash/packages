@@ -3,9 +3,11 @@ import { readFile, writeFile } from "node:fs/promises";
 import { homedir, type } from "node:os";
 import { join } from "node:path";
 import { promisify } from "node:util";
-import {  getConfigs, getSmashConfig, getStagingUrl } from "@atomicsmash/smash-config";
-
-
+import {
+	getConfigs,
+	getSmashConfig,
+	getStagingUrl,
+} from "@atomicsmash/smash-config";
 
 const PROXY_MARKER = "location @uploadsproxy";
 const isWindows = type() === "Darwin";
@@ -32,7 +34,11 @@ function buildProxyBlock(stagingUrl: string, httpAuth?: string) {
     }`;
 }
 
-function addProxyBlock(config: string, stagingUrl: string, httpAuth?: string): string {
+function addProxyBlock(
+	config: string,
+	stagingUrl: string,
+	httpAuth?: string,
+): string {
 	const listenDirective = "listen 127.0.0.1:443 ssl;";
 	const listenIndex = config.indexOf(listenDirective);
 	if (listenIndex === -1) {
@@ -83,7 +89,9 @@ export async function handler() {
 	const { projectName } = smashConfig;
 	const nginxConfigPath = join(
 		homedir(),
-		isWindows ? "Library/Application Support/Herd/config/valet/Nginx" : ".config\\herd\\config\\nginx",
+		isWindows
+			? "Library/Application Support/Herd/config/valet/Nginx"
+			: ".config\\herd\\config\\nginx",
 		`${projectName}.test`,
 	);
 
@@ -96,7 +104,10 @@ export async function handler() {
 		);
 	}
 
-	const [httpAuthUsername, httpAuthPassword] = getConfigs(smashConfig, ["staging.httpAuth.username", "staging.httpAuth.password"]);
+	const [httpAuthUsername, httpAuthPassword] = getConfigs(smashConfig, [
+		"staging.httpAuth.username",
+		"staging.httpAuth.password",
+	]);
 
 	const httpAuth =
 		httpAuthUsername && httpAuthPassword
@@ -127,7 +138,6 @@ export async function handler() {
 			console.log("Herd restarted successfully.");
 		})
 		.catch(() => {
-			console.log("Failed to restart Herd automatically.")
+			console.log("Failed to restart Herd automatically.");
 		});
 }
-
