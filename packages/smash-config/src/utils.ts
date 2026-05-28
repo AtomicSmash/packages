@@ -90,6 +90,18 @@ export async function getSmashConfig(): Promise<Required<SmashConfig> | null> {
 				npmInstallPaths: [],
 				composerInstallPaths: [],
 				scssAliases: getDefaultSCSSAliases(themePath),
+				staging: {
+					url: "",
+					ssh: {
+						username: "",
+						host: "",
+						port: "",
+					},
+					httpAuth: {
+						username: "",
+						password: "",
+					},
+				}
 			};
 			return defaultConfig;
 		});

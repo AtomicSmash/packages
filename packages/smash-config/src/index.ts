@@ -13,6 +13,18 @@ export type SmashConfig = {
 	npmInstallPaths?: string[];
 	composerInstallPaths?: string[];
 	scssAliases?: SCSSAliases;
+	staging: {
+		url: string,
+		ssh: {
+			username: string,
+			host: string,
+			port: string,
+		}
+		httpAuth: {
+			username: string,
+			password: string
+		}
+	}
 };
 
 export { getSmashConfig } from "./utils.js";
