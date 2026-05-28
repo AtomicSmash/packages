@@ -5,7 +5,7 @@ import { promisify } from "node:util";
 import { getConfigs, getSmashConfig, getStagingUrl } from "@atomicsmash/smash-config";
 import { convertMeasureToPrettyString, startRunningMessage } from "../utils.js";
 
-export const command = "	";
+export const command = "pull-database";
 export const describe =
 	"Pull the database down from staging and replace local database.";
 export async function handler() {
