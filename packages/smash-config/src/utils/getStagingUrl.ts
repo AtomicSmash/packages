@@ -1,4 +1,4 @@
-import { SmashConfig } from "../";
+import type { SmashConfig } from "../";
 import { getConfigs } from "../";
 
 export default function getStagingUrl(config: SmashConfig): string {

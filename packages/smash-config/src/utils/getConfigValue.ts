@@ -1,4 +1,4 @@
-import { SmashConfig } from "../types";
+import type { SmashConfig } from "../types";
 
 /*
 

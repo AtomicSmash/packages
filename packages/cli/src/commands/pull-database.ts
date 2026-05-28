@@ -97,7 +97,7 @@ export async function handler() {
 						await stopRunningMessage2();
 						console.log("Database imported.");
 					})
-					.catch(async (error) => {
+					.catch(async (error: unknown) => {
 						await stopRunningMessage2();
 						throw error;
 					});
@@ -116,7 +116,7 @@ export async function handler() {
 						await stopRunningMessage3();
 						console.log("Search and replace completed.");
 					})
-					.catch(async (error) => {
+					.catch(async (error: unknown) => {
 						await stopRunningMessage3();
 						throw error;
 					});
@@ -139,7 +139,7 @@ export async function handler() {
 					"If you want to download recent media you can use `npm run pull:media`, you can also change the number of months to download in your `.env` file.",
 				);
 			})
-			.catch(async (error) => {
+			.catch(async (error: unknown) => {
 				await stopRunningMessage();
 				console.error("Error during database pull:", error);
 
@@ -153,7 +153,7 @@ export async function handler() {
 				);
 				if (failedCleanups.length > 0) {
 					console.warn(
-						`Warning: Failed to delete ${failedCleanups.length} temporary file(s). You may need to clean them up manually.`,
+						`Warning: Failed to delete ${failedCleanups.length.toString()} temporary file(s). You may need to clean them up manually.`,
 					);
 				}
 				process.exitCode = 1;

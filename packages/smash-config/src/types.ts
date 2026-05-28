@@ -1,4 +1,4 @@
-import { Options } from "sass";
+import type { Options } from "sass";
 
 export type SCSSAliases = {
 	loadPaths?: Options<"async">["loadPaths"];
