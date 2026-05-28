@@ -14,21 +14,21 @@ export type SmashConfig = {
 	composerInstallPaths?: string[];
 	scssAliases?: SCSSAliases;
 	staging: {
-		url: string,
-		webRoot: string,
-		dbPrefix: string,
+		url: string;
+		webRoot: string;
+		dbPrefix: string;
 		ssh: {
-			username: string,
-			host: string,
-			port: string,
-		}
+			username: string;
+			host: string;
+			port: string;
+		};
 		httpAuth: {
-			username: string,
-			password: string
-		}
-	}
+			username: string;
+			password: string;
+		};
+	};
 };
 
-export {getConfig, getConfigs} from "./getConfigVar.js"
-export {getStagingUrl } from "./getStagingUrl.js";
+export { getConfig, getConfigs } from "./getConfigVar.js";
+export { getStagingUrl } from "./getStagingUrl.js";
 export { getSmashConfig } from "./utils.js";
