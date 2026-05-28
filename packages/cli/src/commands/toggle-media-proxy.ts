@@ -25,7 +25,7 @@ function buildProxyBlock(stagingUrl: string, httpAuth?: string) {
         resolver_timeout 10s;
         proxy_http_version 1.1;
         proxy_ssl_server_name on;
-        proxy_pass https:${stagingUrl}$uri$is_args$args;
+        proxy_pass https://${stagingUrl}$uri$is_args$args;
         proxy_ssl_verify off;
         proxy_set_header Referer "";
         proxy_set_header User-Agent "Mozilla/5.0";${authHeader}

@@ -36,8 +36,6 @@ export async function handler() {
 		"staging.webRoot",
 	]);
 
-	const stagingUrl = getStagingUrl(smashConfig);
-
 	const { projectName } = smashConfig;
 	const stopRunningMessage = startRunningMessage(
 		"Pulling database from staging",
@@ -108,12 +106,10 @@ export async function handler() {
 					"Running search and replace",
 				);
 
-				const composeStagingUrl = stagingUrl
-					.replace(/^https?:\/\//, "")
-					.replace(/^www\./, "");
+				const stagingUrl = getStagingUrl(smashConfig);
 
 				await execute(
-					`wp search-replace --url=${projectName}.test //${composeStagingUrl} '//${projectName}.test' --skip-columns=guid`,
+					`wp search-replace --url=${projectName}.test //${stagingUrl} '//${projectName}.test' --skip-columns=guid`,
 				)
 					.then(async () => {
 						await stopRunningMessage3();
