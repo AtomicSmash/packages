@@ -3,8 +3,11 @@ import { readFile, writeFile } from "node:fs/promises";
 import { homedir, type } from "node:os";
 import { join } from "node:path";
 import { promisify } from "node:util";
-import { getSmashConfig } from "@atomicsmash/smash-config";
-
+import {
+	getConfigs,
+	getSmashConfig,
+	getStagingUrl,
+} from "@atomicsmash/smash-config";
 
 const PROXY_MARKER = "location @uploadsproxy";
 const isWindows = type() === "Darwin";
@@ -24,14 +27,18 @@ function buildProxyBlock(stagingUrl: string, httpAuth?: string) {
         resolver_timeout 10s;
         proxy_http_version 1.1;
         proxy_ssl_server_name on;
-        proxy_pass https:${stagingUrl}$uri$is_args$args;
+        proxy_pass https://${stagingUrl}$uri$is_args$args;
         proxy_ssl_verify off;
         proxy_set_header Referer "";
         proxy_set_header User-Agent "Mozilla/5.0";${authHeader}
     }`;
 }
 
-function addProxyBlock(config: string, stagingUrl: string, httpAuth?: string): string {
+function addProxyBlock(
+	config: string,
+	stagingUrl: string,
+	httpAuth?: string,
+): string {
 	const listenDirective = "listen 127.0.0.1:443 ssl;";
 	const listenIndex = config.indexOf(listenDirective);
 	if (listenIndex === -1) {
@@ -77,21 +84,14 @@ export async function handler() {
 			"Unable to determine project setup information. Please add a smash.config.ts file with the required info.",
 		);
 	}
-
-	const stagingUrl = smashConfig.staging.url ?
-		smashConfig.staging.url.endsWith("/")
-			? smashConfig.staging.url.slice(0, -1)
-			: smashConfig.staging.url
-		: undefined;
-
-	if (!stagingUrl) {
-		throw new Error("staging.url is missing from smash.config.ts");
-	}
+	const stagingUrl = getStagingUrl(smashConfig);
 
 	const { projectName } = smashConfig;
 	const nginxConfigPath = join(
 		homedir(),
-		isWindows ? "Library/Application Support/Herd/config/valet/Nginx" : ".config\\herd\\config\\nginx",
+		isWindows
+			? "Library/Application Support/Herd/config/valet/Nginx"
+			: ".config\\herd\\config\\nginx",
 		`${projectName}.test`,
 	);
 
@@ -104,8 +104,10 @@ export async function handler() {
 		);
 	}
 
-	const httpAuthUsername = smashConfig.staging.httpAuth.username;
-	const httpAuthPassword = smashConfig.staging.httpAuth.password;
+	const [httpAuthUsername, httpAuthPassword] = getConfigs(smashConfig, [
+		"staging.httpAuth.username",
+		"staging.httpAuth.password",
+	]);
 
 	const httpAuth =
 		httpAuthUsername && httpAuthPassword
@@ -136,7 +138,6 @@ export async function handler() {
 			console.log("Herd restarted successfully.");
 		})
 		.catch(() => {
-			console.log("Failed to restart Herd automatically.")
+			console.log("Failed to restart Herd automatically.");
 		});
 }
-
