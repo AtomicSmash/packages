@@ -100,11 +100,6 @@ export async function handler() {
 		);
 	}
 
-	// const [httpAuthUsername, httpAuthPassword] = getConfigs(smashConfig, [
-	// 	"staging.httpAuth.username",
-	// 	"staging.httpAuth.password",
-	// ]);
-
 	const {
 		staging: {
 			httpAuth: { username: httpAuthUsername, password: httpAuthPassword },
