@@ -2,11 +2,7 @@ import { exec } from "node:child_process";
 import { unlink as deleteFile } from "node:fs/promises";
 import { performance } from "node:perf_hooks";
 import { promisify } from "node:util";
-import {
-	getConfigs,
-	getSmashConfig,
-	getStagingUrl,
-} from "@atomicsmash/smash-config";
+import { getSmashConfig, getStagingUrl } from "@atomicsmash/smash-config";
 import { convertMeasureToPrettyString, startRunningMessage } from "../utils.js";
 
 export const command = "pull-database";
@@ -23,24 +19,23 @@ export async function handler() {
 		);
 	}
 
-	const [
-		stagingSSHUsername,
-		stagingSSHHost,
-		stagingSSHPort,
-		stagingDBPrefix,
-		stagingWebRoot,
-	] = getConfigs(smashConfig, [
-		"staging.ssh.username",
-		"staging.ssh.host",
-		"staging.ssh.port",
-		"staging.dbPrefix",
-		"staging.webRoot",
-	]);
+	const {
+		projectName,
+		staging: {
+			dbPrefix: stagingDBPrefix,
+			webRoot: stagingWebRoot,
+			ssh: {
+				username: stagingSSHUsername,
+				host: stagingSSHHost,
+				port: stagingSSHPort,
+			},
+		},
+	} = smashConfig;
 
-	const { projectName } = smashConfig;
 	const stopRunningMessage = startRunningMessage(
 		"Pulling database from staging",
 	);
+
 	performance.mark("Start");
 	await (async () => {
 		const tmpFile = "/tmp/staging-database.sql";

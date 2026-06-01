@@ -3,11 +3,7 @@ import { readFile, writeFile } from "node:fs/promises";
 import { homedir, type } from "node:os";
 import { join } from "node:path";
 import { promisify } from "node:util";
-import {
-	getConfigs,
-	getSmashConfig,
-	getStagingUrl,
-} from "@atomicsmash/smash-config";
+import { getSmashConfig, getStagingUrl } from "@atomicsmash/smash-config";
 
 const PROXY_MARKER = "location @uploadsproxy";
 const isWindows = type() === "Darwin";
@@ -104,14 +100,22 @@ export async function handler() {
 		);
 	}
 
-	const [httpAuthUsername, httpAuthPassword] = getConfigs(smashConfig, [
-		"staging.httpAuth.username",
-		"staging.httpAuth.password",
-	]);
+	// const [httpAuthUsername, httpAuthPassword] = getConfigs(smashConfig, [
+	// 	"staging.httpAuth.username",
+	// 	"staging.httpAuth.password",
+	// ]);
+
+	const {
+		staging: {
+			httpAuth: { username: httpAuthUsername, password: httpAuthPassword },
+		},
+	} = smashConfig;
 
 	const httpAuth =
 		httpAuthUsername && httpAuthPassword
-			? Buffer.from(`${httpAuthUsername}:${httpAuthPassword}`).toString("base64")
+			? Buffer.from(`${httpAuthUsername}:${httpAuthPassword}`).toString(
+					"base64",
+				)
 			: undefined;
 
 	let updatedConfig: string;
