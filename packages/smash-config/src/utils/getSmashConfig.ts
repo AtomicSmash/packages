@@ -1,4 +1,5 @@
-import type { SCSSAliases, SmashConfig } from "./index.js";
+import type { SCSSAliases, SmashConfig } from "../types.js";
+
 import { normalize, resolve } from "node:path";
 import { pathToFileURL } from "node:url";
 import { cosmiconfig } from "cosmiconfig";
@@ -92,6 +93,8 @@ export async function getSmashConfig(): Promise<Required<SmashConfig> | null> {
 				scssAliases: getDefaultSCSSAliases(themePath),
 				staging: {
 					url: "",
+					dbPrefix: "",
+					webRoot: "",
 					ssh: {
 						username: "",
 						host: "",
@@ -101,7 +104,7 @@ export async function getSmashConfig(): Promise<Required<SmashConfig> | null> {
 						username: "",
 						password: "",
 					},
-				}
+				},
 			};
 			return defaultConfig;
 		});
