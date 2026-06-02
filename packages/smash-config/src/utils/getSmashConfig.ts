@@ -27,7 +27,7 @@ const getDefaultSCSSAliases = (themePath: string): SCSSAliases => ({
 	],
 });
 
-export default async function getSmashConfig(): Promise<Required<SmashConfig> | null> {
+export async function getSmashConfig(): Promise<Required<SmashConfig> | null> {
 	const explorer = cosmiconfig("smash");
 	const config = await explorer
 		.load(resolve(process.cwd(), "smash.config.ts"))
