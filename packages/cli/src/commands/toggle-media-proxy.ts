@@ -6,7 +6,7 @@ import { promisify } from "node:util";
 import { getSmashConfig, getStagingUrl } from "@atomicsmash/smash-config";
 
 const PROXY_MARKER = "location @uploadsproxy";
-const isWindows = type() === "Darwin";
+
 const execute = promisify(exec);
 
 function buildProxyBlock(stagingUrl: string, httpAuth?: string) {
@@ -81,8 +81,10 @@ export async function handler() {
 		);
 	}
 	const stagingUrl = getStagingUrl(smashConfig);
-
 	const { projectName } = smashConfig;
+
+	const isWindows = type() !== "Windows_NT";
+
 	const nginxConfigPath = join(
 		homedir(),
 		isWindows
