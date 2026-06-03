@@ -76,8 +76,11 @@ export async function handler() {
 			"pmxi_posts",
 			"pmxi_templates",
 		].map((tableName) => stagingDBPrefix + tableName);
+
+		const port =
+			stagingSSHPort && stagingSSHPort.length > 0 ? `-p ${stagingSSHPort}` : ``;
 		await execute(
-			`ssh -o "StrictHostKeyChecking no" ${stagingSSHUsername}@${stagingSSHHost} -p ${stagingSSHPort} "${stagingWebRoot !== "" ? `cd ${stagingWebRoot} && ` : ""}wp db export - --add-drop-table --exclude_tables=${tablesToExclude.join(",")}" > ${tmpFile}`,
+			`ssh -o "StrictHostKeyChecking no" ${stagingSSHUsername}@${stagingSSHHost} ${port} "${stagingWebRoot !== "" ? `cd ${stagingWebRoot} && ` : ""} wp db export - --add-drop-table --exclude_tables=${tablesToExclude.join(",")}" > ${tmpFile}`,
 		)
 			.then(async () => {
 				await stopRunningMessage();

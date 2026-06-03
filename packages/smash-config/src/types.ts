@@ -20,7 +20,7 @@ export type SmashConfig = {
 		ssh: {
 			username: string;
 			host: string;
-			port: string;
+			port?: string;
 		};
 		httpAuth: {
 			username: string;
