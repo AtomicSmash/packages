@@ -66,6 +66,9 @@ describe.sequential("getSmashConfig()", () => {
 			  "composerInstallPaths": [],
 			  "npmInstallPaths": [],
 			  "projectName": "smash-config-tests",
+			  "pullMedia": {
+			    "monthsToPull": -1,
+			  },
 			  "scssAliases": {
 			    "importers": [
 			      {
@@ -82,11 +85,13 @@ describe.sequential("getSmashConfig()", () => {
 			      "host": "000.000.000.000",
 			      "username": "test",
 			    },
+			    "uploadsPath": "public/wp-content/uploads",
 			    "url": "smash-config.test",
 			    "webRoot": "/test/",
 			  },
 			  "themeFolderName": "smash-config-tests",
 			  "themePath": "theme",
+			  "uploadsPath": "public/wp-content/uploads",
 			  "version": 2,
 			}
 		`);
