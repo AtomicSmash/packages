@@ -65,7 +65,7 @@ export async function getSmashConfig<MinVersion extends 1 | 2>(
 						? normalize(config.assetsOutputFolder)
 						: "dist",
 					staging: {
-						uploadsPath: `public/wp-content/uploads`,
+						uploadsPath: config.uploadsPath ?? `public/wp-content/uploads`,
 						dbPrefix: "wp_",
 						...config.staging,
 						url: normaliseStagingURL(config.staging.url),
