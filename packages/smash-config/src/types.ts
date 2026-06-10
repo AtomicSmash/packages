@@ -25,10 +25,15 @@ export type SmashConfigV2 = {
 	npmInstallPaths?: string[];
 	composerInstallPaths?: string[];
 	scssAliases?: SCSSAliases;
+	uploadsPath?: string;
+	pullMedia: {
+		monthsToPull?: number;
+	};
 	staging: {
 		url: string;
 		webRoot: string;
 		dbPrefix?: string;
+		uploadsPath?: string;
 		ssh: {
 			username: string;
 			host: string;
@@ -63,10 +68,15 @@ export type SmashConfigV2Resolved = {
 	npmInstallPaths: string[];
 	composerInstallPaths: string[];
 	scssAliases: SCSSAliases;
+	uploadsPath: string;
+	pullMedia: {
+		monthsToPull: number;
+	};
 	staging: {
 		url: string;
 		webRoot: string;
 		dbPrefix: string;
+		uploadsPath: string;
 		ssh: {
 			username: string;
 			host: string;

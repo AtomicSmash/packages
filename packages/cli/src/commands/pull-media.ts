@@ -4,25 +4,24 @@ import { resolve } from "node:path";
 import { performance } from "node:perf_hooks";
 import { promisify } from "node:util";
 import { startRunningMessage } from "../utils.js";
+import type { SmashConfigV2Resolved } from "@atomicsmash/smash-config";
+import { getSmashConfig } from "@atomicsmash/smash-config";
 
 const execute = promisify(exec);
 
 async function downloadFiles(
 	remotePath: string,
 	localPath: string,
-	ssh: {
-		port: string;
-		username: string;
-		host: string;
-	},
+	ssh: SmashConfigV2Resolved["staging"]["ssh"],
 ) {
+	const port = ssh.port ? `-P ${ssh.port.toString()}` : ``;
 	try {
 		// Create local directory if it doesn't exist
 		await mkdir(localPath, { recursive: true });
 
 		// Download files using scp
 		await execute(
-			`scp -r -p -O -o "StrictHostKeyChecking no" -P ${ssh.port} "${ssh.username}@${ssh.host}:${remotePath}" "${localPath}"`,
+			`scp -r -p -O -o "StrictHostKeyChecking no" ${port} "${ssh.username}@${ssh.host}:${remotePath}" "${localPath}"`,
 		);
 	} catch (error) {
 		console.log(`Failed to download ${remotePath}`);
@@ -36,82 +35,65 @@ async function downloadFiles(
 export const command = "pull-media";
 export const describe = "Pull the media items from the staging site.";
 export async function handler() {
-	const stagingSSHUsername = process.env.STAGING_SSH_USERNAME;
-	const stagingSSHHost = process.env.STAGING_SSH_HOST;
-	const stagingSSHPort = process.env.STAGING_SSH_PORT;
-	const stagingUrl = process.env.STAGING_URL?.endsWith("/")
-		? process.env.STAGING_URL.slice(0, -1)
-		: process.env.STAGING_URL;
-	const mediaMonths = parseInt(process.env.MEDIA_DOWNLOAD_MONTHS ?? "-1");
-	const mediaPath = process.env.MEDIA_DOWNLOAD_PATH;
-	const mediaLocalPath = process.env.MEDIA_DOWNLOAD_LOCAL_PATH;
-	if (!stagingSSHUsername) {
-		throw new Error("STAGING_SSH_USERNAME is missing from .env file.");
-	} else if (!stagingSSHHost) {
-		throw new Error("STAGING_SSH_HOST is missing from .env file.");
-	} else if (!stagingSSHPort) {
-		throw new Error("STAGING_SSH_PORT is missing from .env file.");
-	} else if (!stagingUrl) {
-		throw new Error("STAGING_URL is missing from .env file.");
-	} else if (!mediaPath) {
-		throw new Error("MEDIA_DOWNLOAD_PATH is missing from .env file.");
-	} else if (!mediaLocalPath) {
-		throw new Error("MEDIA_DOWNLOAD_LOCAL_PATH is missing from .env file.");
-	} else {
-		const ssh = {
-			port: stagingSSHPort,
-			host: stagingSSHHost,
-			username: stagingSSHUsername,
-		};
-		const stopRunningMessage = startRunningMessage(
-			"Pulling media from staging",
-		);
-		performance.mark("Start");
-		await (async () => {
-			if (mediaMonths === -1) {
-				console.log("Downloading entire uploads directory...");
-				const localPath = resolve(mediaLocalPath, "..");
+	const {
+		uploadsPath: uploadsPath,
+		staging: {
+			uploadsPath: stagingUploadsPath,
+			webRoot: stagingWebRoot,
+			ssh: stagingSSHDetails,
+		},
+		pullMedia: { monthsToPull },
+	} = await getSmashConfig(2);
+	const mediaMonths = monthsToPull;
+	const mediaServerPath = `${stagingWebRoot}/${stagingUploadsPath}`;
+	const mediaLocalPath = uploadsPath;
 
-				console.log(
-					`Downloading entire uploads directory: ${mediaPath} -> ${localPath}`,
-				);
-				await downloadFiles(mediaPath, localPath, ssh);
-			} else {
-				console.log(
-					`Downloading media for the last ${mediaMonths.toString()} months...`,
-				);
-				// Download media for each month
-				for (let i = 0; i < mediaMonths; i++) {
-					const date = new Date();
-					date.setMonth(date.getMonth() - i);
-					const year = date.getFullYear();
-					const month = String(date.getMonth() + 1).padStart(2, "0");
-					const remotePath = `${mediaPath}/${year.toString()}/${month}`;
-					const localPath = `${mediaLocalPath}/${year.toString()}`;
+	const stopRunningMessage = startRunningMessage("Pulling media from staging");
+	performance.mark("Start");
+	await (async () => {
+		if (mediaMonths === -1) {
+			console.log("Downloading entire uploads directory...");
+			const localPath = resolve(mediaLocalPath, "..");
 
-					console.log(`Attempting to download: ${remotePath} -> ${localPath}`);
-					try {
-						await downloadFiles(remotePath, localPath, ssh);
-					} catch {
-						console.log(
-							`Skipping uploads/${year.toString()}/${month} - directory does not exist on remote server`,
-						);
-						return; // Skip to next iteration
-					}
+			console.log(
+				`Downloading entire uploads directory: ${mediaServerPath} -> ${localPath}`,
+			);
+			await downloadFiles(mediaServerPath, localPath, stagingSSHDetails);
+		} else {
+			console.log(
+				`Downloading media for the last ${mediaMonths.toString()} months...`,
+			);
+			// Download media for each month
+			for (let i = 0; i < mediaMonths; i++) {
+				const date = new Date();
+				date.setMonth(date.getMonth() - i);
+				const year = date.getFullYear();
+				const month = String(date.getMonth() + 1).padStart(2, "0");
+				const remotePath = `${mediaServerPath}/${year.toString()}/${month}`;
+				const localPath = `${mediaLocalPath}/${year.toString()}`;
+
+				console.log(`Attempting to download: ${remotePath} -> ${localPath}`);
+				try {
+					await downloadFiles(remotePath, localPath, stagingSSHDetails);
+				} catch {
+					console.log(
+						`Skipping uploads/${year.toString()}/${month} - directory does not exist on remote server`,
+					);
+					return; // Skip to next iteration
 				}
-				console.log("Finished attempting to download all requested months");
 			}
-		})()
-			.then(async () => {
-				await stopRunningMessage();
-				console.log("Media download complete!");
-			})
-			.catch(async () => {
-				await stopRunningMessage();
-				console.log(
-					"There was an error downloading the media, see the message above.",
-				);
-				process.exitCode = 1;
-			});
-	}
+			console.log("Finished attempting to download all requested months");
+		}
+	})()
+		.then(async () => {
+			await stopRunningMessage();
+			console.log("Media download complete!");
+		})
+		.catch(async () => {
+			await stopRunningMessage();
+			console.log(
+				"There was an error downloading the media, see the message above.",
+			);
+			process.exitCode = 1;
+		});
 }

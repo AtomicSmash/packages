@@ -50,6 +50,7 @@ export async function getSmashConfig<MinVersion extends 1 | 2>(
 				const fullConfig: SmashConfigV2Resolved = {
 					scssAliases: getDefaultSCSSAliases(config.themePath),
 					themeFolderName: config.projectName,
+					uploadsPath: `public/wp-content/uploads`,
 					...config,
 					// Normalize and resolve paths to cwd.
 					npmInstallPaths:
@@ -64,9 +65,14 @@ export async function getSmashConfig<MinVersion extends 1 | 2>(
 						? normalize(config.assetsOutputFolder)
 						: "dist",
 					staging: {
+						uploadsPath: `public/wp-content/uploads`,
+						dbPrefix: "wp_",
 						...config.staging,
 						url: normaliseStagingURL(config.staging.url),
-						dbPrefix: config.staging.dbPrefix ?? "wp_",
+					},
+					pullMedia: {
+						monthsToPull: -1,
+						...config.pullMedia,
 					},
 				};
 				return fullConfig;
