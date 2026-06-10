@@ -100,108 +100,108 @@ export async function handler() {
 				}
 			: null;
 
-	const { projectName, themeFolderName } = smashConfig;
-	const stopRunningMessage = startRunningMessage("Initialising database");
-	performance.mark("Start");
-	await execute("wp db create")
-		.then(() => {
-			return execute(
-				`wp core install --url=http://${process.env.CI ? "127.0.0.1" : `${projectName}.test`}/ --title=Temp --admin_user=Bot --admin_email=fake@fake.com --admin_password=password`,
-			);
-		})
-		.then(() => {
-			performance.mark("wordpress-tables");
-			console.log(
-				`Wordpress database tables installed. (${convertMeasureToPrettyString(
-					performance.measure("wordpress-tables", "Start"),
-				)})`,
-			);
-			if (newUserToAdd) {
+		const { projectName, themeFolderName } = smashConfig;
+		const stopRunningMessage = startRunningMessage("Initialising database");
+		performance.mark("Start");
+		await execute("wp db create")
+			.then(() => {
 				return execute(
-					`wp user create ${newUserToAdd.user} ${newUserToAdd.email} --user_pass=${newUserToAdd.password} --role=administrator`,
+					`wp core install --url=http://${process.env.CI ? "127.0.0.1" : `${projectName}.test`}/ --title=Temp --admin_user=Bot --admin_email=fake@fake.com --admin_password=password`,
 				);
-			}
-		})
-		.then(async () => {
-			if (newUserToAdd) {
-				performance.mark("add-custom-user");
+			})
+			.then(() => {
+				performance.mark("wordpress-tables");
 				console.log(
-					`Custom user ${newUserToAdd.user} added. (${convertMeasureToPrettyString(
-						performance.measure("add-custom-user", "wordpress-tables"),
+					`Wordpress database tables installed. (${convertMeasureToPrettyString(
+						performance.measure("wordpress-tables", "Start"),
 					)})`,
 				);
-			}
+				if (newUserToAdd) {
+					return execute(
+						`wp user create ${newUserToAdd.user} ${newUserToAdd.email} --user_pass=${newUserToAdd.password} --role=administrator`,
+					);
+				}
+			})
+			.then(async () => {
+				if (newUserToAdd) {
+					performance.mark("add-custom-user");
+					console.log(
+						`Custom user ${newUserToAdd.user} added. (${convertMeasureToPrettyString(
+							performance.measure("add-custom-user", "wordpress-tables"),
+						)})`,
+					);
+				}
 
-			const excludedPlugins = [
-				"stream",
-				"shortpixel-image-optimiser",
-				"wordfence",
-				"wp-mail-smtp",
-				"modular-connector",
-			];
-			const { stdout: pluginList } = await execute(
-				"wp plugin list --format=json",
-			);
-			const allPlugins: { name: string; status: string }[] = JSON.parse(
-				pluginList,
-			) as { name: string; status: string }[];
-
-			// Filter out excluded plugins and already active plugins
-			const pluginsToActivate = allPlugins
-				.filter(
-					(plugin) =>
-						!excludedPlugins.includes(plugin.name) &&
-						plugin.status !== "active",
-				)
-				.map((plugin) => plugin.name);
-
-			await activatePluginsWithRetry(
-				execute,
-				pluginsToActivate,
-				excludedPlugins,
-			);
-		})
-		.then(() => {
-			performance.mark("plugins");
-			console.log(
-				`Plugins activated. (${convertMeasureToPrettyString(
-					performance.measure(
-						"plugins",
-						newUserToAdd ? "add-custom-user" : "wordpress-tables",
-					),
-				)})`,
-			);
-			return execute(`wp theme activate ${themeFolderName}`);
-		})
-		.then(async () => {
-			performance.mark("theme");
-			console.log(
-				`Theme activated. (${convertMeasureToPrettyString(
-					performance.measure("theme", "plugins"),
-				)})`,
-			);
-			await stopRunningMessage();
-			console.log(
-				`Database set up${newUserToAdd ? ` and ${newUserToAdd.user} user added` : !process.env.CI ? ". To set up a user, run the `wp user create` command." : ""}. (${convertMeasureToPrettyString(
-					performance.measure("everything", "Start"),
-				)})`,
-			);
-		})
-		.catch(async (error: unknown) => {
-			await stopRunningMessage();
-			if (
-				typeof error === "object" &&
-				error &&
-				"stderr" in error &&
-				typeof error.stderr === "string" &&
-				error.stderr.startsWith("ERROR 1007")
-			) {
-				console.error(
-					"Database already exists with the name in the wp-config. Please delete that database first with `wp db drop --yes`",
+				const excludedPlugins = [
+					"stream",
+					"shortpixel-image-optimiser",
+					"wordfence",
+					"wp-mail-smtp",
+					"modular-connector",
+				];
+				const { stdout: pluginList } = await execute(
+					"wp plugin list --format=json",
 				);
-			} else {
-				console.error(error);
-				process.exitCode = 1;
-			}
-		});
+				const allPlugins: { name: string; status: string }[] = JSON.parse(
+					pluginList,
+				) as { name: string; status: string }[];
+
+				// Filter out excluded plugins and already active plugins
+				const pluginsToActivate = allPlugins
+					.filter(
+						(plugin) =>
+							!excludedPlugins.includes(plugin.name) &&
+							plugin.status !== "active",
+					)
+					.map((plugin) => plugin.name);
+
+				await activatePluginsWithRetry(
+					execute,
+					pluginsToActivate,
+					excludedPlugins,
+				);
+			})
+			.then(() => {
+				performance.mark("plugins");
+				console.log(
+					`Plugins activated. (${convertMeasureToPrettyString(
+						performance.measure(
+							"plugins",
+							newUserToAdd ? "add-custom-user" : "wordpress-tables",
+						),
+					)})`,
+				);
+				return execute(`wp theme activate ${themeFolderName}`);
+			})
+			.then(async () => {
+				performance.mark("theme");
+				console.log(
+					`Theme activated. (${convertMeasureToPrettyString(
+						performance.measure("theme", "plugins"),
+					)})`,
+				);
+				await stopRunningMessage();
+				console.log(
+					`Database set up${newUserToAdd ? ` and ${newUserToAdd.user} user added` : !process.env.CI ? ". To set up a user, run the `wp user create` command." : ""}. (${convertMeasureToPrettyString(
+						performance.measure("everything", "Start"),
+					)})`,
+				);
+			})
+			.catch(async (error: unknown) => {
+				await stopRunningMessage();
+				if (
+					typeof error === "object" &&
+					error &&
+					"stderr" in error &&
+					typeof error.stderr === "string" &&
+					error.stderr.startsWith("ERROR 1007")
+				) {
+					console.error(
+						"Database already exists with the name in the wp-config. Please delete that database first with `wp db drop --yes`",
+					);
+				} else {
+					console.error(error);
+					process.exitCode = 1;
+				}
+			});
 }

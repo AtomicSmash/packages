@@ -35,65 +35,65 @@ async function downloadFiles(
 export const command = "pull-media";
 export const describe = "Pull the media items from the staging site.";
 export async function handler() {
-	const {
-		uploadsPath: uploadsPath,
-		staging: {
-			uploadsPath: stagingUploadsPath,
-			webRoot: stagingWebRoot,
-			ssh: stagingSSHDetails,
-		},
-		pullMedia: { monthsToPull },
-	} = await getSmashConfig(2);
-	const mediaMonths = monthsToPull;
-	const mediaServerPath = `${stagingWebRoot}/${stagingUploadsPath}`;
-	const mediaLocalPath = uploadsPath;
+		const {
+			uploadsPath: uploadsPath,
+			staging: {
+				uploadsPath: stagingUploadsPath,
+				webRoot: stagingWebRoot,
+				ssh: stagingSSHDetails,
+			},
+			pullMedia: { monthsToPull },
+		} = await getSmashConfig(2);
+		const mediaMonths = monthsToPull;
+		const mediaServerPath = `${stagingWebRoot}/${stagingUploadsPath}`;
+		const mediaLocalPath = uploadsPath;
 
-	const stopRunningMessage = startRunningMessage("Pulling media from staging");
-	performance.mark("Start");
-	await (async () => {
-		if (mediaMonths === -1) {
-			console.log("Downloading entire uploads directory...");
-			const localPath = resolve(mediaLocalPath, "..");
+		const stopRunningMessage = startRunningMessage("Pulling media from staging");
+		performance.mark("Start");
+		await (async () => {
+			if (mediaMonths === -1) {
+				console.log("Downloading entire uploads directory...");
+				const localPath = resolve(mediaLocalPath, "..");
 
-			console.log(
-				`Downloading entire uploads directory: ${mediaServerPath} -> ${localPath}`,
-			);
-			await downloadFiles(mediaServerPath, localPath, stagingSSHDetails);
-		} else {
-			console.log(
-				`Downloading media for the last ${mediaMonths.toString()} months...`,
-			);
-			// Download media for each month
-			for (let i = 0; i < mediaMonths; i++) {
-				const date = new Date();
-				date.setMonth(date.getMonth() - i);
-				const year = date.getFullYear();
-				const month = String(date.getMonth() + 1).padStart(2, "0");
-				const remotePath = `${mediaServerPath}/${year.toString()}/${month}`;
-				const localPath = `${mediaLocalPath}/${year.toString()}`;
+				console.log(
+					`Downloading entire uploads directory: ${mediaServerPath} -> ${localPath}`,
+				);
+				await downloadFiles(mediaServerPath, localPath, stagingSSHDetails);
+			} else {
+				console.log(
+					`Downloading media for the last ${mediaMonths.toString()} months...`,
+				);
+				// Download media for each month
+				for (let i = 0; i < mediaMonths; i++) {
+					const date = new Date();
+					date.setMonth(date.getMonth() - i);
+					const year = date.getFullYear();
+					const month = String(date.getMonth() + 1).padStart(2, "0");
+					const remotePath = `${mediaServerPath}/${year.toString()}/${month}`;
+					const localPath = `${mediaLocalPath}/${year.toString()}`;
 
-				console.log(`Attempting to download: ${remotePath} -> ${localPath}`);
-				try {
-					await downloadFiles(remotePath, localPath, stagingSSHDetails);
-				} catch {
-					console.log(
-						`Skipping uploads/${year.toString()}/${month} - directory does not exist on remote server`,
-					);
-					return; // Skip to next iteration
+					console.log(`Attempting to download: ${remotePath} -> ${localPath}`);
+					try {
+						await downloadFiles(remotePath, localPath, stagingSSHDetails);
+					} catch {
+						console.log(
+							`Skipping uploads/${year.toString()}/${month} - directory does not exist on remote server`,
+						);
+						return; // Skip to next iteration
+					}
 				}
+				console.log("Finished attempting to download all requested months");
 			}
-			console.log("Finished attempting to download all requested months");
-		}
-	})()
-		.then(async () => {
-			await stopRunningMessage();
-			console.log("Media download complete!");
-		})
-		.catch(async () => {
-			await stopRunningMessage();
-			console.log(
-				"There was an error downloading the media, see the message above.",
-			);
-			process.exitCode = 1;
-		});
+		})()
+			.then(async () => {
+				await stopRunningMessage();
+				console.log("Media download complete!");
+			})
+			.catch(async () => {
+				await stopRunningMessage();
+				console.log(
+					"There was an error downloading the media, see the message above.",
+				);
+				process.exitCode = 1;
+			});
 }
