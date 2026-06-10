@@ -1,5 +1,11 @@
-import type { SCSSAliases, SmashConfig } from "../types.js";
-
+import type {
+	SCSSAliases,
+	SmashConfigV1,
+	SmashConfigV2,
+	SmashConfigV1Resolved,
+	SmashConfigV2Resolved,
+} from "../types.js";
+import { normaliseStagingURL } from "./normaliseStagingURL.js";
 import { normalize, resolve } from "node:path";
 import { pathToFileURL } from "node:url";
 import { cosmiconfig } from "cosmiconfig";
@@ -27,17 +33,47 @@ const getDefaultSCSSAliases = (themePath: string): SCSSAliases => ({
 	],
 });
 
-export async function getSmashConfig(): Promise<Required<SmashConfig> | null> {
+export async function getSmashConfig<MinVersion extends 1 | 2>(
+	minVersion?: MinVersion,
+) {
 	const explorer = cosmiconfig("smash");
 	const config = await explorer
 		.load(resolve(process.cwd(), "smash.config.ts"))
 		.then((result) => {
 			if (!result || result.isEmpty) {
-				throw new Error("Return default config.");
+				throw new Error(
+					"Failed to get config. Please make sure smash.config.ts exists and exports a valid smash config configuration object.",
+				);
 			}
 			const config = result.config as unknown;
-			if (isValidSmashConfig(config)) {
-				const fullConfig: Required<SmashConfig> = {
+			if (isValidSmashConfigV2(config)) {
+				const fullConfig: SmashConfigV2Resolved = {
+					scssAliases: getDefaultSCSSAliases(config.themePath),
+					themeFolderName: config.projectName,
+					...config,
+					// Normalize and resolve paths to cwd.
+					npmInstallPaths:
+						config.npmInstallPaths?.map((path) => {
+							return normalize(resolve(process.cwd(), path));
+						}) ?? [],
+					composerInstallPaths:
+						config.composerInstallPaths?.map((path) => {
+							return normalize(resolve(process.cwd(), path));
+						}) ?? [],
+					assetsOutputFolder: config.assetsOutputFolder
+						? normalize(config.assetsOutputFolder)
+						: "dist",
+					staging: {
+						...config.staging,
+						url: normaliseStagingURL(config.staging.url),
+						dbPrefix: config.staging.dbPrefix ?? "wp_",
+					},
+				};
+				return fullConfig;
+			}
+			if (isValidSmashConfigV1(config)) {
+				const fullConfig: SmashConfigV1Resolved = {
+					version: 1,
 					scssAliases: getDefaultSCSSAliases(config.themePath),
 					themeFolderName: config.projectName,
 					...config,
@@ -56,65 +92,36 @@ export async function getSmashConfig(): Promise<Required<SmashConfig> | null> {
 				};
 				return fullConfig;
 			}
-			throw new Error("Return default config.");
-		})
-		.catch(async () => {
-			const { themeName, themePath } = await import("dotenv")
-				.then((dotenv) => {
-					dotenv.config();
-					const themeName =
-						process.env.THEME_NAME ?? process.env.npm_package_config_theme_name;
-					const themePath =
-						process.env.THEME_PATH ?? process.env.npm_package_config_theme_path;
-					return {
-						themeName,
-						themePath,
-					};
-				})
-				.catch(() => {
-					return {
-						themeName: false as const,
-						themePath: false as const,
-					};
-				});
-			if (!themeName || !themePath) {
-				return null;
-			}
-			console.warn(
-				"Using env vars for theme name and path is deprecated and will be removed in a future version. Create a smash.config.ts file with the relevant properties in it instead.",
+			throw new Error(
+				"Failed to get valid config. Please check that your smash.config.ts exports a valid smash config configuration object.",
 			);
-			const defaultConfig: Required<SmashConfig> = {
-				projectName: themeName,
-				themePath,
-				themeFolderName: themeName,
-				assetsOutputFolder: "dist",
-				npmInstallPaths: [],
-				composerInstallPaths: [],
-				scssAliases: getDefaultSCSSAliases(themePath),
-				staging: {
-					url: "",
-					dbPrefix: "",
-					webRoot: "",
-					ssh: {
-						username: "",
-						host: "",
-						port: "",
-					},
-					httpAuth: {
-						username: "",
-						password: "",
-					},
-				},
-			};
-			return defaultConfig;
 		});
-	return config;
+	if (minVersion && config.version < minVersion) {
+		throw new Error(
+			`A smash config was found but it is not up to date. Please update to at least version ${minVersion.toString()}.`,
+		);
+	}
+	return config as MinVersion extends 2
+		? SmashConfigV2Resolved
+		: SmashConfigV2Resolved | SmashConfigV1Resolved;
 }
 
-function isValidSmashConfig(config: unknown): config is SmashConfig {
+function isValidSmashConfigV1(config: unknown): config is SmashConfigV1 {
 	return (
 		typeof config === "object" &&
 		config !== null &&
+		"projectName" in config &&
+		typeof config.projectName === "string" &&
+		"themePath" in config &&
+		typeof config.themePath === "string"
+	);
+}
+function isValidSmashConfigV2(config: unknown): config is SmashConfigV2 {
+	return (
+		typeof config === "object" &&
+		config !== null &&
+		"version" in config &&
+		config.version === 2 &&
 		"projectName" in config &&
 		typeof config.projectName === "string" &&
 		"themePath" in config &&

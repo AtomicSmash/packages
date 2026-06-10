@@ -3,13 +3,13 @@ import { readFile, writeFile } from "node:fs/promises";
 import { homedir, type } from "node:os";
 import { join } from "node:path";
 import { promisify } from "node:util";
-import { getSmashConfig, getStagingUrl } from "@atomicsmash/smash-config";
+import { getSmashConfig } from "@atomicsmash/smash-config";
 
 const PROXY_MARKER = "location @uploadsproxy";
 
 const execute = promisify(exec);
 
-function buildProxyBlock(stagingUrl: string, httpAuth?: string) {
+function buildProxyBlock(stagingURL: string, httpAuth?: string) {
 	const authHeader = httpAuth
 		? `\n        proxy_set_header Authorization "Basic ${httpAuth}";`
 		: "";
@@ -23,7 +23,7 @@ function buildProxyBlock(stagingUrl: string, httpAuth?: string) {
         resolver_timeout 10s;
         proxy_http_version 1.1;
         proxy_ssl_server_name on;
-        proxy_pass https://${stagingUrl}$uri$is_args$args;
+        proxy_pass https://${stagingURL}$uri$is_args$args;
         proxy_ssl_verify off;
         proxy_set_header Referer "";
         proxy_set_header User-Agent "Mozilla/5.0";${authHeader}
@@ -32,7 +32,7 @@ function buildProxyBlock(stagingUrl: string, httpAuth?: string) {
 
 function addProxyBlock(
 	config: string,
-	stagingUrl: string,
+	stagingURL: string,
 	httpAuth?: string,
 ): string {
 	const listenDirective = "listen 127.0.0.1:443 ssl;";
@@ -56,7 +56,7 @@ function addProxyBlock(
 
 	return (
 		config.slice(0, serverBlockEnd) +
-		buildProxyBlock(stagingUrl, httpAuth) +
+		buildProxyBlock(stagingURL, httpAuth) +
 		"\n" +
 		config.slice(serverBlockEnd)
 	);
@@ -74,20 +74,18 @@ export const describe =
 	"Toggle the media proxy in the local NGINX config within Herd.";
 
 export async function handler() {
-	const smashConfig = await getSmashConfig();
-	if (!smashConfig) {
-		throw new Error(
-			"Unable to determine project setup information. Please add a smash.config.ts file with the required info.",
-		);
-	}
-	const stagingUrl = getStagingUrl(smashConfig);
-	const { projectName } = smashConfig;
+	const smashConfig = await getSmashConfig(2);
 
-	const isWindows = type() !== "Windows_NT";
+	const {
+		projectName,
+		staging: { url: stagingURL, httpAuth: stagingHttpAuth },
+	} = smashConfig;
+
+	const isMacOS = type() === "Darwin";
 
 	const nginxConfigPath = join(
 		homedir(),
-		isWindows
+		isMacOS
 			? "Library/Application Support/Herd/config/valet/Nginx"
 			: ".config\\herd\\config\\nginx",
 		`${projectName}.test`,
@@ -102,18 +100,11 @@ export async function handler() {
 		);
 	}
 
-	const {
-		staging: {
-			httpAuth: { username: httpAuthUsername, password: httpAuthPassword },
-		},
-	} = smashConfig;
-
-	const httpAuth =
-		httpAuthUsername && httpAuthPassword
-			? Buffer.from(`${httpAuthUsername}:${httpAuthPassword}`).toString(
-					"base64",
-				)
-			: undefined;
+	const httpAuth = stagingHttpAuth
+		? Buffer.from(
+				`${stagingHttpAuth.username}:${stagingHttpAuth.password}`,
+			).toString("base64")
+		: undefined;
 
 	let updatedConfig: string;
 
@@ -121,7 +112,7 @@ export async function handler() {
 		updatedConfig = removeProxyBlock(config);
 		console.log("Media proxy removed from NGINX config.");
 	} else {
-		updatedConfig = addProxyBlock(config, stagingUrl, httpAuth);
+		updatedConfig = addProxyBlock(config, stagingURL, httpAuth);
 		if (httpAuth) {
 			console.log("Media proxy added to NGINX config (with HTTP auth).");
 		} else {

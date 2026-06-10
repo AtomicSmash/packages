@@ -2,7 +2,7 @@ import { exec } from "node:child_process";
 import { unlink as deleteFile } from "node:fs/promises";
 import { performance } from "node:perf_hooks";
 import { promisify } from "node:util";
-import { getSmashConfig, getStagingUrl } from "@atomicsmash/smash-config";
+import { getSmashConfig } from "@atomicsmash/smash-config";
 import { convertMeasureToPrettyString, startRunningMessage } from "../utils.js";
 
 export const command = "pull-database";
@@ -11,17 +11,12 @@ export const describe =
 
 export async function handler() {
 	const execute = promisify(exec);
-	const smashConfig = await getSmashConfig();
-
-	if (!smashConfig) {
-		throw new Error(
-			"Unable to determine project setup information. Please add a smash.config.ts file with the required info.",
-		);
-	}
+	const smashConfig = await getSmashConfig(2);
 
 	const {
 		projectName,
 		staging: {
+			url: stagingURL,
 			dbPrefix: stagingDBPrefix,
 			webRoot: stagingWebRoot,
 			ssh: {
@@ -77,8 +72,7 @@ export async function handler() {
 			"pmxi_templates",
 		].map((tableName) => stagingDBPrefix + tableName);
 
-		const port =
-			stagingSSHPort && stagingSSHPort.length > 0 ? `-p ${stagingSSHPort}` : ``;
+		const port = stagingSSHPort ? `-p ${stagingSSHPort.toString()}` : ``;
 		await execute(
 			`ssh -o "StrictHostKeyChecking no" ${stagingSSHUsername}@${stagingSSHHost} ${port} "${stagingWebRoot !== "" ? `cd ${stagingWebRoot} && ` : ""} wp db export - --add-drop-table --exclude_tables=${tablesToExclude.join(",")}" > ${tmpFile}`,
 		)
@@ -105,10 +99,8 @@ export async function handler() {
 					"Running search and replace",
 				);
 
-				const stagingUrl = getStagingUrl(smashConfig);
-
 				await execute(
-					`wp search-replace --url=${projectName}.test //${stagingUrl} '//${projectName}.test'`,
+					`wp search-replace --url=${projectName}.test //${stagingURL} '//${projectName}.test'`,
 				)
 					.then(async () => {
 						await stopRunningMessage3();
