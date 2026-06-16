@@ -60,19 +60,10 @@ export async function config(options: {
 
 	const srcFolder = argv.in
 		? resolvePath(argv.in)
-		: smashConfig.themePath
-			? resolvePath(join(smashConfig.themePath, "src"))
-			: null;
+		: resolvePath(join(smashConfig.themePath, "src"));
 	const distFolder = argv.out
 		? resolvePath(argv.out)
-		: smashConfig.themePath
-			? resolvePath(join(smashConfig.themePath, smashConfig.assetsOutputFolder))
-			: null;
-	if (!srcFolder || !distFolder) {
-		throw new Error(
-			"Failed to get the in or out folders for the blocks. Please add a smash.config.ts file to your project with a themeName and a themePath.",
-		);
-	}
+		: resolvePath(join(smashConfig.themePath, smashConfig.assetsOutputFolder));
 
 	// Add optional support for Tailwind if tailwind postcss plugin is installed
 	const tailwindPostCSSPlugin = await import("@tailwindcss/postcss")
