@@ -63,12 +63,14 @@ describe.sequential("getSmashConfig()", () => {
 		await expect(getSmashConfig()).resolves.toMatchInlineSnapshot(`
 			{
 			  "assetsOutputFolder": "dist",
+			  "cli": {
+			    "pullMedia": {
+			      "monthsToPull": -1,
+			    },
+			  },
 			  "composerInstallPaths": [],
 			  "npmInstallPaths": [],
 			  "projectName": "smash-config-tests",
-			  "pullMedia": {
-			    "monthsToPull": -1,
-			  },
 			  "scssAliases": {
 			    "importers": [
 			      {

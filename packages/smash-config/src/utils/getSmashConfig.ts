@@ -70,9 +70,12 @@ export async function getSmashConfig<MinVersion extends 1 | 2>(
 						...config.staging,
 						url: normaliseStagingURL(config.staging.url),
 					},
-					pullMedia: {
-						monthsToPull: -1,
-						...config.pullMedia,
+					cli: {
+						...config.cli,
+						pullMedia: {
+							monthsToPull: -1,
+							...config.cli?.pullMedia,
+						},
 					},
 				};
 				return fullConfig;

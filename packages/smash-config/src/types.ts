@@ -26,8 +26,10 @@ export type SmashConfigV2 = {
 	composerInstallPaths?: string[];
 	scssAliases?: SCSSAliases;
 	uploadsPath?: string;
-	pullMedia?: {
-		monthsToPull?: number;
+	cli?: {
+		pullMedia?: {
+			monthsToPull?: number;
+		};
 	};
 	staging: {
 		url: string;
@@ -69,8 +71,10 @@ export type SmashConfigV2Resolved = {
 	composerInstallPaths: string[];
 	scssAliases: SCSSAliases;
 	uploadsPath: string;
-	pullMedia: {
-		monthsToPull: number;
+	cli: {
+		pullMedia: {
+			monthsToPull: number;
+		};
 	};
 	staging: {
 		url: string;
