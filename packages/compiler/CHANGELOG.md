@@ -1,5 +1,18 @@
 # @atomicsmash/compiler
 
+## 5.0.0-beta.0
+
+### Major Changes
+
+- [#531](https://github.com/AtomicSmash/packages/pull/531) [`61845d4`](https://github.com/AtomicSmash/packages/commit/61845d49c0bea9f110d374d0e711f01166a9788e) Thanks [@daviddarke](https://github.com/daviddarke)! - The compiler now requires that a smash config is set, if not set, it will throw an error. Fallback for scssAliases removed.
+
+### Patch Changes
+
+- [#580](https://github.com/AtomicSmash/packages/pull/580) [`87c5a17`](https://github.com/AtomicSmash/packages/commit/87c5a1758cd5cb0a73f0754649788182e316a038) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Update deps
+
+- Updated dependencies [[`87c5a17`](https://github.com/AtomicSmash/packages/commit/87c5a1758cd5cb0a73f0754649788182e316a038), [`61845d4`](https://github.com/AtomicSmash/packages/commit/61845d49c0bea9f110d374d0e711f01166a9788e), [`61845d4`](https://github.com/AtomicSmash/packages/commit/61845d49c0bea9f110d374d0e711f01166a9788e), [`61845d4`](https://github.com/AtomicSmash/packages/commit/61845d49c0bea9f110d374d0e711f01166a9788e), [`61845d4`](https://github.com/AtomicSmash/packages/commit/61845d49c0bea9f110d374d0e711f01166a9788e)]:
+  - @atomicsmash/smash-config@2.0.0-beta.0
+
 ## 4.0.0
 
 ### Major Changes

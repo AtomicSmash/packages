@@ -1,5 +1,28 @@
 # @atomicsmash/cli
 
+## 12.0.0-beta.0
+
+### Major Changes
+
+- [#531](https://github.com/AtomicSmash/packages/pull/531) [`24dddc5`](https://github.com/AtomicSmash/packages/commit/24dddc569fdadd0b248a7fb717014537aad10175) Thanks [@daviddarke](https://github.com/daviddarke)! - Remove SVG command
+
+- [#531](https://github.com/AtomicSmash/packages/pull/531) [`61845d4`](https://github.com/AtomicSmash/packages/commit/61845d49c0bea9f110d374d0e711f01166a9788e) Thanks [@daviddarke](https://github.com/daviddarke)! - Update pull database and pull media commands to use Smash Config V2 and remove .env variable support.
+
+- [#531](https://github.com/AtomicSmash/packages/pull/531) [`6e12ed6`](https://github.com/AtomicSmash/packages/commit/6e12ed6240493e8a13d9b7cb063ceae8f028ad46) Thanks [@daviddarke](https://github.com/daviddarke)! - Added new toggle media proxy function
+
+### Minor Changes
+
+- [#531](https://github.com/AtomicSmash/packages/pull/531) [`affcda8`](https://github.com/AtomicSmash/packages/commit/affcda8a6927981cbdfc1acd85a85672e921f883) Thanks [@daviddarke](https://github.com/daviddarke)! - Deprecate setup-database command
+
+### Patch Changes
+
+- [#580](https://github.com/AtomicSmash/packages/pull/580) [`87c5a17`](https://github.com/AtomicSmash/packages/commit/87c5a1758cd5cb0a73f0754649788182e316a038) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Update deps
+
+- [#531](https://github.com/AtomicSmash/packages/pull/531) [`61845d4`](https://github.com/AtomicSmash/packages/commit/61845d49c0bea9f110d374d0e711f01166a9788e) Thanks [@daviddarke](https://github.com/daviddarke)! - Update setup and setup database commands in line with the changes to smash config.
+
+- Updated dependencies [[`87c5a17`](https://github.com/AtomicSmash/packages/commit/87c5a1758cd5cb0a73f0754649788182e316a038), [`61845d4`](https://github.com/AtomicSmash/packages/commit/61845d49c0bea9f110d374d0e711f01166a9788e), [`61845d4`](https://github.com/AtomicSmash/packages/commit/61845d49c0bea9f110d374d0e711f01166a9788e), [`61845d4`](https://github.com/AtomicSmash/packages/commit/61845d49c0bea9f110d374d0e711f01166a9788e), [`61845d4`](https://github.com/AtomicSmash/packages/commit/61845d49c0bea9f110d374d0e711f01166a9788e)]:
+  - @atomicsmash/smash-config@2.0.0-beta.0
+
 ## 11.0.0
 
 ### Major Changes
