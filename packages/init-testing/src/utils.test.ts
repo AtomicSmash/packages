@@ -1,7 +1,7 @@
 import { expect, test, describe, vi, afterEach, it, beforeAll } from "vitest";
 import { PackageManager } from "./utils.js";
 
-describe.sequential("Init testing utils", () => {
+describe("Init testing utils", { concurrent: false }, () => {
 	const consoleSpy = vi.spyOn(console, "log");
 	let packageManager: PackageManager;
 
@@ -33,7 +33,7 @@ describe.sequential("Init testing utils", () => {
 		});
 	});
 
-	describe.sequential("ensurePackageIsInstalled()", () => {
+	describe("ensurePackageIsInstalled()", { concurrent: false }, () => {
 		it("should do nothing if dependency is already installed", async () => {
 			await packageManager.ensurePackageIsInstalled(
 				"@atomicsmash/coding-standards",

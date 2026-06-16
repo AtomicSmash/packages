@@ -3,7 +3,7 @@ import { getSmashConfig } from "../utils/getSmashConfig";
 
 let originalCWDFunction: typeof process.cwd;
 
-describe.sequential("getSmashConfig()", () => {
+describe("getSmashConfig()", { concurrent: false }, () => {
 	beforeAll(() => {
 		originalCWDFunction = process.cwd.bind(this);
 	});
