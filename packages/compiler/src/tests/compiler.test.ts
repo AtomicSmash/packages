@@ -84,13 +84,13 @@ describe("Compiler tests", () => {
 			`"body{background-color:red;color:blue}"`,
 		);
 		expect(style).toMatchInlineSnapshot(
-			`"h1{color:purple}h2{color:#639}body{background-color:green;border:1px solid red;color:#fff;padding:1rem 2rem}"`,
+			`"h1{color:purple}h2{color:#639}body{padding:1rem 2rem;background-color:green;color:#fff;border:1px solid red}"`,
 		);
 		expect(subfolderCSS).toMatchInlineSnapshot(
 			`"body{background-color:red;color:blue}"`,
 		);
 		expect(subfolderSCSS).toMatchInlineSnapshot(
-			`"body{background-color:green;border:1px solid red;color:#fff}"`,
+			`"body{background-color:green;color:#fff;border:1px solid red}"`,
 		);
 	});
 
