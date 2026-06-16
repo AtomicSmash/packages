@@ -29,12 +29,12 @@ describe.concurrent("Base CLI helpers work as intended", () => {
 			  "stdout": "smash-cli <command>
 
 			Commands:
-			  smash-cli pull-database   Pull the database down from staging and replace local database.
-			  smash-cli pull-media      Pull the media items from the staging site.
-			  smash-cli setup-database  Create a new database and initialise the site with no content.
-			  smash-cli setup           Run all the common setup tasks for a project.
-			  smash-cli svg             Generate an SVG sprite from a group of SVGs.  [deprecated: Migrate to using @atomicsmash/compiler, which supports an icons folder in the src folder.]
-			  smash-cli completion      generate completion script
+			  smash-cli pull-database       Pull the database down from staging and replace local database.
+			  smash-cli pull-media          Pull the media items from the staging site.
+			  smash-cli setup-database      Create a new database and initialise the site with no content.  [deprecated: You probably no longer need this with changes to the pull database script. If you do, migrate a copy of these commands into a local project script.]
+			  smash-cli setup               Run all the common setup tasks for a project.
+			  smash-cli toggle-media-proxy  Toggle the media proxy in the local NGINX config within Herd.
+			  smash-cli completion          generate completion script
 
 			Options:
 			  -h, --help     Show help  [boolean]
@@ -52,12 +52,12 @@ describe.concurrent("Base CLI helpers work as intended", () => {
 			  "stdout": "smash-cli <command>
 
 			Commands:
-			  smash-cli pull-database   Pull the database down from staging and replace local database.
-			  smash-cli pull-media      Pull the media items from the staging site.
-			  smash-cli setup-database  Create a new database and initialise the site with no content.
-			  smash-cli setup           Run all the common setup tasks for a project.
-			  smash-cli svg             Generate an SVG sprite from a group of SVGs.  [deprecated: Migrate to using @atomicsmash/compiler, which supports an icons folder in the src folder.]
-			  smash-cli completion      generate completion script
+			  smash-cli pull-database       Pull the database down from staging and replace local database.
+			  smash-cli pull-media          Pull the media items from the staging site.
+			  smash-cli setup-database      Create a new database and initialise the site with no content.  [deprecated: You probably no longer need this with changes to the pull database script. If you do, migrate a copy of these commands into a local project script.]
+			  smash-cli setup               Run all the common setup tasks for a project.
+			  smash-cli toggle-media-proxy  Toggle the media proxy in the local NGINX config within Herd.
+			  smash-cli completion          generate completion script
 
 			Options:
 			  -h, --help     Show help  [boolean]

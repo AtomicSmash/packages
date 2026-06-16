@@ -85,6 +85,8 @@ async function activatePluginsWithRetry(
 export const command = "setup-database";
 export const describe =
 	"Create a new database and initialise the site with no content.";
+export const deprecated =
+	"You probably no longer need this with changes to the pull database script. If you do, migrate a copy of these commands into a local project script.";
 export async function handler() {
 	const execute = promisify(exec);
 	const smashConfig = await getSmashConfig();
@@ -100,11 +102,6 @@ export async function handler() {
 				}
 			: null;
 
-	if (!smashConfig) {
-		throw new Error(
-			"Unable to determine project setup information. Please add a smash.config.ts file with the required info.",
-		);
-	} else {
 		const { projectName, themeFolderName } = smashConfig;
 		const stopRunningMessage = startRunningMessage("Initialising database");
 		performance.mark("Start");
@@ -209,5 +206,4 @@ export async function handler() {
 					process.exitCode = 1;
 				}
 			});
-	}
 }

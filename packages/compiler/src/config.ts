@@ -1,4 +1,3 @@
-import type { SCSSAliases } from "@atomicsmash/smash-config";
 import type { Configuration, PathData, RuleSetRule } from "webpack";
 import {
 	sep as pathSeparator,
@@ -7,7 +6,6 @@ import {
 	relative,
 	join,
 } from "node:path";
-import { pathToFileURL } from "node:url";
 import { getSmashConfig } from "@atomicsmash/smash-config";
 import DependencyExtractionWebpackPlugin from "@wordpress/dependency-extraction-webpack-plugin";
 import browserslistToEsbuild from "browserslist-to-esbuild";
@@ -62,19 +60,10 @@ export async function config(options: {
 
 	const srcFolder = argv.in
 		? resolvePath(argv.in)
-		: smashConfig?.themePath
-			? resolvePath(join(smashConfig.themePath, "src"))
-			: null;
+		: resolvePath(join(smashConfig.themePath, "src"));
 	const distFolder = argv.out
 		? resolvePath(argv.out)
-		: smashConfig?.themePath
-			? resolvePath(join(smashConfig.themePath, smashConfig.assetsOutputFolder))
-			: null;
-	if (!srcFolder || !distFolder) {
-		throw new Error(
-			"Failed to get the in or out folders for the blocks. Please add a smash.config.ts file to your project with a themeName and a themePath.",
-		);
-	}
+		: resolvePath(join(smashConfig.themePath, smashConfig.assetsOutputFolder));
 
 	// Add optional support for Tailwind if tailwind postcss plugin is installed
 	const tailwindPostCSSPlugin = await import("@tailwindcss/postcss")
@@ -309,7 +298,7 @@ export async function config(options: {
 							loader: "sass-loader",
 							options: {
 								sourceMap: MODE === "development",
-								sassOptions: await getSassOptions(srcFolder),
+								sassOptions: smashConfig.scssAliases,
 							},
 						},
 					],
@@ -465,35 +454,4 @@ export async function config(options: {
 			],
 		},
 	} satisfies Configuration;
-}
-
-async function getSassOptions(srcFolder: string) {
-	const smashConfig = await getSmashConfig();
-	if (smashConfig) {
-		return smashConfig.scssAliases;
-	}
-
-	const defaultConfig: SCSSAliases = {
-		importers: [
-			{
-				findFileUrl(url) {
-					if (!url.startsWith("sitecss:")) return null;
-					const pathname = url.substring(8);
-					return pathToFileURL(
-						`${resolvePath(srcFolder, "../css")}${pathname.startsWith("/") ? pathname : `/${pathname}`}`,
-					);
-				},
-			},
-			{
-				findFileUrl(url) {
-					if (!url.startsWith("launchpad:")) return null;
-					const pathname = url.substring(10);
-					return pathToFileURL(
-						`${resolvePath(process.cwd(), "public/wp-content/themes/launchpad/src/styles")}${pathname.startsWith("/") ? pathname : `/${pathname}`}`,
-					);
-				},
-			},
-		],
-	};
-	return defaultConfig;
 }

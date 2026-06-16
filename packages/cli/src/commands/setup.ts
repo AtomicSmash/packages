@@ -26,11 +26,7 @@ export async function handler() {
 		});
 	const isCI = process.env.CI ?? false;
 	const smashConfig = await getSmashConfig();
-	if (!smashConfig) {
-		throw new Error(
-			"Unable to determine project setup information. Please add a smash.config.ts file with the required info.",
-		);
-	} else {
+
 		const { projectName, composerInstallPaths, npmInstallPaths } = smashConfig;
 		const stopRunningMessage = startRunningMessage("Running setup");
 		performance.mark("Start");
@@ -273,5 +269,4 @@ export async function handler() {
 				console.error(error);
 				process.exitCode = 1;
 			});
-	}
 }

@@ -30,4 +30,4 @@ packages/cli/src/tests/package-lock.json
 .cache/
 
 # Compiler package
-packages/compiler/src/tests/dist
+packages/compiler/src/tests/theme/dist

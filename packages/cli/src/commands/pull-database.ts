@@ -8,34 +8,29 @@ import { convertMeasureToPrettyString, startRunningMessage } from "../utils.js";
 export const command = "pull-database";
 export const describe =
 	"Pull the database down from staging and replace local database.";
+
 export async function handler() {
 	const execute = promisify(exec);
-	const smashConfig = await getSmashConfig();
-	const stagingSSHUsername = process.env.STAGING_SSH_USERNAME;
-	const stagingSSHHost = process.env.STAGING_SSH_HOST;
-	const stagingSSHPort = process.env.STAGING_SSH_PORT;
-	const stagingDBPrefix = process.env.STAGING_DB_PREFIX ?? "wp_";
-	const stagingWebRoot = process.env.STAGING_WEB_ROOT ?? "public/current";
-	const stagingUrl = process.env.STAGING_URL?.endsWith("/")
-		? process.env.STAGING_URL.slice(0, -1)
-		: process.env.STAGING_URL;
-	if (!smashConfig) {
-		throw new Error(
-			"Unable to determine project setup information. Please add a smash.config.ts file with the required info.",
-		);
-	} else if (!stagingSSHUsername) {
-		throw new Error("STAGING_SSH_USERNAME is missing from .env file.");
-	} else if (!stagingSSHHost) {
-		throw new Error("STAGING_SSH_HOST is missing from .env file.");
-	} else if (!stagingSSHPort) {
-		throw new Error("STAGING_SSH_PORT is missing from .env file.");
-	} else if (!stagingUrl) {
-		throw new Error("STAGING_URL is missing from .env file.");
-	} else {
-		const { projectName } = smashConfig;
+	const smashConfig = await getSmashConfig(2);
+
+		const {
+			projectName,
+			staging: {
+				url: stagingURL,
+				dbPrefix: stagingDBPrefix,
+				webRoot: stagingWebRoot,
+				ssh: {
+					username: stagingSSHUsername,
+					host: stagingSSHHost,
+					port: stagingSSHPort,
+				},
+			},
+		} = smashConfig;
+
 		const stopRunningMessage = startRunningMessage(
 			"Pulling database from staging",
 		);
+
 		performance.mark("Start");
 		await (async () => {
 			const tmpFile = "/tmp/staging-database.sql";
@@ -76,8 +71,10 @@ export async function handler() {
 				"pmxi_posts",
 				"pmxi_templates",
 			].map((tableName) => stagingDBPrefix + tableName);
+
+			const port = stagingSSHPort ? `-p ${stagingSSHPort.toString()}` : ``;
 			await execute(
-				`ssh -o "StrictHostKeyChecking no" ${stagingSSHUsername}@${stagingSSHHost} -p ${stagingSSHPort} "${stagingWebRoot !== "" ? `cd ${stagingWebRoot} && ` : ""}wp db export - --add-drop-table --exclude_tables=${tablesToExclude.join(",")}" > ${tmpFile}`,
+				`ssh -o "StrictHostKeyChecking no" ${stagingSSHUsername}@${stagingSSHHost} ${port} "${stagingWebRoot !== "" ? `cd ${stagingWebRoot} && ` : ""} wp db export - --add-drop-table --exclude_tables=${tablesToExclude.join(",")}" > ${tmpFile}`,
 			)
 				.then(async () => {
 					await stopRunningMessage();
@@ -101,8 +98,9 @@ export async function handler() {
 					const stopRunningMessage3 = startRunningMessage(
 						"Running search and replace",
 					);
+
 					await execute(
-						`wp search-replace --url=${projectName}.test ${stagingUrl} '//${projectName}.test' --skip-columns=guid`,
+						`wp search-replace --url=${projectName}.test //${stagingURL} '//${projectName}.test'`,
 					)
 						.then(async () => {
 							await stopRunningMessage3();
@@ -151,5 +149,4 @@ export async function handler() {
 					process.exitCode = 1;
 				});
 		})();
-	}
 }
