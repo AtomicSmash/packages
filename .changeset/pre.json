@@ -13,5 +13,17 @@
     "@atomicsmash/test-utils": "6.0.0",
     "@atomicsmash/wordpress-tests-helper": "1.2.0"
   },
-  "changesets": []
+  "changesets": [
+    "eight-lions-argue",
+    "giant-plants-mix",
+    "huge-rules-kiss",
+    "jolly-frogs-drum",
+    "legal-groups-notice",
+    "lucky-games-pump",
+    "olive-apples-ring",
+    "rare-eagles-move",
+    "silver-glasses-shine",
+    "tasty-coins-cry",
+    "violet-paws-flow"
+  ]
 }
