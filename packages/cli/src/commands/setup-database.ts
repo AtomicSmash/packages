@@ -85,6 +85,8 @@ async function activatePluginsWithRetry(
 export const command = "setup-database";
 export const describe =
 	"Create a new database and initialise the site with no content.";
+export const deprecated =
+	"You probably no longer need this with changes to the pull database script. If you do, migrate a copy of these commands into a local project script.";
 export async function handler() {
 	const execute = promisify(exec);
 	const smashConfig = await getSmashConfig();

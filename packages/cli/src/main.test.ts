@@ -31,7 +31,7 @@ describe.concurrent("Base CLI helpers work as intended", () => {
 			Commands:
 			  smash-cli pull-database       Pull the database down from staging and replace local database.
 			  smash-cli pull-media          Pull the media items from the staging site.
-			  smash-cli setup-database      Create a new database and initialise the site with no content.
+			  smash-cli setup-database      Create a new database and initialise the site with no content.  [deprecated: You probably no longer need this with changes to the pull database script. If you do, migrate a copy of these commands into a local project script.]
 			  smash-cli setup               Run all the common setup tasks for a project.
 			  smash-cli toggle-media-proxy  Toggle the media proxy in the local NGINX config within Herd.
 			  smash-cli completion          generate completion script
@@ -54,7 +54,7 @@ describe.concurrent("Base CLI helpers work as intended", () => {
 			Commands:
 			  smash-cli pull-database       Pull the database down from staging and replace local database.
 			  smash-cli pull-media          Pull the media items from the staging site.
-			  smash-cli setup-database      Create a new database and initialise the site with no content.
+			  smash-cli setup-database      Create a new database and initialise the site with no content.  [deprecated: You probably no longer need this with changes to the pull database script. If you do, migrate a copy of these commands into a local project script.]
 			  smash-cli setup               Run all the common setup tasks for a project.
 			  smash-cli toggle-media-proxy  Toggle the media proxy in the local NGINX config within Herd.
 			  smash-cli completion          generate completion script
