@@ -5,7 +5,7 @@ import { homedir, type } from "node:os";
 import { join } from "node:path";
 import { readFile, writeFile } from "node:fs/promises";
 
-export const PROXY_MARKER = "location @uploadsproxy";
+const PROXY_MARKER = "location @uploadsproxy";
 
 function buildProxyBlock(stagingURL: string, httpAuth?: string) {
 	const authHeader = httpAuth
@@ -28,7 +28,7 @@ function buildProxyBlock(stagingURL: string, httpAuth?: string) {
     }`;
 }
 
-export function addProxyBlock(
+function addProxyBlock(
 	config: string,
 	stagingURL: string,
 	httpAuth?: string,
@@ -60,14 +60,7 @@ export function addProxyBlock(
 	);
 }
 
-export function removeProxyBlock(config: string): string {
-	return config.replace(
-		/\n\s*location \^~ \/wp-content\/uploads\/\s*\{[\s\S]*?location @uploadsproxy\s*\{[\s\S]*?\}/,
-		"",
-	);
-}
-
-export function getNginxConfigPath(projectName: string) {
+function getNginxConfigPath(projectName: string) {
 	const isMacOS = type() === "Darwin";
 
 	return join(
@@ -79,7 +72,7 @@ export function getNginxConfigPath(projectName: string) {
 	);
 }
 
-export async function getNginxConfig(projectName: string) {
+async function getNginxConfig(projectName: string) {
 	const nginxConfigPath = getNginxConfigPath(projectName);
 	try {
 		return await readFile(nginxConfigPath, "utf-8");
@@ -90,10 +83,7 @@ export async function getNginxConfig(projectName: string) {
 	}
 }
 
-export async function updateNginxConfig(
-	projectName: string,
-	updatedConfig: string,
-) {
+async function updateNginxConfig(projectName: string, updatedConfig: string) {
 	const nginxConfigPath = getNginxConfigPath(projectName);
 
 	await writeFile(nginxConfigPath, updatedConfig, "utf-8");
