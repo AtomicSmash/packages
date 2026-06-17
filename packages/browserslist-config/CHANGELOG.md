@@ -1,5 +1,11 @@
 # @atomicsmash/browserslist-config
 
+## 18.0.1
+
+### Patch Changes
+
+- [#580](https://github.com/AtomicSmash/packages/pull/580) [`87c5a17`](https://github.com/AtomicSmash/packages/commit/87c5a1758cd5cb0a73f0754649788182e316a038) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Update deps
+
 ## 18.0.1-beta.1
 
 ## 18.0.1-beta.0
