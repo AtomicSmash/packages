@@ -1,6 +1,6 @@
 {
 	"name": "@atomicsmash/cli",
-	"version": "12.0.0-beta.0",
+	"version": "12.0.0-beta.1",
 	"description": "A collection of CLI tools by Atomic Smash.",
 	"keywords": [],
 	"homepage": "https://www.atomicsmash.co.uk/",
@@ -40,7 +40,7 @@
 		"lint:types": "tsc -b"
 	},
 	"dependencies": {
-		"@atomicsmash/smash-config": "^2.0.0-beta.0",
+		"@atomicsmash/smash-config": "^2.0.0-beta.1",
 		"dotenv": "^17.4.2",
 		"yargs": "^18.0.0"
 	},
