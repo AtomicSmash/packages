@@ -1,5 +1,11 @@
 # @atomicsmash/cli
 
+## 12.0.0-beta.3
+
+### Patch Changes
+
+- [#588](https://github.com/AtomicSmash/packages/pull/588) [`66d35c9`](https://github.com/AtomicSmash/packages/commit/66d35c94978560d4128086741b959c16e6436455) Thanks [@mikeybinns](https://github.com/mikeybinns)! - fix pull database command message indenting
+
 ## 12.0.0-beta.2
 
 ### Major Changes
