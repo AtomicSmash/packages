@@ -130,7 +130,7 @@ export async function handler() {
 				);
 				console.log(
 					`If you're using Herd, you can now run the proxy-media command to avoid having to download images.
-	Otherwise, you can use pull:media for a slow download of ${monthsToPull === -1 ? "all the images" : `${monthsToPull.toString()} months worth of images`} from staging.`,
+Otherwise, you can use pull:media for a slow download of ${monthsToPull === -1 ? "all the images" : `${monthsToPull.toString()} months worth of images`} from staging.`,
 				);
 			})
 			.catch(async (error: unknown) => {
