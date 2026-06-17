@@ -1,5 +1,11 @@
 # @atomicsmash/smash-config
 
+## 2.0.0-beta.1
+
+### Patch Changes
+
+- [#582](https://github.com/AtomicSmash/packages/pull/582) [`1d274b8`](https://github.com/AtomicSmash/packages/commit/1d274b8a7afabda23f927c717d67116b22436e95) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Add missing typescript dep
+
 ## 2.0.0-beta.0
 
 ### Major Changes

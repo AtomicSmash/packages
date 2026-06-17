@@ -1,5 +1,7 @@
 # @atomicsmash/browserslist-config
 
+## 18.0.1-beta.1
+
 ## 18.0.1-beta.0
 
 ### Patch Changes
