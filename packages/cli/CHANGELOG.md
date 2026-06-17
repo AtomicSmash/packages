@@ -1,5 +1,36 @@
 # @atomicsmash/cli
 
+## 12.0.0
+
+### Major Changes
+
+- [#531](https://github.com/AtomicSmash/packages/pull/531) [`24dddc5`](https://github.com/AtomicSmash/packages/commit/24dddc569fdadd0b248a7fb717014537aad10175) Thanks [@daviddarke](https://github.com/daviddarke)! - Remove SVG command
+
+- [#531](https://github.com/AtomicSmash/packages/pull/531) [`61845d4`](https://github.com/AtomicSmash/packages/commit/61845d49c0bea9f110d374d0e711f01166a9788e) Thanks [@daviddarke](https://github.com/daviddarke)! - Update pull database and pull media commands to use Smash Config V2 and remove .env variable support.
+
+- [#531](https://github.com/AtomicSmash/packages/pull/531) [`6e12ed6`](https://github.com/AtomicSmash/packages/commit/6e12ed6240493e8a13d9b7cb063ceae8f028ad46) Thanks [@daviddarke](https://github.com/daviddarke)! - Added new toggle media proxy function
+
+- [#586](https://github.com/AtomicSmash/packages/pull/586) [`933aa7e`](https://github.com/AtomicSmash/packages/commit/933aa7e010c672a87736b5cf11167451c4345c79) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Change toggle media proxy to add media proxy
+
+### Minor Changes
+
+- [#531](https://github.com/AtomicSmash/packages/pull/531) [`affcda8`](https://github.com/AtomicSmash/packages/commit/affcda8a6927981cbdfc1acd85a85672e921f883) Thanks [@daviddarke](https://github.com/daviddarke)! - Deprecate setup-database command
+
+### Patch Changes
+
+- [#582](https://github.com/AtomicSmash/packages/pull/582) [`1d274b8`](https://github.com/AtomicSmash/packages/commit/1d274b8a7afabda23f927c717d67116b22436e95) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Remove unused deps
+
+- [#580](https://github.com/AtomicSmash/packages/pull/580) [`87c5a17`](https://github.com/AtomicSmash/packages/commit/87c5a1758cd5cb0a73f0754649788182e316a038) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Update deps
+
+- [#588](https://github.com/AtomicSmash/packages/pull/588) [`66d35c9`](https://github.com/AtomicSmash/packages/commit/66d35c94978560d4128086741b959c16e6436455) Thanks [@mikeybinns](https://github.com/mikeybinns)! - fix pull database command message indenting
+
+- [#586](https://github.com/AtomicSmash/packages/pull/586) [`6440edb`](https://github.com/AtomicSmash/packages/commit/6440edbb2714d5ececec9a14d28a83c6523409a1) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Update pull database post-run message to include media proxy
+
+- [#531](https://github.com/AtomicSmash/packages/pull/531) [`61845d4`](https://github.com/AtomicSmash/packages/commit/61845d49c0bea9f110d374d0e711f01166a9788e) Thanks [@daviddarke](https://github.com/daviddarke)! - Update setup and setup database commands in line with the changes to smash config.
+
+- Updated dependencies [[`87c5a17`](https://github.com/AtomicSmash/packages/commit/87c5a1758cd5cb0a73f0754649788182e316a038), [`1d274b8`](https://github.com/AtomicSmash/packages/commit/1d274b8a7afabda23f927c717d67116b22436e95), [`61845d4`](https://github.com/AtomicSmash/packages/commit/61845d49c0bea9f110d374d0e711f01166a9788e), [`61845d4`](https://github.com/AtomicSmash/packages/commit/61845d49c0bea9f110d374d0e711f01166a9788e), [`61845d4`](https://github.com/AtomicSmash/packages/commit/61845d49c0bea9f110d374d0e711f01166a9788e), [`61845d4`](https://github.com/AtomicSmash/packages/commit/61845d49c0bea9f110d374d0e711f01166a9788e)]:
+  - @atomicsmash/smash-config@2.0.0
+
 ## 12.0.0-beta.3
 
 ### Patch Changes
