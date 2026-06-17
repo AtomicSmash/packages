@@ -1,5 +1,15 @@
 # @atomicsmash/cli
 
+## 12.0.0-beta.2
+
+### Major Changes
+
+- [#586](https://github.com/AtomicSmash/packages/pull/586) [`933aa7e`](https://github.com/AtomicSmash/packages/commit/933aa7e010c672a87736b5cf11167451c4345c79) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Change toggle media proxy to add media proxy
+
+### Patch Changes
+
+- [#586](https://github.com/AtomicSmash/packages/pull/586) [`6440edb`](https://github.com/AtomicSmash/packages/commit/6440edbb2714d5ececec9a14d28a83c6523409a1) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Update pull database post-run message to include media proxy
+
 ## 12.0.0-beta.1
 
 ### Patch Changes
