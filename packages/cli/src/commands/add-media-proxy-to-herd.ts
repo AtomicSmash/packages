@@ -91,9 +91,9 @@ async function updateNginxConfig(projectName: string, updatedConfig: string) {
 
 const execute = promisify(exec);
 
-export const command = "add-media-proxy";
+export const command = "add-media-proxy-to-herd";
 export const describe =
-	"Toggle the media proxy in the local NGINX config within Herd.";
+	"Add the media proxy to the local NGINX config within Herd.";
 
 export async function handler() {
 	const smashConfig = await getSmashConfig(2);
