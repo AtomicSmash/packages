@@ -1,5 +1,23 @@
 # @atomicsmash/coding-standards
 
+## 18.0.1-beta.1
+
+### Patch Changes
+
+- [#582](https://github.com/AtomicSmash/packages/pull/582) [`1d274b8`](https://github.com/AtomicSmash/packages/commit/1d274b8a7afabda23f927c717d67116b22436e95) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Fix the typescript version to 5.9 to prevent new linting errors without package updates
+
+- Updated dependencies []:
+  - @atomicsmash/browserslist-config@18.0.1-beta.1
+
+## 18.0.1-beta.0
+
+### Patch Changes
+
+- [#580](https://github.com/AtomicSmash/packages/pull/580) [`87c5a17`](https://github.com/AtomicSmash/packages/commit/87c5a1758cd5cb0a73f0754649788182e316a038) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Update deps
+
+- Updated dependencies [[`87c5a17`](https://github.com/AtomicSmash/packages/commit/87c5a1758cd5cb0a73f0754649788182e316a038)]:
+  - @atomicsmash/browserslist-config@18.0.1-beta.0
+
 ## 18.0.0
 
 ### Major Changes

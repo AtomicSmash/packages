@@ -6,7 +6,6 @@ import type {
 	PlaywrightTestOptions,
 } from "@playwright/test";
 import type { SerialFrameSelector } from "axe-core";
-import type { Config } from "lighthouse";
 import { AxeBuilder } from "@axe-core/playwright";
 import { test as base, chromium, devices } from "@playwright/test";
 import getPort from "get-port";
@@ -162,9 +161,8 @@ export const doLighthouseTest: (
 				directory: "lighthouse/latest-lighthouse-report",
 				name: `${pageToTest.slug ?? slugify(pageToTest.name)}-${type}`,
 			},
-			config: (type === "desktop"
-				? lighthouseDesktopConfig
-				: lighthouseMobileConfig) as Config,
+			config:
+				type === "desktop" ? lighthouseDesktopConfig : lighthouseMobileConfig,
 			ignoreError: true,
 			disableLogs: disableAuditLogs,
 		});

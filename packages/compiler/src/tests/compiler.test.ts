@@ -5,7 +5,7 @@ import { expect, test, describe, beforeAll, afterAll } from "vitest";
 import { execute } from "../utils";
 
 async function tearDown() {
-	await deleteDir(`${import.meta.dirname}/dist/`, {
+	await deleteDir(`${import.meta.dirname}/theme/dist/`, {
 		recursive: true,
 		force: true,
 	}).catch(() => {
@@ -19,10 +19,10 @@ describe("Compiler tests", () => {
 	beforeAll(async () => {
 		await execute(
 			// Node env must be set to enable the correct browserslist config.
-			`cd ${import.meta.dirname} && NODE_ENV=production node ${resolve(import.meta.dirname, "../../dist/cli.js")} --in src --out dist`,
+			`cd ${import.meta.dirname} && NODE_ENV=production node ${resolve(import.meta.dirname, "../../dist/cli.js")}`,
 		);
 		manifest = await readFile(
-			resolve(import.meta.dirname, "dist/assets-manifest.json"),
+			resolve(import.meta.dirname, "theme/dist/assets-manifest.json"),
 			{
 				encoding: "utf8",
 			},
@@ -33,7 +33,10 @@ describe("Compiler tests", () => {
 
 	test("Testing CSS output", async () => {
 		const pure = await readFile(
-			resolve(import.meta.dirname, `dist/${manifest["styles/pure.css"] ?? ""}`),
+			resolve(
+				import.meta.dirname,
+				`theme/dist/${manifest["styles/pure.css"] ?? ""}`,
+			),
 			{
 				encoding: "utf8",
 			},
@@ -41,7 +44,7 @@ describe("Compiler tests", () => {
 		const style = await readFile(
 			resolve(
 				import.meta.dirname,
-				`dist/${manifest["styles/style.scss"] ?? ""}`,
+				`theme/dist/${manifest["styles/style.scss"] ?? ""}`,
 			),
 			{
 				encoding: "utf8",
@@ -50,7 +53,7 @@ describe("Compiler tests", () => {
 		const subfolderCSS = await readFile(
 			resolve(
 				import.meta.dirname,
-				`dist/${manifest["styles/subfoldercompiled/allowed.css"] ?? ""}`,
+				`theme/dist/${manifest["styles/subfoldercompiled/allowed.css"] ?? ""}`,
 			),
 			{
 				encoding: "utf8",
@@ -59,7 +62,7 @@ describe("Compiler tests", () => {
 		const subfolderSCSS = await readFile(
 			resolve(
 				import.meta.dirname,
-				`dist/${manifest["styles/subfoldercompiled/style-subfoldercompiled.scss"] ?? ""}`,
+				`theme/dist/${manifest["styles/subfoldercompiled/style-subfoldercompiled.scss"] ?? ""}`,
 			),
 			{
 				encoding: "utf8",
@@ -81,24 +84,24 @@ describe("Compiler tests", () => {
 			`"body{background-color:red;color:blue}"`,
 		);
 		expect(style).toMatchInlineSnapshot(
-			`"h1{color:purple}h2{color:#639}body{background-color:green;border:1px solid red;color:#fff;padding:1rem 2rem}"`,
+			`"h1{color:purple}h2{color:#639}body{padding:1rem 2rem;background-color:green;color:#fff;border:1px solid red}"`,
 		);
 		expect(subfolderCSS).toMatchInlineSnapshot(
 			`"body{background-color:red;color:blue}"`,
 		);
 		expect(subfolderSCSS).toMatchInlineSnapshot(
-			`"body{background-color:green;border:1px solid red;color:#fff}"`,
+			`"body{background-color:green;color:#fff;border:1px solid red}"`,
 		);
 	});
 
 	test("Test scripts", async () => {
 		const jsFileName = manifest["scripts/javascript.js"] ?? "";
-		expect(existsSync(resolve(import.meta.dirname, `dist/${jsFileName}`))).toBe(
-			true,
-		);
+		expect(
+			existsSync(resolve(import.meta.dirname, `theme/dist/${jsFileName}`)),
+		).toBe(true);
 		await expect(
 			execute(
-				`node ${resolve(import.meta.dirname, `dist/${jsFileName}`)}`,
+				`node ${resolve(import.meta.dirname, `theme/dist/${jsFileName}`)}`,
 			).then((output) => output.stdout),
 		).resolves.toMatchInlineSnapshot(`
 			"Hello this is a console log.${" "}
@@ -106,12 +109,12 @@ describe("Compiler tests", () => {
 			"
 		`);
 		const tsFileName = manifest["scripts/typescript.ts"] ?? "";
-		expect(existsSync(resolve(import.meta.dirname, `dist/${tsFileName}`))).toBe(
-			true,
-		);
+		expect(
+			existsSync(resolve(import.meta.dirname, `theme/dist/${tsFileName}`)),
+		).toBe(true);
 		await expect(
 			execute(
-				`node ${resolve(import.meta.dirname, `dist/${tsFileName}`)}`,
+				`node ${resolve(import.meta.dirname, `theme/dist/${tsFileName}`)}`,
 			).then((output) => output.stdout),
 		).resolves.toMatchInlineSnapshot(`
 			"Hello this is a console log.${" "}
@@ -121,11 +124,13 @@ describe("Compiler tests", () => {
 		const jsInSubfolderFileName =
 			manifest["scripts/subfoldercompiled/javascript.js"] ?? "";
 		expect(
-			existsSync(resolve(import.meta.dirname, `dist/${jsInSubfolderFileName}`)),
+			existsSync(
+				resolve(import.meta.dirname, `theme/dist/${jsInSubfolderFileName}`),
+			),
 		).toBe(true);
 		await expect(
 			execute(
-				`node ${resolve(import.meta.dirname, `dist/${jsInSubfolderFileName}`)}`,
+				`node ${resolve(import.meta.dirname, `theme/dist/${jsInSubfolderFileName}`)}`,
 			).then((output) => output.stdout),
 		).resolves.toMatchInlineSnapshot(`
 			"Hello this is a console log.${" "}
@@ -135,11 +140,13 @@ describe("Compiler tests", () => {
 		const tsInSubfolderFileName =
 			manifest["scripts/subfoldercompiled/typescript.ts"] ?? "";
 		expect(
-			existsSync(resolve(import.meta.dirname, `dist/${tsInSubfolderFileName}`)),
+			existsSync(
+				resolve(import.meta.dirname, `theme/dist/${tsInSubfolderFileName}`),
+			),
 		).toBe(true);
 		await expect(
 			execute(
-				`node ${resolve(import.meta.dirname, `dist/${tsInSubfolderFileName}`)}`,
+				`node ${resolve(import.meta.dirname, `theme/dist/${tsInSubfolderFileName}`)}`,
 			).then((output) => output.stdout),
 		).resolves.toMatchInlineSnapshot(`
 			"Hello this is a console log.${" "}
@@ -150,19 +157,27 @@ describe("Compiler tests", () => {
 
 	test("Test fonts", () => {
 		expect(
-			existsSync(resolve(import.meta.dirname, "dist/fonts/Roboto-Regular.ttf")),
+			existsSync(
+				resolve(import.meta.dirname, "theme/dist/fonts/Roboto-Regular.ttf"),
+			),
 		).toBe(true);
 		expect(
-			existsSync(resolve(import.meta.dirname, "dist/fonts/Roboto-Medium.ttf")),
+			existsSync(
+				resolve(import.meta.dirname, "theme/dist/fonts/Roboto-Medium.ttf"),
+			),
 		).toBe(true);
 	});
 
 	test("Test images", () => {
 		expect(
-			existsSync(resolve(import.meta.dirname, "dist/images/image-01.jpeg")),
+			existsSync(
+				resolve(import.meta.dirname, "theme/dist/images/image-01.jpeg"),
+			),
 		).toBe(true);
 		expect(
-			existsSync(resolve(import.meta.dirname, "dist/images/image-02.png")),
+			existsSync(
+				resolve(import.meta.dirname, "theme/dist/images/image-02.png"),
+			),
 		).toBe(true);
 	});
 
@@ -171,7 +186,7 @@ describe("Compiler tests", () => {
 			existsSync(
 				resolve(
 					import.meta.dirname,
-					`dist/${manifest["icons/sprite.svg"] ?? ""}`,
+					`theme/dist/${manifest["icons/sprite.svg"] ?? ""}`,
 				),
 			),
 		).toBe(true);
