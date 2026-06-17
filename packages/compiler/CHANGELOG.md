@@ -1,5 +1,11 @@
 # @atomicsmash/compiler
 
+## 5.0.0-beta.1
+
+### Patch Changes
+
+- [#584](https://github.com/AtomicSmash/packages/pull/584) [`60cac92`](https://github.com/AtomicSmash/packages/commit/60cac92297392f8a4fa02d4bca981c81c2d77f44) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Fix missing cssnano and sass-loader deps
+
 ## 5.0.0-beta.0
 
 ### Major Changes
