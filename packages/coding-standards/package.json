@@ -68,7 +68,8 @@
 		"stylelint-config-standard-scss": "^16.0.0",
 		"stylelint-no-restricted-syntax": "^2.2.1",
 		"stylelint-order": "^7.0.1",
-		"typescript-eslint": "^8.61.1"
+		"typescript-eslint": "^8.61.1",
+		"typescript": "~5.9"
 	},
 	"keywords": [
 		"atomic",

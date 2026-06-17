@@ -40,18 +40,11 @@
 		"lint:types": "tsc -b"
 	},
 	"dependencies": {
-		"@atomicsmash/date-php": "^2.2.0",
 		"@atomicsmash/smash-config": "^2.0.0-beta.0",
-		"@types/vinyl": "^2.0.12",
 		"dotenv": "^17.4.2",
-		"glob-promise": "^6.0.7",
-		"svg-sprite": "^2.0.4",
-		"vinyl": "^3.0.1",
 		"yargs": "^18.0.0"
 	},
 	"devDependencies": {
-		"@atomicsmash/blocks-helpers": "^7.2.3-beta.0",
-		"@types/svg-sprite": "^0.0.39",
 		"type-fest": "^5.7.0"
 	}
 }
