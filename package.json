@@ -28,7 +28,7 @@
 	"scripts": {
 		"prepare": "husky",
 		"dev": "tsc -b --watch",
-		"build": "tsc --build",
+		"build": "tsc -b --clean && tsc -b",
 		"test": "cross-env TZ=\"Europe/Istanbul\" vitest run",
 		"test:ui": "cross-env TZ=\"Europe/Istanbul\" vitest --ui",
 		"test:coverage": "cross-env TZ=\"Europe/Istanbul\" vitest run --coverage",
