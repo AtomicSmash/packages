@@ -1,13 +1,11 @@
 import { exec } from "node:child_process";
-import { readFile, writeFile } from "node:fs/promises";
-import { homedir, type } from "node:os";
-import { join } from "node:path";
 import { promisify } from "node:util";
 import { getSmashConfig } from "@atomicsmash/smash-config";
+import { homedir, type } from "node:os";
+import { join } from "node:path";
+import { readFile, writeFile } from "node:fs/promises";
 
 const PROXY_MARKER = "location @uploadsproxy";
-
-const execute = promisify(exec);
 
 function buildProxyBlock(stagingURL: string, httpAuth?: string) {
 	const authHeader = httpAuth
@@ -62,16 +60,40 @@ function addProxyBlock(
 	);
 }
 
-function removeProxyBlock(config: string): string {
-	return config.replace(
-		/\n\s*location \^~ \/wp-content\/uploads\/\s*\{[\s\S]*?location @uploadsproxy\s*\{[\s\S]*?\}/,
-		"",
+function getNginxConfigPath(projectName: string) {
+	const isMacOS = type() === "Darwin";
+
+	return join(
+		homedir(),
+		isMacOS
+			? "Library/Application Support/Herd/config/valet/Nginx"
+			: ".config\\herd\\config\\nginx",
+		`${projectName}.test`,
 	);
 }
 
-export const command = "toggle-media-proxy";
+async function getNginxConfig(projectName: string) {
+	const nginxConfigPath = getNginxConfigPath(projectName);
+	try {
+		return await readFile(nginxConfigPath, "utf-8");
+	} catch {
+		throw new Error(
+			`Could not read NGINX config at: ${nginxConfigPath}\nMake sure the site exists in Herd.`,
+		);
+	}
+}
+
+async function updateNginxConfig(projectName: string, updatedConfig: string) {
+	const nginxConfigPath = getNginxConfigPath(projectName);
+
+	await writeFile(nginxConfigPath, updatedConfig, "utf-8");
+}
+
+const execute = promisify(exec);
+
+export const command = "add-media-proxy-to-herd";
 export const describe =
-	"Toggle the media proxy in the local NGINX config within Herd.";
+	"Add the media proxy to the local NGINX config within Herd.";
 
 export async function handler() {
 	const smashConfig = await getSmashConfig(2);
@@ -81,23 +103,13 @@ export async function handler() {
 		staging: { url: stagingURL, httpAuth: stagingHttpAuth },
 	} = smashConfig;
 
-	const isMacOS = type() === "Darwin";
+	const nginxConfig = await getNginxConfig(projectName);
 
-	const nginxConfigPath = join(
-		homedir(),
-		isMacOS
-			? "Library/Application Support/Herd/config/valet/Nginx"
-			: ".config\\herd\\config\\nginx",
-		`${projectName}.test`,
-	);
-
-	let config: string;
-	try {
-		config = await readFile(nginxConfigPath, "utf-8");
-	} catch {
-		throw new Error(
-			`Could not read NGINX config at: ${nginxConfigPath}\nMake sure the site exists in Herd.`,
+	if (nginxConfig.includes(PROXY_MARKER)) {
+		console.log(
+			"Media proxy is already set up in your NGINX config. To remove please delete the site in Herd, remove your .env file and re-run setup.",
 		);
+		return;
 	}
 
 	const httpAuth = stagingHttpAuth
@@ -106,23 +118,23 @@ export async function handler() {
 			).toString("base64")
 		: undefined;
 
-	let updatedConfig: string;
+	const updatedConfig = addProxyBlock(nginxConfig, stagingURL, httpAuth);
 
-	if (config.includes(PROXY_MARKER)) {
-		updatedConfig = removeProxyBlock(config);
-		console.log("Media proxy removed from NGINX config.");
-	} else {
-		updatedConfig = addProxyBlock(config, stagingURL, httpAuth);
-		if (httpAuth) {
-			console.log("Media proxy added to NGINX config (with HTTP auth).");
-		} else {
+	await updateNginxConfig(projectName, updatedConfig)
+		.then(() => {
+			if (httpAuth) {
+				console.log("Media proxy added to NGINX config (with HTTP auth).");
+			} else {
+				console.log(
+					"Media proxy added to NGINX config (no HTTP auth — httpAuth not set in smash.config.ts).",
+				);
+			}
+		})
+		.catch(() => {
 			console.log(
-				"Media proxy added to NGINX config (no HTTP auth — STAGING_HTTP_AUTH_USERNAME and STAGING_HTTP_AUTH_PASSWORD not set).",
+				"Failed to update your NGINX config. Please try running the command again.",
 			);
-		}
-	}
-
-	await writeFile(nginxConfigPath, updatedConfig, "utf-8");
+		});
 
 	console.log("Restarting Herd...");
 	await execute("herd restart")

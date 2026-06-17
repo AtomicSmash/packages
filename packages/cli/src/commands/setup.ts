@@ -27,246 +27,246 @@ export async function handler() {
 	const isCI = process.env.CI ?? false;
 	const smashConfig = await getSmashConfig();
 
-		const { projectName, composerInstallPaths, npmInstallPaths } = smashConfig;
-		const stopRunningMessage = startRunningMessage("Running setup");
-		performance.mark("Start");
-		await Promise.allSettled([
-			...(isCI || shouldInstallAndBuildOnly
-				? []
-				: [
-						(async () => {
-							if (existsSync(".env.example")) {
-								if (existsSync(".config/environments/.env.dev")) {
-									throw new Error(
-										"Both .env.example and .config/environments/.env.dev files found. Please copy values from the .env.example to the .config/environments/.env.dev file and then delete the .env.example file.",
-									);
-								} else {
-									console.log(
-										"Moving .env.example to .config/environments/.env.dev",
-									);
-									if (!existsSync(".config/environments")) {
-										await mkdir(".config/environments", { recursive: true });
-									}
-									await copyFile(
-										".env.example",
-										".config/environments/.env.dev",
-										constants.COPYFILE_EXCL,
-									);
-									await deleteFile(".env.example");
+	const { projectName, composerInstallPaths, npmInstallPaths } = smashConfig;
+	const stopRunningMessage = startRunningMessage("Running setup");
+	performance.mark("Start");
+	await Promise.allSettled([
+		...(isCI || shouldInstallAndBuildOnly
+			? []
+			: [
+					(async () => {
+						if (existsSync(".env.example")) {
+							if (existsSync(".config/environments/.env.dev")) {
+								throw new Error(
+									"Both .env.example and .config/environments/.env.dev files found. Please copy values from the .env.example to the .config/environments/.env.dev file and then delete the .env.example file.",
+								);
+							} else {
+								console.log(
+									"Moving .env.example to .config/environments/.env.dev",
+								);
+								if (!existsSync(".config/environments")) {
+									await mkdir(".config/environments", { recursive: true });
 								}
+								await copyFile(
+									".env.example",
+									".config/environments/.env.dev",
+									constants.COPYFILE_EXCL,
+								);
+								await deleteFile(".env.example");
 							}
-							await copyFile(
-								".config/environments/.env.dev",
-								".env",
-								constants.COPYFILE_EXCL,
-							)
-								.then(() => {
+						}
+						await copyFile(
+							".config/environments/.env.dev",
+							".env",
+							constants.COPYFILE_EXCL,
+						)
+							.then(() => {
+								console.log(
+									`.config/environments/.env.dev file copied to .env. (${convertMeasureToPrettyString(
+										performance.measure("Copy env file", "Start"),
+									)})`,
+								);
+							})
+							.catch((error: unknown) => {
+								if (
+									error instanceof Error &&
+									"code" in error &&
+									error.code === "EEXIST"
+								) {
 									console.log(
-										`.config/environments/.env.dev file copied to .env. (${convertMeasureToPrettyString(
+										`Didn't copy .env file because one already exists. (${convertMeasureToPrettyString(
 											performance.measure("Copy env file", "Start"),
+										)})`,
+									);
+									return;
+								}
+								console.error(error);
+								throw new Error("Failed to copy .env file.");
+							});
+					})(),
+					(async () => {
+						const ONE_MINUTE_IN_MS = 60000;
+						const timeout = setTimeout(() => {
+							throw new Error(
+								"Herd/Valet commands timed out. Please try again.",
+							);
+						}, ONE_MINUTE_IN_MS * 1.5);
+						if (
+							await execute(`herd --version`)
+								.then(() => true)
+								.catch(() => false)
+						) {
+							if (
+								!existsSync(resolve(process.cwd(), "herd.yaml")) &&
+								!existsSync(resolve(process.cwd(), "herd.yml"))
+							) {
+								throw new Error(
+									"Herd is present on your machine, but the project is missing a herd.yaml file. Please do the initial setup by running herd init.",
+								);
+							}
+							await execute(`herd link ${projectName} --secure`)
+								.then(() => {
+									performance.mark("herd link done");
+									console.log(
+										`Herd is linked and secured. (${convertMeasureToPrettyString(
+											performance.measure("herd link", "Start"),
 										)})`,
 									);
 								})
 								.catch((error: unknown) => {
-									if (
-										error instanceof Error &&
-										"code" in error &&
-										error.code === "EEXIST"
-									) {
-										console.log(
-											`Didn't copy .env file because one already exists. (${convertMeasureToPrettyString(
-												performance.measure("Copy env file", "Start"),
-											)})`,
-										);
-										return;
-									}
 									console.error(error);
-									throw new Error("Failed to copy .env file.");
+									throw new Error("Failed to link the site using Herd.");
 								});
-						})(),
-						(async () => {
-							const ONE_MINUTE_IN_MS = 60000;
-							const timeout = setTimeout(() => {
-								throw new Error(
-									"Herd/Valet commands timed out. Please try again.",
-								);
-							}, ONE_MINUTE_IN_MS * 1.5);
-							if (
-								await execute(`herd --version`)
-									.then(() => true)
-									.catch(() => false)
-							) {
-								if (
-									!existsSync(resolve(process.cwd(), "herd.yaml")) &&
-									!existsSync(resolve(process.cwd(), "herd.yml"))
-								) {
-									throw new Error(
-										"Herd is present on your machine, but the project is missing a herd.yaml file. Please do the initial setup by running herd init.",
+							await execute(`herd isolate --site=${projectName}`)
+								.then(() => {
+									console.log(
+										`Herd is isolated. (${convertMeasureToPrettyString(
+											performance.measure("herd isolate", "herd link done"),
+										)})`,
 									);
-								}
-								await execute(`herd link ${projectName} --secure`)
-									.then(() => {
-										performance.mark("herd link done");
-										console.log(
-											`Herd is linked and secured. (${convertMeasureToPrettyString(
-												performance.measure("herd link", "Start"),
-											)})`,
-										);
-									})
-									.catch((error: unknown) => {
-										console.error(error);
-										throw new Error("Failed to link the site using Herd.");
-									});
-								await execute(`herd isolate --site=${projectName}`)
-									.then(() => {
-										console.log(
-											`Herd is isolated. (${convertMeasureToPrettyString(
-												performance.measure("herd isolate", "herd link done"),
-											)})`,
-										);
-										clearTimeout(timeout);
-									})
-									.catch((error: unknown) => {
-										console.error(error);
-										throw new Error("Failed to isolate the site using Herd.");
-									});
-							} else if (
-								await execute(`valet --version`)
-									.then(() => true)
-									.catch(() => false)
-							) {
-								await execute(`valet link ${projectName} --secure --isolate`)
-									.then(() => {
-										clearTimeout(timeout);
-										console.log(
-											`Valet is linked, secured and isolated. (${convertMeasureToPrettyString(
-												performance.measure("herd-or-valet", "Start"),
-											)})`,
-										);
-									})
-									.catch((error: unknown) => {
-										console.error(error);
-										throw new Error("Failed to link the site using valet.");
-									});
-							} else {
-								throw new Error(
-									`Neither Herd nor Valet is present on your machine, check everything is installed correctly.`,
-								);
-							}
-						})(),
-					]),
-			execute(`composer install${isCI ? " --prefer-dist" : ""}`)
+									clearTimeout(timeout);
+								})
+								.catch((error: unknown) => {
+									console.error(error);
+									throw new Error("Failed to isolate the site using Herd.");
+								});
+						} else if (
+							await execute(`valet --version`)
+								.then(() => true)
+								.catch(() => false)
+						) {
+							await execute(`valet link ${projectName} --secure --isolate`)
+								.then(() => {
+									clearTimeout(timeout);
+									console.log(
+										`Valet is linked, secured and isolated. (${convertMeasureToPrettyString(
+											performance.measure("herd-or-valet", "Start"),
+										)})`,
+									);
+								})
+								.catch((error: unknown) => {
+									console.error(error);
+									throw new Error("Failed to link the site using valet.");
+								});
+						} else {
+							throw new Error(
+								`Neither Herd nor Valet is present on your machine, check everything is installed correctly.`,
+							);
+						}
+					})(),
+				]),
+		execute(`composer install${isCI ? " --prefer-dist" : ""}`)
+			.then(() => {
+				console.log(
+					`Root composer install done. (${convertMeasureToPrettyString(
+						performance.measure("root composer install", "Start"),
+					)})`,
+				);
+			})
+			.catch((error: unknown) => {
+				console.error(error);
+				throw new Error(
+					"Failed to run composer install in the root directory.",
+				);
+			}),
+		...composerInstallPaths.map((path, index) => {
+			return execute(
+				`cd "${resolve(process.cwd(), path)}"; composer install${isCI ? " --no-dev --classmap-authoritative" : ""}`,
+			)
 				.then(() => {
 					console.log(
-						`Root composer install done. (${convertMeasureToPrettyString(
-							performance.measure("root composer install", "Start"),
+						`Additional composer install ${(index + 1).toString()} done. (${convertMeasureToPrettyString(
+							performance.measure(
+								`additional composer install ${(index + 1).toString()}`,
+								"Start",
+							),
 						)})`,
 					);
 				})
 				.catch((error: unknown) => {
 					console.error(error);
 					throw new Error(
-						"Failed to run composer install in the root directory.",
+						`Failed to run additional composer install ${(index + 1).toString()}.`,
 					);
-				}),
-			...composerInstallPaths.map((path, index) => {
-				return execute(
-					`cd "${resolve(process.cwd(), path)}"; composer install${isCI ? " --no-dev --classmap-authoritative" : ""}`,
-				)
-					.then(() => {
-						console.log(
-							`Additional composer install ${(index + 1).toString()} done. (${convertMeasureToPrettyString(
-								performance.measure(
-									`additional composer install ${(index + 1).toString()}`,
-									"Start",
-								),
-							)})`,
-						);
-					})
-					.catch((error: unknown) => {
-						console.error(error);
-						throw new Error(
-							`Failed to run additional composer install ${(index + 1).toString()}.`,
-						);
-					});
-			}),
-			(async () => {
-				await execute(`npm ${isCI ? "ci" : "install"}`)
-					.then(() => {
-						performance.mark("root npm install done");
-						console.log(
-							`Root npm install done. (${convertMeasureToPrettyString(
-								performance.measure("root npm install", "Start"),
-							)})`,
-						);
-					})
-					.catch((error: unknown) => {
-						console.error(error);
-						throw new Error("Failed to run npm install in the root directory.");
-					});
-				await execute("npm run build")
-					.then(() => {
-						console.log(
-							`Initial build done. (${convertMeasureToPrettyString(
-								performance.measure("build", "root npm install done"),
-							)})`,
-						);
-					})
-					.catch((error: unknown) => {
-						console.error(error);
-						throw new Error("Failed to run a build after installing.");
-					});
-			})().catch((reason: unknown) => {
-				if (typeof reason === "string") {
-					throw new Error(reason);
-				}
-				throw reason;
-			}),
-			...npmInstallPaths.map((path, index) => {
-				return execute(
-					`cd "${resolve(process.cwd(), path)}"; npm  ${isCI ? "ci --omit=dev" : "install"}`,
-				)
-					.then(() => {
-						console.log(
-							`Additional npm install ${(index + 1).toString()} done. (${convertMeasureToPrettyString(
-								performance.measure(
-									`additional npm install ${(index + 1).toString()}`,
-									"Start",
-								),
-							)})`,
-						);
-					})
-					.catch((error: unknown) => {
-						console.error(error);
-						throw new Error(
-							`Failed to run additional npm install ${(index + 1).toString()}.`,
-						);
-					});
-			}),
-		])
-			.then(async (results) => {
-				await stopRunningMessage();
-				if (results.some((result) => result.status === "rejected")) {
-					process.exitCode = 1;
-					console.error("Setup failed with the following errors:\n");
-					console.error(
-						results
-							.filter((result) => result.status === "rejected")
-							.map((result) => {
-								return `- ${typeof result.reason === "string" ? result.reason : "Unknown reason."}`;
-							})
-							.join(`\n`),
-					);
-				} else {
+				});
+		}),
+		(async () => {
+			await execute(`npm ${isCI ? "ci" : "install"}`)
+				.then(() => {
+					performance.mark("root npm install done");
 					console.log(
-						`Setup is complete. ${convertMeasureToPrettyString(
-							performance.measure("everything", "Start"),
-						)}`,
+						`Root npm install done. (${convertMeasureToPrettyString(
+							performance.measure("root npm install", "Start"),
+						)})`,
 					);
-				}
-			})
-			.catch((error: unknown) => {
-				console.error(error);
+				})
+				.catch((error: unknown) => {
+					console.error(error);
+					throw new Error("Failed to run npm install in the root directory.");
+				});
+			await execute("npm run build")
+				.then(() => {
+					console.log(
+						`Initial build done. (${convertMeasureToPrettyString(
+							performance.measure("build", "root npm install done"),
+						)})`,
+					);
+				})
+				.catch((error: unknown) => {
+					console.error(error);
+					throw new Error("Failed to run a build after installing.");
+				});
+		})().catch((reason: unknown) => {
+			if (typeof reason === "string") {
+				throw new Error(reason);
+			}
+			throw reason;
+		}),
+		...npmInstallPaths.map((path, index) => {
+			return execute(
+				`cd "${resolve(process.cwd(), path)}"; npm  ${isCI ? "ci --omit=dev" : "install"}`,
+			)
+				.then(() => {
+					console.log(
+						`Additional npm install ${(index + 1).toString()} done. (${convertMeasureToPrettyString(
+							performance.measure(
+								`additional npm install ${(index + 1).toString()}`,
+								"Start",
+							),
+						)})`,
+					);
+				})
+				.catch((error: unknown) => {
+					console.error(error);
+					throw new Error(
+						`Failed to run additional npm install ${(index + 1).toString()}.`,
+					);
+				});
+		}),
+	])
+		.then(async (results) => {
+			await stopRunningMessage();
+			if (results.some((result) => result.status === "rejected")) {
 				process.exitCode = 1;
-			});
+				console.error("Setup failed with the following errors:\n");
+				console.error(
+					results
+						.filter((result) => result.status === "rejected")
+						.map((result) => {
+							return `- ${typeof result.reason === "string" ? result.reason : "Unknown reason."}`;
+						})
+						.join(`\n`),
+				);
+			} else {
+				console.log(
+					`Setup is complete. ${convertMeasureToPrettyString(
+						performance.measure("everything", "Start"),
+					)}`,
+				);
+			}
+		})
+		.catch((error: unknown) => {
+			console.error(error);
+			process.exitCode = 1;
+		});
 }
