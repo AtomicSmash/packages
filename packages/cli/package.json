@@ -45,6 +45,6 @@
 		"yargs": "^18.0.0"
 	},
 	"devDependencies": {
-		"type-fest": "^5.7.0"
+		"type-fest": "^5.8.0"
 	}
 }

@@ -1,0 +1,17 @@
+{
+  "mode": "pre",
+  "tag": "beta",
+  "initialVersions": {
+    "@atomicsmash/blocks-helpers": "7.2.3",
+    "@atomicsmash/browserslist-config": "18.0.1",
+    "@atomicsmash/cli": "12.0.0",
+    "@atomicsmash/coding-standards": "18.0.1",
+    "@atomicsmash/compiler": "5.0.0",
+    "@atomicsmash/date-php": "2.2.0",
+    "@atomicsmash/init-testing": "2.1.4",
+    "@atomicsmash/smash-config": "2.0.0",
+    "@atomicsmash/test-utils": "6.0.1",
+    "@atomicsmash/wordpress-tests-helper": "1.2.0"
+  },
+  "changesets": []
+}
