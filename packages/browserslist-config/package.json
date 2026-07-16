@@ -1,11 +1,11 @@
 {
 	"name": "@atomicsmash/browserslist-config",
-	"version": "18.0.1",
+	"version": "18.0.2-beta.0",
 	"description": "Our shared browserslist config.",
 	"main": "index.js",
 	"types": "index.d.ts",
 	"devDependencies": {
-		"browserslist": "^4.28.2"
+		"browserslist": "^4.28.6"
 	},
 	"keywords": [
 		"atomic",

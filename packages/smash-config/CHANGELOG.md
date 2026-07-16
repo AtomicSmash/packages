@@ -1,5 +1,11 @@
 # @atomicsmash/smash-config
 
+## 2.0.1-beta.0
+
+### Patch Changes
+
+- [#601](https://github.com/AtomicSmash/packages/pull/601) [`a7826d1`](https://github.com/AtomicSmash/packages/commit/a7826d19b564faf366a00a83186f73bbce3859d0) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Update dependencies
+
 ## 2.0.0
 
 ### Major Changes

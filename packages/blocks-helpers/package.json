@@ -1,6 +1,6 @@
 {
 	"name": "@atomicsmash/blocks-helpers",
-	"version": "7.2.3",
+	"version": "7.2.4-beta.0",
 	"description": "",
 	"keywords": [],
 	"homepage": "https://www.atomicsmash.co.uk/",
@@ -38,9 +38,9 @@
 	"devDependencies": {
 		"@types/wordpress__block-editor": "^15.0.6",
 		"@types/wordpress__blocks": "^15.10.2",
-		"@wordpress/block-editor": "^15.21.1",
-		"@wordpress/blocks": "^15.21.1",
+		"@wordpress/block-editor": "^15.23.0",
+		"@wordpress/blocks": "^15.24.0",
 		"@wordpress/components": "^32.6.0",
-		"@wordpress/i18n": "^6.21.1"
+		"@wordpress/i18n": "^6.24.0"
 	}
 }
