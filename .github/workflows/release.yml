@@ -22,7 +22,7 @@ permissions:
 
 jobs:
   release:
-    if: github.ref_name == 'main' && github.event_name == 'push' || github.event.pull_request.merged == true && !startsWith(github.event.pull_request.merged, 'release/')
+    if: github.ref_name == 'main' && github.event_name == 'push' || github.event.pull_request.merged == true && !startsWith(github.head_ref, 'release/')
     name: Release
     runs-on: ubuntu-latest
     steps:
