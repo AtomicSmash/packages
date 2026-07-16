@@ -26,6 +26,8 @@ jobs:
     name: Release
     runs-on: ubuntu-latest
     steps:
+      - name: Step info
+        run: echo ${{ github }}
       - name: Checkout Repo
         uses: actions/checkout@v4
       - run: |
