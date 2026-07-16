@@ -13,5 +13,7 @@
     "@atomicsmash/test-utils": "6.0.1",
     "@atomicsmash/wordpress-tests-helper": "1.2.0"
   },
-  "changesets": []
+  "changesets": [
+    "great-lands-post"
+  ]
 }
