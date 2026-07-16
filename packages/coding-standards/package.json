@@ -1,7 +1,7 @@
 {
 	"name": "@atomicsmash/coding-standards",
 	"type": "module",
-	"version": "18.0.2-beta.0",
+	"version": "18.0.2",
 	"description": "A collection of coding standards configurations.",
 	"files": [
 		"./dist/**/*",
@@ -51,7 +51,7 @@
 		"@cspell/cspell-types": "^10.0.1"
 	},
 	"peerDependencies": {
-		"@atomicsmash/browserslist-config": "^18.0.2-beta.0",
+		"@atomicsmash/browserslist-config": "^18.0.2",
 		"@eslint-community/eslint-plugin-eslint-comments": "^4.7.2",
 		"@eslint/js": "^9.39.4",
 		"@wordpress/stylelint-config": "^23.42.0",
