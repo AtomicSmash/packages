@@ -1,29 +1,76 @@
 # @atomicsmash/compiler
 
-## 3.0.2-beta.2
+## 5.0.1
 
 ### Patch Changes
 
-- [#524](https://github.com/AtomicSmash/packages/pull/524) [`b7b83b5`](https://github.com/AtomicSmash/packages/commit/b7b83b5414d7e6899a5ad0805d5d47390d233a78) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Dependency updates
+- [#601](https://github.com/AtomicSmash/packages/pull/601) [`a7826d1`](https://github.com/AtomicSmash/packages/commit/a7826d19b564faf366a00a83186f73bbce3859d0) - Update dependencies
 
-- Updated dependencies [[`b7b83b5`](https://github.com/AtomicSmash/packages/commit/b7b83b5414d7e6899a5ad0805d5d47390d233a78)]:
-  - @atomicsmash/smash-config@1.0.2-beta.1
+- Updated dependencies [[`a7826d1`](https://github.com/AtomicSmash/packages/commit/a7826d19b564faf366a00a83186f73bbce3859d0)]:
+  - @atomicsmash/smash-config@2.0.1
 
-## 3.0.2-beta.1
-
-### Patch Changes
-
-- [#519](https://github.com/AtomicSmash/packages/pull/519) [`41bea20`](https://github.com/AtomicSmash/packages/commit/41bea20b7bca144214f348ec45cdd1d608dc1c33) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Update dependencies
-
-- Updated dependencies [[`41bea20`](https://github.com/AtomicSmash/packages/commit/41bea20b7bca144214f348ec45cdd1d608dc1c33)]:
-  - @atomicsmash/smash-config@1.0.2-beta.0
-
-## 3.0.2-beta.0
+## 5.0.1-beta.0
 
 ### Patch Changes
 
-- Updated dependencies [[`7963f5f`](https://github.com/AtomicSmash/packages/commit/7963f5f9d267808e16ab446e750ef06fd76faf5a), [`7963f5f`](https://github.com/AtomicSmash/packages/commit/7963f5f9d267808e16ab446e750ef06fd76faf5a)]:
-  - @atomicsmash/date-php@2.2.0-beta.0
+- [#601](https://github.com/AtomicSmash/packages/pull/601) [`a7826d1`](https://github.com/AtomicSmash/packages/commit/a7826d19b564faf366a00a83186f73bbce3859d0) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Update dependencies
+
+- Updated dependencies [[`a7826d1`](https://github.com/AtomicSmash/packages/commit/a7826d19b564faf366a00a83186f73bbce3859d0)]:
+  - @atomicsmash/smash-config@2.0.1-beta.0
+
+## 5.0.0
+
+### Major Changes
+
+- [#531](https://github.com/AtomicSmash/packages/pull/531) [`61845d4`](https://github.com/AtomicSmash/packages/commit/61845d49c0bea9f110d374d0e711f01166a9788e) Thanks [@daviddarke](https://github.com/daviddarke)! - The compiler now requires that a smash config is set, if not set, it will throw an error. Fallback for scssAliases removed.
+
+### Patch Changes
+
+- [#580](https://github.com/AtomicSmash/packages/pull/580) [`87c5a17`](https://github.com/AtomicSmash/packages/commit/87c5a1758cd5cb0a73f0754649788182e316a038) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Update deps
+
+- [#584](https://github.com/AtomicSmash/packages/pull/584) [`60cac92`](https://github.com/AtomicSmash/packages/commit/60cac92297392f8a4fa02d4bca981c81c2d77f44) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Fix missing cssnano and sass-loader deps
+
+- Updated dependencies [[`87c5a17`](https://github.com/AtomicSmash/packages/commit/87c5a1758cd5cb0a73f0754649788182e316a038), [`1d274b8`](https://github.com/AtomicSmash/packages/commit/1d274b8a7afabda23f927c717d67116b22436e95), [`61845d4`](https://github.com/AtomicSmash/packages/commit/61845d49c0bea9f110d374d0e711f01166a9788e), [`61845d4`](https://github.com/AtomicSmash/packages/commit/61845d49c0bea9f110d374d0e711f01166a9788e), [`61845d4`](https://github.com/AtomicSmash/packages/commit/61845d49c0bea9f110d374d0e711f01166a9788e), [`61845d4`](https://github.com/AtomicSmash/packages/commit/61845d49c0bea9f110d374d0e711f01166a9788e)]:
+  - @atomicsmash/smash-config@2.0.0
+
+## 5.0.0-beta.1
+
+### Patch Changes
+
+- [#584](https://github.com/AtomicSmash/packages/pull/584) [`60cac92`](https://github.com/AtomicSmash/packages/commit/60cac92297392f8a4fa02d4bca981c81c2d77f44) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Fix missing cssnano and sass-loader deps
+
+## 5.0.0-beta.0
+
+### Major Changes
+
+- [#531](https://github.com/AtomicSmash/packages/pull/531) [`61845d4`](https://github.com/AtomicSmash/packages/commit/61845d49c0bea9f110d374d0e711f01166a9788e) Thanks [@daviddarke](https://github.com/daviddarke)! - The compiler now requires that a smash config is set, if not set, it will throw an error. Fallback for scssAliases removed.
+
+### Patch Changes
+
+- [#580](https://github.com/AtomicSmash/packages/pull/580) [`87c5a17`](https://github.com/AtomicSmash/packages/commit/87c5a1758cd5cb0a73f0754649788182e316a038) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Update deps
+
+- Updated dependencies [[`87c5a17`](https://github.com/AtomicSmash/packages/commit/87c5a1758cd5cb0a73f0754649788182e316a038), [`61845d4`](https://github.com/AtomicSmash/packages/commit/61845d49c0bea9f110d374d0e711f01166a9788e), [`61845d4`](https://github.com/AtomicSmash/packages/commit/61845d49c0bea9f110d374d0e711f01166a9788e), [`61845d4`](https://github.com/AtomicSmash/packages/commit/61845d49c0bea9f110d374d0e711f01166a9788e), [`61845d4`](https://github.com/AtomicSmash/packages/commit/61845d49c0bea9f110d374d0e711f01166a9788e)]:
+  - @atomicsmash/smash-config@2.0.0-beta.0
+
+## 4.0.0
+
+### Major Changes
+
+- Use new underscore folder system for files which the compiler should ignore.
+
+- Don't use an error code if only has warnings
+
+### Patch Changes
+
+- Deprecate excludeBlocks option in config and CLI in favour of underscore folders
+
+- Update dependencies
+
+- Remove duplicated or errorneous entries in the manifest
+
+- Updated dependencies:
+  - @atomicsmash/date-php@2.2.0
+  - @atomicsmash/smash-config@1.0.2
 
 ## 3.0.1
 

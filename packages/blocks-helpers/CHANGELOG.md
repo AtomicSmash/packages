@@ -1,16 +1,34 @@
 # @atomicsmash/blocks-helpers
 
-## 7.2.2-beta.1
+## 7.2.4
 
 ### Patch Changes
 
-- [#524](https://github.com/AtomicSmash/packages/pull/524) [`b7b83b5`](https://github.com/AtomicSmash/packages/commit/b7b83b5414d7e6899a5ad0805d5d47390d233a78) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Dependency updates
+- [#601](https://github.com/AtomicSmash/packages/pull/601) [`a7826d1`](https://github.com/AtomicSmash/packages/commit/a7826d19b564faf366a00a83186f73bbce3859d0) - Update dependencies
 
-## 7.2.2-beta.0
+## 7.2.4-beta.0
 
 ### Patch Changes
 
-- [#519](https://github.com/AtomicSmash/packages/pull/519) [`41bea20`](https://github.com/AtomicSmash/packages/commit/41bea20b7bca144214f348ec45cdd1d608dc1c33) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Update dependencies
+- [#601](https://github.com/AtomicSmash/packages/pull/601) [`a7826d1`](https://github.com/AtomicSmash/packages/commit/a7826d19b564faf366a00a83186f73bbce3859d0) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Update dependencies
+
+## 7.2.3
+
+### Patch Changes
+
+- [#580](https://github.com/AtomicSmash/packages/pull/580) [`87c5a17`](https://github.com/AtomicSmash/packages/commit/87c5a1758cd5cb0a73f0754649788182e316a038) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Update deps
+
+## 7.2.3-beta.0
+
+### Patch Changes
+
+- [#580](https://github.com/AtomicSmash/packages/pull/580) [`87c5a17`](https://github.com/AtomicSmash/packages/commit/87c5a1758cd5cb0a73f0754649788182e316a038) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Update deps
+
+## 7.2.2
+
+### Patch Changes
+
+- Update dependencies
 
 ## 7.2.1
 

@@ -1,10 +1,40 @@
 # @atomicsmash/test-utils
 
-## 5.0.7-beta.0
+## 6.0.2
 
 ### Patch Changes
 
-- [#519](https://github.com/AtomicSmash/packages/pull/519) [`41bea20`](https://github.com/AtomicSmash/packages/commit/41bea20b7bca144214f348ec45cdd1d608dc1c33) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Update dependencies
+- [#601](https://github.com/AtomicSmash/packages/pull/601) [`a7826d1`](https://github.com/AtomicSmash/packages/commit/a7826d19b564faf366a00a83186f73bbce3859d0) - Update dependencies
+
+## 6.0.2-beta.0
+
+### Patch Changes
+
+- [#601](https://github.com/AtomicSmash/packages/pull/601) [`a7826d1`](https://github.com/AtomicSmash/packages/commit/a7826d19b564faf366a00a83186f73bbce3859d0) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Update dependencies
+
+## 6.0.1
+
+### Patch Changes
+
+- [#580](https://github.com/AtomicSmash/packages/pull/580) [`87c5a17`](https://github.com/AtomicSmash/packages/commit/87c5a1758cd5cb0a73f0754649788182e316a038) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Update deps
+
+## 6.0.1-beta.0
+
+### Patch Changes
+
+- [#580](https://github.com/AtomicSmash/packages/pull/580) [`87c5a17`](https://github.com/AtomicSmash/packages/commit/87c5a1758cd5cb0a73f0754649788182e316a038) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Update deps
+
+## 6.0.0
+
+### Major Changes
+
+- Remove expect call from accessibility helper, instead return the violations to let the site determine what is acceptable.
+
+### Patch Changes
+
+- Update dependencies
+
+- Handle score thresholds for lighthouse tests correctly
 
 ## 5.0.6
 

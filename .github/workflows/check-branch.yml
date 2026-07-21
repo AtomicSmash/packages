@@ -31,10 +31,12 @@ jobs:
         with:
           ref: ${{ github.event.pull_request.head.sha }}
           fetch-depth: 0
-      - name: Setup Node.js 22
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "22.x"
+          node-version-file: ".nvmrc"
+          registry-url: "https://registry.npmjs.org"
+          check-latest: true
           cache: npm
       - run: npm ci
       - name: Ensure if merging directly into main from a non-pre-release branch it has no changesets

@@ -1,0 +1,17 @@
+@use "subfoldercompiled/partial";
+@use "_subfoldernotcompiled/partial2";
+
+@mixin padding-mixin {
+	padding: 1rem 2rem;
+}
+
+body {
+	@include padding-mixin();
+	@extend %border_styles;
+	background-color: green;
+	color: white;
+}
+
+%border_styles {
+	border: 1px solid red;
+}

@@ -2,6 +2,83 @@
 
 This document contains information on how to migrate from one version to the next version.
 
+## v17 --> v18
+
+### Using proper exports
+
+All configs are now compiled from a src folder to property generate minified configs and types. Because of this change in structure, the resulting file locations have been changed. To ensure this is handled properly in future, we now provide explicit exports via package.json for each config type
+
+e.g.
+
+```ts
+import config from "@atomicsmash/coding-standards/prettier";
+export default config;
+```
+
+All exports are:
+@atomicsmash/coding-standards/prettier
+@atomicsmash/coding-standards/cspell
+@atomicsmash/coding-standards/stylelint
+@atomicsmash/coding-standards/stylelint/classic
+@atomicsmash/coding-standards/stylelint/theme-json
+@atomicsmash/coding-standards/stylelint/tailwind
+@atomicsmash/coding-standards/typescript/base
+@atomicsmash/coding-standards/typescript/cypress
+@atomicsmash/coding-standards/eslint (NEW)
+@atomicsmash/coding-standards/beta/biome (NEW/EXPERIMENTAL)
+
+### New ESLint config
+
+Our coding standards now support the new ESLint flat config style, which enables us to update past ESLint v8.
+
+The @atomicsmash/eslint-config has been deprecated and will no longer be updated/supported. You must move to the new config which is now contained within the coding-standards config. If your version of this package was installed by peer deps, then it will disappear with this update, otherwise be sure to uninstall it to avoid conflicts with the new config/peer deps.
+
+To migrate to the new config, create an `eslint.config.js` file in your project with this initial config:
+
+```js
+import {
+	recommendedConfig as recommendedAtomicSmashConfig,
+	playwrightConfig as defaultAtomicSmashPlaywrightConfig,
+} from "@atomicsmash/coding-standards/eslint";
+import { defineConfig, globalIgnores } from "@eslint/config-helpers";
+
+export default defineConfig([
+	globalIgnores([
+		// .eslintignore files are no longer supported.
+		// Add all the lines from your .eslintignore file here.
+	]),
+	{
+		files: [
+			"**/*.js",
+			"**/*.cjs",
+			"**/*.mjs",
+			"**/*.ts",
+			"**/*.cts",
+			"**/*.mts",
+		],
+		extends: [recommendedAtomicSmashConfig],
+	},
+	{
+		// Only needed if you have playwright tests.
+		files: ["**/*.test.ts"],
+		extends: [defaultAtomicSmashPlaywrightConfig],
+	},
+]);
+```
+
+Then update the script line in package.json like so:
+
+```diff
+- "lint:eslint": "eslint --cache --cache-strategy=content --cache-location ./node_modules/.cache/eslint_theme . --ext .js,.cjs,.mjs,.jsx,.ts,.cts,.mts,.tsx",
++ "lint:eslint": "eslint",
+```
+
+It's likely there will be new rules for you to fix with this update due to the updates of dependencies and better application of rules by default.
+
+### Updated base TS config
+
+The Base TS config has been updated with more modern settings and values. Check the commit history for the changed settings.
+
 ## v16 --> v17
 
 ### Removal of commitlint.

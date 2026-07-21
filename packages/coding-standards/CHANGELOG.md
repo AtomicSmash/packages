@@ -1,36 +1,72 @@
 # @atomicsmash/coding-standards
 
-## 18.0.0-beta.2
+## 18.0.2
+
+### Patch Changes
+
+- [#601](https://github.com/AtomicSmash/packages/pull/601) [`a7826d1`](https://github.com/AtomicSmash/packages/commit/a7826d19b564faf366a00a83186f73bbce3859d0) - Update dependencies
+
+- Updated dependencies [[`a7826d1`](https://github.com/AtomicSmash/packages/commit/a7826d19b564faf366a00a83186f73bbce3859d0)]:
+  - @atomicsmash/browserslist-config@18.0.2
+
+## 18.0.2-beta.0
+
+### Patch Changes
+
+- [#601](https://github.com/AtomicSmash/packages/pull/601) [`a7826d1`](https://github.com/AtomicSmash/packages/commit/a7826d19b564faf366a00a83186f73bbce3859d0) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Update dependencies
+
+- Updated dependencies [[`a7826d1`](https://github.com/AtomicSmash/packages/commit/a7826d19b564faf366a00a83186f73bbce3859d0)]:
+  - @atomicsmash/browserslist-config@18.0.2-beta.0
+
+## 18.0.1
+
+### Patch Changes
+
+- [#580](https://github.com/AtomicSmash/packages/pull/580) [`87c5a17`](https://github.com/AtomicSmash/packages/commit/87c5a1758cd5cb0a73f0754649788182e316a038) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Update deps
+
+- [#582](https://github.com/AtomicSmash/packages/pull/582) [`1d274b8`](https://github.com/AtomicSmash/packages/commit/1d274b8a7afabda23f927c717d67116b22436e95) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Fix the typescript version to 5.9 to prevent new linting errors without package updates
+
+- Updated dependencies [[`87c5a17`](https://github.com/AtomicSmash/packages/commit/87c5a1758cd5cb0a73f0754649788182e316a038)]:
+  - @atomicsmash/browserslist-config@18.0.1
+
+## 18.0.1-beta.1
+
+### Patch Changes
+
+- [#582](https://github.com/AtomicSmash/packages/pull/582) [`1d274b8`](https://github.com/AtomicSmash/packages/commit/1d274b8a7afabda23f927c717d67116b22436e95) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Fix the typescript version to 5.9 to prevent new linting errors without package updates
+
+- Updated dependencies []:
+  - @atomicsmash/browserslist-config@18.0.1-beta.1
+
+## 18.0.1-beta.0
+
+### Patch Changes
+
+- [#580](https://github.com/AtomicSmash/packages/pull/580) [`87c5a17`](https://github.com/AtomicSmash/packages/commit/87c5a1758cd5cb0a73f0754649788182e316a038) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Update deps
+
+- Updated dependencies [[`87c5a17`](https://github.com/AtomicSmash/packages/commit/87c5a1758cd5cb0a73f0754649788182e316a038)]:
+  - @atomicsmash/browserslist-config@18.0.1-beta.0
+
+## 18.0.0
+
+### Major Changes
+
+- Update TS base config
+
+- Remove @atomicsmash/eslint-config package as a peer dependency to avoid conflicts with new config
+
+- Convert configs to typescript and use proper exports setup
 
 ### Minor Changes
 
-- [#526](https://github.com/AtomicSmash/packages/pull/526) [`45913a9`](https://github.com/AtomicSmash/packages/commit/45913a99257aabfadec1399e0c712fb3afd5f956) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Add beta flat config for ESLint
+- New ESLint flat config
 
 ### Patch Changes
 
-- Updated dependencies []:
-  - @atomicsmash/eslint-config@18.0.0-beta.2
-  - @atomicsmash/browserslist-config@18.0.0-beta.2
+- Update dependencies
 
-## 17.0.3-beta.1
-
-### Patch Changes
-
-- [#524](https://github.com/AtomicSmash/packages/pull/524) [`b7b83b5`](https://github.com/AtomicSmash/packages/commit/b7b83b5414d7e6899a5ad0805d5d47390d233a78) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Dependency updates
-
-- Updated dependencies [[`b7b83b5`](https://github.com/AtomicSmash/packages/commit/b7b83b5414d7e6899a5ad0805d5d47390d233a78)]:
-  - @atomicsmash/eslint-config@17.0.3-beta.1
-  - @atomicsmash/browserslist-config@17.0.3-beta.1
-
-## 17.0.3-beta.0
-
-### Patch Changes
-
-- [#519](https://github.com/AtomicSmash/packages/pull/519) [`41bea20`](https://github.com/AtomicSmash/packages/commit/41bea20b7bca144214f348ec45cdd1d608dc1c33) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Update dependencies
-
-- Updated dependencies [[`41bea20`](https://github.com/AtomicSmash/packages/commit/41bea20b7bca144214f348ec45cdd1d608dc1c33)]:
-  - @atomicsmash/eslint-config@17.0.3-beta.0
-  - @atomicsmash/browserslist-config@17.0.3-beta.0
+- Updated dependencies:
+  - @atomicsmash/browserslist-config@18.0.0
 
 ## 17.0.2
 

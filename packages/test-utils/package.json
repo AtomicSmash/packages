@@ -1,6 +1,6 @@
 {
 	"name": "@atomicsmash/test-utils",
-	"version": "5.0.7-beta.0",
+	"version": "6.0.2",
 	"type": "module",
 	"description": "A collection of helper functions for automated testing with Playwright.",
 	"keywords": [
@@ -42,12 +42,12 @@
 		"lint:types": "tsc"
 	},
 	"peerDependencies": {
-		"@playwright/test": "^1.58.2",
+		"@playwright/test": "^1.61.1",
 		"cross-env": "^10.1.0"
 	},
 	"dependencies": {
-		"@axe-core/playwright": "^4.11.1",
-		"get-port": "^7.1.0",
+		"@axe-core/playwright": "^4.12.1",
+		"get-port": "^7.2.0",
 		"playwright-lighthouse": "^4.0.0"
 	}
 }

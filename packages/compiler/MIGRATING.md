@@ -2,6 +2,24 @@
 
 This document contains information on how to migrate from one version to the next version.
 
+## v3 --> v4
+
+### Improved folder organisation
+
+Previously for JS, TS and CSS files, the only compiled files were the ones in the root of the src folders. This made it possible to have partial files that get combined together but made it hard to organise files into groups. With the new system, you can now use any folders you like, and that structure will get reflected in the output.
+
+You can still have folders of files which don't get compiled, but now these folders must start with an underscore so they are clearly differentiated from other folders. These folders can be at any level, they don't have to be in the root to assist with organising files together.
+
+SCSS files already allowed nested folders because of the existing SCSS partials system, but they will now follow the same underscored folders rules if you want things to be consistent. Partial SCSS files will still not be compiled as per traditional scss compilation rules.
+
+Blocks will also follow the same rules, and as such, the excluded blocks option has been deprecated. You're now encouraged to use underscored folders for all excludes.
+
+### Compiler warnings now return a zero error code
+
+Webpack often outputs recommendations as compiler warnings, such as large compiled files in the output. Previously these would return a 2 error code, causing build flows to break.
+
+Now, these processes can continue while still outputting the recommendations. Errors in the compilation will still throw a 1 error code to stop flows.
+
 ## v2 --> v3
 
 ### Updated peer deps

@@ -37,8 +37,8 @@ export type BlockProvidesContext<
 
 export type InterpretProvidesContext<
 	UsedContextInterpretedAttributes extends Record<string, unknown>,
-	Context extends
-		BlockProvidesContext<UsedContextInterpretedAttributes> = BlockProvidesContext<UsedContextInterpretedAttributes>,
+	Context extends BlockProvidesContext<UsedContextInterpretedAttributes> =
+		BlockProvidesContext<UsedContextInterpretedAttributes>,
 > = {
 	[Property in keyof Context]: UsedContextInterpretedAttributes[Context[Property]];
 };
@@ -121,7 +121,7 @@ export type BlockVariations<
 	title: string;
 	description?: string;
 	category?: BlockCategory;
-	icon?: string | JSX.Element;
+	icon?: string | React.JSX.Element;
 	isDefault?: boolean;
 	attributes?: RecursivePartial<InterpretedAttributes>;
 	innerBlocks?: BlockInstanceAsArray[];
@@ -140,10 +140,8 @@ export type BlockVariations<
 export type BlockMetaData<
 	Supports extends BlockSupports,
 	Attributes extends BlockAttributes,
-	InterpretedAttributes extends InterpretAttributes<
-		Supports,
-		Attributes
-	> = InterpretAttributes<Supports, Attributes>,
+	InterpretedAttributes extends InterpretAttributes<Supports, Attributes> =
+		InterpretAttributes<Supports, Attributes>,
 > = {
 	/**
 	 * The version of the Block API used by the block. The most recent version is 2 and it was introduced in WordPress 5.6.
@@ -541,7 +539,7 @@ export type ClientOnlyRegisterOptions<
 	/**
 	 * An icon property should be specified to make it easier to identify a block..
 	 */
-	icon?: string | JSX.Element;
+	icon?: string | React.JSX.Element;
 	edit: (
 		props: CreateBlockEditProps<InterpretedAttributes, InterpretedUsedContext>,
 	) => Element;

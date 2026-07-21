@@ -1,5 +1,51 @@
 # @atomicsmash/browserslist-config
 
+## 18.0.2
+
+### Patch Changes
+
+- [#601](https://github.com/AtomicSmash/packages/pull/601) [`a7826d1`](https://github.com/AtomicSmash/packages/commit/a7826d19b564faf366a00a83186f73bbce3859d0) - Update dependencies
+
+## 18.0.2-beta.0
+
+### Patch Changes
+
+- [#601](https://github.com/AtomicSmash/packages/pull/601) [`a7826d1`](https://github.com/AtomicSmash/packages/commit/a7826d19b564faf366a00a83186f73bbce3859d0) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Update dependencies
+
+## 18.0.1
+
+### Patch Changes
+
+- [#580](https://github.com/AtomicSmash/packages/pull/580) [`87c5a17`](https://github.com/AtomicSmash/packages/commit/87c5a1758cd5cb0a73f0754649788182e316a038) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Update deps
+
+## 18.0.1-beta.1
+
+## 18.0.1-beta.0
+
+### Patch Changes
+
+- [#580](https://github.com/AtomicSmash/packages/pull/580) [`87c5a17`](https://github.com/AtomicSmash/packages/commit/87c5a1758cd5cb0a73f0754649788182e316a038) Thanks [@mikeybinns](https://github.com/mikeybinns)! - Update deps
+
+## 18.0.0
+
+## 18.0.0-beta.11
+
+## 18.0.0-beta.10
+
+## 18.0.0-beta.9
+
+## 18.0.0-beta.8
+
+## 18.0.0-beta.7
+
+## 18.0.0-beta.6
+
+## 18.0.0-beta.5
+
+## 18.0.0-beta.4
+
+## 18.0.0-beta.3
+
 ## 18.0.0-beta.2
 
 ## 17.0.3-beta.1

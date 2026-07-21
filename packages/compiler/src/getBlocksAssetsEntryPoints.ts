@@ -23,37 +23,35 @@ export async function getBlocksAssetsEntryPoints(
 			...getBlockJsonScriptFields(blockJson),
 			...getBlockJsonStyleFields(blockJson),
 		};
-		if (fields) {
-			for (const value of Object.values(fields).flat()) {
-				if (!value.startsWith("file:")) {
-					continue;
-				}
-				const fileLocation = resolve(path, "../", value.slice(5));
-				const entryName = relative(srcFolder, fileLocation);
-				const type = extname(fileLocation);
-				let fileName = entryName;
-				switch (type) {
-					case ".ts":
-						fileName = fileName.replace(".ts", ".[contenthash].js");
-						break;
-					case ".tsx":
-						fileName = fileName.replace(".tsx", ".[contenthash].js");
-						break;
-					case ".js":
-						fileName = fileName.replace(".js", ".[contenthash].js");
-						break;
-					case ".css":
-						fileName = fileName.replace(".css", ".[contenthash].css");
-						break;
-					case ".scss":
-						fileName = fileName.replace(".scss", ".[contenthash].css");
-						break;
-				}
-				entryPoints[entryName] = {
-					import: resolve(path, "../", value.slice(5)),
-					filename: fileName,
-				};
+		for (const value of Object.values(fields).flat()) {
+			if (!value.startsWith("file:")) {
+				continue;
 			}
+			const fileLocation = resolve(path, "../", value.slice(5));
+			const entryName = relative(srcFolder, fileLocation);
+			const type = extname(fileLocation);
+			let fileName = entryName;
+			switch (type) {
+				case ".ts":
+					fileName = fileName.replace(".ts", ".[contenthash].js");
+					break;
+				case ".tsx":
+					fileName = fileName.replace(".tsx", ".[contenthash].js");
+					break;
+				case ".js":
+					fileName = fileName.replace(".js", ".[contenthash].js");
+					break;
+				case ".css":
+					fileName = fileName.replace(".css", ".[contenthash].css");
+					break;
+				case ".scss":
+					fileName = fileName.replace(".scss", ".[contenthash].css");
+					break;
+			}
+			entryPoints[entryName] = {
+				import: resolve(path, "../", value.slice(5)),
+				filename: fileName,
+			};
 		}
 	}
 	return { restOfPaths, entryPoints };

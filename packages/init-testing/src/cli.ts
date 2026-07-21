@@ -74,7 +74,7 @@ const copyFiles = await readdir(copyFolder, {
 	recursive: true,
 });
 for (const dirent of copyFiles) {
-	let relativePath = pathRelative(copyFolder, `${dirent.path}`);
+	let relativePath = pathRelative(copyFolder, dirent.parentPath);
 	if (relativePath !== "" && !relativePath.endsWith("/")) {
 		relativePath = `${relativePath}/`;
 	}
@@ -132,8 +132,8 @@ for (const dirent of copyFiles) {
 				return `${relativePath}${dirent.name} copied successfully.`;
 			})
 			.catch(
-				(error) =>
-					`${relativePath}${dirent.name} failed to copy. Error: ${error}`,
+				(error: unknown) =>
+					`${relativePath}${dirent.name} failed to copy. Error: ${error instanceof Error ? error : typeof error === "string" ? error : "Unknown error."}`,
 			),
 	);
 }
@@ -169,7 +169,8 @@ await Promise.all([
 			type: "dev",
 		}),
 		packageManager.ensurePackageIsInstalled("@types/node", {
-			packageConstraint: `${nodeMajor}.${nodeMinor}.x`,
+			packageConstraint:
+				nodeMajor && nodeMinor ? `${nodeMajor}.${nodeMinor}.x` : "latest",
 			type: "dev",
 		}),
 		!hasRootTSConfig
@@ -182,7 +183,7 @@ await Promise.all([
 		.then((results) => {
 			if (
 				results.some((result) => {
-					return result.status === "fulfilled" && result.value === true;
+					return result.status === "fulfilled" && result.value;
 				})
 			) {
 				const installedPackages = [
@@ -192,7 +193,7 @@ await Promise.all([
 				packageManager.runCommands();
 				console.log(`Packages installed: ${installedPackages.join(",")}.`);
 			}
-			return results[1].status === "fulfilled" && results[1].value === true;
+			return results[1].status === "fulfilled" && results[1].value;
 		})
 		.then((shouldInstallPlaywright) => {
 			if (shouldInstallPlaywright) {
