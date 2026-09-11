@@ -212,22 +212,80 @@ const noSourceTests = {
 	},
 } as const satisfies BlockAttributes;
 
-function interpretAttributes<Attributes extends BlockAttributes>(
-	attributes: Attributes,
-) {
-	return attributes as InterpretAttributes<Record<string, never>, Attributes>;
-}
-
-const testValuesForInterpretAttributesTest = {
+const testValuesForInterpretAttributesStringsTest = {
 	stringAttribute: {
 		type: "string",
 	},
+	stringAttributeAlt: {
+		type: "string",
+	},
+	stringWithDefaultAttribute: {
+		type: "string",
+		default: "",
+	},
+	stringWithDefaultAttributeAlt: {
+		type: "string",
+		default: "",
+	},
+} satisfies BlockAttributes;
+const interpretAttributesStringsTest = {
+	stringAttribute: "string",
+	stringAttributeAlt: undefined,
+	stringWithDefaultAttribute: "string",
+	// @ts-expect-error Undefined not allowed if default is provided
+	stringWithDefaultAttributeAlt: undefined,
+} satisfies InterpretAttributes<
+	Record<string, never>,
+	typeof testValuesForInterpretAttributesStringsTest
+>;
+
+const testValuesForInterpretAttributesNumbersTest = {
 	integerAttribute: {
 		type: "integer",
+	},
+	integerAttributeAlt: {
+		type: "integer",
+	},
+	integerWithDefaultAttribute: {
+		type: "integer",
+		default: 0,
+	},
+	integerWithDefaultAttributeAlt: {
+		type: "integer",
+		default: 0,
 	},
 	numberAttribute: {
 		type: "number",
 	},
+	numberAttributeAlt: {
+		type: "number",
+	},
+	numberWithDefaultAttribute: {
+		type: "number",
+		default: 0,
+	},
+	numberWithDefaultAttributeAlt: {
+		type: "number",
+		default: 0,
+	},
+} satisfies BlockAttributes;
+const interpretAttributesNumbersTest = {
+	integerAttribute: 0,
+	integerAttributeAlt: undefined,
+	integerWithDefaultAttribute: 0,
+	// @ts-expect-error Undefined not allowed if default is provided
+	integerWithDefaultAttributeAlt: undefined,
+	numberAttribute: 0,
+	numberAttributeAlt: undefined,
+	numberWithDefaultAttribute: 0,
+	// @ts-expect-error Undefined not allowed if default is provided
+	numberWithDefaultAttributeAlt: undefined,
+} satisfies InterpretAttributes<
+	Record<string, never>,
+	typeof testValuesForInterpretAttributesNumbersTest
+>;
+
+const testValuesForInterpretAttributesArrayAndObjectsTest = {
 	undefinedArrayAttribute: {
 		type: "array",
 	},
@@ -265,10 +323,7 @@ const testValuesForInterpretAttributesTest = {
 		default: {} as Record<string, string>,
 	},
 } as const satisfies BlockAttributes;
-const interpretAttributesTest = {
-	stringAttribute: "string",
-	integerAttribute: 0,
-	numberAttribute: 0,
+const interpretAttributesArrayAndObjectsTest = {
 	undefinedArrayAttribute: undefined,
 	unknownArrayAttribute: [] as unknown[],
 	oldTypeArrayWithNarrowedValue: [""],
@@ -288,7 +343,7 @@ const interpretAttributesTest = {
 } satisfies Omit<
 	InterpretAttributes<
 		Record<string, never>,
-		typeof testValuesForInterpretAttributesTest
+		typeof testValuesForInterpretAttributesArrayAndObjectsTest
 	>,
 	"oldTypeArrayWithNarrowedValue" | "oldTypeObjectWithNarrowedValue"
 > & {

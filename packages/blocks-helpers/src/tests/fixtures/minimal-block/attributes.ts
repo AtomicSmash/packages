@@ -9,6 +9,7 @@ export const attributes = {
 		type: "string",
 		selector: ".title",
 		source: "html",
+		default: "",
 	},
 	size: {
 		type: "string",

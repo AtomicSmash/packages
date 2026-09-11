@@ -1,5 +1,5 @@
 import type { InterpretedAttributes } from "./attributes";
-import { BlockTransforms } from "@atomicsmash/blocks-helpers";
+import type { BlockTransforms } from "@atomicsmash/blocks-helpers";
 
 export const transforms = {
 	from: [],
