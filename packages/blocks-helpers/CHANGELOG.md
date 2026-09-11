@@ -1,5 +1,11 @@
 # @atomicsmash/blocks-helpers
 
+## 8.0.0-beta.0
+
+### Major Changes
+
+- [#619](https://github.com/AtomicSmash/packages/pull/619) [`3d2fe16`](https://github.com/AtomicSmash/packages/commit/3d2fe16d2d53d7138cf43a62403cc31cd4d82dbf) - Simple type attributes (string, number, integer, boolean and null) are now correctly typed as type|undefined if no default is set
+
 ## 7.2.4
 
 ### Patch Changes
