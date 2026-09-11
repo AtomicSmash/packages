@@ -7,6 +7,7 @@ import type {
 export const attributes = {
 	title: {
 		type: "string",
+		default: "",
 	},
 	size: {
 		type: "string",
