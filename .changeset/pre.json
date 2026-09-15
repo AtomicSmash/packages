@@ -13,5 +13,12 @@
     "@atomicsmash/test-utils": "6.0.2",
     "@atomicsmash/wordpress-tests-helper": "1.2.0"
   },
-  "changesets": []
+  "changesets": [
+    "clever-mugs-sip",
+    "crisp-planes-talk",
+    "eleven-poets-run",
+    "open-wasps-win",
+    "purple-cats-swim",
+    "tame-buses-cheer"
+  ]
 }
