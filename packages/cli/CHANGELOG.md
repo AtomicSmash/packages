@@ -1,5 +1,11 @@
 # @atomicsmash/cli
 
+## 13.0.0-beta.0
+
+### Major Changes
+
+- [#635](https://github.com/AtomicSmash/packages/pull/635) [`00d532e`](https://github.com/AtomicSmash/packages/commit/00d532e64d6eb389cb06d1dfcfc24bb8fa49f97f) - Remove setup database command
+
 ## 12.0.2
 
 ### Patch Changes
