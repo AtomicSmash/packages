@@ -1,5 +1,16 @@
 # @atomicsmash/coding-standards
 
+## 19.0.0-beta.1
+
+### Major Changes
+
+- [#623](https://github.com/AtomicSmash/packages/pull/623) [`fcc268a`](https://github.com/AtomicSmash/packages/commit/fcc268a431ace2a02e438457bcd26c2ac8c5ebca) - Roll back stylelint v17 update
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @atomicsmash/browserslist-config@19.0.0-beta.1
+
 ## 19.0.0-beta.0
 
 ### Major Changes

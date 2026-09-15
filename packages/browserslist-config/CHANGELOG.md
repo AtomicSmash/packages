@@ -1,5 +1,7 @@
 # @atomicsmash/browserslist-config
 
+## 19.0.0-beta.1
+
 ## 19.0.0-beta.0
 
 ### Patch Changes
