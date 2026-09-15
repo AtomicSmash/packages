@@ -28,7 +28,7 @@ export function Edit({ attributes, setAttributes }: BlockEditProps) {
 					value={align}
 					onChange={(newAlign: InterpretedAttributes["align"]) => {
 						setAttributes({
-							align: newAlign ?? "none",
+							align: newAlign,
 						});
 					}}
 				/>

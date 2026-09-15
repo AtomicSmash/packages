@@ -2,19 +2,13 @@ import type { BlockSupports } from "./block-supports";
 import type { DefaultAttributes } from "./default-attributes";
 import type { AllHTMLAttributes } from "react";
 export type AttributeTypes =
-	| "null"
-	| "boolean"
-	| "object"
-	| "array"
-	| "string"
-	| "integer"
-	| "number";
+	"null" | "boolean" | "object" | "array" | "string" | "integer" | "number";
 
 type AllAttributes = AllHTMLAttributes<HTMLElement>;
 type BooleanAttributeTypes = {
-	[Property in keyof AllAttributes]-?: Required<AllAttributes>[Property] extends boolean
-		? Property
-		: never;
+	[
+		Property in keyof AllAttributes
+	]-?: Required<AllAttributes>[Property] extends boolean ? Property : never;
 }[keyof AllAttributes];
 
 type AttributeSourceBooleanAttribute = {
@@ -104,23 +98,33 @@ type InheritType<Type extends { type: string | string[]; default?: unknown }> =
 		: Type extends {
 					type: "string";
 			  }
-			? string
+			? Type["default"] extends string
+				? string
+				: string | undefined
 			: Type extends { type: "boolean" }
-				? boolean
+				? Type["default"] extends boolean
+					? boolean
+					: boolean | undefined
 				: Type extends { type: "object" }
 					? Type["default"] extends Record<string, unknown> | undefined
 						? Type["default"]
 						: Record<string, unknown> | undefined
 					: Type extends { type: "null" }
-						? null
+						? Type["default"] extends null
+							? null
+							: null | undefined
 						: Type extends { type: "array" }
 							? Type["default"] extends unknown[] | undefined
 								? Type["default"]
 								: unknown[] | undefined
 							: Type extends { type: "integer" }
-								? number
-								: Type extends { type: "number" }
+								? Type["default"] extends number
 									? number
+									: number | undefined
+								: Type extends { type: "number" }
+									? Type["default"] extends number
+										? number
+										: number | undefined
 									: never;
 
 export type BlockAttributes = Readonly<Record<string, AttributesObject>>;
