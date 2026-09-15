@@ -27,25 +27,21 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repo
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
       - run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v7
         with:
           node-version-file: ".nvmrc"
           registry-url: "https://registry.npmjs.org"
           check-latest: true
           cache: npm
 
-      # Ensure npm 11.5.1 or later is installed for OIDC
-      - name: Update npm
-        run: npm install -g npm@latest
-
       - name: Cache
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         with:
           path: |
             /home/runner/work/packages/packages/node_modules/.cache/eslint/
