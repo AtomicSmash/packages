@@ -17,6 +17,7 @@
 		"forceConsistentCasingInFileNames": true,
 		"verbatimModuleSyntax": true,
 		"noImplicitOverride": true,
-		"strictNullChecks": true
+		"strictNullChecks": true,
+		"types": ["node"]
 	}
 }
