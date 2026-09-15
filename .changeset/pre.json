@@ -13,5 +13,7 @@
     "@atomicsmash/test-utils": "6.0.3",
     "@atomicsmash/wordpress-tests-helper": "1.2.0"
   },
-  "changesets": []
+  "changesets": [
+    "lemon-vans-reply"
+  ]
 }
