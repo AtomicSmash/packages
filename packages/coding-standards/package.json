@@ -1,7 +1,7 @@
 {
 	"name": "@atomicsmash/coding-standards",
 	"type": "module",
-	"version": "18.0.2",
+	"version": "19.0.0-beta.1",
 	"description": "A collection of coding standards configurations.",
 	"files": [
 		"./dist/**/*",
@@ -48,28 +48,28 @@
 		"./beta/biome": "./beta/biome/biome.jsonc"
 	},
 	"devDependencies": {
-		"@cspell/cspell-types": "^10.0.1"
+		"@cspell/cspell-types": "^10.3.1"
 	},
 	"peerDependencies": {
-		"@atomicsmash/browserslist-config": "^18.0.2",
-		"@eslint-community/eslint-plugin-eslint-comments": "^4.7.2",
+		"@atomicsmash/browserslist-config": "^19.0.0-beta.1",
+		"@eslint-community/eslint-plugin-eslint-comments": "^4.8.1",
 		"@eslint/js": "^9.39.4",
-		"@wordpress/stylelint-config": "^23.42.0",
+		"@wordpress/stylelint-config": "^24.0.0",
 		"eslint": "^9.39.5",
 		"eslint-import-resolver-typescript": "^4.4.5",
 		"eslint-plugin-import": "^2.32.0",
-		"eslint-plugin-playwright": "^2.10.5",
+		"eslint-plugin-playwright": "^2.12.0",
 		"eslint-plugin-react": "^7.37.5",
 		"eslint-plugin-react-hooks": "^7.1.1",
-		"globals": "^17.7.0",
-		"prettier": "^3.9.5",
+		"globals": "^17.12.0",
+		"prettier": "^3.9.6",
 		"stylelint": "^16.26.1",
 		"stylelint-config-standard": "^39.0.1",
 		"stylelint-config-standard-scss": "^16.0.0",
 		"stylelint-no-restricted-syntax": "^2.2.1",
-		"stylelint-order": "^7.0.1",
-		"typescript": "~5.9",
-		"typescript-eslint": "^8.64.0"
+		"stylelint-order": "^8.1.1",
+		"typescript": "^6.0.3",
+		"typescript-eslint": "^8.70.0"
 	},
 	"keywords": [
 		"atomic",

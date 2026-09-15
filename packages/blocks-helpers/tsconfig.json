@@ -8,6 +8,11 @@
 		"jsx": "react-jsx",
 		"paths": {
 			"@atomicsmash/blocks-helpers": ["./src/index"]
-		}
+		},
+		"types": [
+			"node",
+			"@types/wordpress__block-editor",
+			"@types/wordpress__blocks"
+		]
 	}
 }
