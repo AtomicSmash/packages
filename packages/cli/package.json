@@ -41,6 +41,7 @@
 	},
 	"dependencies": {
 		"@atomicsmash/smash-config": "^2.0.2",
+		"@inquirer/prompts": "^8.7.2",
 		"dotenv": "^17.4.2",
 		"yargs": "^18.1.0"
 	},
