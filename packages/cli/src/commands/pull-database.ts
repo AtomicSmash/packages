@@ -1,11 +1,13 @@
 import type { YargsInstance } from "../cli.js";
 import type { ArgumentsCamelCase } from "yargs";
-import { exec } from "node:child_process";
+import { execFile, spawn } from "node:child_process";
 import {
 	unlink as deleteFile,
 	access,
 	constants,
 	stat,
+	open,
+	readFile,
 } from "node:fs/promises";
 import { performance } from "node:perf_hooks";
 import { promisify } from "node:util";
@@ -13,8 +15,7 @@ import { getSmashConfig } from "@atomicsmash/smash-config";
 import { convertMeasureToPrettyString, startRunningMessage } from "../utils.js";
 import { resolve } from "node:path";
 import { select } from "@inquirer/prompts";
-
-const execute = promisify(exec);
+const execute = promisify(execFile);
 
 export const command = "pull-database";
 export const describe =
@@ -148,9 +149,12 @@ export async function handler(
 			"pmxi_posts",
 			"pmxi_templates",
 		].map((tableName) => stagingDBPrefix + tableName);
-		const port = stagingSSHPort ? `-p ${stagingSSHPort.toString()}` : ``;
-		await execute(
-			`ssh -o "StrictHostKeyChecking no" ${stagingSSHUsername}@${stagingSSHHost} ${port} "${stagingWebRoot !== "" ? `cd ${stagingWebRoot} && ` : ""} wp db export - --add-drop-table --exclude_tables=${tablesToExclude.join(",")}" > ${stagingDatabaseDownloadLocation}`,
+		await exportDatabaseOverSshToFile(
+			stagingSSHUsername,
+			stagingSSHHost,
+			stagingSSHPort,
+			`${stagingWebRoot !== "" ? `cd ${stagingWebRoot} && ` : ""}wp db export - --add-drop-table --exclude_tables=${tablesToExclude.join(",")}`,
+			stagingDatabaseDownloadLocation,
 		)
 			.then(async () => {
 				await stopRunningMessage();
@@ -171,14 +175,44 @@ export async function handler(
 	}
 
 	// Check if a DB exists, and if it doesn't, create one using the details in wp-config.
-	await execute(`wp db check`).catch(async () => {
-		await execute(`wp db create`);
+	await execute("wp", ["db", "check"]).catch(async () => {
+		await execute("wp", ["db", "create"]);
 		console.log("Local database created.");
 	});
 
 	// Import downloaded database into the local DB
 	const stopRunningMessage2 = startRunningMessage("Importing database");
-	await execute(`wp db query < ${stagingDatabaseDownloadLocation}`)
+	const stagingDatabaseContents = await readFile(
+		stagingDatabaseDownloadLocation,
+		"utf8",
+	);
+	await new Promise((resolve, reject) => {
+		const childProcess = execFile(
+			"wp",
+			["db", "query"],
+			{
+				encoding: "utf-8",
+			},
+			(error) => {
+				if (error) {
+					// eslint-disable-next-line @typescript-eslint/prefer-promise-reject-errors
+					reject(error);
+				}
+			},
+		);
+		let output = "";
+		childProcess.stdout?.on("data", (data: string) => {
+			output += data;
+		});
+		let errorOutput = "";
+		childProcess.stderr?.on("data", (data: string) => {
+			errorOutput += data;
+		});
+		childProcess.stdin?.end(stagingDatabaseContents);
+		childProcess.on("close", () => {
+			resolve({ stdout: output, stderr: errorOutput });
+		});
+	})
 		.then(async () => {
 			await stopRunningMessage2();
 			console.log("Database imported.");
@@ -190,9 +224,12 @@ export async function handler(
 
 	// Run search and replace against the local DB (this is required to correctly update serialised values)
 	const stopRunningMessage3 = startRunningMessage("Running search and replace");
-	await execute(
-		`wp search-replace --url=${projectName}.test //${stagingURL} '//${projectName}.test'`,
-	)
+	await execute("wp", [
+		"search-replace",
+		`--url=${projectName}.test`,
+		`//${stagingURL}`,
+		`//${projectName}.test`,
+	])
 		.then(async () => {
 			await stopRunningMessage3();
 			console.log("Search and replace completed.");
@@ -217,4 +254,45 @@ export async function handler(
 		`If you're using Herd, you can now run the proxy-media command to avoid having to download images.
 Otherwise, you can use pull:media for a slow download of ${monthsToPull === -1 ? "all the images" : `${monthsToPull.toString()} months worth of images`} from staging.`,
 	);
+}
+
+async function exportDatabaseOverSshToFile(
+	sshUsername: string,
+	sshHost: string,
+	sshPort: number | undefined,
+	remoteCommand: string,
+	outputFilePath: string,
+) {
+	const fileHandle = await open(outputFilePath, "w");
+	try {
+		await new Promise<void>((resolvePromise, rejectPromise) => {
+			const sshArgs = ["-o", "StrictHostKeyChecking no"];
+			if (sshPort) {
+				sshArgs.push("-p", sshPort.toString());
+			}
+			sshArgs.push(`${sshUsername}@${sshHost}`, remoteCommand);
+			const child = spawn("ssh", sshArgs, {
+				stdio: ["ignore", "pipe", "pipe"],
+			});
+			child.stdout.pipe(fileHandle.createWriteStream());
+			let stderr = "";
+			child.stderr.on("data", (chunk: Buffer) => {
+				stderr += chunk.toString();
+			});
+			child.on("error", rejectPromise);
+			child.on("close", (code) => {
+				if (code === 0) {
+					resolvePromise();
+				} else {
+					rejectPromise(
+						new Error(
+							`ssh exited with code ${code ? code.toString() : "unknown"}${stderr ? `: ${stderr}` : ""}`,
+						),
+					);
+				}
+			});
+		});
+	} finally {
+		await fileHandle.close();
+	}
 }
