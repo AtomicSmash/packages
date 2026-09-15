@@ -2,4 +2,4 @@
 "@atomicsmash/coding-standards": major
 ---
 
-Update Stylelint and Typescript peer deps (introduces new rules and config rules)
+Update Typescript peer dependency (introduces new rules and config rules)
