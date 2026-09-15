@@ -1,5 +1,14 @@
 # @atomicsmash/cli
 
+## 12.0.2
+
+### Patch Changes
+
+- [#621](https://github.com/AtomicSmash/packages/pull/621) [`734c35f`](https://github.com/AtomicSmash/packages/commit/734c35fbf34d397399c1a87071e18d0bc2db721b) - Update deps
+
+- Updated dependencies [[`734c35f`](https://github.com/AtomicSmash/packages/commit/734c35fbf34d397399c1a87071e18d0bc2db721b), [`734c35f`](https://github.com/AtomicSmash/packages/commit/734c35fbf34d397399c1a87071e18d0bc2db721b)]:
+  - @atomicsmash/smash-config@2.0.2
+
 ## 12.0.2-beta.0
 
 ### Patch Changes

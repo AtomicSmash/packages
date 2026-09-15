@@ -1,5 +1,13 @@
 # @atomicsmash/smash-config
 
+## 2.0.2
+
+### Patch Changes
+
+- [#621](https://github.com/AtomicSmash/packages/pull/621) [`734c35f`](https://github.com/AtomicSmash/packages/commit/734c35fbf34d397399c1a87071e18d0bc2db721b) - Update deps
+
+- [#621](https://github.com/AtomicSmash/packages/pull/621) [`734c35f`](https://github.com/AtomicSmash/packages/commit/734c35fbf34d397399c1a87071e18d0bc2db721b) - Remove typescript dependency as it's unnecessary with cosmicconfig 10
+
 ## 2.0.2-beta.0
 
 ### Patch Changes

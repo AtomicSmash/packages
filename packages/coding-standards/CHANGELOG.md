@@ -1,5 +1,22 @@
 # @atomicsmash/coding-standards
 
+## 19.0.0
+
+### Major Changes
+
+- [#621](https://github.com/AtomicSmash/packages/pull/621) [`734c35f`](https://github.com/AtomicSmash/packages/commit/734c35fbf34d397399c1a87071e18d0bc2db721b) - Update Typescript peer dependency (introduces new rules and config rules)
+
+- [#621](https://github.com/AtomicSmash/packages/pull/621) [`734c35f`](https://github.com/AtomicSmash/packages/commit/734c35fbf34d397399c1a87071e18d0bc2db721b) - Default to only include @types/node by default, all others (including @types/wordpress__*) should be manually included in tsconfig.
+
+- [#621](https://github.com/AtomicSmash/packages/pull/621) [`734c35f`](https://github.com/AtomicSmash/packages/commit/734c35fbf34d397399c1a87071e18d0bc2db721b) - Remove old Cypress config. We migrated from cypress to playwright a while ago. If you still use this, set up your own manual config in your project instead of extending it from here.
+
+### Patch Changes
+
+- [#621](https://github.com/AtomicSmash/packages/pull/621) [`734c35f`](https://github.com/AtomicSmash/packages/commit/734c35fbf34d397399c1a87071e18d0bc2db721b) - Update deps
+
+- Updated dependencies [[`734c35f`](https://github.com/AtomicSmash/packages/commit/734c35fbf34d397399c1a87071e18d0bc2db721b)]:
+  - @atomicsmash/browserslist-config@19.0.0
+
 ## 19.0.0-beta.1
 
 ### Major Changes
