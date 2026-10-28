@@ -1,5 +1,14 @@
 # @atomicsmash/coding-standards
 
+## 19.0.1-beta.0
+
+### Patch Changes
+
+- [#652](https://github.com/AtomicSmash/packages/pull/652) [`5dcfed5`](https://github.com/AtomicSmash/packages/commit/5dcfed5d82aa52ee62595be2713afff023f2ce60) - Update dependencies
+
+- Updated dependencies [[`5dcfed5`](https://github.com/AtomicSmash/packages/commit/5dcfed5d82aa52ee62595be2713afff023f2ce60)]:
+  - @atomicsmash/browserslist-config@19.0.1-beta.0
+
 ## 19.0.0
 
 ### Major Changes
