@@ -57,9 +57,6 @@ type QuerySourceAttribute = {
 type MetaSourceAttribute = {
 	type: "string" | ["string"];
 	enum?: readonly string[];
-	/**
-	 * @deprecated
-	 */
 	source: "meta";
 	meta: string;
 	default?: string;
