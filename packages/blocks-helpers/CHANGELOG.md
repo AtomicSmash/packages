@@ -1,5 +1,13 @@
 # @atomicsmash/blocks-helpers
 
+## 8.0.1
+
+### Patch Changes
+
+- [#652](https://github.com/AtomicSmash/packages/pull/652) [`5dcfed5`](https://github.com/AtomicSmash/packages/commit/5dcfed5d82aa52ee62595be2713afff023f2ce60) - Update dependencies
+
+- [#652](https://github.com/AtomicSmash/packages/pull/652) [`d5aab91`](https://github.com/AtomicSmash/packages/commit/d5aab91fca8b0d8dcb90cebbdc758d9e494f5b16) - Remove deprecated tag from source: "meta". JSDoc rules meant this would mark source as deprecated, not the value, which is not correct. Meta is still deprecated and should be avoided.
+
 ## 8.0.1-beta.0
 
 ### Patch Changes
