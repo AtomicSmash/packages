@@ -1,5 +1,11 @@
 # @atomicsmash/test-utils
 
+## 6.0.4-beta.0
+
+### Patch Changes
+
+- [#652](https://github.com/AtomicSmash/packages/pull/652) [`5dcfed5`](https://github.com/AtomicSmash/packages/commit/5dcfed5d82aa52ee62595be2713afff023f2ce60) - Update dependencies
+
 ## 6.0.3
 
 ### Patch Changes
