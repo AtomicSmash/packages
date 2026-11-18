@@ -1,5 +1,5 @@
 import { expect, test } from "vitest";
-import { toPlaywrightCookies, wpCommand } from "../session";
+import { parseSession, toPlaywrightCookies, wpCommand } from "../session";
 
 const staging = (overrides: { port?: number; webRoot?: string } = {}) => ({
 	staging: {
@@ -94,4 +94,37 @@ test("marks cookies insecure on http and defaults an empty path to /", () => {
 			secure: false,
 		}),
 	]);
+});
+
+test("finds the session among PHP notices printed to stdout", () => {
+	const stdout = [
+		"Notice: Function _load_textdomain_just_in_time was called incorrectly.",
+		'SMASH_QA_SESSION:{"expires":1,"cookies":[]}',
+		"Warning: Cannot modify header information",
+	].join("\n");
+	expect(parseSession(stdout)).toEqual({ expires: 1, cookies: [] });
+});
+
+test("fails clearly when WP-CLI returns no session", () => {
+	expect(() => parseSession("Notice: nothing useful")).toThrow(
+		"WP-CLI didn't return a session.",
+	);
+});
+
+test("drops cookie paths that aren't site paths, e.g. a URL built without a host", () => {
+	expect(
+		toPlaywrightCookies(
+			{
+				expires: 1,
+				cookies: [
+					{
+						name: "c",
+						value: "v",
+						paths: ["https:///wp-content/plugins", "/wp/wp-admin"],
+					},
+				],
+			},
+			"https://site.test",
+		).map(({ path }) => path),
+	).toEqual(["/wp/wp-admin"]);
 });

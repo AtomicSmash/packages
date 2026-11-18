@@ -8,6 +8,9 @@ export const SESSION_TTL_SECONDS = 2 * 60 * 60;
 /** Roles are passed to a remote shell, so only plain WordPress role slugs are accepted. */
 const ROLE_PATTERN = /^[a-z0-9_-]+$/i;
 
+/** Prefixes the session JSON so it can be found among notices that plugins print to stdout. */
+const SESSION_MARKER = "SMASH_QA_SESSION:";
+
 /**
  * PHP run through `wp eval-file -` that finds or creates the `smash-qa-<role>` user and prints
  * login cookies for a new session. It never sets or reveals a usable password.
@@ -35,7 +38,7 @@ if ( $user && ! in_array( $role, $user->roles, true ) ) {
 $secure  = '1' === $secure;
 $expires = time() + (int) $ttl;
 $token   = WP_Session_Tokens::get_instance( $id )->create( $expires );
-echo PHP_EOL . wp_json_encode( [
+echo PHP_EOL . '${SESSION_MARKER}' . wp_json_encode( [
 	'expires' => $expires,
 	'cookies' => [
 		[
@@ -57,6 +60,21 @@ export type RawSession = {
 	expires: number;
 	cookies: { name: string; value: string; paths: string[] }[];
 };
+
+/**
+ * Pull the session out of WP-CLI's stdout, ignoring any PHP notices or plugin output around it.
+ */
+export function parseSession(stdout: string): RawSession {
+	const json = stdout
+		.split("\n")
+		.reverse()
+		.find((line) => line.startsWith(SESSION_MARKER))
+		?.slice(SESSION_MARKER.length);
+	if (!json) {
+		throw new Error("WP-CLI didn't return a session.");
+	}
+	return JSON.parse(json) as RawSession;
+}
 
 /**
  * Build the command that runs WP-CLI for an environment: directly on local, over SSH on staging.
@@ -94,7 +112,11 @@ export function toPlaywrightCookies(
 ): SessionCookie[] {
 	const { hostname, protocol } = new URL(baseURL);
 	return session.cookies.flatMap(({ name, value, paths }) =>
-		[...new Set(paths.map((path) => path || "/"))].map((path) => ({
+		[
+			...new Set(
+				paths.map((path) => path || "/").filter((path) => path.startsWith("/")),
+			),
+		].map((path) => ({
 			name,
 			value,
 			domain: hostname,
@@ -152,20 +174,15 @@ export async function createSessions(
 					throw new Error("Roles may only contain letters, numbers, - and _.");
 				}
 				const { command, args } = wpCommand(env, config, [
+					`--url=${baseURL}`,
 					"eval-file",
 					"-",
 					role,
 					SESSION_TTL_SECONDS.toString(),
 					secure,
 				]);
-				const json = (await run(command, args, SESSION_PHP))
-					.trim()
-					.split("\n")
-					.at(-1);
-				return [
-					role,
-					toPlaywrightCookies(JSON.parse(json ?? "") as RawSession, baseURL),
-				] as const;
+				const session = parseSession(await run(command, args, SESSION_PHP));
+				return [role, toPlaywrightCookies(session, baseURL)] as const;
 			} catch (error) {
 				throw new Error(
 					`Couldn't log in as "${role}" on ${env}: ${error instanceof Error ? error.message : String(error)}`,
