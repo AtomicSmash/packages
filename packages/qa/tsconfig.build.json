@@ -1,0 +1,8 @@
+{
+	"extends": "./tsconfig.json",
+	"exclude": ["src/tests/**/*", "src/**/*.test.*"],
+	"references": [
+		{ "path": "../smash-config/tsconfig.build.json" },
+		{ "path": "../test-utils/tsconfig.build.json" }
+	]
+}

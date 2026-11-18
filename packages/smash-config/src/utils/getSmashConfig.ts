@@ -5,6 +5,7 @@ import type {
 	SmashConfigV1Resolved,
 	SmashConfigV2Resolved,
 } from "../types.js";
+import { normaliseLocalURL } from "./normaliseLocalURL.js";
 import { normaliseStagingURL } from "./normaliseStagingURL.js";
 import { normalize, resolve } from "node:path";
 import { pathToFileURL } from "node:url";
@@ -64,6 +65,11 @@ export async function getSmashConfig<MinVersion extends 1 | 2>(
 					assetsOutputFolder: config.assetsOutputFolder
 						? normalize(config.assetsOutputFolder)
 						: "dist",
+					local: {
+						url: normaliseLocalURL(
+							config.local?.url ?? `${config.projectName}.test`,
+						),
+					},
 					staging: {
 						uploadsPath: config.uploadsPath ?? `public/wp-content/uploads`,
 						dbPrefix: "wp_",

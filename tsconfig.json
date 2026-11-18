@@ -11,6 +11,7 @@
 		{ "path": "./packages/test-utils/tsconfig.build.json" },
 		{ "path": "./packages/init-testing/tsconfig.build.json" },
 		{ "path": "./packages/wordpress-tests-helper/tsconfig.build.json" },
-		{ "path": "./packages/smash-config/tsconfig.build.json" }
+		{ "path": "./packages/smash-config/tsconfig.build.json" },
+		{ "path": "./packages/qa/tsconfig.build.json" }
 	]
 }

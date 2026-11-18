@@ -1,0 +1,9 @@
+{
+  "name": "as-qa",
+  "version": "0.1.0",
+  "description": "Atomic Smash QA skills: write user-journey tests with @atomicsmash/qa, run them on local or staging, self-heal drifted tests and report real bugs.",
+  "author": {
+    "name": "Atomic Smash"
+  },
+  "keywords": ["qa", "e2e", "playwright", "testing", "self-healing"]
+}

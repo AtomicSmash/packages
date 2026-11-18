@@ -69,6 +69,9 @@ describe("getSmashConfig()", { concurrent: false }, () => {
 			    },
 			  },
 			  "composerInstallPaths": [],
+			  "local": {
+			    "url": "https://smash-config-tests.test",
+			  },
 			  "npmInstallPaths": [],
 			  "projectName": "smash-config-tests",
 			  "scssAliases": {
