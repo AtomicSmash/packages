@@ -15,6 +15,17 @@ npx smash-qa run --env local
 
 `init` creates `qa/qa.config.ts`, a homepage journey in `qa/journeys/`, `qa/memory.md`, and git-ignores `.qa/`.
 
+### Claude skills
+
+Install the `as-qa` plugin from the [Atomic Smash marketplace](https://github.com/AtomicSmash/atomic-smash-claude-marketplace) by running these in Claude Code:
+
+```
+/plugin marketplace add AtomicSmash/atomic-smash-claude-marketplace
+/plugin install as-qa@atomic-smash
+```
+
+This adds `/as-qa:write-journey` (writes a journey from a description) and `/as-qa:run-journeys` (runs journeys, heals drifted tests and reports real bugs). Run `/plugin` to check it's installed and enabled.
+
 ### Before release
 
 To try unreleased changes, install packed tarballs instead. Don't use `npm link` or `file:`, as Playwright then loads twice and fails.
