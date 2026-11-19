@@ -26,6 +26,10 @@ export type SmashConfigV2 = {
 	composerInstallPaths?: string[];
 	scssAliases?: SCSSAliases;
 	uploadsPath?: string;
+	/** The local development site. Defaults to https://{projectName}.test (Herd). */
+	local?: {
+		url: string;
+	};
 	cli?: {
 		pullMedia?: {
 			monthsToPull?: number;
@@ -71,6 +75,9 @@ export type SmashConfigV2Resolved = {
 	composerInstallPaths: string[];
 	scssAliases: SCSSAliases;
 	uploadsPath: string;
+	local: {
+		url: string;
+	};
 	cli: {
 		pullMedia: {
 			monthsToPull: number;

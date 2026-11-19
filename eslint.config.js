@@ -7,6 +7,7 @@ export default defineConfig([
 		"**/dist/**/*",
 		"**/*.d.ts",
 		"./packages/init-testing/toCopy/**/*",
+		"./packages/qa/templates/**/*",
 	]),
 	{
 		files: [
@@ -70,6 +71,14 @@ export default defineConfig([
 		languageOptions: {
 			parserOptions: {
 				tsconfigRootDir: `${import.meta.dirname}/packages/init-testing`,
+			},
+		},
+	},
+	{
+		files: ["./packages/qa/**/*"],
+		languageOptions: {
+			parserOptions: {
+				tsconfigRootDir: `${import.meta.dirname}/packages/qa`,
 			},
 		},
 	},
